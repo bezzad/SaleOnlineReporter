@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AdoManager.Condition" Collapsed="true">
+    <Position X="4" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAQEIAAAAAAAACAAAAAAAAAggAAAAAA=</HashCode>
+      <FileName>Condition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdoManager.Connection" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACBiAAAAAAAgGAYEQAAAAAwAAICQAAAGCCEAohAVIBA=</HashCode>
+      <FileName>Connection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AdoManager.ConnectionCollection" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAAABAACAACgAACAAABAQAAAAIAAAAAAAAAABQIAA=</HashCode>
+      <FileName>ConnectionCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AdoManager.ConnectionManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAKQAAApACCAICFYYBAEBWQAAAAsAADTKCAEJACEASA=</HashCode>
+      <FileName>ConnectionManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AdoManager.DataAccessObject" Collapsed="true">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>DataAccessObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdoManager.Extensions" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdoManager.StringCipher" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAIAAAAAYACAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>StringCipher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="AdoManager.Operators" Collapsed="true">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAAAAAAAAAAAAAgAAAAAAAAAkIAAAAAAAAAQRAACA=</HashCode>
+      <FileName>Operands.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
