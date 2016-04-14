@@ -95,16 +95,16 @@ AS
 ------------------------------------------------------
 -- اضافه کردن سطح دسترسي به کاربران برنامه 13 در برنامه ي 2
 
-        INSERT  INTO PrgAccess
+        INSERT  INTO UsersManagements.dbo.PrgAccess
                 SELECT  pa.UserID ,
                         2 ,
                         pa.AccessTypeID ,
                         pa.CheckComputerAndLogin
-                FROM    PrgAccess pa
+                FROM    UsersManagements.dbo.PrgAccess pa
                 WHERE   pa.ProgramID = 13
                         AND pa.UserID NOT IN (
                         SELECT  UserID
-                        FROM    PrgAccess
+                        FROM    UsersManagements.dbo.PrgAccess
                         WHERE   PrgAccess.ProgramID = 2 )
 
 
@@ -194,7 +194,7 @@ AS
                   Discriminator
                 )
                 SELECT  CONVERT(NVARCHAR(128), MAX(u.UserID)) UserId ,
-                        NULL ,
+                        'shoniz_' + CONVERT(NVARCHAR(128), MAX(u.UserID)) + '@shoniz.com' ,
                         0 ,
                         MAX(SUBSTRING(master.dbo.fn_varbintohexstr(u.UserPass),
                                       3, 32)) ,

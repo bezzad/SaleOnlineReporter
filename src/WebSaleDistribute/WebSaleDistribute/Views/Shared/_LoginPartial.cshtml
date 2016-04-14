@@ -11,14 +11,37 @@
 
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink(currentUser.FullName + " خوش آمدید ", "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@currentUser.FullName <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a id="profileLink" href="#">
+                            <span class="glyphicon glyphicon-user">  Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="inboxLink" href="#">
+                            <span class="glyphicon glyphicon-envelope">  Inbox</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="settingLink" href="@Url.Action("Index", "Manage", routeValues: null)">
+                            <span class="glyphicon glyphicon-cog">  Settings</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <span class="glyphicon glyphicon-log-out"></span> Log Out
+                        </a>
+                    </li>
+                </ul>
+            </li>
+           
+        </ul>
     }
 }
 else
@@ -26,8 +49,16 @@ else
     <ul class="nav navbar-nav navbar-right">
         @if (User.IsInRole("Admin"))
         {
-            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>
+            <li>
+                <a id="registerLink" href="@Url.Action("Register", "Account", routeValues: null)">
+                    <span class="glyphicon glyphicon-user">  Log-In</span>
+                </a>
+            </li>
         }
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>
+        <li>
+            <a id="loginLink" href="@Url.Action("Login", "Account", routeValues: null)">
+                <span class="glyphicon glyphicon-log-in">  Log-In</span>
+            </a>
+        </li>
     </ul>
 }
