@@ -3,6 +3,10 @@
     src: url('../fonts/iransans.ttf');
 }
 
+* {
+    font-family: "iransans";
+}
+
 body {
     background-image: url(images/site_cover.jpg);
     -ms-background-size: cover;
@@ -21,9 +25,9 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    background: rgba(255, 255, 255, 0.35);
-    -ms-border-radius: 3px;
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.8);
+    -ms-border-radius: 5px;
+    border-radius: 5px;
     -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
     -ms-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
@@ -55,4 +59,9 @@ span {
 
 li {
     font-size: 15px;
+}
+
+h1 {
+    font-size: 50px;
+    font-family: "iransans";
 }

@@ -10,10 +10,10 @@ namespace WebSaleDistribute.Controllers
     {
         public ActionResult Index()
         {
-
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -21,6 +21,7 @@ namespace WebSaleDistribute.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -28,5 +29,6 @@ namespace WebSaleDistribute.Controllers
 
             return View();
         }
+        
     }
 }
