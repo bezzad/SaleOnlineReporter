@@ -23,7 +23,7 @@ IF ( @ParentMenuID IS NULL
     --===============================================
     
         INSERT  INTO PrgMenu
-        VALUES  ( @ParentMenuID, 2, 'گزارشات آنلاين', NULL, 1, 0, '~/', 'Home',
+        VALUES  ( @ParentMenuID, 2, 'گزارشات آنلاين', NULL, 100, 0, '~/', 'Home',
                   NULL )
     
         IF NOT EXISTS ( SELECT  1

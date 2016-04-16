@@ -14,7 +14,7 @@ namespace WebSaleDistribute.Core
     {
         public static ConnectionManager UsersManagementsDb => AdoManager.ConnectionManager.Find("UsersManagements");
 
-        public static string GetMd5Bytes(this string input)
+        public static string GetMd5(this string input)
         {
             byte[] result;
             var buffer = Encoding.UTF8.GetBytes(input);
@@ -25,6 +25,19 @@ namespace WebSaleDistribute.Core
             }
 
             return result.ToHex(false);
+        }
+
+        public static byte[] GetMd5Bytes(this string input)
+        {
+            byte[] result;
+            var buffer = Encoding.UTF8.GetBytes(input);
+
+            using (var md5 = new MD5CryptoServiceProvider())
+            {
+                result = md5.ComputeHash(buffer);
+            }
+
+            return result;
         }
 
         public static string ToHex(this byte[] bytes, bool upperCase)

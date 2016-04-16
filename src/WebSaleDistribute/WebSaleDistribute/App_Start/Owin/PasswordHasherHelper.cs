@@ -19,14 +19,14 @@ namespace WebSaleDistribute.Owin
         public override string HashPassword(string password)
         {
             //return FormsAuthentication.HashPasswordForStoringInConfigFile(password, FormsAuthPasswordFormat.ToString());
-            return password.GetMd5Bytes();
+            return password.GetMd5();
         }
 
         public override PasswordVerificationResult VerifyHashedPassword(string hashedPassword, string providedPassword)
         {
             //var providedPasswordHash = FormsAuthentication.HashPasswordForStoringInConfigFile(providedPassword, FormsAuthPasswordFormat.ToString());
 
-            var providedPasswordHash = providedPassword.GetMd5Bytes();
+            var providedPasswordHash = providedPassword.GetMd5();
 
             return hashedPassword.Equals(providedPasswordHash, StringComparison.CurrentCultureIgnoreCase) ? PasswordVerificationResult.Success : PasswordVerificationResult.Failed;
         }

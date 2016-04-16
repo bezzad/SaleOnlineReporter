@@ -9,10 +9,12 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
 using System.Web.UI.WebControls.Expressions;
+using Dapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using WebSaleDistribute.Core;
 using WebSaleDistribute.Models;
 using WebSaleDistribute.Owin;
 
@@ -29,7 +31,7 @@ namespace WebSaleDistribute
         }
 
 
-       
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
@@ -77,6 +79,32 @@ namespace WebSaleDistribute
             return manager;
         }
 
-       
+
+        public override async Task<IdentityResult> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+        {
+            try
+            {
+                var result = await base.ChangePasswordAsync(userId, currentPassword, newPassword);
+
+                if (result == IdentityResult.Success)
+                {
+                    string query = @"UPDATE UsersManagements.dbo.Users
+                                 SET
+                                    UserPass = @HashPass
+                                 WHERE UserID = @UserID";
+
+                    var res = await AdoManager.DataAccessObject.Conn.SqlConn.ExecuteAsync(query, new { HashPass = newPassword.GetMd5Bytes(), UserID = userId });
+                }
+
+                return result;
+
+            }
+            catch (Exception exp)
+            {
+                //TODO log error
+            }
+
+            return null;
+        }
     }
 }

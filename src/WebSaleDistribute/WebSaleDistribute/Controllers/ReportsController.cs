@@ -12,7 +12,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Receipts
         public ActionResult Receipts()
         {
-            ViewBag.Title = "گذارش رسیدی";
+            ViewBag.Title = "گزارش رسیدی";
             return View();
         }
 
