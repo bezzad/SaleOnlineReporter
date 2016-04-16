@@ -6,16 +6,21 @@ using System.Web.Mvc;
 
 namespace WebSaleDistribute.Controllers
 {
-    public class ReceiptsController : Controller
+    [Authorize]
+    public class ReportsController : Controller
     {
         // GET: Receipts
-        [Authorize]
-        public ActionResult Index()
+        public ActionResult Receipts()
         {
             ViewBag.Title = "گذارش رسیدی";
             return View();
         }
 
-        
+        // GET: Receipts
+        public ActionResult Sales()
+        {
+            ViewBag.Title = "گزارشات فروش";
+            return View();
+        }
     }
 }

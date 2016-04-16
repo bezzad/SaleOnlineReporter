@@ -1,28 +1,35 @@
-﻿<!DOCTYPE html>
-<html class="background-image">
+﻿@using WebSaleDistribute.Models
+<!DOCTYPE html>
+<html class="background-image" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Shoniz</title>
+    <title>@ViewBag.Title - شونیز</title>
+    <link rel="icon" type="image/png" href="@Url.Content("~/content/images/favicon.ico")" />
+    <!--[if IE]>
+    <link rel="shortcut icon" href="@Url.Content("~/content/images/favicon.ico")" type="image/vnd.microsoft.icon" />
+    <![endif]-->
+
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
+<body >
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <img class="navbar-brand nav" style="width: 110px;" alt="shoniz logo" src="@Url.Content("Content/images/bwShonizFa.png")"/>
+            <img class="navbar-brand nav" style="width: 110px;" alt="shoniz logo" src="@Url.Content("~/Content/images/bwShonizFa.png")"/>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
             <a href="#" class="dropdown-toggle navbar-brand nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">گزارشات آنلاین <span class="caret"></span></a>
-            <ul class="dropdown-menu ">`
+            <ul class="dropdown-menu ">
                 <li>@Html.ActionLink("خانه", "Index", "Home")</li>
                 <li role="separator" class="divider"></li>
-                <li>@Html.ActionLink("رسیدی", "Index", "Receipts")</li>
+                @Html.Partial("_MenuPartial", DynamicModels.GetMenus())
             </ul>
         </div>
         <div class="navbar-collapse collapse">
@@ -34,7 +41,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Shoniz.co</p>
+            <p dir="ltr">&copy; @DateTime.Now.Year - Shoniz.co</p>
         </footer>
     </div>
     @Scripts.Render("~/bundles/jquery")

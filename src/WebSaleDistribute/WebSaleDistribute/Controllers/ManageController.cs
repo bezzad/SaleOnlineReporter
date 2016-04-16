@@ -56,12 +56,12 @@ namespace WebSaleDistribute.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                message == ManageMessageId.ChangePasswordSuccess ? "رمز عبور با موفقیت تغییر یافت."
+                : message == ManageMessageId.SetPasswordSuccess ? "رمز عبور ثبت شد."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.Error ? "خطایی رخ داده است!"
+                : message == ManageMessageId.AddPhoneSuccess ? "شماره تلفن اضافه گردید."
+                : message == ManageMessageId.RemovePhoneSuccess ? "شماره تلفن حذف گردید."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -124,7 +124,7 @@ namespace WebSaleDistribute.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "کد امنیتی شما : " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -191,7 +191,7 @@ namespace WebSaleDistribute.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            ModelState.AddModelError("", "شماره تلفن تایید نشد");
             return View(model);
         }
 
@@ -281,7 +281,7 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : message == ManageMessageId.Error ? "خطایی رخ داده است"
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)

@@ -1,46 +1,33 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using System.Dynamic
+@model  dynamic
+
+@{
+    ViewBag.Title = "خانه";
 }
 
 <div class="jumbotron">
-    <h1>گزارشات مدیریتی برنامه فروش</h1>
-    <p class="lead">Sale Distribute Management Dashboard</p>
+    <h1>گزارشات مدیریتی فروش</h1>
+    <p class="lead" dir="ltr" style="padding-left: 100px;">Sale Distribute Management Dashboard</p>
     <br />
     <p><a href="http://shoniz.com" target="_blank" class="btn btn-primary btn-lg">سایت شونیز &raquo;</a></p>
 </div>
 
+
 <div class="row">
-    <div class="col-md-4">
-        <h2>گزارش رسیدی</h2>
-        <p>
-            توضیحات رسیدی
-        </p>
-        <p>
-            <a class="btn btn-default" href="@Url.Action("Index", "Receipts", routeValues: null)">
-                باز کن <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>گزارش رسیدی</h2>
-        <p>
-            توضیحات رسیدی
-        </p>
-        <p>
-            <a class="btn btn-default" href="@Url.Action("Index", "Receipts", routeValues: null)">
-                باز کن <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
-        </p>
-    </div>
-    <div class="col-md-4">
-        <h2>گزارش رسیدی</h2>
-        <p>
-            توضیحات رسیدی
-        </p>
-        <p>
-            <a class="btn btn-default" href="@Url.Action("Index", "Receipts", routeValues: null)">
-                باز کن <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
-        </p>
-    </div>
+    @for (int index = 0; index < ((IEnumerable<ExpandoObject>)Model).Count(); index++)
+    {
+        if ((index + 1) % 3 == 0)
+        {
+            <div class="clearfix"></div>
+        }
+        <div class="col-md-4">
+            <h2>@Model[index].MenuName</h2>
+            <br />
+            <p>
+                <a class="btn btn-default" href="@Url.Action(Model[index].PageName, "Reports", routeValues: null)">
+                    باز کن <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+            </p>
+        </div>
+    }
 </div>

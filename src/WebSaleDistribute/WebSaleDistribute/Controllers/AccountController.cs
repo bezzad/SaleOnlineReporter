@@ -54,16 +54,26 @@ namespace WebSaleDistribute.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public async Task<ActionResult> Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             var username = Request.QueryString["username"];
+            var password = Request.QueryString["password"];
             if (string.IsNullOrEmpty(username))
                 return View();
             else
             {
-                var model = new LoginViewModel { UserName = username };
+                var model = new LoginViewModel
+                {
+                    UserName = username,
+                    Password = password
+                };
+                if(string.IsNullOrEmpty(password))
                 return View(model);
+                else
+                {
+                    return await Login(model, returnUrl);
+                }
             }
         }
 

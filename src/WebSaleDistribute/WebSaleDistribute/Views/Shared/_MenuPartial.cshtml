@@ -1,0 +1,9 @@
+﻿@model  dynamic
+
+
+@foreach (var menu in Model)
+{
+    string menuName = @menu.MenuName;
+    string actionName = @menu.PageName;
+    <li>@Html.ActionLink(menuName, actionName, "Reports")</li>
+}

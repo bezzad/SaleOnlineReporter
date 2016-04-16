@@ -15,7 +15,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@currentUser.FullName <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> @currentUser.FullName  <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li>
                         <a id="profileLink" href="#">
@@ -51,7 +51,7 @@ else
         {
             <li>
                 <a id="registerLink" href="@Url.Action("Register", "Account", routeValues: null)">
-                    <span class="glyphicon glyphicon-user">  Log-In</span>
+                    <span class="glyphicon glyphicon-user">  ثبت نام</span>
                 </a>
             </li>
         }
