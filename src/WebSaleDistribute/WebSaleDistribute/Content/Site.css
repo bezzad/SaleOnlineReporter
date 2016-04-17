@@ -15,7 +15,7 @@ body {
     background-position: top center;
     background-attachment: fixed;
     z-index: -1;
-    padding-top: 50px;
+    padding-top: 55px;
     padding-bottom: 20px;
     font-family: "iransans";
 }
@@ -23,8 +23,8 @@ body {
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 1px;
+    padding-right: 10px;
     background: rgba(255, 255, 255, 0.8);
     -ms-border-radius: 5px;
     border-radius: 5px;
@@ -53,10 +53,6 @@ a {
     font-size: 15px;
 }
 
-span {
-    font-size: 13px;
-}
-
 li {
     font-size: 15px;
 }
@@ -72,4 +68,9 @@ h1 {
 
 .control {
     float: right;
+}
+
+.dropdown-menu > li > a {
+    direction: ltr;
+    /*float: right;*/
 }
