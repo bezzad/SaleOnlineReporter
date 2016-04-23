@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,6 +111,51 @@ namespace WebSaleDistribute.Core
                                <div class='panel-body'>
                                    Filters
                                </div>";
+
+            return MvcHtmlString.Create(div.ToString());
+        }
+
+        public static MvcHtmlString TableItem(this HtmlHelper htmlHelper, string id, List<string> schema, List<ExpandoObject> rows)
+        {
+            var div = new TagBuilder("table");
+            div.Attributes.Add("id", id);
+            div.Attributes.Add("cellspacing", "0");
+            div.Attributes.Add("width", "100%");
+            div.AddCssClass("display");
+            div.AddCssClass("dataTables");
+
+
+
+            var thHeader = "";
+            foreach (var colName in schema)
+                thHeader += $"<th>{colName}</th>{Environment.NewLine}";
+
+            var header = $@"
+                            <thead>
+                                <tr>
+                                   {thHeader}
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                     {thHeader}
+                                </tr>
+                            </tfoot>{Environment.NewLine}";
+
+            var tRows = "";
+            foreach (IDictionary<string, object> row in rows)
+            {
+                var tds = "";
+                foreach (var col in schema)
+                {
+                    tds += $"<td>{row[col]}</td>{Environment.NewLine}";
+                }
+                tRows += $"<tr>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
+            }
+
+            var body = $"{header}<tbody>{Environment.NewLine}{tRows}{Environment.NewLine}</tbody>";
+
+            div.InnerHtml = body;
 
             return MvcHtmlString.Create(div.ToString());
         }

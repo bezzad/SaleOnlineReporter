@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using AdoManager;
+using System.Data;
+using System.Linq;
 
 namespace WebSaleDistribute.Core
 {
@@ -72,7 +74,7 @@ namespace WebSaleDistribute.Core
             foreach (KeyValuePair<string, object> property in dapperRowProperties)
                 expando.Add(property.Key, property.Value);
 
-            return (ExpandoObject) expando;
+            return (ExpandoObject)expando;
         }
 
         public static string ReadResourceFile(string path)
@@ -88,6 +90,29 @@ namespace WebSaleDistribute.Core
                     return result;
                 }
             }
+        }
+
+        public static List<ExpandoObject> GetSchemaAndData(this IDataReader reader, out List<string> schema)
+        {
+            schema = reader.GetSchemaTable().Rows
+                                     .Cast<DataRow>()
+                                     .Select(r => (string)r["ColumnName"])
+                                     .ToList();
+
+            var results = new List<ExpandoObject>();
+
+
+            while (reader.Read())
+            {
+                var obj = new ExpandoObject();
+                foreach (var col in schema)
+                {
+                    (obj as IDictionary<string, object>).Add(col, reader[col]);
+                }
+                results.Add(obj);
+            }
+
+            return results;
         }
     }
 }

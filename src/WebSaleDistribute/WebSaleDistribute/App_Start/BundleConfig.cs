@@ -36,6 +36,9 @@ namespace WebSaleDistribute
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/panel").Include("~/Scripts/panel.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery.dataTables", "https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js").Include("~/Scripts/jquery.dataTables.min.js"));
+
         }
 
         public static void RegisterContents(BundleCollection bundles)
@@ -56,6 +59,8 @@ namespace WebSaleDistribute
                      "~/Content/lobipanel.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/panel").Include("~/Content/panel.css"));
+
+            bundles.Add(new StyleBundle("~/Content/jquery.dataTables", "https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css").Include("~/Content/jquery.dataTables.min.css"));
         }
 
     }
