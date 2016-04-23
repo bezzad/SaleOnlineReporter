@@ -14,6 +14,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    @RenderSection("styles", required: false)
 </head>
 <body >
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -45,7 +46,9 @@
         </footer>
     </div>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery_ui")
     @Scripts.Render("~/bundles/bootstrap")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -1,105 +1,124 @@
 ﻿@using WebSaleDistribute.Core
 
+@section styles
+{
+    @Styles.Render("~/Content/jquery_ui")
+    @Styles.Render("~/Content/lobipanel")
+    @Styles.Render("~/Content/panel")
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/lobipanel")
+    @Scripts.Render("~/bundles/panel")
+}
+
 <h2>@ViewBag.Title</h2>
 
-<div class="container">
+<div class="container" dir="ltr">
     <ul class="nav nav-pills">
         <li class="active"><a data-toggle="pill" href="#chart">نمودار</a></li>
         <li><a data-toggle="pill" href="#grid">جدول</a></li>
     </ul>
 
+
+
     <div class="tab-content">
         <div id="chart" class="tab-pane fade in active">
             <h3>chart</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            @Html.PanelItem("Lorem ipsum dolor sit amet concealed leaf shah proper council binary. ", "test 1", "#", "bell")
+
+            @Html.PanelItem("Lorem ipsum dolor sit amet concealed leaf shah proper council binary. ", "test 2", "#", "usd", null, PanelType.danger)
+
+            @Html.PanelItem("Lorem ipsum dolor sit amet concealed leaf shah proper council binary. ", "test 3", "#", "globe", null, PanelType.info)
+
+            @Html.PanelItem("test", "test 4", "#", null, null, PanelType.success)
         </div>
         <div id="grid" class="tab-pane fade">
             <h3>grid</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-    </div>
+            <!-- /.row -->
+            <div class="row" dir="ltr">
 
-
-
-    <!-- /.row -->
-    <div class="row" dir="ltr">
-
-        @Html.BoxItem(Html.BoxItem(Html.BoxItem(Html.BoxItem("tets", "رسیدی").ToString(), "رسیدی").ToString(), "رسیدی").ToString(), "رسیدی", "col-lg-4")
-
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Order #</th>
-                                    <th>Order Date</th>
-                                    <th>Order Time</th>
-                                    <th>Amount (USD)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>3326</td>
-                                    <td>10/21/2013</td>
-                                    <td>3:29 PM</td>
-                                    <td>$321.33</td>
-                                </tr>
-                                <tr>
-                                    <td>3325</td>
-                                    <td>10/21/2013</td>
-                                    <td>3:20 PM</td>
-                                    <td>$234.34</td>
-                                </tr>
-                                <tr>
-                                    <td>3324</td>
-                                    <td>10/21/2013</td>
-                                    <td>3:03 PM</td>
-                                    <td>$724.17</td>
-                                </tr>
-                                <tr>
-                                    <td>3323</td>
-                                    <td>10/21/2013</td>
-                                    <td>3:00 PM</td>
-                                    <td>$23.71</td>
-                                </tr>
-                                <tr>
-                                    <td>3322</td>
-                                    <td>10/21/2013</td>
-                                    <td>2:49 PM</td>
-                                    <td>$8345.23</td>
-                                </tr>
-                                <tr>
-                                    <td>3321</td>
-                                    <td>10/21/2013</td>
-                                    <td>2:23 PM</td>
-                                    <td>$245.12</td>
-                                </tr>
-                                <tr>
-                                    <td>3320</td>
-                                    <td>10/21/2013</td>
-                                    <td>2:15 PM</td>
-                                    <td>$5663.54</td>
-                                </tr>
-                                <tr>
-                                    <td>3319</td>
-                                    <td>10/21/2013</td>
-                                    <td>2:13 PM</td>
-                                    <td>$943.45</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-right">
-                        <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped table-sort table-sort-search">
+                                    <thead>
+                                        <tr>
+                                            <th>Order #</th>
+                                            <th>Order Date</th>
+                                            <th>Order Time</th>
+                                            <th>Amount (USD)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>3326</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:29 PM</td>
+                                            <td>$321.33</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3325</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:20 PM</td>
+                                            <td>$234.34</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3324</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:03 PM</td>
+                                            <td>$724.17</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3323</td>
+                                            <td>10/21/2013</td>
+                                            <td>3:00 PM</td>
+                                            <td>$23.71</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3322</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:49 PM</td>
+                                            <td>$8345.23</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3321</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:23 PM</td>
+                                            <td>$245.12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3320</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:15 PM</td>
+                                            <td>$5663.54</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3319</td>
+                                            <td>10/21/2013</td>
+                                            <td>2:13 PM</td>
+                                            <td>$943.45</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-right">
+                                <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- /.row -->
         </div>
     </div>
-    <!-- /.row -->
+
+
+
+
 </div>
