@@ -39,6 +39,10 @@ namespace WebSaleDistribute
 
             bundles.Add(new ScriptBundle("~/bundles/jquery.dataTables", "https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js").Include("~/Scripts/jquery.dataTables.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
+                "~/Scripts/Highcharts-4.0.1/js/highcharts.js",
+                "~/Scripts/Highcharts-4.0.1/js/modules/exporting.js"));
+
         }
 
         public static void RegisterContents(BundleCollection bundles)

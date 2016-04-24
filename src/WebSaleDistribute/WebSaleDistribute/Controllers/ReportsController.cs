@@ -6,6 +6,10 @@ using System.Web.Mvc;
 using Dapper;
 using WebSaleDistribute.Core;
 using System.Data;
+using DotNet.Highcharts;
+using DotNet.Highcharts.Options;
+using DotNet.Highcharts.Enums;
+using DotNet.Highcharts.Helpers;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -28,6 +32,8 @@ namespace WebSaleDistribute.Controllers
 
             ViewData["ModelSchema"] = schema;
 
+            GetChart();
+
             return View(results);
         }
 
@@ -39,6 +45,21 @@ namespace WebSaleDistribute.Controllers
 
 
             return View();
+        }
+
+
+        private void GetChart()
+        {
+            DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts("chart")
+               .SetXAxis(new XAxis
+               {
+                   Categories = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
+               })
+               .SetSeries(new Series
+               {
+                   Data = new Data(new object[] { 29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4 })
+               });
+            ViewData["chart"] = chart.ToHtmlString();
         }
     }
 }

@@ -10,6 +10,7 @@
     @Styles.Render("~/Content/lobipanel")
     @Styles.Render("~/Content/panel")
     @Styles.Render("~/Content/jquery.dataTables")
+    @Scripts.Render("~/bundles/highcharts")
 }
 
 @section scripts
@@ -23,12 +24,9 @@
         $(document).ready(function () {
             $('.dataTables').DataTable({
                 //help: https://www.datatables.net/manual/options
-                select: true,
-                ordering: true
-                //"order": [0, 'desc'],
-                //paging: false,
-                //scrollY: 400,
-
+                "lengthMenu": [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "همه"]]
+                //select: true,
+                //paging: false
             });
         })
     </script>
@@ -47,13 +45,15 @@
 
 
     <div class="tab-content">
-        <div id="chart" class="tab-pane fade in active">
-            <h3>chart</h3>
+        <div id="chart" class="tab-pane fade in active" dir="ltr">
+            @*<h3>chart</h3>*@
+            <!-- /.data -->
             <br />
+
             @(Html.PanelItem(new PanelItemOption()
                 {
-                    Body = "test",
-                    Title = "لیست رسیدی ها",
+                    Body = (string)ViewData["chart"],
+                    Title = "نمودار رسیدی",
                     Url = "#",
                     GlyphIcon = "list-alt",
                     HasDetailLink = false,
@@ -62,6 +62,7 @@
                 })
             )
 
+            <!-- /.data-->
         </div>
         <div id="grid" class="tab-pane fade">
             @*<h3>grid</h3>*@
