@@ -60,7 +60,7 @@ namespace WebSaleDistribute
 
             bundles.Add(new StyleBundle("~/Content/panel").Include("~/Content/panel.css"));
 
-            bundles.Add(new StyleBundle("~/Content/jquery.dataTables", "https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css").Include("~/Content/jquery.dataTables.min.css"));
+            bundles.Add(new StyleBundle("~/Content/jquery.dataTables", "https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css").Include("~/Content/jquery.dataTables/jquery.dataTables.min.css"));
         }
 
     }

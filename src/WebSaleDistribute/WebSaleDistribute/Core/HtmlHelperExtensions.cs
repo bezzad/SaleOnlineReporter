@@ -42,21 +42,24 @@ namespace WebSaleDistribute.Core
         /// <param name="pType"></param>
         /// <param name="hasSetting"></param>
         /// <returns></returns>
-        public static MvcHtmlString PanelItem(this HtmlHelper htmlHelper, string body, string title, string url, string glyphicon = null, string divCssClass = null, PanelType pType = PanelType.@default, bool hasSetting = true)
+        public static MvcHtmlString PanelItem(this HtmlHelper htmlHelper, PanelItemOption option)
         {
             var id = Guid.NewGuid().ToString();
             var div = new TagBuilder("div");
             div.Attributes.Add("id", "parent-" + id);
             div.Attributes.Add("data-sortable", "true");
             div.AddCssClass("panel panelitem");
-            div.AddCssClass($"panel-{pType.ToString()}");
+            div.AddCssClass($"panel-{option.PanelType.ToString()}");
 
-            if (!String.IsNullOrEmpty(divCssClass))
+            if (option.CssClass != null && option.CssClass.Length > 0)
             {
-                div.AddCssClass(divCssClass);
+                foreach (var divCssClass in option.CssClass)
+                {
+                    div.AddCssClass(divCssClass);
+                }
             }
 
-            var settingButton = $@"
+            var settingButton = option.HasSettingPanel ? $@"
                                         <ul class='dropdown-menu dropdown-menu-right'>
                                             <li>
                                                 <a onclick='showSettingPanel(""{id}"");' data-tooltip='انتخاب پارامتر' >
@@ -65,31 +68,33 @@ namespace WebSaleDistribute.Core
                                                 </a>
                                             </li>
                                         </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-wrench'></span></div>
-                                       ";
+                                       " : "";
 
-            //TODO clear this code:
-            settingButton = "";
+            var detailLink = $@"<hr/>
+                               <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+                                   <a href='{option.Url}'> نمایش جزئیات <span class='glyphicon glyphicon-circle-arrow-right'></span></a>
+                               </div>";
 
             div.InnerHtml = $@"<div class='panel-heading'>
                                     <div class='panel-title'>
-                                        <i class='glyphicon glyphicon-{glyphicon}'>&nbsp;</i>
-                                        { title}
+                                        <i class='glyphicon glyphicon-{option.GlyphIcon}'>&nbsp;</i>
+                                        { option.Title}
                                     </div>
                                     <div class='dropdown'>"
                                     + settingButton + $@"
                                    </div>
                                </div>
                                <div class='panel-body'>
-                                   {body}
+                                   {option.Body}
                                </div>
-                               <hr/>
-                               <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                                   <a href='{url}'> نمایش جزئیات <span class='glyphicon glyphicon-circle-arrow-right'></span></a>
-                               </div>";
+                               ";
+
+
 
             var result = div.ToString();
+            result += option.HasSettingPanel ? detailLink : "";
             result += Environment.NewLine;
-            result += htmlHelper.SettingPanelItem(id, title, pType).ToString();
+            result += option.HasSettingPanel ? htmlHelper.SettingPanelItem(id, option.Title, option.PanelType).ToString() : "";
 
             return MvcHtmlString.Create(result);
         }
@@ -121,8 +126,11 @@ namespace WebSaleDistribute.Core
             div.Attributes.Add("id", id);
             div.Attributes.Add("cellspacing", "0");
             div.Attributes.Add("width", "100%");
-            div.AddCssClass("display");
             div.AddCssClass("dataTables");
+            div.AddCssClass("display");
+            div.AddCssClass("hover");
+            div.AddCssClass("order-column");
+            div.AddCssClass("stripe");
 
 
 
@@ -161,13 +169,5 @@ namespace WebSaleDistribute.Core
         }
     }
 
-    public enum PanelType
-    {
-        warning,
-        danger,
-        info,
-        success,
-        primary,
-        @default
-    }
+
 }

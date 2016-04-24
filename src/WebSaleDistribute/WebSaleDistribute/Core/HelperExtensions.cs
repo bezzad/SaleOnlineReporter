@@ -107,7 +107,11 @@ namespace WebSaleDistribute.Core
                 var obj = new ExpandoObject();
                 foreach (var col in schema)
                 {
-                    (obj as IDictionary<string, object>).Add(col, reader[col]);
+                    var row = (obj as IDictionary<string, object>);
+
+                    if (string.IsNullOrEmpty(col) || row.ContainsKey(col)) continue;
+
+                    row.Add(col, reader[col]);
                 }
                 results.Add(obj);
             }

@@ -19,14 +19,23 @@
 
     <script>
         @* Call DataTable() func in all of the jquery tables *@
-        $(document).ready(function () { $('.dataTables').DataTable(); });
+        $(document).ready(function () {
+            $('.dataTables').DataTable({
+                //help: https://www.datatables.net/manual/options
+                "order": [0, 'desc']
+                //paging: false,
+                //scrollY: 400,
+
+            });
+        })
     </script>
 
 }
 
+
 <h2>@ViewBag.Title</h2>
 
-<div class="container" dir="ltr">
+<div class="container">
     <ul class="nav nav-pills">
         <li class="active"><a data-toggle="pill" href="#chart">نمودار</a></li>
         <li><a data-toggle="pill" href="#grid">جدول</a></li>
@@ -37,19 +46,35 @@
     <div class="tab-content">
         <div id="chart" class="tab-pane fade in active">
             <h3>chart</h3>
-            @Html.PanelItem("Lorem ipsum dolor sit amet concealed leaf shah proper council binary. ", "test 1", "#", "bell")
+            <br />
+            @(Html.PanelItem(new PanelItemOption()
+                {
+                    Body = "test",
+                    Title = "لیست رسیدی ها",
+                    Url = "#",
+                    GlyphIcon = "list-alt",
+                    HasDetailLink = false,
+                    HasSettingPanel = false,
+                    PanelType = PanelType.danger
+                })
+            )
 
-            @Html.PanelItem("Lorem ipsum dolor sit amet concealed leaf shah proper council binary. ", "test 2", "#", "usd", null, PanelType.danger)
-
-            @Html.PanelItem("Lorem ipsum dolor sit amet concealed leaf shah proper council binary. ", "test 3", "#", "globe", null, PanelType.info)
-
-            @Html.PanelItem("test", "test 4", "#", null, null, PanelType.success)
         </div>
         <div id="grid" class="tab-pane fade">
-            <h3>grid</h3>
+            @*<h3>grid</h3>*@
             <!-- /.data -->
-
-            @Html.TableItem("test", (List<string>)ViewData["ModelSchema"], Model)
+            <br />
+            @(Html.PanelItem(new PanelItemOption()
+                {
+                    Body = Html.TableItem("receipts", (List<string>)ViewData["ModelSchema"], Model).ToHtmlString(),
+                    Title = "لیست رسیدی ها",
+                    Url = "#",
+                    GlyphIcon = "list-alt",
+                    HasDetailLink = false,
+                    HasSettingPanel = false,
+                    PanelType = PanelType.danger
+                })
+            )
 
             <!-- /.data -->
         </div>
