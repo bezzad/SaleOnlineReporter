@@ -5,7 +5,7 @@
     ViewBag.Title = "خانه";
 }
 
-<div class="jumbotron">
+<div class="jumbotron" dir="rtl">
     <h1>گزارشات مدیریتی فروش</h1>
     <p class="lead" dir="ltr" style="padding-left: 100px;">Sale Distribute Management Dashboard</p>
     <br />
@@ -13,7 +13,7 @@
 </div>
 
 
-<div class="row">
+<div class="row" dir="rtl">
     @for (int index = 0; index < ((IEnumerable<ExpandoObject>)Model).Count(); index++)
     {
         if ((index + 1) % 3 == 0)

@@ -16,6 +16,8 @@
             icon: 'glyphicon glyphicon-pushpin',
             tooltip: 'چسباندن / درآوردن'
         },
+        close: false,
+        unpin: false,
         editTitle: false,
         reload: false,
     });

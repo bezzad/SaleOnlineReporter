@@ -9,7 +9,7 @@
     @Styles.Render("~/Content/jquery_ui")
     @Styles.Render("~/Content/lobipanel")
     @Styles.Render("~/Content/panel")
-    @Styles.Render("~/Content/jquery.dataTables")
+    @Styles.Render("~/Content/jquery_dataTables")
     @Scripts.Render("~/bundles/highcharts")
 }
 
@@ -17,7 +17,7 @@
 {
     @Scripts.Render("~/bundles/lobipanel")
     @Scripts.Render("~/bundles/panel")
-    @Scripts.Render("~/bundles/jquery.dataTables")
+    @Scripts.Render("~/bundles/jquery_dataTables")
 
     <script>
         @* Call DataTable() func in all of the jquery tables *@
@@ -34,7 +34,7 @@
 }
 
 
-<h2>@ViewBag.Title</h2>
+<h2 dir="rtl">@ViewBag.Title</h2>
 
 <div class="container">
     <ul class="nav nav-pills">
@@ -49,13 +49,13 @@
             @*<h3>chart</h3>*@
             <!-- /.data -->
             <br />
-
+            
             @(Html.PanelItem(new PanelItemOption()
                 {
-                    Body = (string)ViewData["chart"],
+                    Body = (string)ViewData["ColumnChart"],
                     Title = "نمودار رسیدی",
                     Url = "#",
-                    GlyphIcon = "list-alt",
+                    GlyphIcon = "stats",
                     HasDetailLink = false,
                     HasSettingPanel = false,
                     PanelType = PanelType.danger

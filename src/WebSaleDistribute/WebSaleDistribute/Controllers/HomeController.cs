@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using Dapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Linq;
 using System.Web.Mvc;
 using WebSaleDistribute.Models;
 
@@ -8,7 +11,22 @@ namespace WebSaleDistribute.Controllers
     {
         public ActionResult Index()
         {
+            #region Employee Type Partial Data
+
+            if (User.Identity.GetUserId() != null)
+            {
+                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                var currentUser = manager.FindById(User.Identity.GetUserId());
+
+                var employeeTypes = AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.Query("Select * From fn_GetEmployeeSaleTypes(@EmployeeID)", new { EmployeeID = currentUser.UserName });
+
+                ViewData["EmployeeTypes"] = employeeTypes.ToList();
+            }
+
+            #endregion
+
             var menus = DynamicModels.GetMenus().ToList();
+
             return View(menus);
         }
 
@@ -28,6 +46,6 @@ namespace WebSaleDistribute.Controllers
 
             return View();
         }
-        
+
     }
 }

@@ -10,29 +10,48 @@ using DotNet.Highcharts;
 using DotNet.Highcharts.Options;
 using DotNet.Highcharts.Enums;
 using DotNet.Highcharts.Helpers;
+using System.Threading.Tasks;
+using WebSaleDistribute.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 namespace WebSaleDistribute.Controllers
 {
-
+    [Authorize]
     public class ReportsController : Controller
     {
-        private AdoManager.ConnectionManager saleTabriz = AdoManager.ConnectionManager.Find("SaleTabriz");
-
-        // GET: Receipts
-        [Authorize]
-        public ActionResult Receipts()
+        // GET: Receipts        
+        public async Task<ActionResult> Receipts()
         {
             ViewBag.Title = "گزارش رسیدی";
+            ViewData["dir"] = "ltr";
 
-            var data = saleTabriz.SqlConn.ExecuteReader("sp_GetInvoiceRemain", new { EmployeeID = 860003, EmployeeTypeid = 6, RunDate = "2" }, commandType: CommandType.StoredProcedure);
+            // Fill Table data ------------------------------------------
+            #region Table Data
+            var tableData = await AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.ExecuteReaderAsync("sp_GetInvoiceRemain", new { EmployeeID = 860003, EmployeeTypeid = 6, RunDate = "2" }, commandType: CommandType.StoredProcedure);
 
             List<string> schema;
-
-            var results = data.GetSchemaAndData(out schema);
+            var results = tableData.GetSchemaAndData(out schema);
 
             ViewData["ModelSchema"] = schema;
+            #endregion
+            //-----------------------------------------------------------
 
-            GetChart();
+            // Fill Chart Data ------------------------------------------
+            #region Chart Data
+
+            var chartData = await AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.QueryAsync("sp_GetInvoiceRemainChart", new { EmployeeID = 860003, EmployeeTypeid = 6, RunDate = "2" }, commandType: CommandType.StoredProcedure);
+
+            var chartCategories = chartData.Select(x => (string)x.OfficerEmployeeName).ToArray();
+            var chartValues = chartData.Select(x => x.InvoiceRemain).ToArray();
+
+            ViewData["ColumnChart"] = HtmlHelperExtensions.GetHighChart("testChart", ChartTypes.Column,
+                chartCategories,
+                chartValues,
+                "گزارش جمعی رسیدی ها به تفکیک متصدی ها", "جمع ریالی", $"مبغ کل رسیدی دفتر: {chartValues.Sum(x => (long)x).ToString("N0")}").ToHtmlString();
+
+            #endregion
+            //----------------------------------------------------------          
 
             return View(results);
         }
@@ -47,19 +66,5 @@ namespace WebSaleDistribute.Controllers
             return View();
         }
 
-
-        private void GetChart()
-        {
-            DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts("chart")
-               .SetXAxis(new XAxis
-               {
-                   Categories = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
-               })
-               .SetSeries(new Series
-               {
-                   Data = new Data(new object[] { 29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4 })
-               });
-            ViewData["chart"] = chart.ToHtmlString();
-        }
     }
 }

@@ -1,7 +1,11 @@
 ﻿@using WebSaleDistribute.Models
 
+@{ 
+    string dir = ViewData["dir"]?.ToString() ?? "rtl";
+}
+
 <!DOCTYPE html>
-<html class="background-image" dir="rtl">
+<html class="background-image" >
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,10 +40,11 @@
         </div>
         <div class="navbar-collapse collapse">
             @Html.Partial("_LoginPartial")
+            @Html.Partial("_EmployeeTypePartial")
         </div>
     </div>
 </div>
-    <div class="container body-content">
+    <div class="container body-content" dir='@dir'>
         @RenderBody()
         <hr />
         <footer>

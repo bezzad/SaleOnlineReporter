@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DotNet.Highcharts.Enums;
+using DotNet.Highcharts.Helpers;
+using DotNet.Highcharts.Options;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -177,6 +180,53 @@ namespace WebSaleDistribute.Core
             div.InnerHtml = body;
 
             return MvcHtmlString.Create(div.ToString());
+        }
+
+        public static DotNet.Highcharts.Highcharts GetHighChart(string chartName, ChartTypes chartType, string[] xAxisData, object[] yAxisData, string title, string yTitle, string subtitle = null)
+        {
+            DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts(chartName)
+                .InitChart(new Chart
+                {
+                    Type = chartType,
+                    Options3d = new ChartOptions3d()
+                    {
+                        Enabled = true,
+                        Alpha = 0,
+                        Beta = 0,
+                        Depth = 50,
+                        ViewDistance = 25
+                    }
+                })                
+                .SetTitle(new Title
+                {
+                    Text = title
+                })
+                .SetSubtitle(new Subtitle
+                {
+                    Text = subtitle
+                })
+                .SetPlotOptions(new PlotOptions
+                {
+                    Column = new PlotOptionsColumn() { Depth = 25 }
+                })
+               .SetXAxis(new XAxis
+               {
+                   Categories = xAxisData
+               })
+               .SetSeries(new Series
+               {
+                   Data = new Data(yAxisData),
+                   Color = System.Drawing.Color.DeepSkyBlue,
+                   Type = chartType,
+                   Name = "متصدی"
+               })
+               .SetYAxis(new YAxis
+               {
+                   Title = new YAxisTitle() { Text = yTitle }
+               });
+                        
+
+            return chart;
         }
     }
 }

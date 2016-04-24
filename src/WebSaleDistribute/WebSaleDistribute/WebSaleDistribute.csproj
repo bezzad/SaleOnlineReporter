@@ -362,6 +362,7 @@
     <Content Include="Views\Reports\Receipts.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Reports\Sales.cshtml" />
+    <Content Include="Views\Shared\_EmployeeTypePartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

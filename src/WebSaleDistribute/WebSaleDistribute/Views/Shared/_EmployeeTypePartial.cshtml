@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@using WebSaleDistribute.Models
+@using Dapper
+
+@if (Request.IsAuthenticated)
+            {
+                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                var currentUser = manager.FindById(User.Identity.GetUserId());
+
+                var employeeTypes = ViewData["EmployeeTypes"];
+
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> @currentUser.FullName  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a id="profileLink" href="#">
+                            <span class="glyphicon glyphicon-user">&nbsp;حسابم</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="inboxLink" href="#">
+                            <span class="glyphicon glyphicon-envelope">&nbsp;پیامها</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="settingLink" href="@Url.Action("Index", "Manage", routeValues: null)">
+                            <span class="glyphicon glyphicon-cog">&nbsp;تنظیمات</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <span class="glyphicon glyphicon-log-out"></span>&nbsp;خروج
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        @if (User.IsInRole("Admin"))
+        {
+            <li>
+                <a id="registerLink" href="@Url.Action("Register", "Account", routeValues: null)">
+                    <span class="glyphicon glyphicon-user">  ثبت نام</span>
+                </a>
+            </li>
+        }
+        <li>
+            <a id="loginLink" href="@Url.Action("Login", "Account", routeValues: null)">
+                ورود به سیستم&nbsp;<span class="glyphicon glyphicon-log-in"></span>
+            </a>
+        </li>
+    </ul>
+}
