@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using WebSaleDistribute.Core.Enums;
 
 namespace WebSaleDistribute.Core
 {
@@ -120,7 +119,7 @@ namespace WebSaleDistribute.Core
             return MvcHtmlString.Create(div.ToString());
         }
 
-        public static MvcHtmlString TableItem(this HtmlHelper htmlHelper, string id, List<string> schema, List<ExpandoObject> rows)
+        public static MvcHtmlString TableItem(this HtmlHelper htmlHelper, string id, List<string> schema, List<ExpandoObject> rows, params Tuple<int, OrderType>[] orders)
         {
             var div = new TagBuilder("table");
             div.Attributes.Add("id", id);
@@ -131,6 +130,18 @@ namespace WebSaleDistribute.Core
             div.AddCssClass("hover");
             div.AddCssClass("order-column");
             div.AddCssClass("stripe");
+
+            if(orders != null && orders.Any())
+            {
+                var val = "[";
+                foreach (Tuple<int, OrderType> order in orders)
+                {
+                    val += $@"[ {order.Item1}, ""{order.Item2.ToString()}"" ], ";
+                }
+                val = val.Substring(0, val.Length - 2) + "]";
+
+                div.Attributes.Add("data-order", val);
+            }
 
 
 
@@ -168,6 +179,4 @@ namespace WebSaleDistribute.Core
             return MvcHtmlString.Create(div.ToString());
         }
     }
-
-
 }

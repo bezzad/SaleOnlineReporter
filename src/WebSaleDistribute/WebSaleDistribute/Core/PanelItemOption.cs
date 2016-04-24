@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using WebSaleDistribute.Core.Enums;
 
 namespace WebSaleDistribute.Core
 {
@@ -17,15 +13,5 @@ namespace WebSaleDistribute.Core
         public bool HasSettingPanel { get; set; }
         public bool HasDetailLink { get; set; }
 
-    }
-
-    public enum PanelType
-    {
-        warning,
-        danger,
-        info,
-        success,
-        primary,
-        @default
-    }
+    }    
 }

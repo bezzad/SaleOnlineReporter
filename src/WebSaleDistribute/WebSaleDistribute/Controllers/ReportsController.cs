@@ -5,18 +5,17 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using WebSaleDistribute.Core;
-using System.Dynamic;
-using System.Threading.Tasks;
 using System.Data;
 
 namespace WebSaleDistribute.Controllers
 {
-    [Authorize]
+
     public class ReportsController : Controller
     {
         private AdoManager.ConnectionManager saleTabriz = AdoManager.ConnectionManager.Find("SaleTabriz");
 
         // GET: Receipts
+        [Authorize]
         public ActionResult Receipts()
         {
             ViewBag.Title = "گزارش رسیدی";
@@ -28,7 +27,7 @@ namespace WebSaleDistribute.Controllers
             var results = data.GetSchemaAndData(out schema);
 
             ViewData["ModelSchema"] = schema;
-            
+
             return View(results);
         }
 

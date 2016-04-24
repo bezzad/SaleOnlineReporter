@@ -1,5 +1,6 @@
 ﻿@using System.Dynamic
 @using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
 
 @model List<ExpandoObject>
 
@@ -22,7 +23,9 @@
         $(document).ready(function () {
             $('.dataTables').DataTable({
                 //help: https://www.datatables.net/manual/options
-                "order": [0, 'desc']
+                select: true,
+                ordering: true
+                //"order": [0, 'desc'],
                 //paging: false,
                 //scrollY: 400,
 
@@ -66,7 +69,7 @@
             <br />
             @(Html.PanelItem(new PanelItemOption()
                 {
-                    Body = Html.TableItem("receipts", (List<string>)ViewData["ModelSchema"], Model).ToHtmlString(),
+                    Body = Html.TableItem("receipts", (List<string>)ViewData["ModelSchema"], Model, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
                     Title = "لیست رسیدی ها",
                     Url = "#",
                     GlyphIcon = "list-alt",
