@@ -45,6 +45,9 @@ namespace WebSaleDistribute
                 "~/Scripts/Highcharts-4.0.1/js/highcharts.js",
                 "~/Scripts/Highcharts-4.0.1/js/modules/exporting.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery_unobtrusive").Include(
+                "~/Scripts/jquery.unobtrusive-ajax.min.js"));
+
         }
 
         public static void RegisterContents(BundleCollection bundles)

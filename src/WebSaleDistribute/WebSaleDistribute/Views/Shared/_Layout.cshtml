@@ -40,7 +40,7 @@
         </div>
         <div class="navbar-collapse collapse">
             @Html.Partial("_LoginPartial")
-            @Html.Partial("_EmployeeTypePartial")
+            @Html.Action("GetEmployeeType", "Home");
         </div>
     </div>
 </div>
@@ -54,6 +54,7 @@
     
     @Scripts.Render("~/bundles/jquery_ui")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jquery_unobtrusive")
 
     @RenderSection("scripts", required: false)
 </body>

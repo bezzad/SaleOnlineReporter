@@ -48,7 +48,7 @@ namespace WebSaleDistribute.Controllers
             ViewData["ColumnChart"] = HtmlHelperExtensions.GetHighChart("testChart", ChartTypes.Column,
                 chartCategories,
                 chartValues,
-                "گزارش جمعی رسیدی ها به تفکیک متصدی ها", "جمع ریالی", $"مبغ کل رسیدی دفتر: {chartValues.Sum(x => (long)x).ToString("N0")}").ToHtmlString();
+                "گزارش جمعی رسیدی ها به تفکیک متصدی ها", "جمع ریالی", $"مبلغ کل رسیدی دفتر: {chartValues.Sum(x => (long)x).ToString("N0")}").ToHtmlString();
 
             #endregion
             //----------------------------------------------------------          
