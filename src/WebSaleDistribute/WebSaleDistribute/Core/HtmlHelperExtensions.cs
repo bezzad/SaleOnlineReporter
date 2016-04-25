@@ -134,7 +134,7 @@ namespace WebSaleDistribute.Core
             div.AddCssClass("order-column");
             div.AddCssClass("stripe");
 
-            if(orders != null && orders.Any())
+            if (orders != null && orders.Any())
             {
                 var val = "[";
                 foreach (Tuple<int, OrderType> order in orders)
@@ -182,7 +182,7 @@ namespace WebSaleDistribute.Core
             return MvcHtmlString.Create(div.ToString());
         }
 
-        public static DotNet.Highcharts.Highcharts GetHighChart(string chartName, ChartTypes chartType, string[] xAxisData, object[] yAxisData, string title, string yTitle, string subtitle = null)
+        public static DotNet.Highcharts.Highcharts GetHighChart(string chartName, ChartTypes chartType, string[] xAxisData, object[] yAxisData, string title, string yTitle, string seriesName, string subtitle)
         {
             DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts(chartName)
                 .InitChart(new Chart
@@ -196,7 +196,7 @@ namespace WebSaleDistribute.Core
                         Depth = 50,
                         ViewDistance = 25
                     }
-                })                
+                })
                 .SetTitle(new Title
                 {
                     Text = title
@@ -218,13 +218,23 @@ namespace WebSaleDistribute.Core
                    Data = new Data(yAxisData),
                    Color = System.Drawing.Color.DeepSkyBlue,
                    Type = chartType,
-                   Name = "متصدی"
+                   Name = seriesName
                })
                .SetYAxis(new YAxis
                {
                    Title = new YAxisTitle() { Text = yTitle }
+               })
+               .SetTooltip(new Tooltip
+               {
+                   Shared = true,
+                   UseHTML = true,
+                   HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
+                   PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
+                                     "<td><b>{point.y} ریال</b></td></tr>",
+                   FooterFormat = "</table>",
+                   ValueDecimals = 0
                });
-                        
+
 
             return chart;
         }

@@ -1,15 +1,12 @@
-﻿@using Microsoft.AspNet.Identity
-@using Microsoft.AspNet.Identity.EntityFramework
-@using WebSaleDistribute.Models
+﻿@using WebSaleDistribute.Models
 
 @{
-    AjaxOptions Opt = new AjaxOptions
-    {
-        UpdateTargetId = "employeeTypes",
-        //Confirm = "Are you sure to start search?",
-        //LoadingElementId = "divSearchLoading",
-        InsertionMode = InsertionMode.Replace,
-        HttpMethod = "POST"
+        AjaxOptions Opt = new AjaxOptions
+        {
+            UpdateTargetId = "employeeTypes",
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            OnSuccess = "location.reload(true)"
     };
 }
 
@@ -20,11 +17,12 @@
     var selectedEmpId = (int?)ViewData["SelectedEmployeTypeId"];
 
     <div id="employeeTypes">
+
         @using (Ajax.BeginForm("SetEmployeeType", "Home", new { employeeTypeId = (int?)null }, Opt))
         {
             <ul class="nav navbar-nav navbar-right">
                 @if (selectedEmpId == null)
-                    {
+                {
                     <li dir="rtl">
                         <a>
                             شما مجوز استفاده از برنامه را ندارید!
@@ -42,17 +40,17 @@
                         </a>
                         <ul class="dropdown-menu">
                             @foreach (var et in employeeTypes)
-                            {
+                        {
                                 <li>
-                                    <button class="btn  form-control" id="employeeTypeId" name="employeeTypeId" type="submit" value="@et.EmployeeTypeID">@et.EmployeeTypeName</button>
+                                    <button class="btn form-control" id="employeeTypeId" name="employeeTypeId" type="submit" value="@et.EmployeeTypeID">@et.EmployeeTypeName</button>
                                 </li>
                             }
                         </ul>
                     </li>
                 }
             </ul>
-        }
 
+        }
     </div>
 
 }
