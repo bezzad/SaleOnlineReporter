@@ -10,7 +10,7 @@ namespace WebSaleDistribute.Models
     {
         public static IEnumerable<ExpandoObject> GetMenus()
         {
-            var menuScript = HelperExtensions.ReadResourceFile("App_Data.MenuGenerator_Script.sql");
+            var menuScript = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryMenu);
             var result = AdoManager.DataAccessObject.GetFromQuery(menuScript, true); // fetch menu by caching data
             var menus = result.Select(menu => (ExpandoObject)HelperExtensions.DapperRowToExpando(menu));
 

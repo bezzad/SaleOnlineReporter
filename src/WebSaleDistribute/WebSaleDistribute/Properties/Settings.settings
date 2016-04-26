@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WebSaleDistribute.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UsersManagements" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">UsersManagements</Value>
+    </Setting>
+    <Setting Name="SaleDistributeIdentity" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SaleDistributeIdentity</Value>
+    </Setting>
+    <Setting Name="SaleTabriz" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SaleTabriz</Value>
+    </Setting>
+    <Setting Name="QueryUpdateDatabase" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">App_Data.UpdateDatabase.sql</Value>
+    </Setting>
+    <Setting Name="QueryMenu" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">App_Data.MenuGenerator_Script.sql</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

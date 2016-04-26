@@ -30,9 +30,9 @@ namespace WebSaleDistribute
             var data = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "Web.config");
             ConnectionManager.LoadFromXml(data);
 #if DEBUG
-            ConnectionManager.SetToDefaultConnection("UsersManagements"); // local
+            ConnectionManager.SetToDefaultConnection(Properties.Settings.Default.UsersManagements); // local
 #else
-            ConnectionManager.SetToDefaultConnection("UsersManagements"); // server
+            ConnectionManager.SetToDefaultConnection(Properties.Settings.Default.UsersManagements); // server
 #endif
         }
 
@@ -58,7 +58,7 @@ namespace WebSaleDistribute
 
                 //Redirect HTTP errors to HttpError page
                 //Server.Transfer("~/Views/Errors");
-                Response.Redirect("~/errors");
+                Response.Redirect("~/errors/e404");
                 return;
             }
 

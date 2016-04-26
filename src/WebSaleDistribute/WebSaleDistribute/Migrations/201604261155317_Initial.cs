@@ -3,7 +3,7 @@ namespace WebSaleDistribute.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -47,9 +47,9 @@ namespace WebSaleDistribute.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        RoleName = c.String(),
                         FullName = c.String(),
                         IMEI = c.String(),
+                        EmployeeType = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.UserId)

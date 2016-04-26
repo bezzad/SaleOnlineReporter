@@ -9,6 +9,7 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+
 namespace AdoManager
 {
     public class ConnectionManager : IDisposable
@@ -631,8 +632,6 @@ namespace AdoManager
             }
             return false;
         }
-
-
 
         #endregion
 

@@ -9,13 +9,15 @@ namespace WebSaleDistribute.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using Core;
 
     internal sealed class Configuration : DbMigrationsConfiguration<WebSaleDistribute.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "WebSaleDistribute.Models.ApplicationDbContext";
+            AutomaticMigrationDataLossAllowed = true;
+            ContextKey = "WebSaleDistribute.Models.ApplicationdbContext";
         }
 
         protected override void Seed(WebSaleDistribute.Models.ApplicationDbContext context)
@@ -38,17 +40,18 @@ namespace WebSaleDistribute.Migrations
 
 
 
-        private bool WriteReferenceData(ApplicationDbContext ctx)
+        public static bool WriteReferenceData(ApplicationDbContext ctx)
         {
             DbContextTransaction transaction = null;
             bool succeeded = false;
             try
             {
                 transaction = ctx.Database.BeginTransaction();
-
+                
                 CreateRoles(ctx);
                 CreateUsers(ctx);
                 ctx.SaveChanges();
+
                 transaction.Commit();
                 succeeded = true;
             }
@@ -60,17 +63,17 @@ namespace WebSaleDistribute.Migrations
             return succeeded;
         }
 
-        private void CreateRoles(ApplicationDbContext ctx)
+        private static void CreateRoles(ApplicationDbContext ctx)
         {
             // Out of the box
-            ctx.Roles.AddOrUpdate(
-                  new IdentityRole { Name = "Admin" },
-                  new IdentityRole { Name = "Developer"},
-                  new IdentityRole { Name = "NoAccess" }
-                );
+            //ctx.Roles.AddOrUpdate(
+            //      new IdentityRole { Name = "Admin" },
+            //      new IdentityRole { Name = "Developer" },
+            //      new IdentityRole { Name = "NoAccess" }
+            //    );
         }
 
-        private void CreateUsers(ApplicationDbContext ctx)
+        private static void CreateUsers(ApplicationDbContext ctx)
         {
             // Out of the box approach
             // ctx.Users.AddOrUpdate(
@@ -117,6 +120,15 @@ namespace WebSaleDistribute.Migrations
             //}
         }
 
+        public static void InitializeUsersManagements(ApplicationDbContext ctx)
+        {
+            if (!ctx.Database.Exists())
+                ctx.Database.Initialize(force: true);
 
+            // insert fixed data in database [SaleDistributeIdentity]
+            var script = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryUpdateDatabase);
+            AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleDistributeIdentity).ExecuteNonQuery(script);
+            ctx.Database.ExecuteSqlCommand("Exec sp_UpdateDatabase");
+        }
     }
 }

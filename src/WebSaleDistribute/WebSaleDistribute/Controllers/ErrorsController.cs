@@ -9,7 +9,7 @@ namespace WebSaleDistribute.Controllers
     public class ErrorsController : Controller
     {
         // GET: Shared
-        public ActionResult Error()
+        public ActionResult e404()
         {
             return View();
         }

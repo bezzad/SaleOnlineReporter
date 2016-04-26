@@ -1,12 +1,9 @@
-﻿USE [SaleDistributeIdentity]
-GO
+﻿
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_UpdateDatabase]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_UpdateDatabase]
 
--- =============================================
--- Author:		Behzad Khosravifar
--- Create date: 1395/01/24
--- Description:	Set UsersManagements users and roles to ASP.NET Identity Entity Tables
--- =============================================
-ALTER PROCEDURE [dbo].[sp_UpdateDatabase]
+EXEC dbo.sp_executesql @statement = N'
+CREATE PROCEDURE [dbo].[sp_UpdateDatabase]
 AS 
     BEGIN
         
@@ -53,7 +50,7 @@ AS
                     SELECT TOP ( 1 )
                             2 ,
                             7 ,
-                            'فروشنده'
+                            ''فروشنده''
            
 ------------------------------------------------------
 -- اضافه کردن سطح دسترسي مديريت
@@ -67,7 +64,7 @@ AS
                     SELECT TOP ( 1 )
                             2 ,
                             8 ,
-                            'مديريت'
+                            ''مديريت''
        
 ------------------------------------------------------
 -- اضافه کردن سطح دسترسي مدير فروش
@@ -81,7 +78,7 @@ AS
                     SELECT TOP ( 1 )
                             2 ,
                             9 ,
-                            'مدير فروش'
+                            ''مدير فروش''
 
 --######################################################         
 --------------------------------------------------------
@@ -157,11 +154,26 @@ AS
 ------------------------------------------------------
 -- حذف داده هاي جداول پايگاه داده ASP Identity
 
+        DECLARE @Query VARCHAR(MAX) = ''USE SaleDistributeIdentity '' + CHAR(13);
+
+        SELECT  @Query += ''ALTER TABLE [SaleDistributeIdentity].[''
+                + TABLE_SCHEMA + ''].['' + TABLE_NAME + ''] DROP [''
+                + CONSTRAINT_NAME + '']; '' + CHAR(13)
+        FROM    INFORMATION_SCHEMA.CONSTRAINT_TABLE_USAGE
+        WHERE   CONSTRAINT_NAME IN (
+                SELECT  CONSTRAINT_NAME
+                FROM    INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+                WHERE   CONSTRAINT_TYPE = ''FOREIGN KEY'' )
+                           
+        PRINT @Query       
+       
+        EXEC(@Query)
+
         TRUNCATE TABLE SaleDistributeIdentity.dbo.UserRoles
         TRUNCATE TABLE SaleDistributeIdentity.dbo.Roles
         TRUNCATE TABLE SaleDistributeIdentity.dbo.Users
     
-        DECLARE @AdminUserID NVARCHAR(MAX) = NEWID(),
+        DECLARE @AdminUserID NVARCHAR(MAX) = NEWID() ,
             @AdminRoleID NVARCHAR(MAX) = NEWID() 
    
 --######################################################
@@ -194,7 +206,8 @@ AS
                   Discriminator
                 )
                 SELECT  CONVERT(NVARCHAR(128), MAX(u.UserID)) UserId ,
-                        'shoniz_' + CONVERT(NVARCHAR(128), MAX(u.UserID)) + '@shoniz.com' ,
+                        ''shoniz_'' + CONVERT(NVARCHAR(128), MAX(u.UserID))
+                        + ''@shoniz.com'' ,
                         0 ,
                         MAX(SUBSTRING(master.dbo.fn_varbintohexstr(u.UserPass),
                                       3, 32)) ,
@@ -208,7 +221,7 @@ AS
                         u.EmployeeId ,
                         MAX(u.FullName) ,
                         MAX(u.SystemComputerName) ,
-                        'ApplicationUser'
+                        ''ApplicationUser''
                 FROM    UsersManagements.dbo.Users u
                 WHERE   u.UserID > 0
                         AND u.EmployeeId IS NOT NULL
@@ -235,21 +248,21 @@ AS
                   Discriminator
                 )
                 SELECT  @AdminUserID ,
-                        'behzad.khosravifar@gmail.com' ,
+                        ''behzad.khosravifar@gmail.com'' ,
                         1 ,
-                        SUBSTRING(master.dbo.fn_varbintohexstr(HASHBYTES('MD5',
-                                                              'admin')), 3, 32) ,
+                        SUBSTRING(master.dbo.fn_varbintohexstr(HASHBYTES(''MD5'',
+                                                              ''admin'')), 3, 32) ,
                         NEWID() ,
-                        '+989149149202' ,
+                        ''+989149149202'' ,
                         1 ,
                         0 ,
                         NULL ,
                         0 ,
                         0 ,
-                        'admin' ,
-                        'Behzad' ,
-                        '' ,
-                        'ApplicationUser'
+                        ''admin'' ,
+                        ''Behzad'' ,
+                        '''' ,
+                        ''ApplicationUser''
     
    
 --######################################################
@@ -273,9 +286,9 @@ AS
                         AND r2.Id IS NULL
                         
         INSERT  INTO SaleDistributeIdentity.dbo.Roles
-        VALUES  ( @AdminRoleID, 'Admin' ),
-                ( NEWID(), 'Developer' ),
-                ( NEWID(), 'NoAccess' ) 
+        VALUES  ( @AdminRoleID, ''Admin'' ),
+                ( NEWID(), ''Developer'' ),
+                ( NEWID(), ''NoAccess'' ) 
     
    
 --######################################################
@@ -320,3 +333,5 @@ AS
 --------------------------------------------------------
         
     END
+
+';
