@@ -1,7 +1,7 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "خطا";
     ViewData["dir"] = "rtl";
 }
 
@@ -29,12 +29,18 @@
 
 <br />
 
-@if (Model != null)
+@if (Model != null && HttpContext.Current.IsDebuggingEnabled)
 {
     <div>
-        <div class="form-group">
-            <h5>متن خطا:</h5>
-            <h5>@Model.Exception.Message</h5>
+        <p>
+            <b>Exception:</b> @Model.Exception.Message<br />
+            <b>Controller:</b> @Model.ControllerName<br />
+            <b>Action:</b> @Model.ActionName
+        </p>
+        <div style="overflow:scroll">
+            <pre>
+               @Model.Exception.StackTrace
+            </pre>
         </div>
     </div>
 }
