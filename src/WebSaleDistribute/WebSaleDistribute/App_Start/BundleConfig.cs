@@ -48,6 +48,7 @@ namespace WebSaleDistribute
             bundles.Add(new ScriptBundle("~/bundles/jquery_unobtrusive").Include(
                 "~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/site").Include("~/Scripts/site.js"));
         }
 
         public static void RegisterContents(BundleCollection bundles)

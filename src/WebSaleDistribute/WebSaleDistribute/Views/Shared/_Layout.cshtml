@@ -22,6 +22,8 @@
     @RenderSection("styles", required: false)
 </head>
 <body>
+    @RenderSection("Preloader", required: false)
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -47,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="container body-content" dir='@dir'>
+    <div class="container body-content" dir='@dir'>        
         @RenderBody()
         <hr />
         <footer>
@@ -60,5 +62,7 @@
     @Scripts.Render("~/bundles/jquery_unobtrusive")
 
     @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/site")
+
 </body>
 </html>
