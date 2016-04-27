@@ -27,11 +27,19 @@
                             <span class="glyphicon glyphicon-envelope">&nbsp;پیامها</span>
                         </a>
                     </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a id="settingLink" href="@Url.Content("~/elmah")">
+                                <span class="glyphicon glyphicon-exclamation-sign">&nbsp;خطاها</span>
+                            </a>
+                        </li>
+                    }
                     <li>
                         <a id="settingLink" href="@Url.Action("Index", "Manage", routeValues: null)">
                             <span class="glyphicon glyphicon-cog">&nbsp;تنظیمات</span>
                         </a>
-                    </li>
+                    </li>                
                     <li role="separator" class="divider"></li>
                     <li>
                         <a href="javascript:document.getElementById('logoutForm').submit()">

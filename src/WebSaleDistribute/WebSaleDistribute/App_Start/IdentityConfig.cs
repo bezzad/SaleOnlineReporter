@@ -17,6 +17,7 @@ using Microsoft.Owin;
 using WebSaleDistribute.Core;
 using WebSaleDistribute.Models;
 using WebSaleDistribute.Owin;
+using Elmah;
 
 namespace WebSaleDistribute
 {
@@ -101,7 +102,7 @@ namespace WebSaleDistribute
             }
             catch (Exception exp)
             {
-                //TODO log error
+                ErrorSignal.FromCurrentContext().Raise(exp);
             }
 
             return null;

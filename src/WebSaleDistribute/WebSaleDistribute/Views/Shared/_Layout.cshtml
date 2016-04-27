@@ -1,11 +1,11 @@
 ﻿@using WebSaleDistribute.Models
 
-@{ 
+@{
     string dir = ViewData["dir"]?.ToString() ?? "rtl";
 }
 
 <!DOCTYPE html>
-<html class="background-image" >
+<html class="background-image">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,28 +22,31 @@
     @RenderSection("styles", required: false)
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container" >
-        <div class="navbar-header" >
-            <img class="navbar-brand nav" style="width: 110px;" alt="shoniz logo" src="@Url.Content("~/Content/images/bwShonizFa.png")"/>
-            <button type="button" class="navbar-toggle"  data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="#" class="dropdown-toggle navbar-brand nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">گزارشات آنلاین <span class="caret"></span></a>
-            <ul class="dropdown-menu ">
-                <li>@Html.ActionLink("خانه", "Index", "Home")</li>
-                <li role="separator" class="divider"></li>
-                @Html.Partial("_MenuPartial", DynamicModels.GetMenus())
-            </ul>
-        </div>
-        <div class="navbar-collapse collapse">
-            @Html.Partial("_LoginPartial")
-            @Html.Action("GetEmployeeType", "Home");
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <img class="navbar-brand nav" style="width: 110px;" alt="shoniz logo" src="@Url.Content("~/Content/images/bwShonizFa.png")" />
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="dropdown-toggle navbar-brand nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">گزارشات آنلاین <span class="caret"></span></a>
+                <ul class="dropdown-menu ">
+                    <li>@Html.ActionLink("خانه", "Index", "Home")</li>
+                    <li role="separator" class="divider"></li>
+                    @Html.Partial("_MenuPartial", DynamicModels.GetMenus())
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+                @if (Request.IsAuthenticated)
+                {
+                        @Html.Action("GetEmployeeType", "Home");
+                }
+            </div>
         </div>
     </div>
-</div>
     <div class="container body-content" dir='@dir'>
         @RenderBody()
         <hr />
@@ -51,7 +54,7 @@
             <p dir="ltr">&copy; @DateTime.Now.Year - Shoniz.co</p>
         </footer>
     </div>
-    
+
     @Scripts.Render("~/bundles/jquery_ui")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jquery_unobtrusive")

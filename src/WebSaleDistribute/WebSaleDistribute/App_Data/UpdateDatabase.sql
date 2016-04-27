@@ -173,8 +173,8 @@ AS
         TRUNCATE TABLE SaleDistributeIdentity.dbo.Roles
         TRUNCATE TABLE SaleDistributeIdentity.dbo.Users
     
-        DECLARE @AdminUserID NVARCHAR(MAX) = NEWID() ,
-            @AdminRoleID NVARCHAR(MAX) = NEWID() 
+        DECLARE @AdminUserID NVARCHAR(MAX) = ''A4E121AE-BECE-4F48-B53F-CF8DCE77E1C7'' ,
+            @AdminRoleID NVARCHAR(MAX) = ''4619641B-9534-4DEB-ABAD-BA4B6D2506BA''
    
 --######################################################
 --------------------------------------------------------
@@ -250,8 +250,7 @@ AS
                 SELECT  @AdminUserID ,
                         ''behzad.khosravifar@gmail.com'' ,
                         1 ,
-                        SUBSTRING(master.dbo.fn_varbintohexstr(HASHBYTES(''MD5'',
-                                                              ''admin'')), 3, 32) ,
+                        SUBSTRING(master.dbo.fn_varbintohexstr(HASHBYTES(''MD5'', ''H\,g,d@13'')), 3, 32) , --Password: admin
                         NEWID() ,
                         ''+989149149202'' ,
                         1 ,
@@ -259,8 +258,8 @@ AS
                         NULL ,
                         0 ,
                         0 ,
-                        ''admin'' ,
-                        ''Behzad'' ,
+                        ''Admin'' ,
+                        ''مدیر برنامه'' ,
                         '''' ,
                         ''ApplicationUser''
     
@@ -287,8 +286,8 @@ AS
                         
         INSERT  INTO SaleDistributeIdentity.dbo.Roles
         VALUES  ( @AdminRoleID, ''Admin'' ),
-                ( NEWID(), ''Developer'' ),
-                ( NEWID(), ''NoAccess'' ) 
+                ( ''DCBF07D0-1712-4C3D-9825-DA615017A2FD'', ''Developer'' ),
+                ( ''5C7CFD35-73C3-4B35-AA64-ABE5DA3D16DC'', ''NoAccess'' ) 
     
    
 --######################################################

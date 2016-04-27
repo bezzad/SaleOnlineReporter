@@ -56,6 +56,14 @@
       <HintPath>..\..\packages\DotNet.Highstock.1.1.3.35983\lib\net45\DotNet.Highstock.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.13605.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\elmah.1.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah.Mvc, Version=2.1.2.1389, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -187,6 +195,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\Owin\ApplicationSignInManager.cs" />
+    <Compile Include="App_Start\Owin\ElmahHandleErrorAttribute.cs" />
+    <Compile Include="App_Start\Owin\ElmahHandleWebApiErrorAttribute.cs" />
     <Compile Include="App_Start\Owin\PasswordHasherHelper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -225,6 +235,9 @@
   <ItemGroup>
     <EmbeddedResource Include="App_Data\MenuGenerator_Script.sql" />
     <EmbeddedResource Include="App_Data\UpdateDatabase.sql" />
+    <EmbeddedResource Include="App_Data\ElmahSqlServer.sql" />
+    <Content Include="App_Readme\Elmah.SqlServer.sql" />
+    <Content Include="App_Readme\Elmah.SqlServer.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

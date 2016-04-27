@@ -17,5 +17,8 @@
     <Setting Name="QueryMenu" Type="System.String" Scope="Application">
       <Value Profile="(Default)">App_Data.MenuGenerator_Script.sql</Value>
     </Setting>
+    <Setting Name="QueryElmah" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">App_Data.ElmahSqlServer.sql</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

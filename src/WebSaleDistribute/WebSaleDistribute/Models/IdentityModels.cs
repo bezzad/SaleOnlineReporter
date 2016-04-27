@@ -38,7 +38,7 @@ namespace WebSaleDistribute.Models
             return new ApplicationDbContext();
         }
 
-        protected override async void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 

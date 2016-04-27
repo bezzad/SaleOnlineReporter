@@ -2,8 +2,39 @@
 
 @{
     ViewBag.Title = "Error";
+    ViewData["dir"] = "rtl";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
 
+<h1 class="text-danger">خطا</h1>
+<h2 class="text-danger">
+    پردازش درخواست شما با خطا مواجه شد.
+</h2>
+<br />
+<br />
+<h4>
+    ممکن است این اتفاق به دلایل زیر اتفاق افتاده باشد:
+</h4>
+<br />
+
+<h5>
+    1. شما مجوز دسترسی به این صفحه را نداشته باشید.
+    <br />
+    <br />
+    2. اعتبار زمانی ورود شما منقضی شده باشد.
+    <br />
+    <br />
+    3. سرور به دلایلی قادر به انجام درخواست شما نیست.
+</h5>
+
+<br />
+
+@if (Model != null)
+{
+    <div>
+        <div class="form-group">
+            <h5>متن خطا:</h5>
+            <h5>@Model.Exception.Message</h5>
+        </div>
+    </div>
+}

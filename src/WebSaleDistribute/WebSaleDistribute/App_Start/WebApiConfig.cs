@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
+using WebSaleDistribute.App_Start.Owin;
 
 namespace WebSaleDistribute
 {
@@ -19,6 +18,8 @@ namespace WebSaleDistribute
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //config.Filters.Add(new ElmahHandleWebApiErrorAttribute());
         }
     }
 }

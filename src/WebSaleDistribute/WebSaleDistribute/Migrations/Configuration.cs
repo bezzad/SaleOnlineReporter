@@ -1,6 +1,3 @@
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Migrations
@@ -55,10 +52,11 @@ namespace WebSaleDistribute.Migrations
                 transaction.Commit();
                 succeeded = true;
             }
-            catch (Exception ex)
+            catch (Exception exp)
             {
                 if (transaction != null) { transaction.Rollback(); transaction.Dispose(); }
                 succeeded = false;
+                Elmah.ErrorSignal.FromCurrentContext().Raise(exp);
             }
             return succeeded;
         }
@@ -126,9 +124,13 @@ namespace WebSaleDistribute.Migrations
                 ctx.Database.Initialize(force: true);
 
             // insert fixed data in database [SaleDistributeIdentity]
-            var script = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryUpdateDatabase);
-            AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleDistributeIdentity).ExecuteNonQuery(script);
+            var insertUsersManagersDataScript = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryUpdateDatabase);
+            AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleDistributeIdentity).ExecuteNonQuery(insertUsersManagersDataScript);
             ctx.Database.ExecuteSqlCommand("Exec sp_UpdateDatabase");
+
+            // create elmah tables
+            var elmahDbScript = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryElmah);
+            AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleDistributeIdentity).ExecuteBatchNonQuery(elmahDbScript);
         }
     }
 }

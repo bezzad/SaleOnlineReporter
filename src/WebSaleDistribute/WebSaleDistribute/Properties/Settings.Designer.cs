@@ -67,5 +67,14 @@ namespace WebSaleDistribute.Properties {
                 return ((string)(this["QueryMenu"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("App_Data.ElmahSqlServer.sql")]
+        public string QueryElmah {
+            get {
+                return ((string)(this["QueryElmah"]));
+            }
+        }
     }
 }

@@ -1,12 +1,12 @@
 ﻿@using WebSaleDistribute.Models
 
 @{
-        AjaxOptions Opt = new AjaxOptions
-        {
-            UpdateTargetId = "employeeTypes",
-            InsertionMode = InsertionMode.Replace,
-            HttpMethod = "POST",
-            OnSuccess = "location.reload(true)"
+    AjaxOptions Opt = new AjaxOptions
+    {
+        UpdateTargetId = "employeeTypes",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        OnSuccess = "location.reload(true)"
     };
 }
 
@@ -36,16 +36,20 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <span class="glyphicon glyphicon-eye-open"></span>
                             @(employeeTypes.FirstOrDefault(x => x.EmployeeTypeID == selectedEmpId)?.EmployeeTypeName)
-                            <span class="caret"></span>
+                            @if (employeeTypes.Count > 1)
+                            {<span class="caret"></span>}
                         </a>
-                        <ul class="dropdown-menu">
-                            @foreach (var et in employeeTypes)
+                        @if (employeeTypes.Count > 1)
                         {
-                                <li>
-                                    <button class="btn form-control" id="employeeTypeId" name="employeeTypeId" type="submit" value="@et.EmployeeTypeID">@et.EmployeeTypeName</button>
-                                </li>
-                            }
-                        </ul>
+                            <ul class="dropdown-menu">
+                                @foreach (var et in employeeTypes)
+                                {
+                                    <li>
+                                        <button class="btn form-control" id="employeeTypeId" name="employeeTypeId" type="submit" value="@et.EmployeeTypeID">@et.EmployeeTypeName</button>
+                                    </li>
+                                }
+                            </ul>
+                        }
                     </li>
                 }
             </ul>

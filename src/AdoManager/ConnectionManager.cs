@@ -339,7 +339,7 @@ namespace AdoManager
             }
 
         }
-    
+
         public T ExecuteScalarProc<T>(string commandText, params SqlParameter[] Params)
         {
             return ExecuteScalar<T>(commandText, CommandType.StoredProcedure, Params);
@@ -481,6 +481,104 @@ namespace AdoManager
             {
                 Close();
             }
+        }
+
+        public bool ExecuteBatchNonQuery(string commandText, CommandType commandType = CommandType.Text, params SqlParameter[] Params)
+        {
+            var cmd = CreateCommand();
+            cmd.CommandType = commandType;
+
+            if (Transaction != null && Transaction != default(SqlTransaction))
+                cmd.Transaction = Transaction;
+            else
+                cmd.Connection = SqlConn;
+
+            if (Params != null && Params.Length > 0)
+            {
+                foreach (var param in Params)
+                    cmd.Parameters.Add(param);
+            }
+
+            try
+            {
+                commandText += "\nGO";   // make sure last batch is executed.
+
+                Open();
+
+                string sqlBatch = string.Empty;
+                foreach (string line in commandText.Split(new string[2] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (line.ToUpperInvariant().Trim() == "GO" && !string.IsNullOrEmpty(sqlBatch))
+                    {
+                        cmd.CommandText = sqlBatch;
+                        cmd.ExecuteNonQuery();
+                        sqlBatch = string.Empty;
+                    }
+                    else
+                    {
+                        sqlBatch += line + "\n";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                Close();
+            }
+
+            return true;
+        }
+
+        public async Task<bool> ExecuteBatchNonQueryAsync(string commandText, CommandType commandType = CommandType.Text, params SqlParameter[] Params)
+        {
+            var cmd = CreateCommand();
+            cmd.CommandType = commandType;
+
+            if (Transaction != null && Transaction != default(SqlTransaction))
+                cmd.Transaction = Transaction;
+            else
+                cmd.Connection = SqlConn;
+
+            if (Params != null && Params.Length > 0)
+            {
+                foreach (var param in Params)
+                    cmd.Parameters.Add(param);
+            }
+
+            try
+            {
+                commandText += "\nGO";   // make sure last batch is executed.
+
+                await OpenAsync();
+
+                string sqlBatch = string.Empty;
+                foreach (string line in commandText.Split(new string[2] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (line.ToUpperInvariant().Trim() == "GO" && !string.IsNullOrEmpty(sqlBatch))
+                    {
+                        cmd.CommandText = sqlBatch;
+                        await cmd.ExecuteNonQueryAsync();
+                        sqlBatch = string.Empty;
+                    }
+                    else
+                    {
+                        sqlBatch += line + "\n";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                Close();
+            }
+
+            return true;
         }
 
         public int ExecuteNonQuery(SqlCommand cmd, params SqlParameter[] Params)
