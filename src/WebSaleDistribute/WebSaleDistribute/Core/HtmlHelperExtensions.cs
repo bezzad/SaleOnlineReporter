@@ -187,15 +187,15 @@ namespace WebSaleDistribute.Core
             DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts(chartName)
                 .InitChart(new Chart
                 {
-                    Type = chartType,
-                    Options3d = new ChartOptions3d()
-                    {
-                        Enabled = true,
-                        Alpha = 0,
-                        Beta = 0,
-                        Depth = 50,
-                        ViewDistance = 25
-                    }
+                    Type = chartType
+                    //Options3d = new ChartOptions3d()
+                    //{
+                    //    Enabled = true,
+                    //    Alpha = 0,
+                    //    Beta = 0,
+                    //    Depth = 50,
+                    //    ViewDistance = 25
+                    //}
                 })
                 .SetTitle(new Title
                 {
