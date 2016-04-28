@@ -22,8 +22,6 @@
     @RenderSection("styles", required: false)
 </head>
 <body>
-    @RenderSection("Preloader", required: false)
-
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -41,15 +39,23 @@
                 </ul>
             </div>
             <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a>
+                            <!-- loader link: http://preloaders.net/en/circular/spin-and-pulsate/ -->
+                            <img id="loading" class="status" src="@Url.Content("~/Content/images/loading.gif")" alt="Spin and pulsate 32 pixels wide" style="position: absolute;"/>
+                        </a>
+                    </li>
+                </ul>
                 @Html.Partial("_LoginPartial")
                 @if (Request.IsAuthenticated)
                 {
-                        @Html.Action("GetEmployeeType", "Home");
+                    @Html.Action("GetEmployeeType", "Home");
                 }
             </div>
         </div>
     </div>
-    <div class="container body-content" dir='@dir'>        
+    <div class="container body-content" dir='@dir'>
         @RenderBody()
         <hr />
         <footer>
@@ -62,6 +68,7 @@
     @Scripts.Render("~/bundles/jquery_unobtrusive")
 
     @RenderSection("scripts", required: false)
+
     @Scripts.Render("~/bundles/site")
 
 </body>

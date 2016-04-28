@@ -12,6 +12,8 @@ namespace WebSaleDistribute.Core
 {
     public static class HtmlHelperExtensions
     {
+        private static int _counter = 0;
+
         public static MvcHtmlString MenuItem(this HtmlHelper htmlHelper, string text, string action, string controller, string liCssClass = null)
         {
             var li = new TagBuilder("li");
@@ -237,6 +239,11 @@ namespace WebSaleDistribute.Core
 
 
             return chart;
+        }
+
+        public static MvcHtmlString GetNewNo(this HtmlHelper htmlHelper)
+        {
+            return new MvcHtmlString(_counter++.ToString());
         }
     }
 }
