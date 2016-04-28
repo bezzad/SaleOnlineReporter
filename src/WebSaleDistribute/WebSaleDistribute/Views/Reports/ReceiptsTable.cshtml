@@ -1,0 +1,18 @@
+﻿@using System.Dynamic
+@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model Tuple<List<string>, List<ExpandoObject>>
+
+
+@(Html.PanelItem(new PanelItemOption()
+    {
+        Body = Html.TableItem("receipts", Model.Item1, Model.Item2, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
+        Title = "لیست رسیدی ها",
+        Url = "#",
+        GlyphIcon = "list-alt",
+        HasDetailLink = false,
+        HasSettingPanel = false,
+        PanelType = PanelType.danger
+    })
+)

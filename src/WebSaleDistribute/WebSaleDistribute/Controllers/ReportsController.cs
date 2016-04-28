@@ -34,29 +34,26 @@ namespace WebSaleDistribute.Controllers
             }
         }
 
-        // GET: Receipts        
-        public async Task<ActionResult> Receipts()
-        {
-            var currentUser = UserManager.FindById(User.Identity.GetUserId());
 
+        // GET: Receipts        
+        public ActionResult Receipts()
+        {
             ViewBag.Title = "گزارش رسیدی";
             ViewData["dir"] = "ltr";
+                      
 
-            // Fill Table data ------------------------------------------
-            #region Table Data
-            var tableData = await AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.ExecuteReaderAsync("sp_GetInvoiceRemain", new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = "2" }, commandType: CommandType.StoredProcedure);
+            return View();
+        }
 
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
-
-            ViewData["ModelSchema"] = schema;
-            #endregion
-            //-----------------------------------------------------------
+        // GET: ReceiptsChart      
+        public ActionResult ReceiptsChart()
+        {
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
 
             // Fill Chart Data ------------------------------------------
             #region Chart Data
 
-            var chartData = await AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.QueryAsync("sp_GetInvoiceRemainChart", new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = "2" }, commandType: CommandType.StoredProcedure);
+            var chartData = AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.Query("sp_GetInvoiceRemainChart", new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = "2" }, commandType: CommandType.StoredProcedure);
 
             var chartCategories = chartData.Select(x => (string)x.OfficerEmployeeName).ToArray();
             var chartValues = chartData.Select(x => x.InvoiceRemain).ToArray();
@@ -75,12 +72,30 @@ namespace WebSaleDistribute.Controllers
                 SubTitle = $"مبلغ کل رسیدی دفتر: {chartValues.Sum(x => (long)x).ToString("N0", CultureInfo.GetCultureInfo("fa-IR"))}"
             };
 
-            ViewData["ColumnChart"] = HtmlHelperExtensions.GetHighChart(opt).ToHtmlString();
-
             #endregion
             //----------------------------------------------------------          
 
-            return View(results);
+            return PartialView("ReceiptsChart", HtmlHelperExtensions.GetHighChart(opt));
+        }
+
+        // GET: ReceiptsTable
+        public ActionResult ReceiptsTable()
+        {
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+
+            // Fill Table data ------------------------------------------
+            #region Table Data
+            var tableData = AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.ExecuteReader("sp_GetInvoiceRemain", new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = "2" }, commandType: CommandType.StoredProcedure);
+
+            List<string> schema;
+            var results = tableData.GetSchemaAndData(out schema);
+
+            var model = Tuple.Create(schema, results);
+    
+            #endregion
+            //-----------------------------------------------------------
+
+            return PartialView("ReceiptsTable", model);
         }
 
         // GET: Receipts

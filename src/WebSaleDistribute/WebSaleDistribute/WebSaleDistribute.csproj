@@ -389,6 +389,8 @@
     <Content Include="Views\Reports\Sales.cshtml" />
     <Content Include="Views\Shared\_EmployeeTypePartial.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Reports\ReceiptsChart.cshtml" />
+    <Content Include="Views\Reports\ReceiptsTable.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

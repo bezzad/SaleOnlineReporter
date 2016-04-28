@@ -41,48 +41,22 @@
         <li class="active"><a data-toggle="pill" href="#chart">نمودار</a></li>
         <li><a data-toggle="pill" href="#grid">جدول</a></li>
     </ul>
-
-
-
+    
     <div class="tab-content">
         <div id="chart" class="tab-pane fade in active" dir="ltr">
             @*<h3>chart</h3>*@
             <!-- /.data -->
             <br />
-            @(Html.PanelItem(new PanelItemOption()
-        {
-            Body = (string)ViewData["ColumnChart"],
-            Title = "نمودار رسیدی",
-            Url = "#",
-            GlyphIcon = "stats",
-            HasDetailLink = false,
-            HasSettingPanel = false,
-            PanelType = PanelType.danger
-        })
-            )
+            @Html.Action("ReceiptsChart", "Reports")
             <!-- /.data-->
         </div>
         <div id="grid" class="tab-pane fade">
             @*<h3>grid</h3>*@
             <!-- /.data -->
             <br />
-            @(Html.PanelItem(new PanelItemOption()
-        {
-            Body = Html.TableItem("receipts", (List<string>)ViewData["ModelSchema"], Model, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
-            Title = "لیست رسیدی ها",
-            Url = "#",
-            GlyphIcon = "list-alt",
-            HasDetailLink = false,
-            HasSettingPanel = false,
-            PanelType = PanelType.danger
-        })
-            )
-
+            @Html.Action("ReceiptsTable", "Reports")
             <!-- /.data -->
         </div>
     </div>
-
-
-
 
 </div>
