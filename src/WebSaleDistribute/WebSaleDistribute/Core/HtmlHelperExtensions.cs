@@ -184,12 +184,12 @@ namespace WebSaleDistribute.Core
             return MvcHtmlString.Create(div.ToString());
         }
 
-        public static DotNet.Highcharts.Highcharts GetHighChart(string chartName, ChartTypes chartType, string[] xAxisData, object[] yAxisData, string title, string yTitle, string seriesName, string subtitle)
+        public static DotNet.Highcharts.Highcharts GetHighChart(ChartOption option)
         {
-            DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts(chartName)
+            DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts(option.Name)
                 .InitChart(new Chart
                 {
-                    Type = chartType
+                    Type = option.ChartType
                     //Options3d = new ChartOptions3d()
                     //{
                     //    Enabled = true,
@@ -201,30 +201,35 @@ namespace WebSaleDistribute.Core
                 })
                 .SetTitle(new Title
                 {
-                    Text = title
+                    Text = option.Tilte
                 })
                 .SetSubtitle(new Subtitle
                 {
-                    Text = subtitle
+                    Text = option.SubTitle
                 })
                 .SetPlotOptions(new PlotOptions
                 {
-                    Column = new PlotOptionsColumn() { Depth = 25 }
+                    Column = new PlotOptionsColumn() { Depth = 25 },
+                    Series = new PlotOptionsSeries()
+                    {
+                        EnableMouseTracking = true,
+                        DataLabels = new PlotOptionsSeriesDataLabels() { Enabled = option.ShowDataLabels, Format = option.DataLabelsFormat }
+                    }
                 })
                .SetXAxis(new XAxis
                {
-                   Categories = xAxisData
+                   Categories = option.XAxisData
                })
                .SetSeries(new Series
                {
-                   Data = new Data(yAxisData),
+                   Data = new Data(option.YAxisData),
                    Color = System.Drawing.Color.DeepSkyBlue,
-                   Type = chartType,
-                   Name = seriesName
+                   Type = option.ChartType,
+                   Name = option.SeriesName
                })
                .SetYAxis(new YAxis
                {
-                   Title = new YAxisTitle() { Text = yTitle }
+                   Title = new YAxisTitle() { Text = option.YAxisTitle }
                })
                .SetTooltip(new Tooltip
                {
@@ -235,10 +240,38 @@ namespace WebSaleDistribute.Core
                                      "<td><b>{point.y} ریال</b></td></tr>",
                    FooterFormat = "</table>",
                    ValueDecimals = 0
+               })
+               .SetLegend(new Legend
+               {
+                   Enabled = option.ShowLegend,
+                   Rtl = true
+               })
+               .SetLoading(new Loading
+               {
+                   // set some option for loading style  
+               }).SetOptions(new GlobalOptions()
+               {
+                   Lang = new DotNet.Highcharts.Helpers.Lang()
+                   {
+                       Loading = "در حال بارگزاری",
+                       PrintButtonTitle = "چاپ",
+                       ThousandsSep = ",",
+                       DecimalPoint = ".",
+                       DownloadJPEG = "JPEG دانلود عکس",
+                       DownloadPDF = "PDF دانلود در قالب",
+                       DownloadPNG = "PNG دانلود عکس",
+                       DownloadSVG = "SGV دانلود فایل",
+                       ExportButtonTitle = "خروج"
+                   }
                });
 
 
             return chart;
+        }
+
+        public static MvcHtmlString GetHighChart(this HtmlHelper htmlHelper, ChartOption option)
+        {
+            return new MvcHtmlString(GetHighChart(option).ToHtmlString());
         }
 
         public static MvcHtmlString GetNewNo(this HtmlHelper htmlHelper)

@@ -206,6 +206,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Core\ChartOption.cs" />
     <Compile Include="Core\Enums\PanelType.cs" />
     <Compile Include="Core\HelperExtensions.cs" />
     <Compile Include="Core\HtmlHelperExtensions.cs" />

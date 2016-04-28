@@ -12,7 +12,6 @@ using DotNet.Highcharts.Enums;
 using DotNet.Highcharts.Helpers;
 using System.Threading.Tasks;
 using WebSaleDistribute.Models;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Globalization;
@@ -62,16 +61,21 @@ namespace WebSaleDistribute.Controllers
             var chartCategories = chartData.Select(x => (string)x.OfficerEmployeeName).ToArray();
             var chartValues = chartData.Select(x => x.InvoiceRemain).ToArray();
 
-            ViewData["ColumnChart"] = HtmlHelperExtensions.GetHighChart(
-                "receiptsChart",
-                ChartTypes.Column,
-                chartCategories,
-                chartValues,
-                "گزارش جمعی رسیدی ها به تفکیک متصدی ها",
-                "جمع ریالی",
-                "پرسنل",
-                $"مبلغ کل رسیدی دفتر: {chartValues.Sum(x => (long)x).ToString("N0", CultureInfo.GetCultureInfo("fa-IR"))}"
-                ).ToHtmlString();
+            var opt = new ChartOption()
+            {
+                Name = "receiptsChart",
+                ChartType = ChartTypes.Column,
+                XAxisData = chartCategories,
+                YAxisData = chartValues,
+                Tilte = "گزارش جمعی رسیدی ها به تفکیک متصدی ها",
+                YAxisTitle = "جمع ریالی",
+                SeriesName = "پرسنل",
+                ShowLegend = true,
+                ShowDataLabels = true,
+                SubTitle = $"مبلغ کل رسیدی دفتر: {chartValues.Sum(x => (long)x).ToString("N0", CultureInfo.GetCultureInfo("fa-IR"))}"
+            };
+
+            ViewData["ColumnChart"] = HtmlHelperExtensions.GetHighChart(opt).ToHtmlString();
 
             #endregion
             //----------------------------------------------------------          
