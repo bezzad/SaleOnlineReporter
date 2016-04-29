@@ -9,6 +9,8 @@ namespace WebSaleDistribute
         {
             RegisterScripts(bundles);
             RegisterContents(bundles);
+            
+            BundleTable.EnableOptimizations = true;
         }
 
         public static void RegisterScripts(BundleCollection bundles)
