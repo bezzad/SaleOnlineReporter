@@ -48,9 +48,8 @@ namespace WebSaleDistribute.Core
         /// <returns></returns>
         public static MvcHtmlString PanelItem(this HtmlHelper htmlHelper, PanelItemOption option)
         {
-            var id = Guid.NewGuid().ToString();
             var div = new TagBuilder("div");
-            div.Attributes.Add("id", "parent-" + id);
+            div.Attributes.Add("id", "parent-" + option.Id);
             div.Attributes.Add("data-sortable", "true");
             div.AddCssClass("panel panelitem");
             div.AddCssClass($"panel-{option.PanelType.ToString()}");
@@ -66,13 +65,25 @@ namespace WebSaleDistribute.Core
             var settingButton = option.HasSettingPanel ? $@"
                                         <ul class='dropdown-menu dropdown-menu-right'>
                                             <li>
-                                                <a onclick='showSettingPanel(""{id}"");' data-tooltip='انتخاب پارامتر' >
+                                                <a onclick='showSettingPanel(""{option.Id}"");' data-tooltip='انتخاب پارامتر' >
                                                     <i class='panel-control-icon glyphicon glyphicon-wrench'></i>
                                                     <span class='control-title'>انتخاب پارامتر</span>
                                                 </a>
                                             </li>
                                         </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-wrench'></span></div>
                                        " : "";
+
+
+            var refreshLink = option.IsRefreshable ?
+                                     $@" <ul class='dropdown-menu dropdown-menu-right'>
+                                            <li>
+                                                <a onclick='$(""#{option.Id}"").submit();' data-tooltip='بروزرسانی' >
+                                                    <i class='panel-control-icon glyphicon glyphicon-refresh'></i>
+                                                    <span class='control-title'>بروز رسانی</span>
+                                                </a>
+                                            </li>
+                                        </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-refresh'></span></div>
+                                        " : "";
 
             var detailLink = $@"<hr/>
                                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
@@ -85,7 +96,7 @@ namespace WebSaleDistribute.Core
                                         { option.Title}
                                     </div>
                                     <div class='dropdown'>"
-                                    + settingButton + $@"
+                                    + settingButton + refreshLink + $@"
                                    </div>
                                </div>
                                <div class='panel-body'>
@@ -98,7 +109,7 @@ namespace WebSaleDistribute.Core
             var result = div.ToString();
             result += option.HasSettingPanel ? detailLink : "";
             result += Environment.NewLine;
-            result += option.HasSettingPanel ? htmlHelper.SettingPanelItem(id, option.Title, option.PanelType).ToString() : "";
+            result += option.HasSettingPanel ? htmlHelper.SettingPanelItem(option.Id, option.Title, option.PanelType).ToString() : "";
 
             return MvcHtmlString.Create(result);
         }

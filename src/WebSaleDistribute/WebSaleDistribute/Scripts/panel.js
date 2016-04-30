@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿function loadPanels() {
     $('.panelitem').lobiPanel({
         close: {
             tooltip: 'بستن'
@@ -35,10 +35,8 @@
         editTitle: false,
         minimize: false
     });
+}
 
-
-
-});
 
 function showSettingPanel(id) {
 
@@ -71,7 +69,7 @@ function showSettingPanel(id) {
     SetToCenter(instance, instance.getWidth(), instance.getHeight());
     instance.load();
 
-    instance.bringToFront();    
+    instance.bringToFront();
 }
 
 function SetToCenter(lobiPanel, w, h) {
@@ -87,3 +85,8 @@ function SetToCenter(lobiPanel, w, h) {
 
     lobiPanel.setPosition(left, top);
 }
+
+
+$(function () {
+    loadPanels();
+});

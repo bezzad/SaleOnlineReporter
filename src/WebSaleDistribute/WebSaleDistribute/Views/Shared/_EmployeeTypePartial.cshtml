@@ -1,12 +1,12 @@
 ﻿@using WebSaleDistribute.Models
 
 @{
-    AjaxOptions Opt = new AjaxOptions
-    {
-        UpdateTargetId = "employeeTypes",
-        InsertionMode = InsertionMode.Replace,
-        HttpMethod = "POST",
-        OnSuccess = "location.reload(true)"
+        AjaxOptions Opt = new AjaxOptions
+        {
+            UpdateTargetId = "employeeTypes",
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            OnSuccess = @"$("".refreshable-panel"").submit();" //"location.reload(true)"
         //LoadingElementId = "loading" // Commented because replaced by site.js code: window.onbeforeunload ...
     };
 }

@@ -4,15 +4,35 @@
 
 @model Tuple<List<string>, List<ExpandoObject>>
 
+@{
+    var id = "ReceiptsTable_" + Guid.NewGuid().ToString();
 
-@(Html.PanelItem(new PanelItemOption()
+    AjaxOptions opt = new AjaxOptions
     {
-        Body = Html.TableItem("receipts", Model.Item1, Model.Item2, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
-        Title = "لیست رسیدی ها",
-        Url = "#",
-        GlyphIcon = "list-alt",
-        HasDetailLink = false,
-        HasSettingPanel = false,
-        PanelType = PanelType.danger
-    })
-)
+        UpdateTargetId = "ReceiptsTable",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "loading",
+        OnSuccess = "loadPanels(); loadDataTables();"
+    };
+}
+
+<div id="ReceiptsTable">
+
+    @using (Ajax.BeginForm("ReceiptsTable", "Reports", opt, new { @id = id, @class = "refreshable-panel" }))
+    {
+        @(Html.PanelItem(new PanelItemOption()
+            {
+                Id = id,
+                Body = Html.TableItem("receipts", Model.Item1, Model.Item2, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
+                Title = "لیست رسیدی ها",
+                Url = "#",
+                GlyphIcon = "list-alt",
+                HasDetailLink = false,
+                HasSettingPanel = false,
+                PanelType = PanelType.danger,
+                IsRefreshable = true
+            })
+        )
+    }
+
+</div>
