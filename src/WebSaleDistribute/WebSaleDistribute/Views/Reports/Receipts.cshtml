@@ -18,7 +18,12 @@
     @Scripts.Render("~/bundles/lobipanel")
     @Scripts.Render("~/bundles/panel")
     @Scripts.Render("~/bundles/jquery_dataTables")
-
+    <script>
+        // Call DataTable() func in all of the jquery tables
+        $(document).ready(function () {
+            loadDataTables();
+        })
+    </script>
 }
 
 <br />
@@ -29,7 +34,7 @@
         <li class="active"><a data-toggle="pill" href="#chart">نمودار</a></li>
         <li><a data-toggle="pill" href="#grid">جدول</a></li>
     </ul>
-    
+
     <div class="tab-content">
         <div id="chart" class="tab-pane fade in active" dir="ltr">
             @*<h3>chart</h3>*@

@@ -85,6 +85,15 @@ namespace WebSaleDistribute.Core
                                         </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-refresh'></span></div>
                                         " : "";
 
+            var r = $@" <ul class='dropdown-menu dropdown-menu-right'>
+                                    <a data-tooltip='درحال بروزرسانی'>
+                                        <li>
+                                            <img id='loading_{option.Id}' class='status' style='display: none;' src='" + UrlHelper.GenerateContentUrl("~/images/panelLoading.gif", htmlHelper.ViewContext.HttpContext) + $@"' alt='Spin and pulsate 32 pixels wide' style='position: absolute; '/>
+                                        </li>
+                                    </a>
+                        </ul>
+                                ";
+
             var detailLink = $@"<hr/>
                                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
                                    <a href='{option.Url}'> نمایش جزئیات <span class='glyphicon glyphicon-circle-arrow-right'></span></a>
@@ -96,7 +105,7 @@ namespace WebSaleDistribute.Core
                                         { option.Title}
                                     </div>
                                     <div class='dropdown'>"
-                                    + settingButton + refreshLink + $@"
+                                    + settingButton + refreshLink + r + $@"
                                    </div>
                                </div>
                                <div class='panel-body'>

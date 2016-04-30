@@ -8,10 +8,6 @@ window.onbeforeunload = function () {
     $("#loading").fadeIn();
 }
 
-// Call DataTable() func in all of the jquery tables 
-$(document).ready(function () {
-    loadDataTables();
-})
 
 function loadDataTables() {
     $('.dataTables').DataTable({
