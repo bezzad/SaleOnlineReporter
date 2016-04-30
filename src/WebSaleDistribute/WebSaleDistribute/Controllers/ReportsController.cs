@@ -35,6 +35,8 @@ namespace WebSaleDistribute.Controllers
         }
 
 
+        #region Receipts
+
         // GET: Receipts        
         public ActionResult Receipts()
         {
@@ -98,13 +100,15 @@ namespace WebSaleDistribute.Controllers
             return PartialView("ReceiptsTable", model);
         }
 
+        #endregion
+
+
         // GET: Receipts
-        public ActionResult Sales()
+        public ActionResult CustomersOrders()
         {
-            ViewBag.Title = "گزارشات فروش";
+            ViewBag.Title = "گزارشات درخواست مشتریان";
 
-
-
+            
             return View();
         }
 
