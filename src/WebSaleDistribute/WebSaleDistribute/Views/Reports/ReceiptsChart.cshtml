@@ -7,14 +7,9 @@
 @{
     var id = "ReceiptsChart_" + Guid.NewGuid().ToString();
 
-    AjaxOptions opt = new AjaxOptions
+    var opt = new PanelAjaxOptions(id)
     {
-        UpdateTargetId = "ReceiptsChart",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "loading_" + id,
-        OnSuccess = "loadPanels();",
-        OnBegin = $@"$(""#btn_loading_{id}"").css(""display"", ""none"");",
-        OnComplete = $@"$(""#btn_loading_{id}"").removeAttr(""style"");"
+        UpdateTargetId = "ReceiptsChart"
     };
 }
 

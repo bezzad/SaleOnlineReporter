@@ -45,7 +45,8 @@ namespace WebSaleDistribute
 
             bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
                 "~/Scripts/Highcharts-4.0.1/js/highcharts.js",
-                "~/Scripts/Highcharts-4.0.1/js/modules/exporting.js"));
+                "~/Scripts/Highcharts-4.0.1/js/modules/exporting.js",
+                "~/Scripts/Highcharts-4.0.1/js/modules/drilldown.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery_unobtrusive").Include(
                 "~/Scripts/jquery.unobtrusive-ajax.min.js"));

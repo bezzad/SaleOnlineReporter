@@ -77,7 +77,7 @@ namespace WebSaleDistribute.Core
             var refreshLink = option.IsRefreshable ?
                                      $@" <ul class='dropdown-menu dropdown-menu-right'>
                                             <li>
-                                                <a onclick='$(""#{option.Id}"").submit();' data-tooltip='بروزرسانی' >
+                                                <a onclick='$(""#{option.Id}"").submit();' >
                                                     <i id='btn_loading_{option.Id}' class='panel-control-icon glyphicon glyphicon-refresh'></i>
                                                     <i id='loading_{option.Id}' style='display: none;' class='panel-control-icon glyphicon glyphicon-refresh glyphicon-refresh-animate'></i>
                                                     <span class='control-title'>بروز رسانی</span>
