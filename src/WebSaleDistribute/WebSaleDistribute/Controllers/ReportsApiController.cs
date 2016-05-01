@@ -18,9 +18,8 @@ namespace WebSaleDistribute.Controllers
         public async Task<IHttpActionResult> GetOfficerOrderStatisticsChart()
         {
             var routParams = Request.GetQueryStrings();
-            
-            var fromDate = routParams["fromDate"] ?? DateTime.Now.GetPersianDate();
-            var toDate = routParams["fromDate"] ?? fromDate;
+            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
+            var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
             var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
             var result = await sqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
@@ -36,9 +35,8 @@ namespace WebSaleDistribute.Controllers
         public async Task<IHttpActionResult> GetOrderStatisticsChart(int officerEmployeeId)
         {
             var routParams = Request.GetQueryStrings();
-
-            var fromDate = routParams["fromDate"] ?? DateTime.Now.GetPersianDate();
-            var toDate = routParams["fromDate"] ?? fromDate;
+            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
+            var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
             var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
             var result = await sqlConn.QueryAsync("sp_GetOrderStatisticsChart",
