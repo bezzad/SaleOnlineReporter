@@ -12,7 +12,9 @@
         UpdateTargetId = "ReceiptsChart",
         InsertionMode = InsertionMode.Replace,
         LoadingElementId = "loading_" + id,
-        OnSuccess = "loadPanels();"
+        OnSuccess = "loadPanels();",
+        OnBegin = $@"$(""#btn_loading_{id}"").css(""display"", ""none"");",
+        OnComplete = $@"$(""#btn_loading_{id}"").removeAttr(""style"");"
     };
 }
 

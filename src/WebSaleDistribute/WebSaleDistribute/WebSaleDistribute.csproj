@@ -291,6 +291,7 @@
     <EmbeddedResource Include="Migrations\201604261155317_Initial.resx">
       <DependentUpon>201604261155317_Initial.cs</DependentUpon>
     </EmbeddedResource>
+    <Content Include="Content\analytics.tsv" />
     <None Include="Properties\PublishProfiles\dc.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -392,6 +393,7 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Reports\ReceiptsChart.cshtml" />
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
+    <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
