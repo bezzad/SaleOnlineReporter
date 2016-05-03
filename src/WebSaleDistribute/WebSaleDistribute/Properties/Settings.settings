@@ -20,5 +20,20 @@
     <Setting Name="QueryElmah" Type="System.String" Scope="Application">
       <Value Profile="(Default)">App_Data.ElmahSqlServer.sql</Value>
     </Setting>
+    <Setting Name="ReloadPageTimeoutIntervalCookieName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ReloadPageTimeoutInterval</Value>
+    </Setting>
+    <Setting Name="LoginExpireClaimType" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">UserLoginExpireUtc</Value>
+    </Setting>
+    <Setting Name="UserAuthenticateValidateIntervalSec" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="UserAuthenticateExpireTimeSec" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="UserAuthenticateCookieName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">WebSaleDistributeIdentity.Cookies</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

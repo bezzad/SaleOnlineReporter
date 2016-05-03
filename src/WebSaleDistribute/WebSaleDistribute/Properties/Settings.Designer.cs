@@ -76,5 +76,50 @@ namespace WebSaleDistribute.Properties {
                 return ((string)(this["QueryElmah"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ReloadPageTimeoutInterval")]
+        public string ReloadPageTimeoutIntervalCookieName {
+            get {
+                return ((string)(this["ReloadPageTimeoutIntervalCookieName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("UserLoginExpireUtc")]
+        public string LoginExpireClaimType {
+            get {
+                return ((string)(this["LoginExpireClaimType"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int UserAuthenticateValidateIntervalSec {
+            get {
+                return ((int)(this["UserAuthenticateValidateIntervalSec"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public int UserAuthenticateExpireTimeSec {
+            get {
+                return ((int)(this["UserAuthenticateExpireTimeSec"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("WebSaleDistributeIdentity.Cookies")]
+        public string UserAuthenticateCookieName {
+            get {
+                return ((string)(this["UserAuthenticateCookieName"]));
+            }
+        }
     }
 }

@@ -112,93 +112,45 @@ namespace WebSaleDistribute.Controllers
 
             return View();
         }
-        
+
         // GET: CustomersOrdersChart
         public ActionResult CustomersOrdersChart()
         {
-            Highcharts chart = new Highcharts("chart")
-                .SetTitle(new Title { Text = "Daily visits at www.highcharts.com" })
-                .SetSubtitle(new Subtitle { Text = "Source: Google Analytics" })
-                .SetXAxis(new XAxis
-                {
-                    Type = AxisTypes.Datetime,
-                    TickInterval = 7 * 24 * 3600 * 1000, // one week
-                    TickWidth = 0,
-                    GridLineWidth = 1,
-                    Labels = new XAxisLabels
-                    {
-                        Align = HorizontalAligns.Left,
-                        X = 3,
-                        Y = -3
-                    }
-                })
-                .SetYAxis(new[]
-                {
-                    new YAxis
-                    {
-                        Title = new YAxisTitle { Text = "" },
-                        Labels = new YAxisLabels
-                        {
-                            Align = HorizontalAligns.Left,
-                            X = 3,
-                            Y = 16,
-                            Formatter = "function() { return Highcharts.numberFormat(this.value, 0); }",
-                        },
-                        ShowFirstLabel = false
-                    },
-                    new YAxis
-                    {
-                        LinkedTo = 0,
-                        GridLineWidth = 0,
-                        Opposite = true,
-                        Title = new YAxisTitle { Text = "" },
-                        Labels = new YAxisLabels
-                        {
-                            Align = HorizontalAligns.Right,
-                            X = -3,
-                            Y = 16,
-                            Formatter = "function() { return Highcharts.numberFormat(this.value, 0); }"
-                        },
-                        ShowFirstLabel = false
-                    }
-                })
-                .SetLegend(new Legend
-                {
-                    Align = HorizontalAligns.Left,
-                    VerticalAlign = VerticalAligns.Top,
-                    Y = 20,
-                    Floating = true,
-                    BorderWidth = 0
-                })
-                .SetTooltip(new Tooltip
-                {
-                    Shared = true,
-                    Crosshairs = new Crosshairs(true)
-                })
-                .SetPlotOptions(new PlotOptions
-                {
-                    Series = new PlotOptionsSeries
-                    {
-                        Cursor = Cursors.Pointer,
-                        Point = new PlotOptionsSeriesPoint
-                        {
-                            Events = new PlotOptionsSeriesPointEvents
-                            {
-                                Click = @"function() { alert(Highcharts.dateFormat('%A, %b %e, %Y', this.x) +': '+ this.y +' visits'); }"
-                            }
-                        },
-                        Marker = new PlotOptionsSeriesMarker { LineWidth = 1 }
-                    }
-                })
-                .SetSeries(new[]
-                {
-                    new Series { Name = "All visits" },
-                    new Series { Name = "New visitors" }
-                });
+            try
+            {
+                var currentUser = UserManager.FindById(User.Identity.GetUserId());
 
-            return PartialView("CustomersOrdersChart", chart);
+                lock (currentUser)
+                {
+                    // Fill Chart Data ------------------------------------------
+                    #region Chart Data
+
+                    var opt = new ChartOption()
+                    {
+                        Name = "customersOrdersChart",
+                        ChartType = ChartTypes.Column,
+                        Tilte = "درخواست مشتریان هر متصدی",
+                        SubTitle = "در خواست مشتریان ویزیتورها",
+                        YAxisTitle = "جمع ریالی",
+                        SeriesName = "پرسنل",
+                        ShowLegend = true,
+                        ShowDataLabels = true
+                    };
+
+                    #endregion
+                    //----------------------------------------------------------          
+
+                    return PartialView("CustomersOrdersChart", HtmlHelperExtensions.GetHighChart(opt));
+                }
+            }
+            catch(Exception exp)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(exp);
+            }
+
+            return PartialView("CustomersOrdersChart");
         }
-        
+
 
         #endregion
     }

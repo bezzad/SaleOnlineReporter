@@ -3,6 +3,7 @@ using DotNet.Highcharts.Helpers;
 using DotNet.Highcharts.Options;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Dynamic;
 using System.Linq;
 using System.Web.Mvc;
@@ -198,19 +199,44 @@ namespace WebSaleDistribute.Core
 
         public static DotNet.Highcharts.Highcharts GetHighChart(ChartOption option)
         {
+            var xa = new XAxis() { Type = AxisTypes.Category };
+            if (option.XAxisData != null)
+                xa.Categories = option.XAxisData;
+
+
             DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts(option.Name)
                 .InitChart(new Chart
                 {
-                    Type = option.ChartType
-                    //Options3d = new ChartOptions3d()
-                    //{
-                    //    Enabled = true,
-                    //    Alpha = 0,
-                    //    Beta = 0,
-                    //    Depth = 50,
-                    //    ViewDistance = 25
-                    //}
+                    Events = new ChartEvents()
+                    {
+                        Load = "ChartEventsLoad",
+                        Drilldown = "function(e) { DrillDownFunc(e) }"
+                    },
+                    Type = option.ChartType,
+                    DefaultSeriesType = option.ChartType
                 })
+                .AddJavascripFunction("DrillDownFunc",
+                                $@"
+                                if (!e.seriesOptions) {{
+                                                {option.Name}.showLoading('در حال بار گذاری داده های سطح دوم');
+                                                $.get(e.point.drilldown_url + ""/"" + e.point.id, function (dataArr) {{
+                                                    data = {{
+                                                        name: e.point.name,
+                                                        data: dataArr
+                                                    }}
+                                                    {option.Name}.hideLoading();
+                                                    {option.Name}.addSeriesAsDrilldown(e.point, data);
+                                                }});
+                                                {option.Name}.setTitle({{
+                                                    text: '{option.SubTitle}'
+                                                }});
+                                            }}
+                ", "e")
+                .AddJavascripFunction("ChartEventsLoad",
+                    $@" $.get(""GetOfficerOrderStatisticsChart"", function (dataArr) {{                            
+                            var {option.Name}_Series0 = {option.Name}.series[0];
+                            {option.Name}_Series0.setData(dataArr);
+                         }});")
                 .SetTitle(new Title
                 {
                     Text = option.Tilte
@@ -219,63 +245,91 @@ namespace WebSaleDistribute.Core
                 {
                     Text = option.SubTitle
                 })
+                .SetExporting(new Exporting { Enabled = true })
                 .SetPlotOptions(new PlotOptions
                 {
-                    Column = new PlotOptionsColumn() { Depth = 25 },
+                    Column = new PlotOptionsColumn()
+                    {
+                        //ColorByPoint = true,
+                        Cursor = Cursors.Pointer,
+                        DataLabels = new PlotOptionsColumnDataLabels
+                        {
+                            Enabled = true,
+                            Color = Color.AliceBlue,
+                            Style = "fontWeight: 'bold'"
+                        }
+                    }
+                    ,
                     Series = new PlotOptionsSeries()
                     {
-                        EnableMouseTracking = true,
-                        DataLabels = new PlotOptionsSeriesDataLabels() { Enabled = option.ShowDataLabels, Format = option.DataLabelsFormat }
+                        DataLabels = new PlotOptionsSeriesDataLabels() { Enabled = option.ShowDataLabels, Format = option.DataLabelsFormat },
+                        Marker = new PlotOptionsSeriesMarker { LineWidth = 1 }
                     }
                 })
-               .SetXAxis(new XAxis
-               {
-                   Categories = option.XAxisData
-               })
-               .SetSeries(new Series
-               {
-                   Data = new Data(option.YAxisData),
-                   Color = System.Drawing.Color.DeepSkyBlue,
-                   Type = option.ChartType,
-                   Name = option.SeriesName
-               })
-               .SetYAxis(new YAxis
-               {
-                   Title = new YAxisTitle() { Text = option.YAxisTitle }
-               })
-               .SetTooltip(new Tooltip
-               {
-                   Shared = true,
-                   UseHTML = true,
-                   HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
-                   PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
-                                     "<td><b>{point.y} ریال</b></td></tr>",
-                   FooterFormat = "</table>",
-                   ValueDecimals = 0
-               })
-               .SetLegend(new Legend
-               {
-                   Enabled = option.ShowLegend,
-                   Rtl = true
-               })
-               .SetLoading(new Loading
-               {
-                   // set some option for loading style  
-               }).SetOptions(new GlobalOptions()
-               {
-                   Lang = new DotNet.Highcharts.Helpers.Lang()
-                   {
-                       Loading = "در حال بارگزاری",
-                       PrintButtonTitle = "چاپ",
-                       ThousandsSep = ",",
-                       DecimalPoint = ".",
-                       DownloadJPEG = "JPEG دانلود عکس",
-                       DownloadPDF = "PDF دانلود در قالب",
-                       DownloadPNG = "PNG دانلود عکس",
-                       DownloadSVG = "SGV دانلود فایل",
-                       ExportButtonTitle = "خروج"
-                   }
-               });
+                .SetXAxis(xa)
+                .SetSeries(new Series
+                {
+                    //Color = Color.White,
+                    Type = option.ChartType,
+                    Name = option.SeriesName,
+                    Data = option.YAxisData == null ? new Data(new object[0, 0]) : new Data(option.YAxisData)
+                })
+                .SetYAxis(new YAxis
+                {
+                    Title = new YAxisTitle() { Text = option.YAxisTitle },
+                    Labels = new YAxisLabels
+                    {
+                        Align = HorizontalAligns.Left,
+                        X = 3,
+                        Y = 16
+                    },
+                    ShowFirstLabel = false
+                })
+                .SetTooltip(new Tooltip
+                {
+                    Crosshairs = new Crosshairs(true),
+                    Shared = true,
+                    UseHTML = true,
+                    HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
+                    PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
+                    "<td><b>{point.y} ریال</b></td></tr>",
+                    FooterFormat = "</table>",
+                    ValueDecimals = 0
+                })
+                .SetLegend(new Legend
+                {
+                    Enabled = option.ShowLegend,
+                    Rtl = true,
+                    Align = HorizontalAligns.Left,
+                    VerticalAlign = VerticalAligns.Top,
+                    Y = 20,
+                    Floating = true,
+                    BorderWidth = 0
+                })
+                .SetOptions(new GlobalOptions()
+                {
+                    Lang = new DotNet.Highcharts.Helpers.Lang()
+                    {
+                        Loading = "در حال بارگزاری",
+                        PrintButtonTitle = "چاپ",
+                        ThousandsSep = ",",
+                        DecimalPoint = ".",
+                        DownloadJPEG = "JPEG دانلود عکس",
+                        DownloadPDF = "PDF دانلود در قالب",
+                        DownloadPNG = "PNG دانلود عکس",
+                        DownloadSVG = "SGV دانلود فایل",
+                        ExportButtonTitle = "خروج"
+                    }
+                })
+                .AddJavascripFunction(
+                    "ColumnPointClick",
+                    @"var drilldown = this.drilldown;
+                      if (drilldown) { // drill down
+                        setChart(drilldown.name, drilldown.categories, drilldown.data.data, drilldown.color);
+                      } else { // restore
+                        setChart(name, categories, data.data);
+                      }"
+                );
 
 
             return chart;

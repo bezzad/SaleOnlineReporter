@@ -1,4 +1,5 @@
 ﻿@using WebSaleDistribute.Models
+@using WebSaleDistribute.Core
 
 @{
     string dir = ViewData["dir"]?.ToString() ?? "rtl";
@@ -20,6 +21,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("styles", required: false)
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -43,12 +45,12 @@
                     <li>
                         <a>
                             <!-- loader link: http://preloaders.net/en/circular/spin-and-pulsate/ -->
-                            <img id="loading" class="status" src="@Url.Content("~/images/loading.gif")" alt="Spin and pulsate 32 pixels wide" style="position: absolute;"/>
+                            <img id="loading" class="status" src="@Url.Content("~/images/loading.gif")" alt="Spin and pulsate 32 pixels wide" style="position: absolute;" />
                         </a>
                     </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
-               
+
                 @if (Request.IsAuthenticated)
                 {
                     @Html.Action("GetEmployeeType", "Home");
@@ -72,5 +74,13 @@
 
     @Scripts.Render("~/bundles/site")
 
+    @if (Request.IsAuthenticated)
+    {
+        <script>            
+            window.onload = function () {
+                setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")");
+            };
+        </script>
+    }
 </body>
 </html>

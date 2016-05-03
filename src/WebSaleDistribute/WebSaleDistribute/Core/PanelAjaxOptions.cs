@@ -11,7 +11,7 @@ namespace WebSaleDistribute.Core
             InsertionMode = InsertionMode.Replace;
             OnSuccess = "loadPanels();";
             OnBegin = $@"$(""#btn_loading_{id}"").css(""display"", ""none"");";
-            OnComplete = $@"$(""#btn_loading_{id}"").removeAttr(""style"");";
+            OnComplete = $@" $(""#btn_loading_{id}"").removeAttr(""style""); ";
         }
     }
 }

@@ -14,6 +14,7 @@ namespace WebSaleDistribute.Core
         public string SeriesName { get; set; }
         public bool ShowLegend { get; set; } = true;
         public bool ShowDataLabels { get; set; } = false;
-        public string DataLabelsFormat { get; set; } = "ریال {point.y: .0f}";
+        public string DataLabelsFormat { get; set; } = "ریال {point.y:,.0f}";
+        public string DrillDownMethodUrl { get; set; }
     }
 }

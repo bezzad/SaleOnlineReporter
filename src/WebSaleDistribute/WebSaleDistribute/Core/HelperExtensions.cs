@@ -10,6 +10,8 @@ using AdoManager;
 using System.Data;
 using System.Linq;
 using System.Globalization;
+using Microsoft.AspNet.Identity;
+using System.Web;
 
 namespace WebSaleDistribute.Core
 {
@@ -124,6 +126,48 @@ namespace WebSaleDistribute.Core
         {
             PersianCalendar jc = new PersianCalendar();
             return string.Format("{0:0000}/{1:00}/{2:00}", jc.GetYear(date), jc.GetMonth(date), jc.GetDayOfMonth(date));
+        }
+
+
+        /// <summary>
+        /// since expiry time has now become part of your claims, you now can get it back easily
+        /// this example just returns the remaining time in total seconds, as a string value
+        /// assuming this method is part of your controller methods        
+        /// </summary>
+        /// <returns>Get User Identity Expire DateTime</returns>
+        public static string ExpireRemainingTime(this System.Security.Claims.ClaimsIdentity identity)
+        {
+            //var identity = User.Identity as System.Security.Claims.ClaimsIdentity;
+            var claimType = Properties.Settings.Default.LoginExpireClaimType;
+
+            if (identity != null && identity.HasClaim(c => c.Type == claimType))
+            {
+                var expireOn = identity.FindFirstValue(claimType);
+
+                long current = DateTime.Now.Ticks;
+                long? expire = long.Parse(expireOn);
+
+                long elapsedTicks = (expire ?? 0) - current;
+                TimeSpan elapsedSpan = new TimeSpan(elapsedTicks);
+
+                var remaining = (int)elapsedSpan.TotalMilliseconds;
+
+                return remaining.ToString();
+            }
+            return string.Empty;
+        }
+
+        public static void SetCookie(this HttpResponse response, string name, string value, DateTime expire)
+        {
+            // add expire time duration to milisecond in cookie
+            HttpCookie cookie = new HttpCookie(name, value);
+            //cookie.Expires = expire;
+            response.SetCookie(cookie); //SetCookie is used for update the cookies.
+        }
+
+        public static string AppSetting(string name)
+        {
+            return Properties.Settings.Default.Properties[name]?.DefaultValue?.ToString();
         }
     }
 }
