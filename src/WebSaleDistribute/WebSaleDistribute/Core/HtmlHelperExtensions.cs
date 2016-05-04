@@ -209,34 +209,41 @@ namespace WebSaleDistribute.Core
                 {
                     Events = new ChartEvents()
                     {
-                        Load = "ChartEventsLoad",
-                        Drilldown = "function(e) { DrillDownFunc(e) }"
+                        Load = "FetchDataFunc",
+                        Drilldown = "function(e) { DrillDownFunc(e) }",
+                        Drillup = "function(e) { FetchDataFunc() }"
                     },
                     Type = option.ChartType,
                     DefaultSeriesType = option.ChartType
                 })
+                .AddJavascripVariable("ChartParentUrl", '\"' + option.LoadDataUrl + '\"')
+                .AddJavascripFunction("FetchDataFunc", $@"                            
+                             $.get(ChartParentUrl, function (dataArr) {{ 
+                            {option.Name}.series[0].setData(dataArr);
+                         }});
+                ")
                 .AddJavascripFunction("DrillDownFunc",
                                 $@"
-                                if (!e.seriesOptions) {{
-                                                {option.Name}.showLoading('در حال بار گذاری داده های سطح دوم');
+                                if (!e.seriesOptions) {{                                                
+                                                var tChart = {option.Name};
+                                                tChart.showLoading('در حال بار گذاری داده ها');
+
                                                 $.get(e.point.drilldown_url + ""/"" + e.point.id, function (dataArr) {{
-                                                    data = {{
+                                                    drilldownData = {{
                                                         name: e.point.name,
+                                                        id: e.point.id,
                                                         data: dataArr
                                                     }}
-                                                    {option.Name}.hideLoading();
-                                                    {option.Name}.addSeriesAsDrilldown(e.point, data);
+                                                    ChartParentUrl = dataArr[0].drillup_url;
+                                                    tChart.hideLoading();
+                                                    tChart.addSeriesAsDrilldown(e.point, drilldownData);
                                                 }});
-                                                {option.Name}.setTitle({{
+
+                                                tChart.setTitle({{
                                                     text: '{option.SubTitle}'
                                                 }});
                                             }}
                 ", "e")
-                .AddJavascripFunction("ChartEventsLoad",
-                    $@" $.get(""GetOfficerOrderStatisticsChart"", function (dataArr) {{                            
-                            var {option.Name}_Series0 = {option.Name}.series[0];
-                            {option.Name}_Series0.setData(dataArr);
-                         }});")
                 .SetTitle(new Title
                 {
                     Text = option.Tilte
@@ -250,7 +257,7 @@ namespace WebSaleDistribute.Core
                 {
                     Column = new PlotOptionsColumn()
                     {
-                        //ColorByPoint = true,
+                        //Point = new PlotOptionsColumnPoint { Events = new PlotOptionsColumnPointEvents { Click = "ColumnPointClick" } },
                         Cursor = Cursors.Pointer,
                         DataLabels = new PlotOptionsColumnDataLabels
                         {
@@ -269,10 +276,10 @@ namespace WebSaleDistribute.Core
                 .SetXAxis(xa)
                 .SetSeries(new Series
                 {
-                    //Color = Color.White,
                     Type = option.ChartType,
                     Name = option.SeriesName,
-                    Data = option.YAxisData == null ? new Data(new object[0, 0]) : new Data(option.YAxisData)
+                    Data = option.YAxisData ?? new Data(new object[0, 0]),
+                    PlotOptionsColumn = new PlotOptionsColumn() { ColorByPoint = option.ColorByPoint }
                 })
                 .SetYAxis(new YAxis
                 {
@@ -292,7 +299,7 @@ namespace WebSaleDistribute.Core
                     UseHTML = true,
                     HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
                     PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
-                    "<td><b>{point.y} ریال</b></td></tr>",
+                                      "<td><b>{point.y} ریال</b></td></tr>",
                     FooterFormat = "</table>",
                     ValueDecimals = 0
                 })
@@ -320,16 +327,8 @@ namespace WebSaleDistribute.Core
                         DownloadSVG = "SGV دانلود فایل",
                         ExportButtonTitle = "خروج"
                     }
-                })
-                .AddJavascripFunction(
-                    "ColumnPointClick",
-                    @"var drilldown = this.drilldown;
-                      if (drilldown) { // drill down
-                        setChart(drilldown.name, drilldown.categories, drilldown.data.data, drilldown.color);
-                      } else { // restore
-                        setChart(name, categories, data.data);
-                      }"
-                );
+                });
+
 
 
             return chart;

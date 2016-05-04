@@ -17,8 +17,6 @@ namespace WebSaleDistribute.Core
 {
     public static class HelperExtensions
     {
-        public static ConnectionManager UsersManagementsDb => AdoManager.ConnectionManager.Find("UsersManagements");
-
         public static string GetMd5(this string input)
         {
             byte[] result;

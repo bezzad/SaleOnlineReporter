@@ -7,7 +7,7 @@ namespace WebSaleDistribute.Core
         public string Name { get; set; }
         public ChartTypes ChartType { get; set; }
         public string[] XAxisData { get; set; }
-        public object[] YAxisData { get; set; }
+        public DotNet.Highcharts.Helpers.Data YAxisData { get; set; }
         public string Tilte { get; set; }
         public string SubTitle { get; set; }
         public string YAxisTitle { get; set; }
@@ -15,6 +15,7 @@ namespace WebSaleDistribute.Core
         public bool ShowLegend { get; set; } = true;
         public bool ShowDataLabels { get; set; } = false;
         public string DataLabelsFormat { get; set; } = "ریال {point.y:,.0f}";
-        public string DrillDownMethodUrl { get; set; }
+        public string LoadDataUrl { get; set; }
+        public bool ColorByPoint { get; set; } = true;
     }
 }

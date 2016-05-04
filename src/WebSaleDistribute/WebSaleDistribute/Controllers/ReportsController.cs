@@ -65,7 +65,7 @@ namespace WebSaleDistribute.Controllers
                 Name = "receiptsChart",
                 ChartType = ChartTypes.Column,
                 XAxisData = chartCategories,
-                YAxisData = chartValues,
+                YAxisData = new Data(chartValues),
                 Tilte = "گزارش جمعی رسیدی ها به تفکیک متصدی ها",
                 YAxisTitle = "جمع ریالی",
                 SeriesName = "پرسنل",
@@ -133,8 +133,9 @@ namespace WebSaleDistribute.Controllers
                         SubTitle = "در خواست مشتریان ویزیتورها",
                         YAxisTitle = "جمع ریالی",
                         SeriesName = "پرسنل",
-                        ShowLegend = true,
-                        ShowDataLabels = true
+                        ShowLegend = false,
+                        ShowDataLabels = true,
+                        LoadDataUrl = "GetOfficerOrderStatisticsChart"
                     };
 
                     #endregion

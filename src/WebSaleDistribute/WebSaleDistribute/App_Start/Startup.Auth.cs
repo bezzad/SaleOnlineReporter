@@ -41,7 +41,7 @@ namespace WebSaleDistribute
                     //    validateInterval: TimeSpan.FromMinutes(15),
                     //    regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
 
-                    OnValidateIdentity = async (s) => { await CustomValidateIdentity(s); } // refer to the implementation below
+                    OnValidateIdentity = async (context) => { await CustomValidateIdentity(context); } // refer to the implementation below
                 },
                 // ref: http://www.jamessturtevant.com/posts/ASPNET-Identity-Cookie-Authentication-Timeouts/
                 // CookieAuthenticationOptions.ExpireTimespan is the option that allows you to set how long the issued cookie is 
