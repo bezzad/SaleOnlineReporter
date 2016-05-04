@@ -295,6 +295,9 @@
       <DependentUpon>201604261155317_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="Content\analytics.tsv" />
+    <Content Include="fonts\IRANSBW.woff2" />
+    <Content Include="fonts\IRANSLW.woff2" />
+    <Content Include="fonts\IRANSW.woff2" />
     <None Include="Properties\PublishProfiles\dc.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

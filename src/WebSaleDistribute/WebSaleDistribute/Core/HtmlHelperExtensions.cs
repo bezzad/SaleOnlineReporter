@@ -199,24 +199,29 @@ namespace WebSaleDistribute.Core
 
         public static DotNet.Highcharts.Highcharts GetHighChart(ChartOption option)
         {
+            DotNet.Highcharts.Highcharts highChart = new DotNet.Highcharts.Highcharts(option.Name);
+
             var xa = new XAxis() { Type = AxisTypes.Category };
             if (option.XAxisData != null)
                 xa.Categories = option.XAxisData;
 
+            var chart = new Chart
+            {
+                Type = option.ChartType,
+                DefaultSeriesType = option.ChartType
+            };
 
-            DotNet.Highcharts.Highcharts chart = new DotNet.Highcharts.Highcharts(option.Name)
-                .InitChart(new Chart
+            if (option.AjaxLoading)
+            {
+                chart.Events = new ChartEvents()
                 {
-                    Events = new ChartEvents()
-                    {
-                        Load = "FetchDataFunc",
-                        Drilldown = "function(e) { DrillDownFunc(e) }",
-                        Drillup = "function(e) { FetchDataFunc() }"
-                    },
-                    Type = option.ChartType,
-                    DefaultSeriesType = option.ChartType
-                })
-                .AddJavascripVariable("ChartParentUrl", '\"' + option.LoadDataUrl + '\"')
+                    Load = "FetchDataFunc",
+                    Drilldown = "function(e) { DrillDownFunc(e) }",
+                    Drillup = "function(e) { FetchDataFunc() }"
+                };
+                chart.Style = "fontWeight: 'bold', fontFamily: 'IRANSans-web'";
+
+                highChart.AddJavascripVariable("ChartParentUrl", '\"' + option.LoadDataUrl + '\"')
                 .AddJavascripFunction("FetchDataFunc", $@"                            
                              $.get(ChartParentUrl, function (dataArr) {{ 
                             {option.Name}.series[0].setData(dataArr);
@@ -243,95 +248,98 @@ namespace WebSaleDistribute.Core
                                                     text: '{option.SubTitle}'
                                                 }});
                                             }}
-                ", "e")
-                .SetTitle(new Title
+                ", "e");
+            }
+
+            highChart.InitChart(chart)
+            .SetTitle(new Title
+            {
+                Text = option.Tilte
+            })
+            .SetSubtitle(new Subtitle
+            {
+                Text = option.SubTitle
+            })
+            .SetExporting(new Exporting { Enabled = true })
+            .SetPlotOptions(new PlotOptions
+            {
+                Column = new PlotOptionsColumn()
                 {
-                    Text = option.Tilte
-                })
-                .SetSubtitle(new Subtitle
-                {
-                    Text = option.SubTitle
-                })
-                .SetExporting(new Exporting { Enabled = true })
-                .SetPlotOptions(new PlotOptions
-                {
-                    Column = new PlotOptionsColumn()
+                    //Point = new PlotOptionsColumnPoint { Events = new PlotOptionsColumnPointEvents { Click = "ColumnPointClick" } },
+                    Cursor = Cursors.Pointer,
+                    DataLabels = new PlotOptionsColumnDataLabels
                     {
-                        //Point = new PlotOptionsColumnPoint { Events = new PlotOptionsColumnPointEvents { Click = "ColumnPointClick" } },
-                        Cursor = Cursors.Pointer,
-                        DataLabels = new PlotOptionsColumnDataLabels
-                        {
-                            Enabled = true,
-                            Color = Color.AliceBlue,
-                            Style = "fontWeight: 'bold'"
-                        }
+                        Enabled = true,
+                        Color = Color.AliceBlue,
+                        Style = "fontWeight: 'bold', fontFamily: 'IRANSans-web'"
                     }
-                    ,
-                    Series = new PlotOptionsSeries()
-                    {
-                        DataLabels = new PlotOptionsSeriesDataLabels() { Enabled = option.ShowDataLabels, Format = option.DataLabelsFormat },
-                        Marker = new PlotOptionsSeriesMarker { LineWidth = 1 }
-                    }
-                })
-                .SetXAxis(xa)
-                .SetSeries(new Series
+                }
+                ,
+                Series = new PlotOptionsSeries()
                 {
-                    Type = option.ChartType,
-                    Name = option.SeriesName,
-                    Data = option.YAxisData ?? new Data(new object[0, 0]),
-                    PlotOptionsColumn = new PlotOptionsColumn() { ColorByPoint = option.ColorByPoint }
-                })
-                .SetYAxis(new YAxis
+                    DataLabels = new PlotOptionsSeriesDataLabels() { Enabled = option.ShowDataLabels, Format = option.DataLabelsFormat },
+                    Marker = new PlotOptionsSeriesMarker { LineWidth = 1 }
+                }
+            })
+            .SetXAxis(xa)
+            .SetSeries(new Series
+            {
+                Type = option.ChartType,
+                Name = option.SeriesName,
+                Data = option.YAxisData ?? new Data(new object[0, 0]),
+                PlotOptionsColumn = new PlotOptionsColumn() { ColorByPoint = option.ColorByPoint }                
+            })
+            .SetYAxis(new YAxis
+            {
+                Title = new YAxisTitle() { Text = option.YAxisTitle },
+                Labels = new YAxisLabels
                 {
-                    Title = new YAxisTitle() { Text = option.YAxisTitle },
-                    Labels = new YAxisLabels
-                    {
-                        Align = HorizontalAligns.Left,
-                        X = 3,
-                        Y = 16
-                    },
-                    ShowFirstLabel = false
-                })
-                .SetTooltip(new Tooltip
-                {
-                    Crosshairs = new Crosshairs(true),
-                    Shared = true,
-                    UseHTML = true,
-                    HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
-                    PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
-                                      "<td><b>{point.y} ریال</b></td></tr>",
-                    FooterFormat = "</table>",
-                    ValueDecimals = 0
-                })
-                .SetLegend(new Legend
-                {
-                    Enabled = option.ShowLegend,
-                    Rtl = true,
                     Align = HorizontalAligns.Left,
-                    VerticalAlign = VerticalAligns.Top,
-                    Y = 20,
-                    Floating = true,
-                    BorderWidth = 0
-                })
-                .SetOptions(new GlobalOptions()
+                    X = 3,
+                    Y = 16
+                },
+                ShowFirstLabel = false
+            })
+            .SetTooltip(new Tooltip
+            {
+                Crosshairs = new Crosshairs(true),
+                Shared = true,
+                UseHTML = true,
+                HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
+                PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
+                                  "<td><b>{point.y} ریال</b></td></tr>",
+                FooterFormat = "</table>",
+                ValueDecimals = 0
+            })
+            .SetLegend(new Legend
+            {
+                Enabled = option.ShowLegend,
+                Rtl = true,
+                Align = HorizontalAligns.Left,
+                VerticalAlign = VerticalAligns.Top,
+                Y = 20,
+                Floating = true,
+                BorderWidth = 0
+            })
+            .SetOptions(new GlobalOptions()
+            {
+                Lang = new DotNet.Highcharts.Helpers.Lang()
                 {
-                    Lang = new DotNet.Highcharts.Helpers.Lang()
-                    {
-                        Loading = "در حال بارگزاری",
-                        PrintButtonTitle = "چاپ",
-                        ThousandsSep = ",",
-                        DecimalPoint = ".",
-                        DownloadJPEG = "JPEG دانلود عکس",
-                        DownloadPDF = "PDF دانلود در قالب",
-                        DownloadPNG = "PNG دانلود عکس",
-                        DownloadSVG = "SGV دانلود فایل",
-                        ExportButtonTitle = "خروج"
-                    }
-                });
+                    Loading = "در حال بارگزاری",
+                    PrintButtonTitle = "چاپ",
+                    ThousandsSep = ",",
+                    DecimalPoint = ".",
+                    DownloadJPEG = "JPEG دانلود عکس",
+                    DownloadPDF = "PDF دانلود در قالب",
+                    DownloadPNG = "PNG دانلود عکس",
+                    DownloadSVG = "SGV دانلود فایل",
+                    ExportButtonTitle = "خروج"
+                }
+            });
 
 
 
-            return chart;
+            return highChart;
         }
 
         public static MvcHtmlString GetHighChart(this HtmlHelper htmlHelper, ChartOption option)

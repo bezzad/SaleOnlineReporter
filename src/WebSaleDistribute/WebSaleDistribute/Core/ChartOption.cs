@@ -17,5 +17,6 @@ namespace WebSaleDistribute.Core
         public string DataLabelsFormat { get; set; } = "ریال {point.y:,.0f}";
         public string LoadDataUrl { get; set; }
         public bool ColorByPoint { get; set; } = true;
+        public bool AjaxLoading { get; set; }
     }
 }

@@ -8,12 +8,45 @@ using System.Web.Http;
 using Dapper;
 using System.Globalization;
 using WebSaleDistribute.Core;
+using System.Web;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+
 
 namespace WebSaleDistribute.Controllers
 {
     public class ReportsApiController : ApiController
     {
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+
         // GET: api/Reports
+        [Route("Reports/GetInvoiceRemainChart")]
+        public IEnumerable<dynamic> GetInvoiceRemainChart()
+        {
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());                       
+
+            var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
+            var result = sqlConn.Query("sp_GetInvoiceRemainChart",
+                new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = DateTime.Now.GetPersianDate() },
+                commandType: System.Data.CommandType.StoredProcedure);
+
+            return result;
+        }
+
+
+        // GET: api/Reports/GetOfficerOrderStatisticsChart
         [Route("Reports/GetOfficerOrderStatisticsChart")]
         public async Task<IHttpActionResult> GetOfficerOrderStatisticsChart()
         {

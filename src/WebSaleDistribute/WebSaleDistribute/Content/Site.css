@@ -1,10 +1,28 @@
 ﻿@font-face {
-    font-family: 'iransans';
+    font-family: 'IRANSans-web';
+    src: url('../fonts/IRANSBW.woff2') format('woff2'), /* Chrome36+, Opera24+*/ url('fonts/IRANSBW.woff') format('woff'); /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'IRANSans-web';
+    src: url('../fonts/IRANSLW.woff2') format('woff2'), /* Chrome36+, Opera24+*/ url('fonts/IRANSLW.woff') format('woff'); /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'IRANSans-web';
+    src: url('../fonts/IRANSW.woff2') format('woff2'), /* Chrome36+, Opera24+*/ url('fonts/IRANSW.woff') format('woff'); /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'IRANSans';
     src: url('../fonts/iransans.ttf');
 }
 
 * {
-    font-family: "iransans";
+     font-family: "IRANSans", "IRANSans-web", "B Nazanin";
 }
 
 body {
@@ -15,9 +33,9 @@ body {
     background-position: top center;
     background-attachment: fixed;
     z-index: -1;
-    padding-top: 55px;
+    padding-top: 55px; 
     padding-bottom: 20px;
-    font-family: "iransans";
+    font-family: "IRANSans", "IRANSans-web", "B Nazanin";
 }
 
 
@@ -31,7 +49,7 @@ body {
     -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
     -ms-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-    font-family: "iransans";
+    /*font-family: "IRANSans", "IRANSans-web", "B Nazanin";*/
     z-index: 2;
 }
 
@@ -59,7 +77,7 @@ li {
 
 h1 {
     font-size: 50px;
-    font-family: "iransans";
+    /*font-family: "IRANSans", "IRANSans-web", "B Nazanin";*/
 }
 
 .control-label {

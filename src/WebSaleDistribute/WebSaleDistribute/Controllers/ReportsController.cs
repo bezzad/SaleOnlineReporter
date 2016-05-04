@@ -50,28 +50,24 @@ namespace WebSaleDistribute.Controllers
         // GET: ReceiptsChart      
         public ActionResult ReceiptsChart()
         {
-            var currentUser = UserManager.FindById(User.Identity.GetUserId());
-
             // Fill Chart Data ------------------------------------------
             #region Chart Data
 
-            var chartData = AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.Query("sp_GetInvoiceRemainChart", new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = "2" }, commandType: CommandType.StoredProcedure);
-
-            var chartCategories = chartData.Select(x => (string)x.OfficerEmployeeName).ToArray();
-            var chartValues = chartData.Select(x => x.InvoiceRemain).ToArray();
+            var api = new ReportsApiController();
+            var data = api.GetInvoiceRemainChart();
 
             var opt = new ChartOption()
             {
                 Name = "receiptsChart",
                 ChartType = ChartTypes.Column,
-                XAxisData = chartCategories,
-                YAxisData = new Data(chartValues),
+                //XAxisData = chartCategories,
+                YAxisData = new Data(data.Select(x => new Point() { Id = x.id.ToString(), Name = x.name, Y = x.y }).ToArray()),
                 Tilte = "گزارش جمعی رسیدی ها به تفکیک متصدی ها",
                 YAxisTitle = "جمع ریالی",
                 SeriesName = "پرسنل",
-                ShowLegend = true,
+                ShowLegend = false,
                 ShowDataLabels = true,
-                SubTitle = $"مبلغ کل رسیدی دفتر: {chartValues.Sum(x => (long)x).ToString("N0", CultureInfo.GetCultureInfo("fa-IR"))}"
+                SubTitle = $"مبلغ کل رسیدی دفتر: {data.Sum(x => (long)x.y).ToString("N0", CultureInfo.GetCultureInfo("fa-IR"))}"
             };
 
             #endregion
@@ -135,6 +131,7 @@ namespace WebSaleDistribute.Controllers
                         SeriesName = "پرسنل",
                         ShowLegend = false,
                         ShowDataLabels = true,
+                        AjaxLoading = true,
                         LoadDataUrl = "GetOfficerOrderStatisticsChart"
                     };
 
