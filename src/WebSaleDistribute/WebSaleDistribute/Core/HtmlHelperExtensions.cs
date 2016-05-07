@@ -212,14 +212,14 @@ namespace WebSaleDistribute.Core
             };
 
             if (option.AjaxLoading)
-            {
+            {                
                 chart.Events = new ChartEvents()
                 {
                     Load = "FetchDataFunc",
                     Drilldown = "function(e) { DrillDownFunc(e) }",
                     Drillup = "function(e) { FetchDataFunc() }"
                 };
-                chart.Style = "fontWeight: 'bold', fontFamily: 'IRANSans-web'";
+                chart.Style = "fontWeight: 'normal', fontFamily: 'IRANSans'";
 
                 highChart.AddJavascripVariable("ChartParentUrl", '\"' + option.LoadDataUrl + '\"')
                 .AddJavascripFunction("FetchDataFunc", $@"                            
@@ -269,16 +269,11 @@ namespace WebSaleDistribute.Core
                     Cursor = Cursors.Pointer,
                     DataLabels = new PlotOptionsColumnDataLabels
                     {
-                        Enabled = true,
+                        //Style = "fontWeight: 'bold', fontFamily: 'B Nazanin'",
+                        Enabled = option.ShowDataLabels,
                         Color = Color.AliceBlue,
-                        Style = "fontWeight: 'bold', fontFamily: 'IRANSans-web'"
+                        Formatter = "function() { return '<div style=\"color: black;\">' + this.y.toLocaleString('fa-IR'); + '</div>'; }"
                     }
-                }
-                ,
-                Series = new PlotOptionsSeries()
-                {
-                    DataLabels = new PlotOptionsSeriesDataLabels() { Enabled = option.ShowDataLabels, Format = option.DataLabelsFormat },
-                    Marker = new PlotOptionsSeriesMarker { LineWidth = 1 }
                 }
             })
             .SetXAxis(xa)
@@ -294,23 +289,32 @@ namespace WebSaleDistribute.Core
                 Title = new YAxisTitle() { Text = option.YAxisTitle },
                 Labels = new YAxisLabels
                 {
+                    Formatter = "function() { return '<div Locale=\"fa-IR\" style =\"color: black;\">'+ this.axis.defaultLabelFormatter.call(this) +'</div>'; }",
+                    Style = "color: '#89A54E'",
                     Align = HorizontalAligns.Left,
                     X = 3,
-                    Y = 16
+                    Y = 16                    
                 },
                 ShowFirstLabel = false
+               
             })
             .SetTooltip(new Tooltip
             {
+                //UseHTML = true,
+                //HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
+                //PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
+                //                  "<td><b>{point.y} ریال</b></td></tr>",
+                //FooterFormat = "</table>",
+                //ValueDecimals = 0,
+                //Style = "fontWeight: 'normal', fontFamily: 'B Nazanin'"
                 Crosshairs = new Crosshairs(true),
-                Shared = true,
-                UseHTML = true,
-                HeaderFormat = "<small dir=\"rtl\">{point.key}</small><table dir =\"rtl\">",
-                PointFormat = "<tr><td style=\"color= {series.color}\"></td>" +
-                                  "<td><b>{point.y} ریال</b></td></tr>",
-                FooterFormat = "</table>",
-                ValueDecimals = 0
+                Formatter = "TooltipFormatter"
             })
+            .AddJavascripFunction(
+                    "TooltipFormatter",
+                    @"var s = '<div dir=""rtl"">' + this.point.name +':<b>  '+ this.y.toLocaleString('fa-IR') +' ریال</b><br/>';
+                      return s;"
+                )
             .SetLegend(new Legend
             {
                 Enabled = option.ShowLegend,
@@ -325,6 +329,7 @@ namespace WebSaleDistribute.Core
             {
                 Lang = new DotNet.Highcharts.Helpers.Lang()
                 {
+                    //DrillUpText = "",
                     Loading = "در حال بارگزاری",
                     PrintButtonTitle = "چاپ",
                     ThousandsSep = ",",
