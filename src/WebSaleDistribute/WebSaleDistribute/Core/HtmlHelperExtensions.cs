@@ -87,6 +87,17 @@ namespace WebSaleDistribute.Core
                                         </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-refresh'></span></div>
                                         " : "";
 
+            var printable = string.IsNullOrEmpty(option.ExportToExcelAction) ? "":
+                                     $@"<ul class='dropdown-menu dropdown-menu-right'>
+                                            <li>
+                                                <a href='{option.ExportToExcelAction}' data-tooltip='خروج به اکسل' >
+                                                    <i class='panel-control-icon glyphicon glyphicon-save-file'></i>
+                                                    <span class='control-title'>خروج به اکسل</span>
+                                                </a>
+                                            </li>
+                                        </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-save-file'></span></div>
+                                        ";
+
             var detailLink = $@"<hr/>
                                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
                                    <a href='{option.Url}'> نمایش جزئیات <span class='glyphicon glyphicon-circle-arrow-right'></span></a>
@@ -98,7 +109,7 @@ namespace WebSaleDistribute.Core
                                         {option.Title}
                                     </div>
                                     <div class='dropdown'>"
-                                    + settingButton + refreshLink + $@"
+                                    + printable + settingButton + refreshLink + $@"
                                    </div>
                                </div>
                                <div class='panel-body'>

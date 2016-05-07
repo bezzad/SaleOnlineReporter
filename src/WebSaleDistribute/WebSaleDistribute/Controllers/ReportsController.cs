@@ -33,7 +33,13 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
-
+        public ApplicationUser CurrentUser
+        {
+            get
+            {
+                return UserManager.FindById(User.Identity.GetUserId());
+            }
+        }
 
         #region Receipts
 
@@ -79,11 +85,12 @@ namespace WebSaleDistribute.Controllers
         // GET: ReceiptsTable
         public ActionResult ReceiptsTable()
         {
-            var currentUser = UserManager.FindById(User.Identity.GetUserId());
-
             // Fill Table data ------------------------------------------
             #region Table Data
-            var tableData = AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.ExecuteReader("sp_GetInvoiceRemain", new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = "2" }, commandType: CommandType.StoredProcedure);
+            var tableData = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn.ExecuteReader(
+                "sp_GetInvoiceRemain",
+                new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = "2" },
+                commandType: CommandType.StoredProcedure);
 
             List<string> schema;
             var results = tableData.GetSchemaAndData(out schema);
@@ -92,6 +99,9 @@ namespace WebSaleDistribute.Controllers
 
             #endregion
             //-----------------------------------------------------------
+
+
+            ToolsController.SetLastUserRunningAction(CurrentUser.UserName, "ReceiptsTable", results);
 
             return PartialView("ReceiptsTable", model);
         }

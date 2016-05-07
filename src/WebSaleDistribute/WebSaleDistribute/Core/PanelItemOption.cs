@@ -11,10 +11,9 @@ namespace WebSaleDistribute.Core
         public string GlyphIcon { get; set; }
         public string[] CssClass { get; set; }
         public PanelType PanelType { get; set; }
-        public bool HasSettingPanel { get; set; }        
+        public bool HasSettingPanel { get; set; }
         public bool HasDetailLink { get; set; }
-
         public bool IsRefreshable { get; set; }
-
-    }    
+        public string ExportToExcelAction { get; set; }
+    }
 }

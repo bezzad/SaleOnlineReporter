@@ -6,12 +6,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Dapper;
-using System.Globalization;
 using WebSaleDistribute.Core;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-
+using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -29,19 +28,23 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
-
+        public ApplicationUser CurrentUser
+        {
+            get
+            {
+                return UserManager.FindById(User.Identity.GetUserId());
+            }
+        }
 
         // GET: api/Reports
         [Route("Reports/GetInvoiceRemainChart")]
         public IEnumerable<dynamic> GetInvoiceRemainChart()
         {
-            var currentUser = UserManager.FindById(User.Identity.GetUserId());                       
-
             var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
             var result = sqlConn.Query("sp_GetInvoiceRemainChart",
-                new { EmployeeID = currentUser.UserName, EmployeeTypeid = currentUser.EmployeeType, RunDate = DateTime.Now.GetPersianDate() },
+                new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = DateTime.Now.GetPersianDate() },
                 commandType: System.Data.CommandType.StoredProcedure);
-
+            
             return result;
         }
 
@@ -51,7 +54,7 @@ namespace WebSaleDistribute.Controllers
         public async Task<IHttpActionResult> GetOfficerOrderStatisticsChart()
         {
             var routParams = Request.GetQueryStrings();
-            var fromDate = "1395/02/13"; // routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
+            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
             var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
@@ -68,7 +71,7 @@ namespace WebSaleDistribute.Controllers
         public async Task<IHttpActionResult> GetOrderStatisticsChart(int officerEmployeeId)
         {
             var routParams = Request.GetQueryStrings();
-            var fromDate = "1395/02/13"; //routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
+            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
             var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;

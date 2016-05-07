@@ -207,6 +207,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportsApiController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\ToolsController.cs" />
     <Compile Include="Core\ChartOption.cs" />
     <Compile Include="Core\Enums\PanelType.cs" />
     <Compile Include="Core\HelperExtensions.cs" />
@@ -397,6 +398,7 @@
     <Content Include="Views\Reports\ReceiptsChart.cshtml" />
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
+    <Content Include="Views\Tools\Download.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

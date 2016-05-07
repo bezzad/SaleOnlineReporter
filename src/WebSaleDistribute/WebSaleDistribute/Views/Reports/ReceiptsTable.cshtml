@@ -19,17 +19,18 @@
     @using (Ajax.BeginForm("ReceiptsTable", "Reports", opt, new { @id = id, @class = "refreshable-panel" }))
     {
         @(Html.PanelItem(new PanelItemOption()
-            {
-                Id = id,
-                Body = Html.TableItem("receipts", Model.Item1, Model.Item2, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
-                Title = "لیست رسیدی ها",
-                Url = "#",
-                GlyphIcon = "list-alt",
-                HasDetailLink = false,
-                HasSettingPanel = false,
-                PanelType = PanelType.danger,
-                IsRefreshable = true
-            })
+    {
+        Id = id,
+        Body = Html.TableItem("receipts", Model.Item1, Model.Item2, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
+        Title = "لیست رسیدی ها",
+        Url = "#",
+        GlyphIcon = "list-alt",
+        HasDetailLink = false,
+        HasSettingPanel = false,
+        PanelType = PanelType.danger,
+        IsRefreshable = true,
+        ExportToExcelAction = Url.Action("ExportToExcel", "Tools", new { actionName = ViewContext.RouteData.Values["action"].ToString() })
+    })
         )
     }
 
