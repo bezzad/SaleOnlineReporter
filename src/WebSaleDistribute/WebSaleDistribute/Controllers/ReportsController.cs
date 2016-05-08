@@ -85,6 +85,8 @@ namespace WebSaleDistribute.Controllers
         // GET: ReceiptsTable
         public ActionResult ReceiptsTable()
         {
+            ViewBag.Username = CurrentUser.UserName;
+
             // Fill Table data ------------------------------------------
             #region Table Data
             var tableData = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn.ExecuteReader(

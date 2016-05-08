@@ -3,6 +3,7 @@
 
 @{
     string dir = ViewData["dir"]?.ToString() ?? "rtl";
+    var version = "ver" + typeof(WebSaleDistribute.MvcApplication).Assembly.GetName().Version.ToString();
 }
 
 <!DOCTYPE html>
@@ -58,6 +59,7 @@
                 {
                     @Html.Action("GetEmployeeType", "Home");
                 }
+
             </div>
         </div>
     </div>
@@ -65,7 +67,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p dir="ltr">&copy; @DateTime.Now.Year - Shoniz.co</p>
+            <p dir="ltr">&copy; @DateTime.Now.Year - Shoniz.co @version</p>
         </footer>
     </div>
 
@@ -77,7 +79,7 @@
 
     @if (Request.IsAuthenticated)
     {
-        <script>            
+        <script>
             window.onload = function () {
                 setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")");
             };

@@ -106,7 +106,7 @@ namespace WebSaleDistribute.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
         public int UserAuthenticateExpireTimeSec {
             get {
                 return ((int)(this["UserAuthenticateExpireTimeSec"]));

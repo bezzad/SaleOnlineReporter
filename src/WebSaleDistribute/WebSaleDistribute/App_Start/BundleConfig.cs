@@ -57,6 +57,7 @@ namespace WebSaleDistribute
         {
             bundles.Add(new StyleBundle("~/Content/css").Include(
                      "~/Content/bootstrap.css",
+                     "~/Content/bootstrap-theme.min.css",
                      "~/Content/site.css"));
 
             //bundles.Add(new StyleBundle("~/Content/PersianDatePicker").Include(

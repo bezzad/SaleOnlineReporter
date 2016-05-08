@@ -18,6 +18,7 @@ using WebSaleDistribute.Core;
 
 namespace WebSaleDistribute.Controllers
 {    
+    [AllowAnonymous]    
     public class ToolsController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -60,11 +61,9 @@ namespace WebSaleDistribute.Controllers
         }
 
         [HttpGet, FileDownload]
-        public FileContentResult ExportToExcel(string actionName)
+        public FileContentResult ExportToExcel(string username, string actionName)
         {
-            var currentUser = UserManager.FindById(User.Identity.GetUserId());
-
-            var data = GetLastUserRunningAction(currentUser.UserName, actionName);
+            var data = GetLastUserRunningAction(username, actionName);
 
             if (data == null) return null;
 
