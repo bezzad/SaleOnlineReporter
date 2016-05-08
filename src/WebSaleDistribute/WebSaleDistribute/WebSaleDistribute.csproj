@@ -210,6 +210,7 @@
     <Compile Include="Controllers\ToolsController.cs" />
     <Compile Include="Core\ChartOption.cs" />
     <Compile Include="Core\Enums\PanelType.cs" />
+    <Compile Include="Core\FileDownloadAttribute.cs" />
     <Compile Include="Core\HelperExtensions.cs" />
     <Compile Include="Core\HtmlHelperExtensions.cs" />
     <Compile Include="Core\Enums\OrderType.cs" />
@@ -295,7 +296,6 @@
     <EmbeddedResource Include="Migrations\201604261155317_Initial.resx">
       <DependentUpon>201604261155317_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <Content Include="Content\analytics.tsv" />
     <None Include="Properties\PublishProfiles\dc.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -338,12 +338,13 @@
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-2.2.3.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-touch-punch.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.fileDownload.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -398,7 +399,6 @@
     <Content Include="Views\Reports\ReceiptsChart.cshtml" />
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
-    <Content Include="Views\Tools\Download.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

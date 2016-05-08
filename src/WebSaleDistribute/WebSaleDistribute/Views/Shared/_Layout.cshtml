@@ -18,8 +18,11 @@
 
 
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jquery_ui")
+
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery_ui")
     @RenderSection("styles", required: false)
 
 </head>
@@ -66,9 +69,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery_ui")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jquery_unobtrusive")
 
     @RenderSection("scripts", required: false)
 

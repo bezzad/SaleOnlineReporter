@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -16,7 +17,7 @@ using System.Web.UI.WebControls;
 using WebSaleDistribute.Core;
 
 namespace WebSaleDistribute.Controllers
-{
+{    
     public class ToolsController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -31,8 +32,6 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
-
-
 
         private static Dictionary<string, IEnumerable<dynamic>> LastUserRunningAction =
             new Dictionary<string, IEnumerable<dynamic>>();
@@ -55,7 +54,13 @@ namespace WebSaleDistribute.Controllers
 
 
 
-        public ActionResult ExportToExcel(string actionName)
+        private string GetFileName(string actionName, string extension)
+        {
+            return $"{actionName}_{DateTime.Now.GetPersianDate().Replace("/", "")}.{extension}";
+        }
+
+        [HttpGet, FileDownload]
+        public FileContentResult ExportToExcel(string actionName)
         {
             var currentUser = UserManager.FindById(User.Identity.GetUserId());
 
@@ -74,11 +79,8 @@ namespace WebSaleDistribute.Controllers
 
             var utf8S = Encoding.UTF8.GetBytes(sw.ToString());
             var result = Encoding.UTF8.GetPreamble().Concat(utf8S).ToArray();
-
-            var filename = $"{actionName}_{DateTime.Now.GetPersianDate().Replace("/", ".")}.xls";
-
-            return File(result, "application/ms-excel", filename);
+            
+            return File(result, "application/ms-excel", GetFileName(actionName, "xls"));
         }
-
     }
 }

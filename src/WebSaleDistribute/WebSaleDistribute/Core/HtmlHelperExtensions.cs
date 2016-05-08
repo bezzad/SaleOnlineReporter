@@ -90,7 +90,7 @@ namespace WebSaleDistribute.Core
             var printable = string.IsNullOrEmpty(option.ExportToExcelAction) ? "":
                                      $@"<ul class='dropdown-menu dropdown-menu-right'>
                                             <li>
-                                                <a href='{option.ExportToExcelAction}' data-tooltip='خروج به اکسل' >
+                                                <a href='{option.ExportToExcelAction}' class='fileDownload' data-tooltip='خروج به اکسل' >
                                                     <i class='panel-control-icon glyphicon glyphicon-save-file'></i>
                                                     <span class='control-title'>خروج به اکسل</span>
                                                 </a>

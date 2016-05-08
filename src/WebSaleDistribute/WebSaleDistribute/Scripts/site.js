@@ -4,6 +4,21 @@ jQuery(document).ready(function () {
     // ref: http://www.w3schools.com/jquery/ajax_ajaxsetup.asp
     $.ajaxSetup({ complete: function (result) { setPageReloadTimer(null); } }); 
     jQuery(".status").fadeOut("slow");
+
+
+    //
+    //With jquery.fileDownload.js
+    //Promise use allows for a very customized experience easily
+    //
+    $(document).on("click", "a.fileDownload", function () {
+        $("#loading").fadeIn();
+
+        $.fileDownload($(this).prop('href'))
+            .done(function () {  jQuery(".status").fadeOut("slow"); })
+            .fail(function () {  jQuery(".status").fadeOut("slow");  });
+
+        return false; //this is critical to stop the click event which will trigger a normal file download
+    });
 });
 
 window.onbeforeunload = function () {
@@ -82,3 +97,4 @@ function checkCookie() {
         }
     }
 }
+
