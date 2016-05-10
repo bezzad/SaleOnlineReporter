@@ -12,18 +12,15 @@ namespace WebSaleDistribute.Controllers
     [AllowAnonymous]
     public class GeneralApiController : ApiController
     {
-
-        [HttpPost]
-        [Route("General/GenerateQrByStoring")]
-        public IHttpActionResult GenerateQRByStoring(JObject jsonData)
+        [HttpGet]
+        [Route("General/GenerateQrByStoring/{width}/{height}/{content}/{recordKey}/{dbConnectionStr}")]
+        public IHttpActionResult GenerateQRByStoring(int width, int height, string content, int recordKey, string dbConnectionStr)
         {
             try
             {
-                dynamic json = jsonData;
+                var qrImg = GenerateQR(width, height, content);
 
-                var qrImg = GenerateQR(int.Parse((string)json.width), int.Parse((string)json.height), (string)json.text);
-
-                var cm = new AdoManager.ConnectionManager(new AdoManager.Connection((string)json.dbConnectionString));
+                var cm = new AdoManager.ConnectionManager(new AdoManager.Connection(dbConnectionStr));
                 cm.SqlConn.Execute(@"INSERT INTO QR_Codes
                                     (
                                      output_tkey,
@@ -35,7 +32,7 @@ namespace WebSaleDistribute.Controllers
                                      @output_tkey,
                                      @qrText,
                                      @qrImage
-                                    )", new { output_tkey = int.Parse((string)json.recordKey), qrText = (string)json.text, qrImage = qrImg.ToByteArray(System.Drawing.Imaging.ImageFormat.Png) });
+                                    )", new { output_tkey = recordKey, qrText = content, qrImage = qrImg.ToByteArray(System.Drawing.Imaging.ImageFormat.Png) });
 
                 return Ok("True");
             }
@@ -47,6 +44,24 @@ namespace WebSaleDistribute.Controllers
         }
 
 
+        [HttpPost]
+        [Route("General/GenerateQrByStoring")]
+        public IHttpActionResult GenerateQRByStoring(JObject jsonData)
+        {
+            try
+            {
+                dynamic json = jsonData;
+
+                return GenerateQRByStoring(int.Parse((string)json.width),
+                    int.Parse((string)json.height), (string)json.content,
+                    int.Parse((string)json.recordKey), (string)json.dbConnectionString);
+            }
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+                return new System.Web.Http.Results.ExceptionResult(exp, this);
+            }
+        }
 
 
         [HttpGet]

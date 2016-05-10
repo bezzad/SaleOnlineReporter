@@ -252,6 +252,8 @@
     <EmbeddedResource Include="App_Data\UpdateDatabase.sql" />
     <EmbeddedResource Include="App_Data\ElmahSqlServer.sql" />
     <EmbeddedResource Include="App_Data\CreateQrCodesTable_Script.sql" />
+    <Content Include="App_Data\CallWebServiceFromSql_Script.sql" />
+    <Content Include="App_Data\CreateSpHTTPRequest_Script.sql" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
