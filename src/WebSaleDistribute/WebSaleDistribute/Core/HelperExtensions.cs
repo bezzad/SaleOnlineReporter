@@ -12,6 +12,8 @@ using System.Linq;
 using System.Globalization;
 using Microsoft.AspNet.Identity;
 using System.Web;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace WebSaleDistribute.Core
 {
@@ -198,5 +200,15 @@ namespace WebSaleDistribute.Core
         {
             return data.ToArray().ToDataTable();
         }
+
+        public static byte[] ToByteArray(this Image image, ImageFormat format)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, format);
+                return ms.ToArray();
+            }
+        }
+
     }
 }
