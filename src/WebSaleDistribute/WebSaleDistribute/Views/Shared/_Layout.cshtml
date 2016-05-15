@@ -1,5 +1,4 @@
-﻿@using WebSaleDistribute.Models
-@using WebSaleDistribute.Core
+﻿@using WebSaleDistribute.Core
 
 @{
     string dir = ViewData["dir"]?.ToString() ?? "rtl";
@@ -41,7 +40,7 @@
                 <ul class="dropdown-menu ">
                     <li>@Html.ActionLink("خانه", "Index", "Home")</li>
                     <li role="separator" class="divider"></li>
-                    @Html.Partial("_MenuPartial", DynamicModels.GetMenus())
+                    @Html.Action("Menu", "Shared")                               
                 </ul>
             </div>
             <div class="navbar-collapse collapse">

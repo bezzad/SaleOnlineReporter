@@ -15,7 +15,6 @@ namespace WebSaleDistribute.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -28,6 +27,7 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
+
 
         [Authorize(Roles = "Admin")]
         public ActionResult About()

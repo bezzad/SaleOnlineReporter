@@ -80,6 +80,62 @@ AS
                             9 ,
                             ''مدير فروش''
 
+------------------------------------------------------
+-- اضافه کردن سطح دسترسي مدير فروش
+        IF NOT EXISTS ( SELECT TOP ( 1 )
+                                1
+                        FROM    UsersManagements.dbo.Roles
+                        WHERE   ProgramID = 2
+                                AND RoleID = 10 ) 
+            INSERT  INTO UsersManagements.dbo.Roles
+                    ( ProgramID, RoleID, RoleName )
+                    SELECT TOP ( 1 )
+                            2 ,
+                            10 ,
+                            ''حسابرسی''
+
+------------------------------------------------------
+-- اضافه کردن سطح دسترسي مدير فروش
+        IF NOT EXISTS ( SELECT TOP ( 1 )
+                                1
+                        FROM    UsersManagements.dbo.Roles
+                        WHERE   ProgramID = 2
+                                AND RoleID = 11 ) 
+            INSERT  INTO UsersManagements.dbo.Roles
+                    ( ProgramID, RoleID, RoleName )
+                    SELECT TOP ( 1 )
+                            2 ,
+                            11 ,
+                            ''فاکتور زنی''
+
+------------------------------------------------------
+-- اضافه کردن سطح دسترسي مدير فروش
+        IF NOT EXISTS ( SELECT TOP ( 1 )
+                                1
+                        FROM    UsersManagements.dbo.Roles
+                        WHERE   ProgramID = 2
+                                AND RoleID = 12 ) 
+            INSERT  INTO UsersManagements.dbo.Roles
+                    ( ProgramID, RoleID, RoleName )
+                    SELECT TOP ( 1 )
+                            2 ,
+                            12 ,
+                            ''مسیر زن''
+
+------------------------------------------------------
+-- اضافه کردن سطح دسترسي مدير فروش
+        IF NOT EXISTS ( SELECT TOP ( 1 )
+                                1
+                        FROM    UsersManagements.dbo.Roles
+                        WHERE   ProgramID = 2
+                                AND RoleID = 13 ) 
+            INSERT  INTO UsersManagements.dbo.Roles
+                    ( ProgramID, RoleID, RoleName )
+                    SELECT TOP ( 1 )
+                            2 ,
+                            13 ,
+                            ''انباردار''
+
 --######################################################         
 --------------------------------------------------------
 
