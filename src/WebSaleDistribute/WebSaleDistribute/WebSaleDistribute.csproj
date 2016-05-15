@@ -418,6 +418,7 @@
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
     <Content Include="Views\Warehouse\Index.cshtml" />
+    <Content Include="Views\Warehouse\EntryInWayTables.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

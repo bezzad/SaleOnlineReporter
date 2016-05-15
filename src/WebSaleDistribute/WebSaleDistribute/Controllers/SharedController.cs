@@ -25,6 +25,14 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
+        public ApplicationUser CurrentUser
+        {
+            get
+            {
+                return UserManager.FindById(User.Identity.GetUserId());
+            }
+        }
+
 
         // GET: Home/SetEmployeeType Submit
         [HttpGet]

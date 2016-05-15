@@ -1,0 +1,27 @@
+﻿@using System.Dynamic
+@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model Tuple<List<string>, List<ExpandoObject>>
+
+@{
+    var id = "EntryInWayTables_" + Guid.NewGuid().ToString();    
+}
+
+<div id="ReceiptsTable">
+
+    
+        @(Html.PanelItem(new PanelItemOption()
+            {
+                Id = id,
+                Body = Html.TableItem(id, Model.Item1, Model.Item2, Tuple.Create(0, OrderType.asc)).ToHtmlString(),
+                Title = "فاکتور توراهی",
+                Url = "#",
+                GlyphIcon = "list-alt",
+                HasDetailLink = false,
+                HasSettingPanel = false,
+                PanelType = PanelType.info
+            })
+        )
+
+</div>
