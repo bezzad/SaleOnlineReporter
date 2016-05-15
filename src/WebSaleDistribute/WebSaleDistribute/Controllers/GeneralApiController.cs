@@ -6,67 +6,15 @@ using System.Drawing;
 using System.Web.Http;
 using WebSaleDistribute.Core;
 using ZXing.QrCode.Internal;
+using AdoManager;
 
 namespace WebSaleDistribute.Controllers
 {
     [AllowAnonymous]
     public class GeneralApiController : ApiController
     {
-        [HttpGet]
-        [Route("General/GenerateQrByStoring/{width}/{height}/{content}/{recordKey}/{dbConnectionStr}")]
-        public IHttpActionResult GenerateQRByStoring(int width, int height, string content, int recordKey, string dbConnectionStr)
-        {
-            try
-            {
-                var qrImg = GenerateQR(width, height, content);
 
-                var cm = new AdoManager.ConnectionManager(new AdoManager.Connection(dbConnectionStr));
-                cm.SqlConn.Execute(@"INSERT INTO QR_Codes
-                                    (
-                                     output_tkey,
-                                     qrText,
-                                     qrImage
-                                    )
-                                    VALUES
-                                    (
-                                     @output_tkey,
-                                     @qrText,
-                                     @qrImage
-                                    )", new { output_tkey = recordKey, qrText = content, qrImage = qrImg.ToByteArray(System.Drawing.Imaging.ImageFormat.Png) });
-
-                return Ok("True");
-            }
-            catch (Exception exp)
-            {
-                ErrorSignal.FromCurrentContext().Raise(exp);
-                return new System.Web.Http.Results.ExceptionResult(exp, this);
-            }
-        }
-
-
-        [HttpPost]
-        [Route("General/GenerateQrByStoring")]
-        public IHttpActionResult GenerateQRByStoring(JObject jsonData)
-        {
-            try
-            {
-                dynamic json = jsonData;
-
-                return GenerateQRByStoring(int.Parse((string)json.width),
-                    int.Parse((string)json.height), (string)json.content,
-                    int.Parse((string)json.recordKey), (string)json.dbConnectionString);
-            }
-            catch (Exception exp)
-            {
-                ErrorSignal.FromCurrentContext().Raise(exp);
-                return new System.Web.Http.Results.ExceptionResult(exp, this);
-            }
-        }
-
-
-        [HttpGet]
-        [Route("General/GenerateQR")]
-        public Bitmap GenerateQR(int width, int height, string text)
+        private Bitmap GenerateQR(int width, int height, string text)
         {
             var bw = new ZXing.BarcodeWriter();
             var encOptions = new ZXing.Common.EncodingOptions() { Width = width, Height = height, Margin = 0 };
@@ -83,6 +31,80 @@ namespace WebSaleDistribute.Controllers
             var result = new Bitmap(bw.Write(text));
 
             return result;
+        }
+
+        [HttpPost]
+        [Route("General/GenerateQrByStoring")]
+        public IHttpActionResult GenerateQRByStoring(JObject jsonData)
+        {
+            try
+            {
+                dynamic json = jsonData;
+
+                return GenerateQRByStoring(int.Parse((string)json.width),
+                    int.Parse((string)json.height), (string)json.content,
+                    int.Parse((string)json.recordKey), (string)json.dbConnectionString, (bool?)json.encryptContent ?? false);
+            }
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+                return new System.Web.Http.Results.ExceptionResult(exp, this);
+            }
+        }
+
+        [HttpGet]
+        [Route("General/GenerateQrByStoring/{width}/{height}/{content}/{recordKey}/{dbConnectionStr}/{encryptContent}")]
+        public IHttpActionResult GenerateQRByStoring(int width, int height, string content, int recordKey, string dbConnectionStr, bool encryptContent = true)
+        {
+            try
+            {
+                var text = encryptContent ? content.Encrypt() : content;
+
+                var qrImg = GenerateQR(width, height, text);
+
+                var cm = new AdoManager.ConnectionManager(new AdoManager.Connection(dbConnectionStr));
+                cm.SqlConn.Execute(@"INSERT INTO QR_Codes
+                                    (
+                                     output_tkey,
+                                     qrText,
+                                     qrImage
+                                    )
+                                    VALUES
+                                    (
+                                     @output_tkey,
+                                     @qrText,
+                                     @qrImage
+                                    )", new { output_tkey = recordKey, qrText = text, qrImage = qrImg.ToByteArray(System.Drawing.Imaging.ImageFormat.Png) });
+
+                return Ok("True");
+            }
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+                return new System.Web.Http.Results.ExceptionResult(exp, this);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("General/GenerateQR/{width}/{height}/{content}/{encryptContent}")]
+        public byte[] GenerateQR(int width, int height, string content, bool encryptContent = true)
+        {
+            try
+            {
+                var text = encryptContent ? content.Encrypt() : content;
+
+                var qrImg = GenerateQR(width, height, text);
+
+                var qrBytes = qrImg.ToByteArray(System.Drawing.Imaging.ImageFormat.Png);
+
+                return qrBytes;
+            }
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+                return null;
+            }
         }
     }
 }
