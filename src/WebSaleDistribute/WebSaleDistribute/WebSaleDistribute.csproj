@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
+    <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Core\ChartOption.cs" />
     <Compile Include="Core\Enums\PanelType.cs" />
     <Compile Include="Core\FileDownloadAttribute.cs" />
@@ -416,6 +417,7 @@
     <Content Include="Views\Reports\ReceiptsChart.cshtml" />
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
+    <Content Include="Views\Warehouse\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -23,7 +23,7 @@ IF ( @ParentMenuID IS NULL
     --===============================================
     
         INSERT  INTO PrgMenu
-        VALUES  ( @ParentMenuID, 2, 'گزارشات آنلاين', NULL, 100, 0, '~/', 'Home',
+        VALUES  ( @ParentMenuID, 2, 'گزارشات آنلاين', NULL, 100, 0, 'Home', 'Index',
                   NULL )
     
         IF NOT EXISTS ( SELECT  1
@@ -46,17 +46,29 @@ IF ( @ParentMenuID IS NULL
                   2,	--ProgramID
                   'گزارش رسيدي', @ParentMenuID,	--ParentID
                   1,	--order
-                  0, '~/Reports/Receipts', 'Receipts', NULL ),
+                  0, 'Reports', 'Receipts', NULL ),
                 ( @ParentMenuID + 2,	--MenuID
                   2,	--ProgramID
                   'گزارشات فروش', @ParentMenuID,	--ParentID
                   2,	--order
-                  0, '~/Reports/Sales', 'Sales', NULL )
+                  0, 'Reports', 'Sales', NULL ),
+				( @ParentMenuID + 3,	--MenuID
+                  2,	--ProgramID
+                  'انبار', @ParentMenuID,	--ParentID
+                  3,	--order
+                  0, 'Warehouse', 'Index', NULL )
     
     -----------------------------------------------
     -------- Add roles to all sub menus -----------
-        DECLARE @cnt INT = 1;    
-        WHILE @cnt < 3 
+        DECLARE @cnt INT = 1,  
+			@MenusCount INT = 1;
+
+		SELECT @MenusCount = Count(1)
+        FROM   PrgMenu pm
+        WHERE  pm.ProgramID = 2
+            AND pm.ParentMenuID = @ParentMenuID 
+
+        WHILE @cnt < @MenusCount 
             BEGIN
                 INSERT  INTO MenusToRoles
                 VALUES  ( 2,	--ProgramID
