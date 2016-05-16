@@ -26,17 +26,15 @@
     </script>
 }
 
-
-@*<a href="zxing://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/Index/?code={CODE}")" class="btn btn-primary btn-lg">Scan Barcode    <span class="glyphicon glyphicon-camera"></span></a>*@
-@*<a href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/Warehouse/?code=1148")" class="btn btn-primary btn-lg">Scan Barcode    <span class="glyphicon glyphicon-camera"></span></a>*@
-
 <br />
 
 <h2  dir="rtl">@ViewBag.Title</h2>
 
 <div class="container">
     <ul class="nav nav-pills">
-        <li><a href="shoniz://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/Warehouse/?code={code}")"> <span class="glyphicon glyphicon-camera"></span> اسکن بار کد توراهی</a></li>
+        <li><a href="shoniz://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/Warehouse/?code={code}")"> <span class="glyphicon glyphicon-qrcode"></span> اسکن بار کد توراهی</a></li>
+
+        <li><a href="#"> <span class="glyphicon glyphicon-share"></span> لیست برگشت از فروش</a></li>
     </ul>
 
     <div class="tab-content">

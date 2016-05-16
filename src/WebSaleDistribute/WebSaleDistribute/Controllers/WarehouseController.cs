@@ -13,7 +13,7 @@ using System.Data;
 
 namespace WebSaleDistribute.Controllers
 {
-    [Authorize]
+
     public class WarehouseController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -43,9 +43,7 @@ namespace WebSaleDistribute.Controllers
             ViewBag.Title = "انبار";
 
             var encryptedQrCode = Request.QueryString["code"];
-            //ViewBag.QrCode = encryptedQrCode?.Decrypt();
-            ViewBag.QrCode = encryptedQrCode;
-
+            ViewBag.QrCode = encryptedQrCode?.Decrypt();
 
             return View();
         }
