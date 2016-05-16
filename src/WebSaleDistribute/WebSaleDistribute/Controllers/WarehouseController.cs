@@ -38,8 +38,10 @@ namespace WebSaleDistribute.Controllers
                 
         
         // GET: Warehouse
-        public ActionResult Index()
+        public ActionResult Warehouse()
         {
+            ViewBag.Title = "انبار";
+
             var encryptedQrCode = Request.QueryString["code"];
             //ViewBag.QrCode = encryptedQrCode?.Decrypt();
             ViewBag.QrCode = encryptedQrCode;
@@ -51,15 +53,17 @@ namespace WebSaleDistribute.Controllers
         
 
         // GET: EntryInWayTables
-        public ActionResult EntryInWayTables(int? OldInvoiceId)
+        public ActionResult EntryInWayTable(int? invoiceId)
         {
-            if (OldInvoiceId == null) return null;
+            ViewBag.QrCode = invoiceId;
+
+            if (invoiceId == null) return null;
 
             // Fill Table data ------------------------------------------
             #region Table Data
             var tableData = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn.ExecuteReader(
                 "sp_GetInWayDetailsByOldInvoicId",
-                new { OldInvoiceId },
+                new { OldInvoicId = invoiceId },
                 commandType: CommandType.StoredProcedure);
 
             List<string> schema;
@@ -71,7 +75,7 @@ namespace WebSaleDistribute.Controllers
             //-----------------------------------------------------------
 
 
-            return View();
+            return PartialView("EntryInWayTable", model);
         }
 
     }

@@ -417,8 +417,8 @@
     <Content Include="Views\Reports\ReceiptsChart.cshtml" />
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
-    <Content Include="Views\Warehouse\Index.cshtml" />
-    <Content Include="Views\Warehouse\EntryInWayTables.cshtml" />
+    <Content Include="Views\Warehouse\Warehouse.cshtml" />
+    <Content Include="Views\Warehouse\EntryInWayTable.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

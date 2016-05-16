@@ -1,0 +1,50 @@
+﻿@using System.Dynamic
+@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model List<ExpandoObject>
+
+@{
+    ViewData["dir"] = "ltr";
+}
+
+@section styles
+{
+    @Styles.Render("~/Content/lobipanel")
+    @Styles.Render("~/Content/jquery_dataTables")
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/lobipanel")
+    @Scripts.Render("~/bundles/jquery_dataTables")
+    <script>
+        // Call DataTable() func in all of the jquery tables
+        $(document).ready(function () {
+            loadDataTables();
+        })
+    </script>
+}
+
+
+@*<a href="zxing://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/Index/?code={CODE}")" class="btn btn-primary btn-lg">Scan Barcode    <span class="glyphicon glyphicon-camera"></span></a>*@
+@*<a href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/Warehouse/?code=1148")" class="btn btn-primary btn-lg">Scan Barcode    <span class="glyphicon glyphicon-camera"></span></a>*@
+
+<br />
+
+<h2  dir="rtl">@ViewBag.Title</h2>
+
+<div class="container">
+    <ul class="nav nav-pills">
+        <li><a href="shoniz://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/Warehouse/?code={code}")"> <span class="glyphicon glyphicon-camera"></span> اسکن بار کد توراهی</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="grid" class="tab-pane fade in active">
+            <!-- data -->
+            <br />
+            @Html.Action("EntryInWayTable", "Warehouse", new { invoiceId = ViewBag.QrCode })
+            <!-- /data -->
+        </div>
+    </div>
+</div>

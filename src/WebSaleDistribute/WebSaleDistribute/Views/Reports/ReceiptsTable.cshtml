@@ -10,8 +10,9 @@
     var opt = new PanelAjaxOptions(id)
     {
         UpdateTargetId = "ReceiptsTable",
-        OnSuccess = "loadPanels(); loadDataTables();"
     };
+
+    opt.OnSuccess += " loadDataTables();";
 }
 
 <div id="ReceiptsTable">
@@ -30,7 +31,7 @@
         PanelType = PanelType.danger,
         IsRefreshable = true,
         ExportToExcelAction = Url.Action("ExportToExcel", "Tools",
-                    new { username = ViewBag.Username, actionName = ViewContext.RouteData.Values["action"].ToString() })
+                            new { username = ViewBag.Username, actionName = ViewContext.RouteData.Values["action"].ToString() })
     })
         )
     }

@@ -1,0 +1,37 @@
+﻿@using System.Dynamic
+@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model Tuple<List<string>, List<ExpandoObject>>
+
+@{
+    var id = "EntryInWayTables_" + Guid.NewGuid().ToString();
+
+    var opt = new PanelAjaxOptions(id)
+    {
+        UpdateTargetId = "EntryInWayTable"
+    };
+
+    opt.OnSuccess += " loadDataTables();";
+}
+
+<div id="EntryInWayTable">
+
+    @using (Ajax.BeginForm("EntryInWayTable", "Warehouse", opt, new { @id = id, @class = "refreshable-panel" }))
+    {
+        @(Html.PanelItem(new PanelItemOption()
+    {
+        Id = id,
+        Body = Html.TableItem("entryInWay", Model.Item1, Model.Item2).ToHtmlString(),
+        Title = $"فاکتور توراهی شماره {ViewBag.QrCode}",
+        Url = "#x",
+        GlyphIcon = "list-alt",
+        HasDetailLink = true,
+        HasSettingPanel = false,
+        //IsRefreshable = true,
+        PanelType = PanelType.info
+    })
+        )
+    }
+
+</div>
