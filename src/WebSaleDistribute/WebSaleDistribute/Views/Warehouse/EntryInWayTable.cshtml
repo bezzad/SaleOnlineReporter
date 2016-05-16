@@ -23,12 +23,12 @@
     {
         Id = id,
         Body = Html.TableItem("entryInWay", Model.Item1, Model.Item2).ToHtmlString(),
-        Title = $"فاکتور توراهی شماره {ViewBag.QrCode}",
-        Url = "#x",
-        GlyphIcon = "list-alt",
+        Title = $" توراهی شماره {ViewBag.QrCode}",
         HasDetailLink = true,
+        DetailUrlContent = "<b>ورود به انبار</b>",
+        Url = Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}"),
+        GlyphIcon = "list-alt",
         HasSettingPanel = false,
-        //IsRefreshable = true,
         PanelType = PanelType.info
     })
         )

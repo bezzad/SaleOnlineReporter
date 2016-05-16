@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
+    <Compile Include="Controllers\WarehouseApiController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Core\ChartOption.cs" />
     <Compile Include="Core\Enums\PanelType.cs" />
@@ -420,7 +421,9 @@
     <Content Include="Views\Warehouse\Warehouse.cshtml" />
     <Content Include="Views\Warehouse\EntryInWayTable.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

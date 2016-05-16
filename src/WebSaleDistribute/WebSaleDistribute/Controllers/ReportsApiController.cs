@@ -14,6 +14,7 @@ using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Controllers
 {
+    [Authorize]
     public class ReportsApiController : ApiController
     {
         private ApplicationUserManager _userManager;

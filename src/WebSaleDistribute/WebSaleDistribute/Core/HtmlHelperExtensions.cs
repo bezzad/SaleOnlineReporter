@@ -91,7 +91,7 @@ namespace WebSaleDistribute.Core
                                         </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-refresh'></span></div>
                                         " : "";
 
-            var printable = string.IsNullOrEmpty(option.ExportToExcelAction) ? "":
+            var printable = string.IsNullOrEmpty(option.ExportToExcelAction) ? "" :
                                      $@"<ul class='dropdown-menu dropdown-menu-right'>
                                             <li>
                                                 <a href='{option.ExportToExcelAction}' target='_parent' class='fileDownload' data-tooltip='خروج به اکسل' >
@@ -102,10 +102,17 @@ namespace WebSaleDistribute.Core
                                         </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-save-file'></span></div>
                                         ";
 
+            //var detailLink = $@"<hr/>
+            //                   <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+            //                       <a href='{option.Url}'>{option.DetailUrlContent}&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span></a>
+            //                   </div>";
+
             var detailLink = $@"<hr/>
                                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                                   <a href='{option.Url}'> نمایش جزئیات <span class='glyphicon glyphicon-circle-arrow-right'></span></a>
-                               </div>";
+                                    <button type='button' onclick='$.get(""{option.Url}"", function(data) {{ alert(data); }});'>
+                                      {option.DetailUrlContent}&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+                                    </button>
+                                 </div>";
 
             div.InnerHtml = $@"<div class='panel-heading'>
                                     <div class='panel-title'>
@@ -124,7 +131,7 @@ namespace WebSaleDistribute.Core
 
 
             var result = div.ToString();
-            result += option.HasSettingPanel ? detailLink : "";
+            result += option.HasDetailLink ? detailLink : "";
             result += Environment.NewLine;
             result += option.HasSettingPanel ? htmlHelper.SettingPanelItem(option.Id, option.Title, option.PanelType).ToString() : "";
 
@@ -227,7 +234,7 @@ namespace WebSaleDistribute.Core
             };
 
             if (option.AjaxLoading)
-            {                
+            {
                 chart.Events = new ChartEvents()
                 {
                     Load = "FetchDataFunc",
@@ -297,7 +304,7 @@ namespace WebSaleDistribute.Core
                 Type = option.ChartType,
                 Name = option.SeriesName,
                 Data = option.YAxisData ?? new Data(new object[0, 0]),
-                PlotOptionsColumn = new PlotOptionsColumn() { ColorByPoint = option.ColorByPoint }                
+                PlotOptionsColumn = new PlotOptionsColumn() { ColorByPoint = option.ColorByPoint }
             })
             .SetYAxis(new YAxis
             {
@@ -308,10 +315,10 @@ namespace WebSaleDistribute.Core
                     Style = "color: '#89A54E'",
                     Align = HorizontalAligns.Left,
                     X = 3,
-                    Y = 16                    
+                    Y = 16
                 },
                 ShowFirstLabel = false
-               
+
             })
             .SetTooltip(new Tooltip
             {
