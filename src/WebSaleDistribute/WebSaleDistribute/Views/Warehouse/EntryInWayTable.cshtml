@@ -20,17 +20,17 @@
     @using (Ajax.BeginForm("EntryInWayTable", "Warehouse", opt, new { @id = id, @class = "refreshable-panel" }))
     {
         @(Html.PanelItem(new PanelItemOption()
-    {
-        Id = id,
-        Body = Html.TableItem("entryInWay", Model.Item1, Model.Item2).ToHtmlString(),
-        Title = $" توراهی شماره {ViewBag.QrCode}",
-        HasDetailLink = true,
-        DetailUrlContent = "<b>ورود به انبار</b>",
-        Url = Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}"),
-        GlyphIcon = "list-alt",
-        HasSettingPanel = false,
-        PanelType = PanelType.info
-    })
+            {
+                Id = id,
+                Body = Html.TableItem("entryInWay", Model.Item1, Model.Item2).ToHtmlString(),
+                Title = $" توراهی شماره {ViewBag.QrCode}",
+                HasDetailLink = true,
+                DetailUrlContent = "<b>ورود به انبار</b>",
+                Url = Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}"),
+                GlyphIcon = "list-alt",
+                HasSettingPanel = false,
+                PanelType = PanelType.info
+            })
         )
     }
 

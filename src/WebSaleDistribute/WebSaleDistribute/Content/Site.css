@@ -15,7 +15,7 @@ body {
     background-position: top center;
     background-attachment: fixed;
     z-index: -1;
-    padding-top: 55px; 
+    padding-top: 55px;
     padding-bottom: 20px;
     font-family: "IRANSans", "B Nazanin";
 }
@@ -70,4 +70,12 @@ h1 {
 
 .dropdown-menu > li > a {
     direction: ltr;
+}
+
+/* Bootstrap Message Alert */
+#MessagePanel {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    z-index: 1;
 }

@@ -109,7 +109,7 @@ namespace WebSaleDistribute.Core
 
             var detailLink = $@"<hr/>
                                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                                    <button type='button' onclick='$.get(""{option.Url}"", function(data) {{ alert(data); }});'>
+                                    <button type='button' onclick='getAsync(""{option.Url}"");'>
                                       {option.DetailUrlContent}&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
                                     </button>
                                  </div>";

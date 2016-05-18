@@ -17,6 +17,10 @@ jQuery(document).ready(function () {
     // ref: http://www.w3schools.com/jquery/ajax_ajaxsetup.asp
     $.ajaxSetup({ complete: function (result) { setPageReloadTimer(null); } });
     jQuery(".status").fadeOut("slow");
+
+    $(".close").click(function () {
+        $(".alert").alert();
+    });
 });
 
 //
@@ -58,13 +62,29 @@ function loadDataTables() {
     });
 }
 
-function getUrlSync(url) {
-    return $.ajax({
-        type: "GET",
-        url: url,
-        cache: false,
-        async: false // jQuery.ajaxSetup({ async: false });
-    }).responseJSON;
+//function getUrlSync(url, async) {
+//    return $.ajax({
+//        type: "GET",
+//        url: url,
+//        cache: false,
+//        async: async // jQuery.ajaxSetup({ async: false });
+//    }).responseJSON;
+//}
+
+function getAsync(url, params) {
+    if (url === null) {
+        jAlert("هشدار", "آدرس خالی می باشد", "warning", 5000);
+    }
+
+    $.get(url, params, function () {
+        jAlert("پیام", "درخواست ارسال شد", "info", 3000);
+    })
+  .fail(function (data) {
+      jAlert("خطا", data, "danger", 10000);
+  })
+  .success(function (data) {
+      jAlert("تمام", data, "success", 10000);
+  });
 }
 
 var reloadMethod;
@@ -120,4 +140,40 @@ function checkCookie() {
             setCookie("username", user, 365);
         }
     }
+}
+
+
+
+/* Jquery function to create guids.
+ * Guid code from 
+ * http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+ */
+function generateGUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+};
+
+
+/* Alert Bootstrap MessageBox */
+function jAlert(title, msg, type, timeout) {
+    var id = "alert_" + generateGUID();
+
+    var b = "<div id='" + id + "' class='alert alert-" + type.toLowerCase() + " fade in' style='display: none;'>" +
+               "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+               "<strong>" + title + "</strong>&nbsp;&nbsp;" + msg + "&nbsp;&nbsp;</div>";
+
+    $("#MessagePanel").append(b);
+
+    $("#" + id).fadeIn();
+
+    setTimeout(function () { jCloseAlert(id) }, timeout);
+}
+
+function jCloseAlert(id) {
+    $("#" + id).alert("close");
 }
