@@ -15,7 +15,7 @@ jQuery(document).ready(function () {
 
     // reload page reload time from cookie after all ajax gets or posts
     // ref: http://www.w3schools.com/jquery/ajax_ajaxsetup.asp
-    $.ajaxSetup({ complete: function (result) { setPageReloadTimer(null); } });
+    $.ajaxSetup({ complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); } });
     jQuery(".status").fadeOut("slow");
 
     $(".close").click(function () {
@@ -71,19 +71,22 @@ function loadDataTables() {
 //    }).responseJSON;
 //}
 
-function getAsync(url, params) {
+function getAsync(url, params) {    
     if (url === null) {
-        jAlert("هشدار", "آدرس خالی می باشد", "warning", 5000);
+        jAlert("آدرس خالی می باشد", "warning", 10000);
+        return;
     }
 
+    jQuery(".status").fadeIn();
+
     $.get(url, params, function () {
-        jAlert("پیام", "درخواست ارسال شد", "info", 3000);
+        jAlert("درخواست ارسال شد", "info", 3000);
     })
   .fail(function (data) {
-      jAlert("خطا", data, "danger", 10000);
+      jAlert(data, "danger", 15000);
   })
   .success(function (data) {
-      jAlert("تمام", data, "success", 10000);
+      jAlert(data, "success", 15000);
   });
 }
 
@@ -160,16 +163,14 @@ function generateGUID() {
 
 
 /* Alert Bootstrap MessageBox */
-function jAlert(title, msg, type, timeout) {
+function jAlert(msg, type, timeout) {
     var id = "alert_" + generateGUID();
 
-    var b = "<div id='" + id + "' class='alert alert-" + type.toLowerCase() + " fade in' style='display: none;'>" +
+    var b = "<div id='" + id + "' class='alert alert-" + type.toLowerCase() + " fade in'>" +
                "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
-               "<strong>" + title + "</strong>&nbsp;&nbsp;" + msg + "&nbsp;&nbsp;</div>";
+               "&nbsp;&nbsp;" + msg + "&nbsp;&nbsp;</div>";
 
     $("#MessagePanel").append(b);
-
-    $("#" + id).fadeIn();
 
     setTimeout(function () { jCloseAlert(id) }, timeout);
 }
