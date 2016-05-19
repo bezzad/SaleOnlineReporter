@@ -62,7 +62,24 @@ window.onbeforeunload = function () {
 function loadDataTables() {
     $('.dataTables').DataTable({
         //help: https://www.datatables.net/manual/options
-        "lengthMenu": [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "همه"]]
+        "lengthMenu": [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "همه"]],
+        "language": {            
+	            "sProcessing":   "درحال پردازش...",
+                "sLengthMenu":   "نمایش محتویات _MENU_",
+                "sZeroRecords":  "موردی یافت نشد",
+                "sInfo":         "نمایش _START_ تا _END_ از مجموع _TOTAL_ مورد",
+                "sInfoEmpty":    "تهی",
+                "sInfoFiltered": "(فیلتر شده از مجموع _MAX_ مورد)",
+                "sInfoPostFix":  "",
+                "sSearch":       "جستجو:",
+                "sUrl":          "",
+                "oPaginate": {
+                    "sFirst":    "ابتدا",
+                    "sPrevious": "قبلی",
+                    "sNext":     "بعدی",
+                    "sLast":     "انتها"
+                }            
+        }
         //select: true,
         //paging: false
     });

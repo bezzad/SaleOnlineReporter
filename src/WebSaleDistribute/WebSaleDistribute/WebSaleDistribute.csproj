@@ -320,7 +320,90 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Scripts\DataTables-Plugins\i18n\Azerbaijan.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\Dutch.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\English.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\French.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\German.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\Hebrew.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\Japanese.lang" />
+    <None Include="Scripts\DataTables-Plugins\i18n\Persian.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\Russian.lang" />
+    <Content Include="Scripts\DataTables-Plugins\i18n\Turkish.lang" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\average%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\column%28%29.title%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\columns%28%29.order%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnAddDataAndDisplay.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnAddTr.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnColumnIndexToVisible.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnDataUpdate.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnDisplayRow.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnDisplayStart.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnFakeRowspan.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnFilterAll.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnFilterClear.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnFilterOnReturn.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnFindCellRowIndexes.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnFindCellRowNodes.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnGetAdjacentTr.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnGetColumnData.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnGetColumnIndex.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnGetHiddenNodes.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnGetTd.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnGetTds.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnLengthChange.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnMultiFilter.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnPagingInfo.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnProcessingIndicator.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnReloadAjax.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnSetFilteringDelay.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnSortNeutral.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnStandingRedraw.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\fnVisibleToColumnIndex.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\order.neutral%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\page.jumpToData%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\processing%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\row%28%29.show%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\api\sum%28%29.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\alt-string.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\anti-the.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\chinese-string.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\currency.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\custom-data-source\dom-checkbox.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\custom-data-source\dom-select.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\custom-data-source\dom-text.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\date-dd-MMM-yyyy.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\date-de.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\date-eu.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\date-euro.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\date-uk.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\datetime-moment.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\datetime-us.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\enum.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\file-size.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\formatted-numbers.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\ip-address.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\monthYear.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\natural.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\num-html.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\numeric-comma.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\percent.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\persian.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\scientific.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\signed-num.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\stringMonthYear.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\time.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\title-numeric.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\title-string.js" />
+    <Content Include="Scripts\DataTables-Plugins\sorting\turkish-string.js" />
+    <Content Include="Scripts\DataTables-Plugins\type-detection\currency.js" />
+    <Content Include="Scripts\DataTables-Plugins\type-detection\date-uk.js" />
+    <Content Include="Scripts\DataTables-Plugins\type-detection\file-size.js" />
+    <Content Include="Scripts\DataTables-Plugins\type-detection\formatted-num.js" />
+    <Content Include="Scripts\DataTables-Plugins\type-detection\ip-address.js" />
+    <Content Include="Scripts\DataTables-Plugins\type-detection\num-html.js" />
+    <Content Include="Scripts\DataTables-Plugins\type-detection\numeric-comma.js" />
     <Content Include="Scripts\Highcharts-4.0.1\js\adapters\standalone-framework.js" />
     <Content Include="Scripts\Highcharts-4.0.1\js\adapters\standalone-framework.src.js" />
     <Content Include="Scripts\Highcharts-4.0.1\js\highcharts-3d.js" />
@@ -428,6 +511,7 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
