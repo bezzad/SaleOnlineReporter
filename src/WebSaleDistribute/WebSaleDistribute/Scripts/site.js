@@ -15,7 +15,13 @@ jQuery(document).ready(function () {
 
     // reload page reload time from cookie after all ajax gets or posts
     // ref: http://www.w3schools.com/jquery/ajax_ajaxsetup.asp
-    $.ajaxSetup({ complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); } });
+    $.ajaxSetup({
+        complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); },
+        error: function (xhr, status, error) {
+            var err = JSON.parse(xhr.responseText)
+            jAlert("Error " + err.ExceptionType + ":    " + err.ExceptionMessage, "danger", 15000);
+        }
+    });
     jQuery(".status").fadeOut("slow");
 
     $(".close").click(function () {
@@ -73,7 +79,7 @@ function loadDataTables() {
 
 function getAsync(url, params) {    
     if (url === null) {
-        jAlert("آدرس خالی می باشد", "warning", 10000);
+        jAlert("آدرس خالی می باشد", "warning", 15000);
         return;
     }
 
@@ -82,9 +88,6 @@ function getAsync(url, params) {
     $.get(url, params, function () {
         jAlert("درخواست ارسال شد", "info", 3000);
     })
-  .fail(function (data) {
-      jAlert(data, "danger", 15000);
-  })
   .success(function (data) {
       jAlert(data, "success", 15000);
   });

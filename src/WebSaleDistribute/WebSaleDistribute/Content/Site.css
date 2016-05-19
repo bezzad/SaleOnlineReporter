@@ -74,8 +74,8 @@ h1 {
 
 /* Bootstrap Message Alert */
 #MessagePanel {
-    position: absolute;
-    top: 110px;
-    right: 110px;
+    position: fixed;
+    top: 90px;
+    right: 30px;
     z-index: 1;
 }

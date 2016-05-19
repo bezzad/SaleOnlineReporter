@@ -315,7 +315,7 @@
     <EmbeddedResource Include="Migrations\201604261155317_Initial.resx">
       <DependentUpon>201604261155317_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Properties\PublishProfiles\dc.pubxml" />
+    <None Include="Properties\PublishProfiles\Apps.dbitabriz.local.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

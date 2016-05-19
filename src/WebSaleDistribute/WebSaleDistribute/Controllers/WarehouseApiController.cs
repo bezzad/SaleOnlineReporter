@@ -45,7 +45,7 @@ namespace WebSaleDistribute.Controllers
         [Route("Warehouse/EntryInWayToWarehouse/{invoicId}")]
         public async Task<IHttpActionResult> EntryInWayToWarehouseAsync(int invoicId)
         {
-            string msg = $"متاسفانه خطایی هنگام ورود به انبار {invoicId} رخ داده است!";
+            string msg =  $"متاسفانه خطایی هنگام ورود به انبار {invoicId} رخ داده است!";
             try
             {
                 var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
@@ -59,12 +59,12 @@ namespace WebSaleDistribute.Controllers
 
                 if (result > 0)
                     msg = $"فاکتور توراهی {invoicId} وارد انبار شد";
-
             }
             catch (Exception exp)
             {
                 ErrorSignal.FromCurrentContext().Raise(exp);
                 msg = exp.Message;
+                return InternalServerError(exp);
             }
 
             return Ok(msg);

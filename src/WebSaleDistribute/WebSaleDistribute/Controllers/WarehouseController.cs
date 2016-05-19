@@ -35,20 +35,29 @@ namespace WebSaleDistribute.Controllers
                 return UserManager.FindById(User.Identity.GetUserId());
             }
         }
-                
-        
+
+
         // GET: Warehouse
         public ActionResult Warehouse()
         {
             ViewBag.Title = "انبار";
 
             var encryptedQrCode = Request.QueryString["code"];
-            ViewBag.QrCode = encryptedQrCode?.Decrypt();
+
+            if (!string.IsNullOrEmpty(encryptedQrCode))
+            {
+                if (encryptedQrCode.Length < 10 && User.IsInRole("Admin"))
+                {
+                    ViewBag.QrCode = encryptedQrCode;
+                }
+                else
+                    ViewBag.QrCode = encryptedQrCode?.Decrypt();
+            }
 
             return View();
         }
 
-        
+
 
         // GET: EntryInWayTables
         public ActionResult EntryInWayTable(int? invoiceId)
