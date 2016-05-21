@@ -187,19 +187,22 @@ namespace WebSaleDistribute.Core
 
             var thHeader = "";
             foreach (var colName in schema)
-                thHeader += $"<th>{colName}</th>{Environment.NewLine}";
-
-            var header = $@"
+                thHeader += $"<th style='text-align:left'>{colName}</th>{Environment.NewLine}";
+    
+             var header = $@"
                             <thead>
                                 <tr>
                                    {thHeader}
                                 </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                     {thHeader}
-                                </tr>
-                            </tfoot>{Environment.NewLine}";
+                            </thead>                            
+                            ";
+
+            var footer = $@"<tfoot>
+                              <tr>
+                                {thHeader}
+                              </tr>
+                            </tfoot>
+                            ";
 
             var tRows = "";
             foreach (IDictionary<string, object> row in rows)
@@ -212,7 +215,7 @@ namespace WebSaleDistribute.Core
                 tRows += $"<tr>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
             }
 
-            var body = $"{header}<tbody>{Environment.NewLine}{tRows}{Environment.NewLine}</tbody>";
+            var body = $"{header}{footer} <tbody>{Environment.NewLine}{tRows}{Environment.NewLine}</tbody>";
 
             div.InnerHtml = body;
 

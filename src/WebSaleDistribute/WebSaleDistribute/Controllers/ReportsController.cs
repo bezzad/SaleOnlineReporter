@@ -49,7 +49,6 @@ namespace WebSaleDistribute.Controllers
             ViewBag.Title = "گزارش رسیدی";
             ViewData["dir"] = "ltr";
 
-
             return View();
         }
 
