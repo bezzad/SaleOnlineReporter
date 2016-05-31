@@ -59,15 +59,23 @@ window.onbeforeunload = function () {
     $("#loading").fadeIn();
 }
 
+ //Remove the formatting to get integer data for summation
+function intVal(i) {
+    return typeof i === 'string' ?
+        i.replace(/[\$,]/g, '') * 1 :
+        typeof i === 'number' ?
+        i : 0;
+};
 
-function loadDataTables() {
+function loadDataTables(iDisplayLength) {
+    if (iDisplayLength === undefined) iDisplayLength = 10;
     var table = $('.dataTables').DataTable({
         //select: true,
         //paging: false
         //help: https://www.datatables.net/manual/options
         "processing": true,
         "lengthMenu": [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "همه"]],
-        "iDisplayLength": 10,   // Set default of 10 rows
+        "iDisplayLength": iDisplayLength,   // Set default of 10 rows
         "bAutoWidth": true, // smart column width calculation
         "bPaginate": true, // pagination
         "stateSave": true, // save the state of a table (its paging position, ordering state etc) so that is can be restored when the user reloads a page, or comes back to the page after visiting a sub-page.
@@ -93,36 +101,26 @@ function loadDataTables() {
         "footerCallback": function (tfoot, data, start, end, display) {
             var api = this.api(), data;
 
-            // Remove the formatting to get integer data for summation
-            var intVal = function (i) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '') * 1 :
-                    typeof i === 'number' ?
-                    i : 0;
-            };
+            this.api().columns('.sum').every(function () {
+                var column = this;
 
-            // Total over all pages
-            total = api
-                .column(3)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
+                // Total over all pages
+                total = column
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
 
-            // Total over this page
-            pageTotal = api
-                .column(3, { page: 'current' })
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
+                // Total over this page                
+                pageTotal = api.column(column.index(), { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
 
-            // Update footer
-            $(api.columns().footer()).html(pageTotal);
-
-            $("<tr>\
-                <th style='text-align:left'>کل: " + total + "</th>\
-            </tr>").insertAfter(tfoot);
+                // Update footer
+                $(column.footer()).html(pageTotal + "<hr/>" + total);
+            });
         }
     });
 

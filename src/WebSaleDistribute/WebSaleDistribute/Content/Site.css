@@ -79,3 +79,14 @@ h1 {
     right: 30px;
     z-index: 1;
 }
+
+hr{
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-top: 1px solid #2c50b2;
+    border-width: 1px;    
+}

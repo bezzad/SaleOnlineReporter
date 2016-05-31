@@ -187,7 +187,7 @@ namespace WebSaleDistribute.Core
 
             var thHeader = "";
             foreach (var colName in schema)
-                thHeader += $"<th style='text-align:left'>{colName}</th>{Environment.NewLine}";
+                thHeader += $"<th class='sum' style='text-align:left'>{colName}</th>{Environment.NewLine}";
     
              var header = $@"
                             <thead>
