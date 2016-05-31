@@ -44,8 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdoManager, Version=1.0.3.34588, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AdoManager.1.0.3\lib\net45\AdoManager.dll</HintPath>
+    <Reference Include="AdoManager, Version=1.1.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AdoManager.1.1.21\lib\net45\AdoManager.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -203,6 +203,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Data\Connections.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Connections.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -261,7 +266,20 @@
     <EmbeddedResource Include="App_Data\ElmahSqlServer.sql" />
     <EmbeddedResource Include="App_Data\CreateQrCodesTable_Script.sql" />
     <Content Include="App_Data\CallWebServiceFromSql_Script.sql" />
+    <Content Include="App_Data\Connections.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Connections.cs</LastGenOutput>
+    </Content>
     <Content Include="App_Data\CreateSpHTTPRequest_Script.sql" />
+    <Content Include="App_Data\VersionUpdater.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VersionUpdater.txt</LastGenOutput>
+    </Content>
+    <Content Include="App_Data\VersionUpdater.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionUpdater.tt</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -547,7 +565,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\..\packages\Clarius.TransformOnBuild-unofficial.1.20\build\Clarius.TransformOnBuild-unofficial.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Clarius.TransformOnBuild-unofficial.1.20\build\Clarius.TransformOnBuild-unofficial.targets'))" />
   </Target>
+  <Import Project="..\..\packages\Clarius.TransformOnBuild-unofficial.1.20\build\Clarius.TransformOnBuild-unofficial.targets" Condition="Exists('..\..\packages\Clarius.TransformOnBuild-unofficial.1.20\build\Clarius.TransformOnBuild-unofficial.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
