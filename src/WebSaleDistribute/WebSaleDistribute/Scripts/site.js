@@ -126,7 +126,7 @@ function loadDataTables(iDisplayLength) {
                     }, 0);
 
                 // Update footer
-                $(col.footer()).html(pageTotal.toLocaleString('fa-IR') + "<hr/>" + total.toLocaleString('fa-IR'));
+                $(col.footer()).html(numberWithCommas(pageTotal) + "<hr/>" + numberWithCommas(total));
                 //------------------------
             });
 
@@ -144,7 +144,7 @@ function loadDataTables(iDisplayLength) {
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0) / col.data().length;
-                avg = Number((avg).toFixed(floatingDigit)).toLocaleString();
+                avg = Number((avg).toFixed(floatingDigit));
 
                 // Total over this page                
                 var cCol = api.column(col.index(), { page: 'current' });
@@ -157,7 +157,7 @@ function loadDataTables(iDisplayLength) {
                 pageAvg = Number((pageAvg).toFixed(floatingDigit));
 
                 // Update footer
-                $(col.footer()).html("میانگین " + pageAvg.toLocaleString('fa-IR') + "<hr/> میانگین کل " + avg.toLocaleString('fa-IR'));
+                $(col.footer()).html("میانگین " + numberWithCommas(pageAvg) + "<hr/> میانگین کل " + numberWithCommas(avg));
                 //------------------------
             });
 
@@ -271,7 +271,6 @@ function checkCookie() {
 }
 
 
-
 /* Jquery function to create guids.
  * Guid code from 
  * http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
@@ -302,4 +301,10 @@ function jAlert(msg, type, timeout) {
 
 function jCloseAlert(id) {
     $("#" + id).alert("close");
+}
+
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
 }
