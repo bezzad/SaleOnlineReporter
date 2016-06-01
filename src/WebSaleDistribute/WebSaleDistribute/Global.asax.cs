@@ -25,14 +25,11 @@ namespace WebSaleDistribute
         }
 
         private void SetConnection()
-        {
-            // Set Database Connection from [Web.config]
-            var data = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "Web.config");
-            ConnectionManager.LoadFromXml(data);
-#if DEBUG
-            ConnectionManager.SetToDefaultConnection(Properties.Settings.Default.UsersManagements); // local
+        {            
+#if DEBUG // If(Debugger.IsAttached)
+            ConnectionManager.SetToDefaultConnection(Connections.UsersManagements.Connection.Name); // local
 #else
-            ConnectionManager.SetToDefaultConnection(Properties.Settings.Default.UsersManagements); // server
+            ConnectionManager.SetToDefaultConnection(Connections.UsersManagements.Connection.Name); // server
 #endif
         }
 

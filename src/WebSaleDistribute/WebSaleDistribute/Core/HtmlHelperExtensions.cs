@@ -109,7 +109,7 @@ namespace WebSaleDistribute.Core
 
             var detailLink = $@"<hr/>
                                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                                    <button type='button' class='btn btn-"+ option.PanelType.ToString() + $@"' onclick='getAsync(""{option.Url}"");'>
+                                    <button type='button' class='btn btn-" + option.PanelType.ToString() + $@"' onclick='getAsync(""{option.Url}"");'>
                                       {option.DetailUrlContent}&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
                                     </button>
                                  </div>";
@@ -159,10 +159,10 @@ namespace WebSaleDistribute.Core
             return MvcHtmlString.Create(div.ToString());
         }
 
-        public static MvcHtmlString TableItem(this HtmlHelper htmlHelper, string id, List<string> schema, List<ExpandoObject> rows, params Tuple<int, OrderType>[] orders)
+        public static MvcHtmlString TableItem(this HtmlHelper htmlHelper, TableOption opt)
         {
             var div = new TagBuilder("table");
-            div.Attributes.Add("id", id);
+            div.Attributes.Add("id", opt.Id);
             div.Attributes.Add("cellspacing", "0");
             div.Attributes.Add("width", "100%");
             div.AddCssClass("dataTables");
@@ -171,10 +171,10 @@ namespace WebSaleDistribute.Core
             div.AddCssClass("order-column");
             div.AddCssClass("stripe");
 
-            if (orders != null && orders.Any())
+            if (opt?.Orders?.Any() == true)
             {
                 var val = "[";
-                foreach (Tuple<int, OrderType> order in orders)
+                foreach (Tuple<int, OrderType> order in opt.Orders)
                 {
                     val += $@"[ {order.Item1}, ""{order.Item2.ToString()}"" ], ";
                 }
@@ -183,13 +183,18 @@ namespace WebSaleDistribute.Core
                 div.Attributes.Add("data-order", val);
             }
 
-
-
             var thHeader = "";
-            foreach (var colName in schema)
-                thHeader += $"<th class='sum' style='text-align:left'>{colName}</th>{Environment.NewLine}";
-    
-             var header = $@"
+            //
+            // set sum footer columns
+            foreach (var colName in opt.Schema)
+            {
+                var sumClass = opt.TotalFooterColumns?.Any(x => x.Equals(colName, StringComparison.CurrentCultureIgnoreCase)) == true ? "sum" : null;
+                sumClass += opt.AverageFooterColumns?.Any(x => x.Equals(colName, StringComparison.CurrentCultureIgnoreCase)) == true ? "avg" : null;
+                sumClass = string.IsNullOrEmpty(sumClass) ? "empty" : sumClass;
+                thHeader += $"<th class='{sumClass}' style='text-align:left'>{colName}</th>{Environment.NewLine}";
+            }
+
+            var header = $@"
                             <thead>
                                 <tr>
                                    {thHeader}
@@ -198,17 +203,15 @@ namespace WebSaleDistribute.Core
                             ";
 
             var footer = $@"<tfoot>
-                              <tr>
-                                {thHeader}
-                              </tr>
+                              <tr>{thHeader}</tr>
                             </tfoot>
                             ";
 
             var tRows = "";
-            foreach (IDictionary<string, object> row in rows)
+            foreach (IDictionary<string, object> row in opt.Rows)
             {
                 var tds = "";
-                foreach (var col in schema)
+                foreach (var col in opt.Schema)
                 {
                     tds += $"<td>{row[col]}</td>{Environment.NewLine}";
                 }

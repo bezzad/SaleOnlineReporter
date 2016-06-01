@@ -1,8 +1,7 @@
-﻿@using System.Dynamic
-@using WebSaleDistribute.Core
+﻿@using WebSaleDistribute.Core
 @using WebSaleDistribute.Core.Enums
 
-@model Tuple<List<string>, List<ExpandoObject>>
+@model TableOption
 
 @{
     var id = "ReceiptsTable_" + Guid.NewGuid().ToString();
@@ -12,7 +11,7 @@
         UpdateTargetId = "ReceiptsTable",
     };
 
-    opt.OnSuccess += " loadDataTables();";
+    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength});";
 }
 
 <div id="ReceiptsTable">
@@ -20,19 +19,19 @@
     @using (Ajax.BeginForm("ReceiptsTable", "Reports", opt, new { @id = id, @class = "refreshable-panel" }))
     {
         @(Html.PanelItem(new PanelItemOption()
-    {
-        Id = id,
-        Body = Html.TableItem("receipts", Model.Item1, Model.Item2, Tuple.Create(0, OrderType.desc)).ToHtmlString(),
-        Title = "لیست رسیدی ها",
-        Url = "#",
-        GlyphIcon = "list-alt",
-        HasDetailLink = false,
-        HasSettingPanel = false,
-        PanelType = PanelType.danger,
-        IsRefreshable = true,
-        ExportToExcelAction = Url.Action("ExportToExcel", "Tools",
-                            new { username = ViewBag.Username, actionName = ViewContext.RouteData.Values["action"].ToString() })
-    })
+            {
+                Id = id,
+                Body = Html.TableItem(Model).ToHtmlString(),
+                Title = "لیست رسیدی ها",
+                Url = "#",
+                GlyphIcon = "list-alt",
+                HasDetailLink = false,
+                HasSettingPanel = false,
+                PanelType = PanelType.danger,
+                IsRefreshable = true,
+                ExportToExcelAction = Url.Action("ExportToExcel", "Tools",
+                                    new { username = ViewBag.Username, actionName = ViewContext.RouteData.Values["action"].ToString() })
+            })
         )
     }
 

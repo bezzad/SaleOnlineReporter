@@ -26,7 +26,7 @@ namespace WebSaleDistribute.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base(Properties.Settings.Default.SaleDistributeIdentity, throwIfV1Schema: false)
+            : base(Connections.SaleDistributeIdentity.Connection.Name, throwIfV1Schema: false)
         {
             //Create database always, even If exists
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());

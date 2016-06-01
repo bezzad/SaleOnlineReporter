@@ -88,7 +88,7 @@ namespace WebSaleDistribute.Controllers
 
             // Fill Table data ------------------------------------------
             #region Table Data
-            var tableData = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn.ExecuteReader(
+            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                 "sp_GetInvoiceRemain",
                 new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = "2" },
                 commandType: CommandType.StoredProcedure);
@@ -96,7 +96,16 @@ namespace WebSaleDistribute.Controllers
             List<string> schema;
             var results = tableData.GetSchemaAndData(out schema);
 
-            var model = Tuple.Create(schema, results);
+            var model = new TableOption()
+            {
+                Id = "receipts",
+                Schema = schema,
+                Rows = results,
+                DisplayRowsLength = 10,
+                Orders = new[] { Tuple.Create(0, OrderType.desc) },
+                TotalFooterColumns = new[] { "مانده فاکتور", "قابل پرداخت" },
+                AverageFooterColumns = new[] { "تعداد روز" }
+            };
 
             #endregion
             //-----------------------------------------------------------
@@ -152,7 +161,7 @@ namespace WebSaleDistribute.Controllers
                     return PartialView("CustomersOrdersChart", HtmlHelperExtensions.GetHighChart(opt));
                 }
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(exp);
             }

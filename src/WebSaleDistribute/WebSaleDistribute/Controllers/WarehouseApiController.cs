@@ -45,11 +45,10 @@ namespace WebSaleDistribute.Controllers
         [Route("Warehouse/EntryInWayToWarehouse/{invoicId}")]
         public async Task<IHttpActionResult> EntryInWayToWarehouseAsync(int invoicId)
         {
-            string msg =  $"متاسفانه خطایی هنگام ورود به انبار {invoicId} رخ داده است!";
+            string msg = $"متاسفانه خطایی هنگام ورود به انبار {invoicId} رخ داده است!";
             try
             {
-                var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
-                var result = await sqlConn.ExecuteAsync("sp_EntryInWayToWareHouseByOldInvoiceId",
+                var result = await Connections.SaleTabriz.SqlConn.ExecuteAsync("sp_EntryInWayToWareHouseByOldInvoiceId",
                     new
                     {
                         OldInvoiceId = invoicId,

@@ -68,7 +68,7 @@ namespace WebSaleDistribute.Controllers
 
             // Fill Table data ---------------
             #region Table Data
-            var tableData = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn.ExecuteReader(
+            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                 "sp_GetInWayDetailsByOldInvoicId",
                 new { OldInvoicId = invoiceId },
                 commandType: CommandType.StoredProcedure);
@@ -76,7 +76,14 @@ namespace WebSaleDistribute.Controllers
             List<string> schema;
             var results = tableData.GetSchemaAndData(out schema);
 
-            var model = Tuple.Create(schema, results);
+            var model = new TableOption()
+            {
+                Id = "entryInWay",
+                Schema = schema,
+                Rows = results,
+                DisplayRowsLength = 50,
+                TotalFooterColumns = new string[] { }
+            };
 
             #endregion
             //--------------------------------

@@ -41,8 +41,7 @@ namespace WebSaleDistribute.Controllers
         [Route("Reports/GetInvoiceRemainChart")]
         public IEnumerable<dynamic> GetInvoiceRemainChart()
         {
-            var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
-            var result = sqlConn.Query("sp_GetInvoiceRemainChart",
+            var result = Connections.SaleTabriz.SqlConn.Query("sp_GetInvoiceRemainChart",
                 new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = DateTime.Now.GetPersianDate() },
                 commandType: System.Data.CommandType.StoredProcedure);
             
@@ -57,9 +56,8 @@ namespace WebSaleDistribute.Controllers
             var routParams = Request.GetQueryStrings();
             var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
-
-            var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
-            var result = await sqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
+            
+            var result = await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate },
                 commandType: System.Data.CommandType.StoredProcedure);
 
@@ -74,9 +72,8 @@ namespace WebSaleDistribute.Controllers
             var routParams = Request.GetQueryStrings();
             var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
-
-            var sqlConn = AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleTabriz).SqlConn;
-            var result = await sqlConn.QueryAsync("sp_GetOrderStatisticsChart",
+            
+            var result = await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate, OfficerEmployeeID = officerEmployeeId },
                 commandType: System.Data.CommandType.StoredProcedure);
 

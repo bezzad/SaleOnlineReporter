@@ -25,33 +25,6 @@ namespace WebSaleDistribute.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("UsersManagements")]
-        public string UsersManagements {
-            get {
-                return ((string)(this["UsersManagements"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SaleDistributeIdentity")]
-        public string SaleDistributeIdentity {
-            get {
-                return ((string)(this["SaleDistributeIdentity"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SaleTabriz")]
-        public string SaleTabriz {
-            get {
-                return ((string)(this["SaleTabriz"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("App_Data.UpdateDatabase.sql")]
         public string QueryUpdateDatabase {
             get {

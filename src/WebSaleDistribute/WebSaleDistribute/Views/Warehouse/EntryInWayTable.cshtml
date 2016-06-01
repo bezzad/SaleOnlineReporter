@@ -1,8 +1,7 @@
-﻿@using System.Dynamic
-@using WebSaleDistribute.Core
+﻿@using WebSaleDistribute.Core
 @using WebSaleDistribute.Core.Enums
 
-@model Tuple<List<string>, List<ExpandoObject>>
+@model TableOption
 
 @{
     var id = "EntryInWayTables_" + Guid.NewGuid().ToString();
@@ -12,7 +11,7 @@
         UpdateTargetId = "EntryInWayTable"
     };
 
-    opt.OnSuccess += " loadDataTables();";
+    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength});";
 }
 
 <div id="EntryInWayTable">
@@ -22,7 +21,7 @@
         @(Html.PanelItem(new PanelItemOption()
             {
                 Id = id,
-                Body = Html.TableItem("entryInWay", Model.Item1, Model.Item2).ToHtmlString(),
+                Body = Html.TableItem(Model).ToHtmlString(),
                 Title = $" توراهی شماره {ViewBag.QrCode}",
                 HasDetailLink = true,
                 DetailUrlContent = "<b>ورود به انبار</b>",

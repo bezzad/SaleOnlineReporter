@@ -125,12 +125,12 @@ namespace WebSaleDistribute.Migrations
 
             // insert fixed data in database [SaleDistributeIdentity]
             var insertUsersManagersDataScript = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryUpdateDatabase);
-            AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleDistributeIdentity).ExecuteNonQuery(insertUsersManagersDataScript);
+            Connections.SaleDistributeIdentity.ExecuteNonQuery(insertUsersManagersDataScript);
             ctx.Database.ExecuteSqlCommand("Exec sp_UpdateDatabase");
 
             // create elmah tables
             var elmahDbScript = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryElmah);
-            AdoManager.ConnectionManager.Find(Properties.Settings.Default.SaleDistributeIdentity).ExecuteBatchNonQuery(elmahDbScript);
+            Connections.SaleDistributeIdentity.ExecuteBatchNonQuery(elmahDbScript);
         }
     }
 }

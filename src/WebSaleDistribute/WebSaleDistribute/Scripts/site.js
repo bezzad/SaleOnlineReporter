@@ -59,7 +59,7 @@ window.onbeforeunload = function () {
     $("#loading").fadeIn();
 }
 
- //Remove the formatting to get integer data for summation
+//Remove the formatting to get integer data for summation
 function intVal(i) {
     return typeof i === 'string' ?
         i.replace(/[\$,]/g, '') * 1 :
@@ -99,28 +99,81 @@ function loadDataTables(iDisplayLength) {
         },
         //
         "footerCallback": function (tfoot, data, start, end, display) {
-            var api = this.api(), data;
+            var api = this.api();
+            var floatingDigit = 2;
+            var haveFooter = false;
 
-            this.api().columns('.sum').every(function () {
-                var column = this;
+            //
+            // Set sum value in footer
+            //
+            api.columns('.sum').every(function () {
+                haveFooter = true;
+                //------------------------
+                var col = this;
 
                 // Total over all pages
-                total = column
+                total = col
                     .data()
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
 
                 // Total over this page                
-                pageTotal = api.column(column.index(), { page: 'current' })
+                pageTotal = api.column(col.index(), { page: 'current' })
                     .data()
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
 
                 // Update footer
-                $(column.footer()).html(pageTotal + "<hr/>" + total);
+                $(col.footer()).html(pageTotal + "<hr/>" + total);
+                //------------------------
             });
+
+            //
+            // Set average value in footer
+            //
+            api.columns('.avg').every(function () {
+                haveFooter = true;
+                //------------------------
+                var col = this;
+
+                // Total over all pages
+                avg = col
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0) / col.data().length;
+                avg = Number((avg).toFixed(floatingDigit));
+
+                // Total over this page                
+                var cCol = api.column(col.index(), { page: 'current' });
+                pageAvg = cCol
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0) / cCol.data().length;
+
+                pageAvg = Number((pageAvg).toFixed(floatingDigit));
+
+                // Update footer
+                $(col.footer()).html("میانگین " + pageAvg + "<hr/> میانگین کل " + avg);
+                //------------------------
+            });
+
+            //
+            // Set empty in footer
+            //
+            if (haveFooter) {
+                api.columns('.empty').every(function () {
+                    //------------------------
+                    var col = this;
+
+                    // Update footer
+                    $(col.footer()).html("");
+                    //------------------------
+                });
+            }
         }
     });
 
