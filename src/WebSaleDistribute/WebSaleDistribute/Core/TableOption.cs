@@ -14,6 +14,6 @@ namespace WebSaleDistribute.Core
         public string[] AverageFooterColumns { get; set; }
         public int DisplayRowsLength { get; set; } = 10;
         public bool AutoWidth { get; set; } = true;
-
+        public bool Checkable { get; set; } = false;
     }
 }

@@ -176,14 +176,15 @@ namespace WebSaleDistribute.Core
                 var val = "[";
                 foreach (Tuple<int, OrderType> order in opt.Orders)
                 {
-                    val += $@"[ {order.Item1}, ""{order.Item2.ToString()}"" ], ";
+                    var targetColIndex = order.Item1 + (opt.Checkable ? 1 : 0);
+                    val += $@"[ {targetColIndex}, ""{order.Item2.ToString()}"" ], ";
                 }
                 val = val.Substring(0, val.Length - 2) + "]";
 
                 div.Attributes.Add("data-order", val);
             }
 
-            var thHeader = "";
+            var thHeader = opt.Checkable ? $"<th class='empty'>انتخاب</th>{Environment.NewLine}" : "";
             //
             // set sum footer columns
             foreach (var colName in opt.Schema)
@@ -208,15 +209,19 @@ namespace WebSaleDistribute.Core
                             ";
 
             var tRows = "";
-            foreach (IDictionary<string, object> row in opt.Rows)
+            for (int rIndex = 0; rIndex < (opt.Rows?.Count ?? 0); rIndex++)
             {
-                var tds = "";
+                IDictionary<string, object> row = opt.Rows[rIndex];
+
+                var tds = opt.Checkable ? $@"<td id='{opt.Id}_colSelect_{rIndex}' class='colSelect' style='text-align: center;'><input id='row' type='checkbox' value='false'></td>{Environment.NewLine}" : "";
                 foreach (var col in opt.Schema)
                 {
                     tds += $"<td>{row[col]}</td>{Environment.NewLine}";
                 }
                 tRows += $"<tr>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
             }
+
+
 
             var body = $"{header}{footer} <tbody>{Environment.NewLine}{tRows}{Environment.NewLine}</tbody>";
 
