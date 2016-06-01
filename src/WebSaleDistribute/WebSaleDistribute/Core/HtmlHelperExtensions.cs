@@ -187,12 +187,42 @@ namespace WebSaleDistribute.Core
             var thHeader = opt.Checkable ? $"<th class='empty'>انتخاب</th>{Environment.NewLine}" : "";
             //
             // set sum footer columns
-            foreach (var colName in opt.Schema)
+            for (var colIndex = 0; colIndex < opt.Schema.Count; colIndex++)
             {
-                var sumClass = opt.TotalFooterColumns?.Any(x => x.Equals(colName, StringComparison.CurrentCultureIgnoreCase)) == true ? "sum" : null;
-                sumClass += opt.AverageFooterColumns?.Any(x => x.Equals(colName, StringComparison.CurrentCultureIgnoreCase)) == true ? "avg" : null;
+                string sumClass = "";
+                //
+                // check is total column or not!
+                if (opt.TotalFooterColumns != null)
+                {
+                    foreach (var totalColName in opt.TotalFooterColumns)
+                    {
+                        int index = 0;
+                        if (totalColName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
+                            || (int.TryParse(totalColName, out index) && index == colIndex))
+                        {
+                            sumClass = "sum";
+                            break;
+                        }
+                    }
+                }
+                //
+                // check is average column or not!
+                if (opt.AverageFooterColumns != null)
+                {
+                    foreach (var avgColName in opt.AverageFooterColumns)
+                    {
+                        int index = 0;
+                        if (avgColName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
+                            || (int.TryParse(avgColName, out index) && index == colIndex))
+                        {
+                            sumClass = "avg";
+                            break;
+                        }
+                    }
+                }
+                
                 sumClass = string.IsNullOrEmpty(sumClass) ? "empty" : sumClass;
-                thHeader += $"<th class='{sumClass}' style='text-align:left'>{colName}</th>{Environment.NewLine}";
+                thHeader += $"<th class='{sumClass}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
             }
 
             var header = $@"
@@ -200,7 +230,7 @@ namespace WebSaleDistribute.Core
                                 <tr>
                                    {thHeader}
                                 </tr>
-                            </thead>                            
+                            </thead>
                             ";
 
             var footer = $@"<tfoot>
@@ -220,8 +250,6 @@ namespace WebSaleDistribute.Core
                 }
                 tRows += $"<tr>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
             }
-
-
 
             var body = $"{header}{footer} <tbody>{Environment.NewLine}{tRows}{Environment.NewLine}</tbody>";
 

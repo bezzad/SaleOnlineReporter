@@ -126,7 +126,7 @@ function loadDataTables(iDisplayLength) {
                     }, 0);
 
                 // Update footer
-                $(col.footer()).html(pageTotal + "<hr/>" + total);
+                $(col.footer()).html(pageTotal.toLocaleString('fa-IR') + "<hr/>" + total.toLocaleString('fa-IR'));
                 //------------------------
             });
 
@@ -144,7 +144,7 @@ function loadDataTables(iDisplayLength) {
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0) / col.data().length;
-                avg = Number((avg).toFixed(floatingDigit));
+                avg = Number((avg).toFixed(floatingDigit)).toLocaleString();
 
                 // Total over this page                
                 var cCol = api.column(col.index(), { page: 'current' });
@@ -157,7 +157,7 @@ function loadDataTables(iDisplayLength) {
                 pageAvg = Number((pageAvg).toFixed(floatingDigit));
 
                 // Update footer
-                $(col.footer()).html("میانگین " + pageAvg + "<hr/> میانگین کل " + avg);
+                $(col.footer()).html("میانگین " + pageAvg.toLocaleString('fa-IR') + "<hr/> میانگین کل " + avg.toLocaleString('fa-IR'));
                 //------------------------
             });
 
