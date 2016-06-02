@@ -52,14 +52,14 @@ BEGIN TRY
                       0, 'Reports', 'Receipts', NULL ),
                     ( @ParentMenuID + 2,	--MenuID
                       @ProgramID,	--ProgramID
-                      'گزارشات فروش', @ParentMenuID,	--ParentID
+                      'درخواست مشتریان', @ParentMenuID,	--ParentID
                       @ProgramID,	--order
-                      0, 'Reports', 'Sales', NULL ),
+                      0, 'Reports', 'CustomersOrders', NULL ),
                     ( @ParentMenuID + 3,	--MenuID
                       @ProgramID,	--ProgramID
                       'انبار', @ParentMenuID,	--ParentID
                       3,	--order
-                      0, 'Warehouse', 'Index', NULL )
+                      0, 'Warehouse', 'Warehouse', NULL )
     
     -----------------------------------------------
     -------- Add roles to all sub menus -----------
