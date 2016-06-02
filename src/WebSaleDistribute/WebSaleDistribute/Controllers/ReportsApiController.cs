@@ -44,7 +44,7 @@ namespace WebSaleDistribute.Controllers
             var result = Connections.SaleTabriz.SqlConn.Query("sp_GetInvoiceRemainChart",
                 new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = DateTime.Now.GetPersianDate() },
                 commandType: System.Data.CommandType.StoredProcedure);
-            
+
             return result;
         }
 
@@ -53,28 +53,36 @@ namespace WebSaleDistribute.Controllers
         [Route("Reports/GetOfficerOrderStatisticsChart")]
         public async Task<IHttpActionResult> GetOfficerOrderStatisticsChart()
         {
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+
+            if (currentUser == null) throw new UnauthorizedAccessException("This user is not valid!");
+
             var routParams = Request.GetQueryStrings();
             var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
-            
-            var result = await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
+
+            var result = (CurrentUser.EmployeeType > 5) ?
+                await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate },
+                commandType: System.Data.CommandType.StoredProcedure)
+            : await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
+                new { OfficerEmployeeID = CurrentUser.UserName, OfficerEmployeeTypeID = CurrentUser.EmployeeType, FromDate = fromDate, ToDate = toDate },
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return Ok(result);
         }
 
 
-        // GET: api/Reports/GetOrderStatisticsChart/{officerEmployeeId}
-        [Route("Reports/GetOrderStatisticsChart/{officerEmployeeId}")]
-        public async Task<IHttpActionResult> GetOrderStatisticsChart(int officerEmployeeId)
+        // GET: api/Reports/GetOrderStatisticsChart/{officerEmployeeTypeId}/{officerEmployeeId}
+        [Route("Reports/GetOrderStatisticsChart/{officerEmployeeTypeId}/{officerEmployeeId}")]
+        public async Task<IHttpActionResult> GetOrderStatisticsChart(int officerEmployeeTypeId, int officerEmployeeId)
         {
             var routParams = Request.GetQueryStrings();
             var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
-            
+
             var result = await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
-                new { FromDate = fromDate, ToDate = toDate, OfficerEmployeeID = officerEmployeeId },
+                new { FromDate = fromDate, ToDate = toDate, OfficerEmployeeID = officerEmployeeId, OfficerEmployeeTypeID = officerEmployeeTypeId },
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return Ok(result);

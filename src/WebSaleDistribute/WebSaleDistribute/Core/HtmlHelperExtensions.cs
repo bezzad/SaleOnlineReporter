@@ -220,7 +220,7 @@ namespace WebSaleDistribute.Core
                         }
                     }
                 }
-                
+
                 sumClass = string.IsNullOrEmpty(sumClass) ? "empty" : sumClass;
                 thHeader += $"<th class='{sumClass}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
             }
@@ -282,7 +282,20 @@ namespace WebSaleDistribute.Core
                 };
                 chart.Style = "fontWeight: 'normal', fontFamily: 'IRANSans'";
 
-                highChart.AddJavascripVariable("ChartParentUrl", '\"' + option.LoadDataUrl + '\"')
+                //
+                // Create Ajax loading address by rout params
+                var url = $@"""{option.LoadDataUrl}""";
+                // add rout params
+                if (option.AjaxRoutParams.Any())
+                {
+                    url += "/?";
+                    for (int i = 0; i < option.AjaxRoutParams.Count; i++)
+                    {
+                        var param = option.AjaxRoutParams[i];
+                        url += $"{param.Key}={param.Value}&";
+                    }
+                }
+                highChart.AddJavascripVariable("ChartParentUrl", url)
                 .AddJavascripFunction("FetchDataFunc", $@"                            
                              $.get(ChartParentUrl, function (dataArr) {{ 
                             {option.Name}.series[0].setData(dataArr);

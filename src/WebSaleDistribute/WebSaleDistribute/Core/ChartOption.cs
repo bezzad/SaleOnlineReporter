@@ -1,4 +1,5 @@
 ﻿using DotNet.Highcharts.Enums;
+using System.Collections.Generic;
 
 namespace WebSaleDistribute.Core
 {
@@ -18,5 +19,6 @@ namespace WebSaleDistribute.Core
         public string LoadDataUrl { get; set; }
         public bool ColorByPoint { get; set; } = true;
         public bool AjaxLoading { get; set; }
+        public List<KeyValuePair<string, string>> AjaxRoutParams { get; set; } = new List<KeyValuePair<string, string>>();
     }
 }
