@@ -82,7 +82,7 @@ namespace WebSaleDistribute.Controllers
                 Schema = schema,
                 Rows = results,
                 DisplayRowsLength = 50,
-                TotalFooterColumns = new string[] { "9" }
+                TotalFooterColumns = new string[] { "9", "تعداد" } // column by name "تعداد" and column by index 9
             };
 
             #endregion
