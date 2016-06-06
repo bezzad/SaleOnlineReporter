@@ -87,7 +87,7 @@ namespace WebSaleDistribute.Controllers
                     if (int.TryParse(currentUser.UserName, out username))
                     {
 
-                        var employeeTypes = AdoManager.ConnectionManager.Find("SaleTabriz").SqlConn.Query<EmployeeTypeModels>("Select * From fn_GetEmployeeSaleTypes(@EmployeeID)", new { EmployeeID = currentUser.UserName });
+                        var employeeTypes = Connections.SaleTabriz.SqlConn.Query<EmployeeTypeModels>("Select * From fn_GetEmployeeSaleTypes(@EmployeeID)", new { EmployeeID = currentUser.UserName });
 
                         ViewData["EmployeeTypes"] = employeeTypes.ToList();
 

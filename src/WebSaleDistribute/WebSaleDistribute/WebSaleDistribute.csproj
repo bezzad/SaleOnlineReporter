@@ -44,8 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdoManager, Version=1.1.21.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AdoManager.1.1.21\lib\net45\AdoManager.dll</HintPath>
+    <Reference Include="AdoManager, Version=1.1.50.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AdoManager.1.1.50\lib\net45\AdoManager.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -527,7 +527,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup />
