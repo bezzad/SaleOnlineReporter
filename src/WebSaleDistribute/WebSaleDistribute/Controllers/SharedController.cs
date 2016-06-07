@@ -38,13 +38,12 @@ namespace WebSaleDistribute.Controllers
         [HttpGet]
         public ActionResult Menu()
         {
-            if (User.Identity.GetUserId() != null)
+            var userId = User.Identity.GetUserId();
+            if (userId != null)
             {
-                var currentUser = UserManager.FindById(User.Identity.GetUserId());
+                if (CurrentUser == null) return null;
 
-                if (currentUser == null) return null;
-
-                return PartialView("_MenuPartial", DynamicModels.GetMenus());
+                return PartialView("_MenuPartial", DynamicModels.GetMenus(userId));
             }
             else return null;
         }

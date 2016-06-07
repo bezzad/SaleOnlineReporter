@@ -27,6 +27,13 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
+        public ApplicationUser CurrentUser
+        {
+            get
+            {
+                return UserManager.FindById(User.Identity.GetUserId());
+            }
+        }
 
 
         [Authorize(Roles = "Admin")]
@@ -51,9 +58,15 @@ namespace WebSaleDistribute.Controllers
 
         public ActionResult Index()
         {
-            var menus = DynamicModels.GetMenus();
+            IEnumerable<System.Dynamic.ExpandoObject> menus = null;
 
-            return View(menus.ToList());
+            var userId = User.Identity.GetUserId();
+            if (userId != null)
+            {
+                menus = DynamicModels.GetMenus(userId);
+            }
+
+            return View(menus?.ToList());
         }
 
         // POST: Home/SetEmployeeType Submit
