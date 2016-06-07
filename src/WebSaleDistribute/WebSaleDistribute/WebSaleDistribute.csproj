@@ -284,6 +284,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\errors.css" />
     <Content Include="images\bwShonizFa.png" />
     <Content Include="images\favicon.ico" />
     <Content Include="images\loading.gif" />
@@ -339,6 +340,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Scripts\clipboard.min.js" />
     <Content Include="Scripts\DataTables-Plugins\i18n\Azerbaijan.lang" />
     <Content Include="Scripts\DataTables-Plugins\i18n\Dutch.lang" />
     <Content Include="Scripts\DataTables-Plugins\i18n\English.lang" />
@@ -516,7 +518,6 @@
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Reports\CustomersOrders.cshtml" />
     <Content Include="Views\Shared\_EmployeeTypePartial.cshtml" />
-    <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Reports\ReceiptsChart.cshtml" />
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />

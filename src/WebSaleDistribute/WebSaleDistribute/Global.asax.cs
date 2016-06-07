@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using AdoManager;
+using WebSaleDistribute.Controllers;
 
 namespace WebSaleDistribute
 {
@@ -24,7 +25,7 @@ namespace WebSaleDistribute
         }
 
         private void SetConnection()
-        {            
+        {
 #if DEBUG // If(Debugger.IsAttached)
             ConnectionManager.SetToDefaultConnection(Connections.UsersManagements.Connection.Name); // local
 #else
@@ -32,12 +33,25 @@ namespace WebSaleDistribute
 #endif
         }
 
-        void Application_Error(object sender, EventArgs e)
+        protected void Application_Error(object sender, EventArgs e)
         {
             // Code that runs when an unhandled error occurs
+            var context = new HttpContextWrapper(Context); //((MvcApplication)sender).Context;
+            var action = "Index";
+            var statusCode = 500;
+
+            var currentController = " ";
+            var currentAction = " ";
+            var currentRouteData = RouteTable.Routes.GetRouteData(context);
+
+            if (currentRouteData != null)
+            {
+                currentController = currentRouteData.Values["controller"]?.ToString() ?? " ";
+                currentAction = currentRouteData.Values["action"]?.ToString() ?? " ";
+            }
 
             // Get the exception object.
-            Exception exc = Server.GetLastError();
+            var exc = Server.GetLastError();
 
             if (exc == null)
                 return;
@@ -48,7 +62,6 @@ namespace WebSaleDistribute
             // Handle HTTP errors
             if (exc.GetType() == typeof(HttpException))
             {
-                var httpExp = exc as HttpException;
                 // The Complete Error Handling Example generates
                 // some errors using URLs with "NoCatch" in them;
                 // ignore these here to simulate what would happen
@@ -57,22 +70,40 @@ namespace WebSaleDistribute
                     return;
 
                 //Redirect HTTP errors to HttpError page
-                //Server.Transfer("~/Views/Errors");
+                var httpEx = exc as HttpException;
 
-                if(httpExp.GetHttpCode() == 404)
-                {
-                    Response.Redirect("~/error/NotFound");
-                    return;
-                }
+                if (httpEx != null)
+                    statusCode = httpEx.GetHttpCode();
+                //switch (httpEx.GetHttpCode())
+                //    {
+                //        case 404: // Redirect to 404:
+                //            action = "NotFound";
+                //            statusCode = 404;
+                //            break;
 
-                Response.Redirect("~/error/index");
-
-                return;
+                //        // others if any
+                //        default:
+                //            statusCode = httpEx.GetHttpCode();
+                //            break;
+                //    }
             }
-            
 
-            // Redirect to a landing page
-            Response.Redirect("~/home");
+            context.ClearError();
+            context.Response.Clear();
+            context.Response.StatusCode = statusCode;
+            context.Response.TrySkipIisCustomErrors = true;
+            if (!context.Request.IsAjaxRequest())
+            {
+                context.Response.ContentType = "text/html";
+            }
+
+            var controller = new ErrorController();
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = action;
+
+            controller.ViewData.Model = new HandleErrorInfo(exc, currentController, currentAction);
+            ((IController)controller).Execute(new RequestContext(context, routeData));
         }
     }
 }
