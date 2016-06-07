@@ -15,21 +15,19 @@
 </div>
 
 
-<div class="row" dir="rtl">
+<div class="row" style="padding: 50px;">
     @for (int index = 0; index < ((IEnumerable<ExpandoObject>)Model).Count(); index++)
     {
-        if ((index + 1) % 3 == 0)
+        if (index % 4 == 0)
         {
             <div class="clearfix"></div>
         }
-        <div class="col-md-4 col-xs-4">
-            <h4>@Model[index].MenuName</h4>
-            <br />
-            <p>
-                <a class="btn btn-default" href="@Url.Action(Model[index].PageName, Model[index].Link, routeValues: null)">
-                    باز کن <span class="glyphicon glyphicon-chevron-left"></span>
-                </a>
-            </p>
+        <div class="col-xs-3 col-xs-3">
+            <button type="button" class="menuButtons btn-block" onclick="location.href='@Url.Action(Model[index].PageName, Model[index].Link, routeValues: null)'">
+                @Model[index].MenuName
+                <br/>
+                <span style="padding:10px;" class="glyphicon glyphicon-circle-arrow-left"></span>
+            </button>
         </div>
     }
 </div>
