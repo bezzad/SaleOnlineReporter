@@ -210,5 +210,19 @@ namespace WebSaleDistribute.Core
             }
         }
 
+        public static string RepairCipher(this string invalidString)
+        {
+            // some times get url convert '+' char to white space ' ' so rollback converting:
+            var result = invalidString?.Replace(" ", "+");
+
+            int mod4 = result.Length % 4;
+            if (mod4 > 0)
+            {
+                result += new string('=', 4 - mod4);
+            }
+
+            return result;
+        }
+
     }
 }

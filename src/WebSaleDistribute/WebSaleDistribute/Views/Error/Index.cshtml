@@ -52,7 +52,7 @@
 </div>
 <br />
 
-@if (Model != null && HttpContext.Current.IsDebuggingEnabled && Response.StatusCode != 404)
+@if (Model != null && Response.StatusCode != 404) // && HttpContext.Current.IsDebuggingEnabled
 {
     <div dir="ltr">
 

@@ -42,16 +42,18 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = "انبار";
 
-            var encryptedQrCode = Request.QueryString["code"];
+            string encryptedQrCode = Request.QueryString["code"];
 
             if (!string.IsNullOrEmpty(encryptedQrCode))
             {
-                if (encryptedQrCode.Length < 10 && User.IsInRole("Admin"))
+                if (encryptedQrCode.Length < 8 && User.IsInRole("Admin"))
                 {
                     ViewBag.QrCode = encryptedQrCode;
                 }
                 else
-                    ViewBag.QrCode = encryptedQrCode?.Decrypt();
+                {
+                    ViewBag.QrCode = encryptedQrCode.RepairCipher()?.Decrypt();
+                }
             }
 
             return View();
