@@ -4,6 +4,7 @@ Go
 -- =============================================
 -- Author:		Behzad Khosravifar
 -- Create date: 1395/03/18
+-- Last Update: 1395/03/19
 -- Description:	Create and Get Web sale distribute menus
 -- =============================================
 CREATE PROCEDURE sp_CreateAndGetWebSaleDistributeMenus @UserId INT
@@ -33,10 +34,32 @@ AS
     --===============================================
     -- Add parent menu
     --===============================================
-                                    
+    
+    -- 2161 امکانات سيستم
+    --     2162 امکانات
+    --         3014 گزارشات آنلاين  @ParentMenuID
+    
                     INSERT  INTO PrgMenu
-                    VALUES  ( @ParentMenuID, @ProgramID, 'گزارشات آنلاين',
-                              NULL, 100, 0, 'Home', 'Index', NULL )
+                            ( MenuID ,
+                              ProgramID ,
+                              MenuName ,
+                              ParentMenuID ,
+                              MenuOrder ,
+                              ForceDisabled ,
+                              Link ,
+                              PageName ,
+                              Icon
+                            )
+                    VALUES  ( @ParentMenuID ,
+                              @ProgramID ,
+                              'گزارشات آنلاين' ,
+                              2162 ,
+                              10 ,
+                              0 ,
+                              'Home' ,
+                              'Index' ,
+                              NULL
+                            )
     
                     IF NOT EXISTS ( SELECT  1
                                     FROM    PrgSettings ps
