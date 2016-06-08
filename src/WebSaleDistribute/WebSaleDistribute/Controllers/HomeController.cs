@@ -36,35 +36,9 @@ namespace WebSaleDistribute.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        [Authorize(Roles = "Admin")]
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-            ViewBag.Behzad = "930919";
-
-            return View();
-        }
-
-
-
-
         public ActionResult Index()
         {
-            IEnumerable<System.Dynamic.ExpandoObject> menus = null;
-
-            var userId = User.Identity.GetUserId();
-            if (userId != null)
-            {
-                menus = DynamicModels.GetMenus(userId);
-            }
+            var menus = User?.GetMenus();
 
             return View(menus?.ToList());
         }
@@ -124,7 +98,7 @@ namespace WebSaleDistribute.Controllers
                     }
                 }
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(exp);
             }

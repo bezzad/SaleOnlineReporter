@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Elmah;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
@@ -38,14 +39,15 @@ namespace WebSaleDistribute.Controllers
         [HttpGet]
         public ActionResult Menu()
         {
-            var userId = User.Identity.GetUserId();
-            if (userId != null)
+            try
             {
-                if (CurrentUser == null) return null;
-
-                return PartialView("_MenuPartial", DynamicModels.GetMenus(userId));
+                return PartialView("_MenuPartial", User?.GetMenus());
             }
-            else return null;
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+            }
+            return null;
         }
     }
 }

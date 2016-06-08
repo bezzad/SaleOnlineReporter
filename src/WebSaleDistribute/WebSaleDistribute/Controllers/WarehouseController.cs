@@ -42,6 +42,14 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = "انبار";
 
+            return View();
+        }
+
+        // GET: Warehouse
+        public ActionResult InWay()
+        {
+            ViewBag.Title = "توراهی";
+
             string encryptedQrCode = Request.QueryString["code"];
 
             if (!string.IsNullOrEmpty(encryptedQrCode))
@@ -58,8 +66,6 @@ namespace WebSaleDistribute.Controllers
 
             return View();
         }
-
-
 
         // GET: EntryInWayTables
         public ActionResult EntryInWayTable(int? invoiceId)

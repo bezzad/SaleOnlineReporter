@@ -1,21 +1,29 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Security.Principal;
 using WebSaleDistribute.Core;
-using Dapper;
 
 namespace WebSaleDistribute.Models
 {
-    public class DynamicModels
+    public static class DynamicModels
     {
-        public static IEnumerable<ExpandoObject> GetMenus(string userId)
+        public static IEnumerable<ExpandoObject> GetMenus(this IPrincipal user)
         {
-            // fetch menu by caching data
-            var result = AdoManager.DataAccessObject.GetFromQuery($"EXEC dbo.sp_CreateAndGetWebSaleDistributeMenus @UserId = {userId}", true); 
-            var menus = result.Select(menu => (ExpandoObject)HelperExtensions.DapperRowToExpando(menu));
+            var userId = user?.Identity?.GetUserId();
+            if (userId != null)
+            {
+                if (user.IsInRole("Admin")) userId = "100";
 
-            return menus;
+                // fetch menu by caching data
+                var result = AdoManager.DataAccessObject.GetFromQuery($"EXEC dbo.sp_CreateAndGetWebSaleDistributeMenus @UserId = {userId}", true);
+                var menus = result.Select(menu => (ExpandoObject)HelperExtensions.DapperRowToExpando(menu));
+
+                return menus;
+            }
+
+            return null;
         }
 
     }

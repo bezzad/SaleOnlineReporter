@@ -1,10 +1,12 @@
 ﻿@model  dynamic
 
-
-@foreach (var menu in Model)
+@if (Model != null)
 {
-    string menuName = @menu.MenuName;
-    string controllerName = @menu.Link;
-    string actionName = @menu.PageName;
-    <li>@Html.ActionLink(menuName, actionName, controllerName)</li>
+    foreach (var menu in Model)
+    {
+        string menuName = @menu.MenuName;
+        string controllerName = @menu.Link;
+        string actionName = @menu.PageName;
+        <li>@Html.ActionLink(menuName, actionName, controllerName)</li>
+    }
 }

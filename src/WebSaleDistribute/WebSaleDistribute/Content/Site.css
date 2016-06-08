@@ -54,16 +54,13 @@ textarea {
     overflow-wrap: break-word;
     word-wrap: break-word;
     -ms-word-break: break-all;
-
     /* This is the dangerous one in WebKit, as it breaks things wherever */
     word-break: break-all;
-
     /* Instead use this non-standard one: */
     word-break: break-word;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-
     /* Adds a hyphen where the word breaks */
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
@@ -71,27 +68,42 @@ textarea {
     hyphens: auto;
 }
 
-.menuButtons{
+.menuButtons {
     width: 100px;
     height: 80px;
-
-     /* Careful, this breaks the word wherever it is without a hyphen */
+    /* Careful, this breaks the word wherever it is without a hyphen */
     overflow-wrap: break-word;
     word-wrap: break-word;
-
     /* This is the dangerous one in WebKit, as it breaks things wherever */
-    word-break:break-word;
-
+    word-break: break-word;
     /* Adds a hyphen where the word breaks */
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
 }
+
+.word-wrap {
+    width: 150px;
+    height: 70px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    border: 1px solid #a3bb97;
+    text-align: center;
+}
+
+.gi-1x{font-size: 1em;}
+.gi-2x{font-size: 2em;}
+.gi-3x{font-size: 3em;}
+.gi-4x{font-size: 4em;}
+.gi-5x{font-size: 5em;}
 
 a {
     font-size: 15px;
     word-wrap: break-word;
+    text-decoration: none !important;
 }
 
 li {
@@ -132,3 +144,16 @@ hr {
     border-top: 1px solid #e5c2b9;
     border-width: 1px;
 }
+
+footer {
+    overflow: hidden;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 20px 1px;
+}
+
+    footer[dir=ltr] p {
+        font-family: 'Segoe UI';
+        font-size: smaller;
+    }
