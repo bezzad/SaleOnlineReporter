@@ -132,9 +132,7 @@ namespace WebSaleDistribute.Controllers
         {
             try
             {
-                var currentUser = UserManager.FindById(User.Identity.GetUserId());
-
-                lock (currentUser)
+                lock (CurrentUser)
                 {
                     // Fill Chart Data ------------------------------------------
                     #region Chart Data
@@ -144,7 +142,7 @@ namespace WebSaleDistribute.Controllers
                         Name = "customersOrdersChart",
                         ChartType = ChartTypes.Column,
                         Tilte = "درخواست مشتریان هر متصدی",
-                        SubTitle = "در خواست مشتریان ویزیتورها",
+                        SubTitle = "جمع درخواست ها: ",
                         YAxisTitle = "جمع ریالی",
                         SeriesName = "پرسنل",
                         ShowLegend = false,

@@ -21,7 +21,7 @@
         @(Html.PanelItem(new PanelItemOption()
             {
                 Id = id,
-                Body = Model.ToHtmlString(),
+                Body = Model?.ToHtmlString(),
                 Title = "نمودار رسیدی",
                 Url = "#",
                 GlyphIcon = "stats",

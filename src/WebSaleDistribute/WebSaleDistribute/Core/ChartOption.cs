@@ -11,6 +11,7 @@ namespace WebSaleDistribute.Core
         public DotNet.Highcharts.Helpers.Data YAxisData { get; set; }
         public string Tilte { get; set; }
         public string SubTitle { get; set; }
+        public string SubTitleFunc { get; set; } = null;
         public string YAxisTitle { get; set; }
         public string SeriesName { get; set; }
         public bool ShowLegend { get; set; } = true;

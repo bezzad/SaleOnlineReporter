@@ -39,8 +39,11 @@
                 <a href="#" class="dropdown-toggle navbar-brand nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">گزارشات آنلاین <span class="caret"></span></a>
                 <ul class="dropdown-menu ">
                     <li>@Html.ActionLink("خانه", "Index", "Home")</li>
-                    <li role="separator" class="divider"></li>
-                    @Html.Action("Menu", "Shared")                               
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li role="separator" class="divider"></li>
+                        @Html.Action("Menu", "Shared")
+                    }
                 </ul>
             </div>
             <div class="navbar-collapse collapse">
@@ -66,7 +69,7 @@
 
         <div id="MessagePanel">
 
-        </div> 
+        </div>
 
         @RenderBody()
         <hr />
