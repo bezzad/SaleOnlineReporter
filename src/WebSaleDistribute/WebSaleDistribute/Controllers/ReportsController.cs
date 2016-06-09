@@ -148,7 +148,8 @@ namespace WebSaleDistribute.Controllers
                         ShowLegend = false,
                         ShowDataLabels = true,
                         AjaxLoading = true,
-                        LoadDataUrl = "GetOfficerOrderStatisticsChart"
+                        LoadDataUrl = "GetOfficerOrderStatisticsChart",
+                        SubTitleFunc = "sum"
                     };
 
                     #endregion

@@ -67,6 +67,15 @@ function intVal(i) {
         i : 0;
 };
 
+// add sum method to any array class
+var sum = function (array, prop) {
+    var total = 0
+    for (var i = 0, _len = array.length; i < _len; i++) {
+        total += intVal(array[i][prop]);
+    }
+    return total.toLocaleString('fa-IR');
+}
+
 function loadDataTables(iDisplayLength) {
     if (iDisplayLength === undefined) iDisplayLength = 10;
     var table = $('.dataTables').DataTable({

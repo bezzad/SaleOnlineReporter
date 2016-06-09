@@ -295,10 +295,19 @@ namespace WebSaleDistribute.Core
                         url += $"{param.Key}={param.Value}&";
                     }
                 }
+
+                var totalAmount = (option.SubTitleFunc ?? "").ToLower().Equals("sum")
+                    ? @"+ sum(dataArr, 'y')" // calc sum of data
+                    : "";
+
+
+
                 highChart.AddJavascripVariable("ChartParentUrl", url)
                 .AddJavascripFunction("FetchDataFunc", $@"                            
                              $.get(ChartParentUrl, function (dataArr) {{ 
                             {option.Name}.series[0].setData(dataArr);
+                            var subTitleByTotal = '{option.SubTitle}' {totalAmount};
+                            {option.Name}.setTitle(null, {{ text: subTitleByTotal }});  
                          }});
                 ")
                 .AddJavascripFunction("DrillDownFunc",
@@ -316,11 +325,11 @@ namespace WebSaleDistribute.Core
                                                     ChartParentUrl = dataArr[0].drillup_url;
                                                     tChart.hideLoading();
                                                     tChart.addSeriesAsDrilldown(e.point, drilldownData);
+
+                                                    var subTitleByTotal = '{option.SubTitle}' {totalAmount};
+                                                    tChart.setTitle(null, {{ text: subTitleByTotal }});            
                                                 }});
 
-                                                tChart.setTitle({{
-                                                    text: '{option.SubTitle}'
-                                                }});
                                             }}
                 ", "e");
             }
