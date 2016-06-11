@@ -1,7 +1,30 @@
 ﻿var isMobile = false; //initiate as false
+var reloadMethod;
+var PageReloadTimeoutCookieName;
 
 /* LOADER */
 jQuery(document).ready(function () {
+
+    /* set toastr options */
+    toastr.options = {
+        "closeButton": false,
+        "debug": true,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "15000",
+        "extendedTimeOut": "5000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut",
+        "containerId": 'toast-container',
+    }
+
 
     /* Detect Mobile or Desktop */
     // device detection
@@ -19,8 +42,8 @@ jQuery(document).ready(function () {
         complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); },
         error: function (xhr, status, error) {
             var err = JSON.parse(xhr.responseText)
-            //jAlert("Error " + err.ExceptionType + ":    " + err.ExceptionMessage, "danger", 15000);
-            jAlert(err.ExceptionMessage, "danger", 15000);
+            //toastr.error(err.ExceptionMessage, err.ExceptionType);
+            toastr.error(err.ExceptionMessage);
         }
     });
     jQuery(".status").fadeOut("slow");
@@ -199,33 +222,22 @@ function loadDataTables(iDisplayLength) {
     table.state.clear();
 }
 
-//function getUrlSync(url, async) {
-//    return $.ajax({
-//        type: "GET",
-//        url: url,
-//        cache: false,
-//        async: async // jQuery.ajaxSetup({ async: false });
-//    }).responseJSON;
-//}
-
 function getAsync(url, params) {
     if (url === null) {
-        jAlert("آدرس خالی می باشد", "warning", 15000);
+        toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
         return;
     }
 
     jQuery(".status").fadeIn();
 
     $.get(url, params, function () {
-        jAlert("درخواست ارسال شد", "info", 3000);
+        toastr.info("درخواست ارسال شد", '', { timeOut: 3000 });
     })
   .success(function (data) {
-      jAlert(data, "success", 15000);
+      toastr.success(data);
   });
 }
 
-var reloadMethod;
-var PageReloadTimeoutCookieName;
 
 // Refresh page after session time out for redirect to login page
 function setPageReloadTimer(cookieName) {
@@ -282,7 +294,6 @@ function checkCookie() {
 
 /* Jquery function to create guids.
  * Guid code from 
- * http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
  */
 function generateGUID() {
     var d = new Date().getTime();
@@ -294,23 +305,6 @@ function generateGUID() {
     return uuid;
 };
 
-
-/* Alert Bootstrap MessageBox */
-function jAlert(msg, type, timeout) {
-    var id = "alert_" + generateGUID();
-
-    var b = "<div id='" + id + "' class='alert alert-" + type.toLowerCase() + " fade in'>" +
-               "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
-               "&nbsp;&nbsp;" + msg + "&nbsp;&nbsp;</div>";
-
-    $("#MessagePanel").append(b);
-
-    setTimeout(function () { jCloseAlert(id) }, timeout);
-}
-
-function jCloseAlert(id) {
-    $("#" + id).alert("close");
-}
 
 function numberWithCommas(x) {
     var parts = x.toString().split(".");
