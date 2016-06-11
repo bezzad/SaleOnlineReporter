@@ -54,7 +54,7 @@ namespace WebSaleDistribute.Controllers
 
             if (!string.IsNullOrEmpty(encryptedQrCode))
             {
-                if (encryptedQrCode.Length < 8 && User.IsInRole("Admin"))
+                if (encryptedQrCode.Length < 8)
                 {
                     ViewBag.QrCode = encryptedQrCode;
                 }

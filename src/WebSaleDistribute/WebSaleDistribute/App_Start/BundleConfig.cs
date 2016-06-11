@@ -53,6 +53,8 @@ namespace WebSaleDistribute
             bundles.Add(new ScriptBundle("~/bundles/site").Include("~/Scripts/site.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/clipboard").Include("~/Scripts/clipboard.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/toastr").Include("~/Scripts/toastr.min.js"));
         }
 
         public static void RegisterContents(BundleCollection bundles)
@@ -77,6 +79,7 @@ namespace WebSaleDistribute
             //bundles.Add(new StyleBundle("~/Content/jquery.dataTables", "https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css").Include("~/Content/jquery.dataTables.min.css"));
             bundles.Add(new StyleBundle("~/Content/jquery_dataTables").Include("~/Content/jquery.dataTables.min.css"));
             bundles.Add(new StyleBundle("~/Content/errors").Include("~/Content/errors.css"));
+            bundles.Add(new StyleBundle("~/Content/toastr").Include("~/Content/toastr.min.css"));
         }
 
     }

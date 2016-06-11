@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Dapper;
-using WebSaleDistribute.Core;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -43,17 +37,19 @@ namespace WebSaleDistribute.Controllers
         // GET: api/Warehouse/EntryInWayToWarehouse
         [HttpGet]
         [Route("Warehouse/EntryInWayToWarehouse/{invoicId}")]
-        public async Task<IHttpActionResult> EntryInWayToWarehouseAsync(int invoicId)
+        public IHttpActionResult EntryInWayToWarehouse(int invoicId)
         {
             string msg = $"متاسفانه خطایی هنگام ورود به انبار {invoicId} رخ داده است!";
             try
             {
-                var result = await Connections.SaleTabriz.SqlConn.ExecuteAsync("sp_EntryInWayToWareHouseByOldInvoiceId",
-                    new
-                    {
-                        OldInvoiceId = invoicId,
-                        UserId = CurrentUser.UserName
-                    },
+                var param = new
+                {
+                    OldInvoiceId = invoicId,
+                    UserId = User.Identity.GetUserId()
+                };
+
+                var result = Connections.SaleTabriz.SqlConn.Execute("sp_EntryInWayToWareHouseByOldInvoiceId",
+                    param,
                     commandType: System.Data.CommandType.StoredProcedure);
 
                 if (result > 0)
