@@ -533,7 +533,6 @@
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
     <Content Include="Views\Warehouse\Warehouse.cshtml" />
-    <Content Include="Views\Warehouse\_EntryInWayTablePartial.cshtml" />
     <Content Include="Views\Warehouse\InWay.cshtml" />
     <Content Include="Views\Warehouse\SaleReturnInvoices.cshtml" />
     <Content Include="Views\Warehouse\_SaleReturnInvoicesTablePartial.cshtml" />

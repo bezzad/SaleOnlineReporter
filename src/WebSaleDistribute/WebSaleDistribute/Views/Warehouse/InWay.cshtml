@@ -1,6 +1,12 @@
-﻿
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model TableOption
+
 @{
     ViewData["dir"] = "ltr";
+
+    var id = "EntryInWayTables_" + Guid.NewGuid().ToString();
 }
 
 @section styles
@@ -13,10 +19,11 @@
 {
     @Scripts.Render("~/bundles/lobipanel")
     @Scripts.Render("~/bundles/jquery_dataTables")
+
     <script>
         // Call DataTable() func in all of the jquery tables
         $(document).ready(function () {
-            loadDataTables(50);
+            loadDataTables(@Model.DisplayRowsLength);
         })
     </script>
 }
@@ -30,7 +37,21 @@
         <div id="grid" class="tab-pane fade in active">
             <!-- data -->
             <br />
-            @Html.Action("EntryInWayTable", "Warehouse", new { invoiceId = ViewBag.QrCode })
+
+            @(
+                Html.PanelItem(new PanelItemOption()
+                {
+                    Id = id,
+                    Body = Html.TableItem(Model).ToHtmlString(),
+                    Title = $" توراهی شماره {ViewBag.QrCode}",
+                    HasDetailLink = true,
+                    DetailUrlContent = "<b>ورود به انبار</b>",
+                    Url = Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}"),
+                    GlyphIcon = "list-alt",
+                    HasSettingPanel = false,
+                    PanelType = PanelType.info
+                })
+            )
             <!-- /data -->
         </div>
     </div>

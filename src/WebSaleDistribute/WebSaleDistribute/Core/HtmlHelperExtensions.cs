@@ -189,18 +189,18 @@ namespace WebSaleDistribute.Core
             // set sum footer columns
             for (var colIndex = 0; colIndex < opt.Schema.Count; colIndex++)
             {
-                string sumClass = "";
+                string classification = "";
                 //
                 // check is total column or not!
                 if (opt.TotalFooterColumns != null)
                 {
-                    foreach (var totalColName in opt.TotalFooterColumns)
+                    foreach (var colName in opt.TotalFooterColumns)
                     {
                         int index = 0;
-                        if (totalColName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
-                            || (int.TryParse(totalColName, out index) && index == colIndex))
+                        if (colName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
+                            || (int.TryParse(colName, out index) && index == colIndex))
                         {
-                            sumClass = "sum";
+                            classification = "sum";
                             break;
                         }
                     }
@@ -209,20 +209,35 @@ namespace WebSaleDistribute.Core
                 // check is average column or not!
                 if (opt.AverageFooterColumns != null)
                 {
-                    foreach (var avgColName in opt.AverageFooterColumns)
+                    foreach (var colName in opt.AverageFooterColumns)
                     {
                         int index = 0;
-                        if (avgColName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
-                            || (int.TryParse(avgColName, out index) && index == colIndex))
+                        if (colName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
+                            || (int.TryParse(colName, out index) && index == colIndex))
                         {
-                            sumClass = "avg";
+                            classification = "avg";
+                            break;
+                        }
+                    }
+                }
+                //
+                // check is average column or not!
+                if (opt.CurrencyColumns != null)
+                {
+                    foreach (var colName in opt.CurrencyColumns)
+                    {
+                        int index = 0;
+                        if (colName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
+                            || (int.TryParse(colName, out index) && index == colIndex))
+                        {
+                            classification += " currency";
                             break;
                         }
                     }
                 }
 
-                sumClass = string.IsNullOrEmpty(sumClass) ? "empty" : sumClass;
-                thHeader += $"<th class='{sumClass}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
+                classification = string.IsNullOrEmpty(classification) ? "empty" : classification;
+                thHeader += $"<th class='{classification}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
             }
 
             var header = $@"

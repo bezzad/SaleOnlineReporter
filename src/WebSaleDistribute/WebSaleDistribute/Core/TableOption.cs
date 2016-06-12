@@ -12,6 +12,7 @@ namespace WebSaleDistribute.Core
         public Tuple<int, OrderType>[] Orders { get; set; }
         public string[] TotalFooterColumns { get; set; }
         public string[] AverageFooterColumns { get; set; }
+        public string[] CurrencyColumns { get; set; }
         public int DisplayRowsLength { get; set; } = 10;
         public bool AutoWidth { get; set; } = true;
         public bool Checkable { get; set; } = false;

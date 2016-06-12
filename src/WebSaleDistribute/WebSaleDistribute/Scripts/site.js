@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
         "debug": true,
         "newestOnTop": true,
         "progressBar": true,
-        "positionClass": "toast-top-right",
+        "positionClass": "toast-top-center",
         "preventDuplicates": false,
         "onclick": null,
         "showDuration": "300",
@@ -206,7 +206,8 @@ function loadDataTables(iDisplayLength) {
                     //------------------------
                 });
             }
-        }
+        },
+        "columnDefs": []
     });
 
     $('tbody').on('click', 'tr', function () {
@@ -220,6 +221,14 @@ function loadDataTables(iDisplayLength) {
     });
 
     table.state.clear();
+
+    //
+    // Set currency or numeric columns
+    //
+    table.columnDefs = [];
+    table.columns('.currency').every(function () {      
+        table.columnDefs.push({ "type": "numeric-comma", targets: this.index() });
+    });    
 }
 
 function getAsync(url, params) {

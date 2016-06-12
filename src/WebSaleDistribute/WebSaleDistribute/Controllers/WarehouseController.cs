@@ -50,7 +50,10 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = "توراهی";
 
+            var model = new TableOption() { Id = "entryInWay" };
+
             string encryptedQrCode = Request.QueryString["code"];
+
 
             if (!string.IsNullOrEmpty(encryptedQrCode))
             {
@@ -62,48 +65,33 @@ namespace WebSaleDistribute.Controllers
                 {
                     ViewBag.QrCode = encryptedQrCode.RepairCipher()?.Decrypt();
                 }
+
+                #region Table Data
+
+                var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                    "sp_GetInWayDetailsByOldInvoicId",
+                    new { OldInvoicId = ViewBag.QrCode },
+                    commandType: CommandType.StoredProcedure);
+
+                List<string> schema;
+                var results = tableData.GetSchemaAndData(out schema);
+                
+                model.Schema = schema;
+                model.Rows = results;
+                model.DisplayRowsLength = 50;
+                model.TotalFooterColumns = new string[] { "9", "تعداد" }; // column by name "تعداد" and column by index 9
+                
+                #endregion                
             }
 
-            return View();
-        }
-
-        // GET: EntryInWayTables
-        public ActionResult EntryInWayTable(int? invoiceId)
-        {
-            ViewBag.QrCode = invoiceId;
-
-            if (invoiceId == null) return null;
-            
-            #region Table Data
-
-            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
-                "sp_GetInWayDetailsByOldInvoicId",
-                new { OldInvoicId = invoiceId },
-                commandType: CommandType.StoredProcedure);
-
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
-
-            var model = new TableOption()
-            {
-                Id = "entryInWay",
-                Schema = schema,
-                Rows = results,
-                DisplayRowsLength = 50,
-                TotalFooterColumns = new string[] { "9", "تعداد" } // column by name "تعداد" and column by index 9
-            };
-
-            #endregion
-
-
-            return PartialView("_EntryInWayTablePartial", model);
+            return View(model);
         }
 
 
         // GET: Warehouse
         public ActionResult SaleReturnInvoices()
         {
-            ViewBag.Title = "برگشت از فروش";                       
+            ViewBag.Title = "برگشت از فروش";
 
             return View();
         }
@@ -125,7 +113,9 @@ namespace WebSaleDistribute.Controllers
                 Schema = schema,
                 Rows = results,
                 DisplayRowsLength = 10,
-                TotalFooterColumns = new string[] { "مبلغ فاکتور" } // column by name "مبلغ فاکتور"
+                Orders = new[] { Tuple.Create(0, OrderType.desc) },
+                TotalFooterColumns = new string[] { "مبلغ برگشتي" }, // column by name "مبلغ فاکتور"
+                CurrencyColumns = new string[] { "مبلغ برگشتي" }
             };
 
             #endregion
