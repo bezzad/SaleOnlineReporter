@@ -73,9 +73,9 @@ namespace WebSaleDistribute.Controllers
             ViewBag.QrCode = invoiceId;
 
             if (invoiceId == null) return null;
-
-            // Fill Table data ---------------
+            
             #region Table Data
+
             var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                 "sp_GetInWayDetailsByOldInvoicId",
                 new { OldInvoicId = invoiceId },
@@ -94,12 +94,43 @@ namespace WebSaleDistribute.Controllers
             };
 
             #endregion
-            //--------------------------------
 
 
-            return PartialView("EntryInWayTable", model);
+            return PartialView("_EntryInWayTablePartial", model);
         }
 
 
+        // GET: Warehouse
+        public ActionResult SaleReturnInvoices()
+        {
+            ViewBag.Title = "برگشت از فروش";                       
+
+            return View();
+        }
+
+        // GET: SaleReturnInvoicesTable
+        public ActionResult SaleReturnInvoicesTable()
+        {
+            #region Table Data
+
+            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                "sp_GetSaleReturnInvoicesTable", commandType: CommandType.StoredProcedure);
+
+            List<string> schema;
+            var results = tableData.GetSchemaAndData(out schema);
+
+            var model = new TableOption()
+            {
+                Id = "saleReturnInvoices",
+                Schema = schema,
+                Rows = results,
+                DisplayRowsLength = 10,
+                TotalFooterColumns = new string[] { "مبلغ فاکتور" } // column by name "مبلغ فاکتور"
+            };
+
+            #endregion
+
+            return PartialView("_SaleReturnInvoicesTablePartial", model);
+        }
     }
 }

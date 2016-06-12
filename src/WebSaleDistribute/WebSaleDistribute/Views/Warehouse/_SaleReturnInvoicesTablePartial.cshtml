@@ -1,0 +1,38 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model TableOption
+
+@{
+    var id = "SaleReturnInvoicesTable_" + Guid.NewGuid().ToString();
+
+    var opt = new PanelAjaxOptions(id)
+    {
+        UpdateTargetId = "SaleReturnInvoicesTable"
+    };
+
+    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength});";
+}
+
+<div id="SaleReturnInvoicesTable">
+
+    @using (Ajax.BeginForm("SaleReturnInvoicesTable", "Warehouse", opt, new { @id = id, @class = "refreshable-panel" }))
+    {
+        @(Html.PanelItem(new PanelItemOption()
+    {
+        Id = id,
+        Body = Html.TableItem(Model).ToHtmlString(),
+        Title = $" توراهی شماره {ViewBag.QrCode}",
+        IsRefreshable = true,
+        HasDetailLink = true,
+        DetailUrlContent = "<b>انتخاب فاکتور برگشتی</b>",
+        Url = Url.Content($"~/Warehouse/SaleReturnInvoiceDetails/{ViewBag.QrCode}"),
+        GlyphIcon = "list-alt",
+        HasSettingPanel = false,
+        PanelType = PanelType.info
+    })
+        )
+    }
+
+</div>
+

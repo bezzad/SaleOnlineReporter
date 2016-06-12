@@ -533,8 +533,10 @@
     <Content Include="Views\Reports\ReceiptsTable.cshtml" />
     <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
     <Content Include="Views\Warehouse\Warehouse.cshtml" />
-    <Content Include="Views\Warehouse\EntryInWayTable.cshtml" />
+    <Content Include="Views\Warehouse\_EntryInWayTablePartial.cshtml" />
     <Content Include="Views\Warehouse\InWay.cshtml" />
+    <Content Include="Views\Warehouse\SaleReturnInvoices.cshtml" />
+    <Content Include="Views\Warehouse\_SaleReturnInvoicesTablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
