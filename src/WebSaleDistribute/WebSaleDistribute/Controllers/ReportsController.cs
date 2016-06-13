@@ -102,7 +102,8 @@ namespace WebSaleDistribute.Controllers
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
                 TotalFooterColumns = new[] { "مانده فاکتور", "قابل پرداخت" },
-                AverageFooterColumns = new[] { "تعداد روز" }
+                AverageFooterColumns = new[] { "تعداد روز" },
+                CurrencyColumns = new[] { 8, 9 }
             };
 
             #endregion

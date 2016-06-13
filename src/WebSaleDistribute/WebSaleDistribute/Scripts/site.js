@@ -99,8 +99,17 @@ var sum = function (array, prop) {
     return total.toLocaleString('fa-IR');
 }
 
-function loadDataTables(iDisplayLength) {
+
+var convertToNumericByCamma = function (nTd, sData, oData, iRow, iCol) {
+    var $currencyCell = $(nTd);
+    var commaValue = $currencyCell.text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    $currencyCell.text(commaValue);
+}
+function loadDataTables(iDisplayLength, currencyColumns) {
     if (iDisplayLength === undefined) iDisplayLength = 10;
+      
+    if (currencyColumns === undefined || currencyColumns === null) currencyColumns = [];
+
     var table = $('.dataTables').DataTable({
         //select: true,
         //paging: false
@@ -207,8 +216,18 @@ function loadDataTables(iDisplayLength) {
                 });
             }
         },
-        "columnDefs": []
+        "aoColumnDefs": [{
+            "aTargets": currencyColumns,
+            "fnCreatedCell": convertToNumericByCamma
+        }]
     });
+
+    ////
+    //// Set currency or numeric columns
+    ////
+    //table.columns('.currency').every(function () {
+    //    currencyColumns.push(this.index());
+    //});
 
     $('tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
@@ -222,13 +241,7 @@ function loadDataTables(iDisplayLength) {
 
     table.state.clear();
 
-    //
-    // Set currency or numeric columns
-    //
-    table.columnDefs = [];
-    table.columns('.currency').every(function () {      
-        table.columnDefs.push({ "type": "numeric-comma", targets: this.index() });
-    });    
+    
 }
 
 function getAsync(url, params) {

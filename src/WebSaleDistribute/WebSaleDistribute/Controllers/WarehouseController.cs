@@ -75,13 +75,14 @@ namespace WebSaleDistribute.Controllers
 
                 List<string> schema;
                 var results = tableData.GetSchemaAndData(out schema);
-                
+
                 model.Schema = schema;
                 model.Rows = results;
                 model.DisplayRowsLength = 50;
                 model.TotalFooterColumns = new string[] { "9", "تعداد" }; // column by name "تعداد" and column by index 9
-                
-                #endregion                
+                model.CurrencyColumns = new[] { 7, 8, 9 };
+
+                #endregion
             }
 
             return View(model);
@@ -115,7 +116,7 @@ namespace WebSaleDistribute.Controllers
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
                 TotalFooterColumns = new string[] { "مبلغ برگشتي" }, // column by name "مبلغ فاکتور"
-                CurrencyColumns = new string[] { "مبلغ برگشتي" }
+                CurrencyColumns = new int[] { 6 }
             };
 
             #endregion

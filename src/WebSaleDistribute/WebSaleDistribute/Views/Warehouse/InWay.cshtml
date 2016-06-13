@@ -23,7 +23,7 @@
     <script>
         // Call DataTable() func in all of the jquery tables
         $(document).ready(function () {
-            loadDataTables(@Model.DisplayRowsLength);
+            loadDataTables(@Model.DisplayRowsLength, [@string.Join(", ", Model.CurrencyColumns)]);            
         })
     </script>
 }

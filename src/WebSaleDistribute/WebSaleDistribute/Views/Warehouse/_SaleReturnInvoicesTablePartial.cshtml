@@ -11,7 +11,7 @@
         UpdateTargetId = "SaleReturnInvoicesTable"
     };
 
-    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength});";
+    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength}, [{string.Join(", ", Model.CurrencyColumns)}]);";
 }
 
 <div id="SaleReturnInvoicesTable">
@@ -22,7 +22,7 @@
     {
         Id = id,
         Body = Html.TableItem(Model).ToHtmlString(),
-        Title = $" توراهی شماره {ViewBag.QrCode}",
+        Title = $"لیست برگشتی ها",
         IsRefreshable = true,
         HasDetailLink = true,
         DetailUrlContent = "<b>انتخاب فاکتور برگشتی</b>",
@@ -35,4 +35,3 @@
     }
 
 </div>
-

@@ -11,7 +11,7 @@
         UpdateTargetId = "ReceiptsTable",
     };
 
-    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength});";
+    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength}, [{string.Join(", ", Model.CurrencyColumns)}]);";
 }
 
 <div id="ReceiptsTable">

@@ -220,21 +220,6 @@ namespace WebSaleDistribute.Core
                         }
                     }
                 }
-                //
-                // check is average column or not!
-                if (opt.CurrencyColumns != null)
-                {
-                    foreach (var colName in opt.CurrencyColumns)
-                    {
-                        int index = 0;
-                        if (colName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
-                            || (int.TryParse(colName, out index) && index == colIndex))
-                        {
-                            classification += " currency";
-                            break;
-                        }
-                    }
-                }
 
                 classification = string.IsNullOrEmpty(classification) ? "empty" : classification;
                 thHeader += $"<th class='{classification}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
