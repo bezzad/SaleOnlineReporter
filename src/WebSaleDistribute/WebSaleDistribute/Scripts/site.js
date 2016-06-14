@@ -108,7 +108,7 @@ var convertToNumericByCamma = function (nTd, sData, oData, iRow, iCol) {
 
 function loadDataTables(iDisplayLength, currencyColumns) {
     if (iDisplayLength === undefined) iDisplayLength = 10;
-      
+
     if (currencyColumns === undefined || currencyColumns === null) currencyColumns = [];
 
     // Array holding selected row IDs
@@ -246,17 +246,22 @@ function loadDataTables(iDisplayLength, currencyColumns) {
         }
     });
 
-    //$('tbody').on('click', 'tr', function () {
-    //    if ($(this).hasClass('selected')) {
-    //        $(this).removeClass('selected');
-    //    }
-    //    else {
-    //        table.$('tr.selected').removeClass('selected');
-    //        $(this).addClass('selected');
-    //    }
-    //});
-
     table.state.clear();
+
+    $('.dataTables tbody').on('click', 'tr', function (e) {
+        if ($(this).hasClass('notCheckable')) {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            // Prevent click event from propagating to parent
+            e.stopPropagation();
+        }
+    });
+
 
     // Handle click on checkbox
     $('.dataTables tbody').on('click', 'input[type="checkbox"]', function (e) {

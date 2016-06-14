@@ -183,7 +183,7 @@ namespace WebSaleDistribute.Core
 
                 div.Attributes.Add("data-order", val);
             }
-            
+
             var thHeader = opt.Checkable ? $"<th class='dt-body-center sorting_disabled'><input name='select_all' value='1' type='checkbox'></th>{Environment.NewLine}" : "";
             var thFooter = opt.Checkable ? $"<th></th>{Environment.NewLine}" : "";
             //
@@ -241,6 +241,7 @@ namespace WebSaleDistribute.Core
                             </tfoot>
                             ";
 
+            var trSelectCheckableClass = opt.Checkable ? "" : "notCheckable";
             var tRows = "";
             for (int rIndex = 0; rIndex < (opt.Rows?.Count ?? 0); rIndex++)
             {
@@ -251,7 +252,7 @@ namespace WebSaleDistribute.Core
                 {
                     tds += $"<td>{row[col]}</td>{Environment.NewLine}";
                 }
-                tRows += $"<tr>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
+                tRows += $"<tr class='{trSelectCheckableClass}'>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
             }
 
             var body = $"{header}{footer} <tbody>{Environment.NewLine}{tRows}{Environment.NewLine}</tbody>";

@@ -117,7 +117,7 @@ namespace WebSaleDistribute.Controllers
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
                 TotalFooterColumns = new string[] { "مبلغ برگشتي" }, // column by name "مبلغ فاکتور"
                 CurrencyColumns = new int[] { 6 },
-                Checkable = false
+                Checkable = true
             };
 
             #endregion
