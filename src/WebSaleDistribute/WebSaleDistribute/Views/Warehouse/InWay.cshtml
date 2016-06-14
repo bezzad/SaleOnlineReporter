@@ -9,17 +9,9 @@
     var id = "EntryInWayTables_" + Guid.NewGuid().ToString();
 }
 
-@section styles
-{
-    @Styles.Render("~/Content/lobipanel")
-    @Styles.Render("~/Content/jquery_dataTables")
-}
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/lobipanel")
-    @Scripts.Render("~/bundles/jquery_dataTables")
-
     <script>
         // Call DataTable() func in all of the jquery tables
         $(document).ready(function () {
@@ -46,7 +38,7 @@
                     Title = $" توراهی شماره {ViewBag.QrCode}",
                     HasDetailLink = true,
                     DetailUrlContent = "<b>ورود به انبار</b>",
-                    Url = Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}"),
+                    Url = @"getAsync(""" + Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}") + @""");",
                     GlyphIcon = "list-alt",
                     HasSettingPanel = false,
                     PanelType = PanelType.info

@@ -64,5 +64,17 @@ namespace WebSaleDistribute.Controllers
 
             return Ok(msg);
         }
+
+        // GET: api/Warehouse/GetInvoiceDetails
+        [HttpGet]
+        [Route("Warehouse/GetInvoiceDetails/{businessDocSerialNo}")]
+        public IHttpActionResult GetInvoiceDetails(int businessDocSerialNo)
+        {
+            var result = Connections.SaleTabriz.SqlConn.Execute("sp_GetSaleReturnInvoiceDetailsTable",
+                new { SerialNo = businessDocSerialNo },
+                commandType: System.Data.CommandType.StoredProcedure);
+
+            return Ok(result);
+        }
     }
 }

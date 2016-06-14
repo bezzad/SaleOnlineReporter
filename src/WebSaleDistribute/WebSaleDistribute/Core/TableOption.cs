@@ -16,5 +16,6 @@ namespace WebSaleDistribute.Core
         public int DisplayRowsLength { get; set; } = 10;
         public bool AutoWidth { get; set; } = true;
         public bool Checkable { get; set; } = false;
+        public string AjaxUrl { get; set; } = null;
     }
 }
