@@ -183,8 +183,9 @@ namespace WebSaleDistribute.Core
 
                 div.Attributes.Add("data-order", val);
             }
-
-            var thHeader = opt.Checkable ? $"<th class='empty'>انتخاب</th>{Environment.NewLine}" : "";
+            
+            var thHeader = opt.Checkable ? $"<th class='dt-body-center sorting_disabled'><input name='select_all' value='1' type='checkbox'></th>{Environment.NewLine}" : "";
+            var thFooter = opt.Checkable ? $"<th></th>{Environment.NewLine}" : "";
             //
             // set sum footer columns
             for (var colIndex = 0; colIndex < opt.Schema.Count; colIndex++)
@@ -222,7 +223,9 @@ namespace WebSaleDistribute.Core
                 }
 
                 classification = string.IsNullOrEmpty(classification) ? "empty" : classification;
-                thHeader += $"<th class='{classification}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
+                var headFoot = $"<th class='{classification}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
+                thHeader += headFoot;
+                thFooter += headFoot;
             }
 
             var header = $@"
@@ -234,7 +237,7 @@ namespace WebSaleDistribute.Core
                             ";
 
             var footer = $@"<tfoot>
-                              <tr>{thHeader}</tr>
+                              <tr>{thFooter}</tr>
                             </tfoot>
                             ";
 
