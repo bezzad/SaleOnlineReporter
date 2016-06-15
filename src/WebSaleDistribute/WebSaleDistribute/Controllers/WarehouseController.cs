@@ -124,5 +124,45 @@ namespace WebSaleDistribute.Controllers
 
             return PartialView("_SaleReturnInvoicesTablePartial", model);
         }
+
+        // GET: SaleReturnInvoicesTable/{invoiceSerial}
+        public ActionResult ChooseReturnedInvoiceDetails(int invoiceSerial)
+        {
+            ViewBag.Title = $"انتخاب برگشتی ها";
+            ViewBag.InvoiceSerial = invoiceSerial;
+
+            return View();
+        }
+
+        // GET: SaleReturnInvoicesTable
+        public ActionResult ChooseReturnedInvoiceDetailsTable(int invoiceSerial)
+        {
+            ViewBag.InvoiceSerial = invoiceSerial;
+
+            #region Table Data
+
+            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = invoiceSerial },
+                commandType: CommandType.StoredProcedure);
+
+            List<string> schema;
+            var results = tableData.GetSchemaAndData(out schema);
+
+            var model = new TableOption()
+            {
+                Id = "saleReturnInvoices",
+                Schema = schema,
+                Rows = results,
+                DisplayRowsLength = 10,
+                Orders = new[] { Tuple.Create(0, OrderType.desc) },
+                TotalFooterColumns = new string[] { "مبلغ برگشتي" }, // column by name "مبلغ فاکتور"
+                CurrencyColumns = new int[] { 6 },
+                Checkable = true
+            };
+
+            #endregion
+
+            return PartialView("_ChooseReturnedInvoiceDetailsTablePartial", model);
+        }
     }
 }

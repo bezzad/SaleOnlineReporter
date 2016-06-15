@@ -28,10 +28,10 @@
         IsRefreshable = true,
         HasDetailLink = true,
         DetailUrlContent = "<b>انتخاب فاکتور برگشتی</b>",
-        Url = $@"location.href = ""{Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ ViewBag.QrCode }")}"";",
+        Url = $@"location.href = ""{Url.Content($"~/Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial=")}""+getTableFirstSelectedRow()[0];",
         GlyphIcon = "list-alt",
         HasSettingPanel = false,
-        PanelType = PanelType.info
+        PanelType = PanelType.warning
     })
         )
     }

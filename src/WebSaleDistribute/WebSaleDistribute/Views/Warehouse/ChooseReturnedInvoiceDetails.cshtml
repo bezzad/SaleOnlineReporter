@@ -21,7 +21,7 @@
         <div id="grid" class="tab-pane fade in active">
             <!-- data -->
             <br />
-            @Html.Action("SaleReturnInvoicesTable", "Warehouse")
+            @Html.Action("ChooseReturnedInvoiceDetailsTable", "Warehouse", new { invoiceSerial = ViewBag.InvoiceSerial })
             <!-- /data -->
         </div>
     </div>

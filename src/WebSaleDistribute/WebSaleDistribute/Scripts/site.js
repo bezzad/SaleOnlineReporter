@@ -1,6 +1,7 @@
 ﻿var isMobile = false; //initiate as false
 var reloadMethod;
 var PageReloadTimeoutCookieName;
+var table;
 //
 // Array holding selected row IDs
 var rows_selected = [];
@@ -114,7 +115,7 @@ function loadDataTables(iDisplayLength, currencyColumns) {
 
     if (currencyColumns === undefined || currencyColumns === null) currencyColumns = [];
 
-    var table = $('.dataTables').DataTable({
+    table = $('.dataTables').DataTable({
         //select: true,
         //paging: false
         //help: https://www.datatables.net/manual/options
@@ -250,13 +251,13 @@ function loadDataTables(iDisplayLength, currencyColumns) {
 
     $('.dataTables tbody').on('click', 'tr', function (e) {
         if ($(this).hasClass('notCheckable')) {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
+            //if ($(this).hasClass('selected')) {
+            //    $(this).removeClass('selected');
+            //}
+            //else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            //}
             // Prevent click event from propagating to parent
             e.stopPropagation();
         }
@@ -326,6 +327,15 @@ function loadDataTables(iDisplayLength, currencyColumns) {
 
 function getTableSelectedRows() {
     return rows_selected;
+}
+
+function getTableFirstSelectedRow()
+{
+    var theRow = null;
+    table.rows('.selected').each(function () {
+        theRow = this.data()[0];
+    });
+    return theRow
 }
 
 //

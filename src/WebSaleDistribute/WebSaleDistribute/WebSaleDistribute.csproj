@@ -536,6 +536,8 @@
     <Content Include="Views\Warehouse\InWay.cshtml" />
     <Content Include="Views\Warehouse\SaleReturnInvoices.cshtml" />
     <Content Include="Views\Warehouse\_SaleReturnInvoicesTablePartial.cshtml" />
+    <Content Include="Views\Warehouse\ChooseReturnedInvoiceDetails.cshtml" />
+    <Content Include="Views\Warehouse\_ChooseReturnedInvoiceDetailsTablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
