@@ -33,7 +33,7 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
+            <div class="navbar-header dropdown">
                 <img class="navbar-brand nav" style="width: 110px;" alt="shoniz logo" src="@Url.Content("~/images/bwShonizFa.png")" />
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -41,7 +41,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="#" class="dropdown-toggle navbar-brand nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">گزارشات آنلاین <span class="caret"></span></a>
-                <ul class="dropdown-menu ">
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
                     <li>@Html.ActionLink("خانه", "Index", "Home")</li>
                     @if (Request.IsAuthenticated)
                     {
