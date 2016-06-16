@@ -11,7 +11,7 @@
         UpdateTargetId = "SaleReturnInvoicesTable"
     };
 
-    opt.OnSuccess += $" loadDataTables({Model.DisplayRowsLength}, [{string.Join(", ", Model.CurrencyColumns)}]);";
+    opt.OnSuccess += $" loadDataTables('{Model.Id}', {Model.DisplayRowsLength}, [{string.Join(", ", Model.CurrencyColumns)}]);";
 }
 
 

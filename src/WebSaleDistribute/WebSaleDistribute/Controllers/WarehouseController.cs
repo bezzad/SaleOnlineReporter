@@ -116,7 +116,7 @@ namespace WebSaleDistribute.Controllers
                 Rows = results,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
-                TotalFooterColumns = new string[] { "مبلغ برگشتي" }, // column by name "مبلغ فاکتور"
+                TotalFooterColumns = new string[] { "مبلغ برگشتي" },
                 CurrencyColumns = new int[] { 6 },
                 Checkable = false
             };
@@ -158,7 +158,7 @@ namespace WebSaleDistribute.Controllers
                 Rows = results,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                TotalFooterColumns = new string[] { "تعداد" }, 
+                TotalFooterColumns = new string[] { "تعداد" },
                 CurrencyColumns = new int[] { 8 },
                 Checkable = true
             };
@@ -173,6 +173,7 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = "تایید نهایی برگشتی";
             ViewBag.InvoiceSerial = invoiceSerial;
+            string[] sRows = ViewBag.SaleableRows = rows.Split(',');
 
             #region Table Data
 
@@ -183,17 +184,34 @@ namespace WebSaleDistribute.Controllers
             List<string> schema;
             var results = tableData.GetSchemaAndData(out schema);
 
-            var model = new TableOption()
+            var lstSaleable = results.Where(x => sRows.Contains(((IDictionary<string, object>)x).First().Value.ToString())).ToList();
+            var lstUnSaleable = results.Where(x => !sRows.Contains(((IDictionary<string, object>)x).First().Value.ToString())).ToList();
+
+            var modelSaleable = new TableOption()
             {
-                Id = "saleReturnInvoices",
+                Id = "saleable",
                 Schema = schema,
-                Rows = results,
+                Rows = lstSaleable,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                TotalFooterColumns = new string[] { "تعداد" },
+                //TotalFooterColumns = new string[] { "تعداد" },
                 CurrencyColumns = new int[] { 7 },
                 Checkable = false
             };
+
+            var modelUnSaleable = new TableOption()
+            {
+                Id = "unsaleable",
+                Schema = schema,
+                Rows = lstUnSaleable,
+                DisplayRowsLength = -1,
+                Orders = new[] { Tuple.Create(0, OrderType.asc) },
+                //TotalFooterColumns = new string[] { "تعداد" },
+                CurrencyColumns = new int[] { 7 },
+                Checkable = false
+            };
+
+            var model = Tuple.Create(modelSaleable, modelUnSaleable);
 
             #endregion
 

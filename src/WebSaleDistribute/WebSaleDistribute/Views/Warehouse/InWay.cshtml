@@ -15,7 +15,7 @@
     <script>
         // Call DataTable() func in all of the jquery tables
         $(document).ready(function () {
-            loadDataTables(@Model.DisplayRowsLength, [@string.Join(", ", Model.CurrencyColumns)]);            
+            loadDataTables('@Model.Id', @Model.DisplayRowsLength, [@string.Join(", ", Model.CurrencyColumns)]);            
         })
     </script>
 }

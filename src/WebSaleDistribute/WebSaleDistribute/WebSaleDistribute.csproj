@@ -223,6 +223,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GeneralApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\List.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportsApiController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />

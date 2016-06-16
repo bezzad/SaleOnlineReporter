@@ -1,10 +1,10 @@
 ﻿@using WebSaleDistribute.Core
 @using WebSaleDistribute.Core.Enums
 
-@model TableOption
+@model Tuple<TableOption, TableOption>
 
 @{
-    ViewData["dir"] = "ltr";    
+    ViewData["dir"] = "ltr";
 }
 
 
@@ -13,7 +13,8 @@
     <script>
         // Call DataTable() func in all of the jquery tables
         $(document).ready(function () {
-            loadDataTables(@Model.DisplayRowsLength, [@string.Join(", ", Model.CurrencyColumns)]);
+            loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength, [@string.Join(", ", Model.Item1.CurrencyColumns)]);
+            loadDataTables('@Model.Item2.Id', @Model.Item2.DisplayRowsLength, [@string.Join(", ", Model.Item2.CurrencyColumns)]);
         })
     </script>
 }
@@ -32,9 +33,9 @@
                 Html.PanelItem(new PanelItemOption()
                 {
                     Id = "aleableDetails_" + Guid.NewGuid().ToString(),
-                    Body = Html.TableItem(Model).ToHtmlString(),
+                    Body = Html.TableItem(Model.Item1).ToHtmlString(),
                     Title = $"قابل فروش",
-                    HasDetailLink = false,                    
+                    HasDetailLink = false,
                     GlyphIcon = "list-alt",
                     HasSettingPanel = false,
                     PanelType = PanelType.success
@@ -53,7 +54,7 @@
                 Html.PanelItem(new PanelItemOption()
                 {
                     Id = "unaleableDetails_" + Guid.NewGuid().ToString(),
-                    Body = Html.TableItem(Model).ToHtmlString(),
+                    Body = Html.TableItem(Model.Item2).ToHtmlString(),
                     Title = $"غیر قابل فروش",
                     HasDetailLink = false,
                     GlyphIcon = "list-alt",
@@ -62,6 +63,19 @@
                 })
             )
             <!-- /data -->
+        </div>
+
+        <br />
+        <br />
+
+
+        <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+            <a class='btn btn-danger' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new { invoiceSerial = @ViewBag.InvoiceSerial })">
+                <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
+            </a>
+            <a class='btn btn-success' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new { invoiceSerial = @ViewBag.InvoiceSerial })">
+            ثبت در انبار برگشتی&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+            </a>
         </div>
 
     </div>

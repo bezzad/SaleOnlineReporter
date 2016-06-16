@@ -1,7 +1,6 @@
 ﻿var isMobile = false; //initiate as false
 var reloadMethod;
 var PageReloadTimeoutCookieName;
-var table;
 var rows_selected = []; // Array holding selected row IDs
 
 /* LOADER */
@@ -119,12 +118,14 @@ var convertToNumericByCamma = function (nTd, sData, oData, iRow, iCol) {
     $currencyCell.text(commaValue);
 }
 
-function loadDataTables(iDisplayLength, currencyColumns) {
+function loadDataTables(id, iDisplayLength, currencyColumns) {
     if (iDisplayLength === undefined) iDisplayLength = 10;
 
     if (currencyColumns === undefined || currencyColumns === null) currencyColumns = [];
 
-    table = $('.dataTables').DataTable({
+    id = "#" + id;
+
+    var table = $(id).DataTable({
         //select: true,
         //paging: false
         //help: https://www.datatables.net/manual/options
@@ -258,7 +259,7 @@ function loadDataTables(iDisplayLength, currencyColumns) {
 
     table.state.clear();
 
-    $('.dataTables tbody').on('click', 'tr', function (e) {
+    $(id + ' tbody').on('click', 'tr', function (e) {
         if ($(this).hasClass('notCheckable')) {
             //if ($(this).hasClass('selected')) {
             //    $(this).removeClass('selected');
@@ -274,7 +275,7 @@ function loadDataTables(iDisplayLength, currencyColumns) {
 
 
     // Handle click on checkbox
-    $('.dataTables tbody').on('click', 'input[type="checkbox"]', function (e) {
+    $(id + ' tbody').on('click', 'input[type="checkbox"]', function (e) {
         if ($(this).hasClass('notCheckable') === false) {
             var $row = $(this).closest('tr');
 
@@ -303,7 +304,7 @@ function loadDataTables(iDisplayLength, currencyColumns) {
             }
 
             // Update state of "Select all" control
-            updateDataTableSelectAllCtrl(table);
+            updateDataTableSelectAllCtrl(table, id);
 
             // Prevent click event from propagating to parent
             e.stopPropagation();
@@ -311,16 +312,16 @@ function loadDataTables(iDisplayLength, currencyColumns) {
     });
 
     // Handle click on table cells with checkboxes
-    $('.dataTables').on('click', 'tbody td, thead th:first-child', function (e) {
+    $(id).on('click', 'tbody td, thead th:first-child', function (e) {
         $(this).parent().find('input[type="checkbox"]').trigger('click');
     });
 
     // Handle click on "Select all" control
     $('thead input[name="select_all"]', table.table().container()).on('click', function (e) {
         if (this.checked) {
-            $('.dataTables tbody input[type="checkbox"]:not(:checked)').trigger('click');
+            $(id + ' tbody input[type="checkbox"]:not(:checked)').trigger('click');
         } else {
-            $('.dataTables tbody input[type="checkbox"]:checked').trigger('click');
+            $(id + ' tbody input[type="checkbox"]:checked').trigger('click');
         }
 
         // Prevent click event from propagating to parent
@@ -330,7 +331,7 @@ function loadDataTables(iDisplayLength, currencyColumns) {
     // Handle table draw event
     table.on('draw', function () {
         // Update state of "Select all" control
-        updateDataTableSelectAllCtrl(table);
+        updateDataTableSelectAllCtrl(table, id);
     });
 }
 
@@ -338,9 +339,9 @@ function getTableSelectedRows() {
     return rows_selected;
 }
 
-function getTableFirstSelectedRow() {
+function getTableFirstSelectedRow(id) {
     var theRow = null;
-    table.rows('.selected').each(function () {
+    $('#' + id).DataTable().rows('.selected').each(function () {
         theRow = this.data()[0];
     });
     return theRow
@@ -349,8 +350,8 @@ function getTableFirstSelectedRow() {
 //
 // Updates "Select all" control in a data table
 //
-function updateDataTableSelectAllCtrl(table) {
-    var tr = $('.dataTables tbody tr'); // has checkable row or return
+function updateDataTableSelectAllCtrl(table, id) {
+    var tr = $(id + ' tbody tr'); // has checkable row or return
     if (tr.hasClass('notCheckable') === false) {
         var $table = table.table().node();
         var $chkbox_all = $('tbody input[type="checkbox"]', $table);
