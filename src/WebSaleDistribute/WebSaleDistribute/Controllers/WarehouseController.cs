@@ -195,7 +195,7 @@ namespace WebSaleDistribute.Controllers
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
                 //TotalFooterColumns = new string[] { "تعداد" },
-                CurrencyColumns = new int[] { 7 },
+                //CurrencyColumns = new int[] { 7 },
                 Checkable = false
             };
 
@@ -207,7 +207,7 @@ namespace WebSaleDistribute.Controllers
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
                 //TotalFooterColumns = new string[] { "تعداد" },
-                CurrencyColumns = new int[] { 7 },
+                //CurrencyColumns = new int[] { 7 },
                 Checkable = false
             };
 

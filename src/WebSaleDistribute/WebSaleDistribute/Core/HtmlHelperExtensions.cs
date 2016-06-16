@@ -171,6 +171,12 @@ namespace WebSaleDistribute.Core
             div.AddCssClass("order-column");
             div.AddCssClass("stripe");
 
+            if (opt.Schema.Count() < (opt.Orders?.Count() ?? 0)) throw new IndexOutOfRangeException("The Orders columns numbers is more than data table columns count!");
+            if (opt.Schema.Count() < (opt.CurrencyColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Currency columns numbers is more than data table columns count!");
+            if (opt.Schema.Count() < (opt.AverageFooterColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Average columns numbers is more than data table columns count!");
+            if (opt.Schema.Count() < (opt.TotalFooterColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Sum and Total columns numbers is more than data table columns count!");
+
+
             if (opt?.Orders?.Any() == true)
             {
                 var val = "[";
