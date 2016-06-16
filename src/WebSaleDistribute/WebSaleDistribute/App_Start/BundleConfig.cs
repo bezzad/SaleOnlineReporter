@@ -1,4 +1,5 @@
-﻿using System.Web.Optimization;
+﻿using System.Diagnostics;
+using System.Web.Optimization;
 
 namespace WebSaleDistribute
 {
@@ -9,12 +10,8 @@ namespace WebSaleDistribute
         {
             RegisterScripts(bundles);
             RegisterContents(bundles);
-
-#if DEBUG
-            BundleTable.EnableOptimizations = false;
-#else
-            BundleTable.EnableOptimizations = true;
-#endif
+            
+            BundleTable.EnableOptimizations = !Debugger.IsAttached;
         }
 
         public static void RegisterScripts(BundleCollection bundles)
@@ -42,6 +39,7 @@ namespace WebSaleDistribute
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap-select.min.js",
                       "~/Scripts/respond.js"));
 
 
@@ -71,6 +69,7 @@ namespace WebSaleDistribute
             bundles.Add(new StyleBundle("~/Content/css").Include(
                      "~/Content/bootstrap.css",
                      "~/Content/bootstrap-theme.min.css",
+                     "~/Content/bootstrap-select.min.css",
                      "~/Content/site.css"));
 
             //bundles.Add(new StyleBundle("~/Content/PersianDatePicker").Include(

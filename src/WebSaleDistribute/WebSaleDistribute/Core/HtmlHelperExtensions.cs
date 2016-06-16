@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using WebSaleDistribute.Core.Enums;
+using WebSaleDistribute.Models;
 using ZXing;
 using ZXing.Common;
 
@@ -138,7 +139,7 @@ namespace WebSaleDistribute.Core
             return MvcHtmlString.Create(result);
         }
 
-        public static MvcHtmlString SettingPanelItem(this HtmlHelper htmlHelper, string id, string title, PanelType pType)
+        public static MvcHtmlString SettingPanelItem(this HtmlHelper htmlHelper, string id, string title, DataStyleType pType)
         {
             string settingTitle = "تنظیمات";
             var div = new TagBuilder("div");
@@ -475,6 +476,28 @@ namespace WebSaleDistribute.Core
 
                 return MvcHtmlString.Create(img.ToString(TagRenderMode.SelfClosing));
             }
+        }
+
+        public static MvcHtmlString ComboBox(this HtmlHelper htmlHelper, ComboBoxOption opt)
+        {
+            var div = new TagBuilder("select");
+            div.Attributes.Add("id", opt.Id);
+            div.AddCssClass("selectpicker");
+            if (opt.EnforceDesiredWidths) div.AddCssClass("form-control");
+
+            if (opt.DataStyle != DataStyleType.none) div.Attributes.Add("data-style", $"btn-{opt.DataStyle.ToString()}");
+            if (opt.DataLiveSearch) div.Attributes.Add("data-live-search", "true");
+            if (opt.MultipleSelection) { div.Attributes.Add("multiple", ""); div.Attributes.Add("data-max-options", opt.DataMaxOptions.ToString()); }
+            if (!string.IsNullOrEmpty(opt.Placeholder)) div.Attributes.Add("title", opt.Placeholder);
+            if (opt.ShowTick) div.Attributes.Add("show-tick", "");
+            if (opt.ShowMenuArrow) div.Attributes.Add("show-menu-arrow", "");
+            
+
+            var body = $"";
+
+            div.InnerHtml = body;
+
+            return MvcHtmlString.Create(div.ToString());
         }
     }
 }

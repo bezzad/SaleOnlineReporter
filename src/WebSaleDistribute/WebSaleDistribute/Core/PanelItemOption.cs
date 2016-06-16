@@ -12,7 +12,7 @@ namespace WebSaleDistribute.Core
         public string DetailUrlContent { get; set; } = " نمایش جزئیات ";
         public string GlyphIcon { get; set; }
         public string[] CssClass { get; set; }
-        public PanelType PanelType { get; set; }
+        public DataStyleType PanelType { get; set; }
         public bool HasSettingPanel { get; set; }
         public bool IsRefreshable { get; set; }
         public string ExportToExcelAction { get; set; }
