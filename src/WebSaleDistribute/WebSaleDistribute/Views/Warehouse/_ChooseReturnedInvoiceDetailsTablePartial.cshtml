@@ -24,10 +24,8 @@
         Id = id,
         Body = Html.TableItem(Model).ToHtmlString(),
         Title = $"اقلام برگشتی شماره {ViewBag.InvoiceSerial}",
-        IsRefreshable = true,
-        HasDetailLink = true,
-        DetailUrlContent = "<b>تایید اقلام برگشتی انتخابی</b>",
-        Url = $@"location.href = ""{Url.Content($"~/Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={ViewBag.InvoiceSerial}&rows=")}""+getTableSelectedRows();",
+        IsRefreshable = false,
+        HasDetailLink = false,
         GlyphIcon = "list-alt",
         HasSettingPanel = false,
         PanelType = PanelType.warning
