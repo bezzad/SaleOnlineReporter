@@ -2,9 +2,7 @@
 var reloadMethod;
 var PageReloadTimeoutCookieName;
 var table;
-//
-// Array holding selected row IDs
-var rows_selected = [];
+var rows_selected = []; // Array holding selected row IDs
 
 /* LOADER */
 jQuery(document).ready(function () {
@@ -45,11 +43,22 @@ jQuery(document).ready(function () {
     $.ajaxSetup({
         complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); },
         error: function (xhr, status, error) {
-            var err = JSON.parse(xhr.responseText)
-            //toastr.error(err.ExceptionMessage, err.ExceptionType);
-            toastr.error(err.ExceptionMessage);
+            try {
+                var err = JSON.parse(xhr.responseText)
+                //toastr.error(err.ExceptionMessage, err.ExceptionType);
+                toastr.error(err.ExceptionMessage);
+            } catch (err) {
+                toastr.error(xhr.responseText);
+            }
         }
     });
+
+    $(document).bind("ajaxSend", function () {
+        jQuery(".status").fadeIn("slow");
+    }).bind("ajaxComplete", function () {
+        jQuery(".status").fadeOut("slow");
+    });
+
     jQuery(".status").fadeOut("slow");
 
     $(".close").click(function () {
@@ -273,7 +282,7 @@ function loadDataTables(iDisplayLength, currencyColumns) {
             var data = table.row($row).data();
 
             // Get row ID
-            var rowId = data[0];
+            var rowId = data[1];
 
             // Determine whether row ID is in the list of selected row IDs 
             var index = $.inArray(rowId, rows_selected);
@@ -329,8 +338,7 @@ function getTableSelectedRows() {
     return rows_selected;
 }
 
-function getTableFirstSelectedRow()
-{
+function getTableFirstSelectedRow() {
     var theRow = null;
     table.rows('.selected').each(function () {
         theRow = this.data()[0];
@@ -375,19 +383,49 @@ function updateDataTableSelectAllCtrl(table) {
 
 
 function getAsync(url, params) {
+
     if (url === null) {
         toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
         return;
     }
 
-    jQuery(".status").fadeIn();
+    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
 
-    $.get(url, params, function () {
-        toastr.info("درخواست ارسال شد", '', { timeOut: 3000 });
-    })
-  .success(function (data) {
-      toastr.success(data);
-  });
+    $.get(url, params, function (data) {
+        toastr.success(data);
+    });
+}
+
+function get(url, params, updateElementId) {
+
+    if (url === null) {
+        toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
+        return;
+    }
+
+    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+
+    var jqxhr = $.get(url, params, function (data) {
+        var el = $(document).find("#" + updateElementId).html(data);
+        toastr.success("ثبت شد", '', { timeOut: 5000 });
+    });
+}
+
+function post(url, params, updateElementId) {
+    if (url === null) {
+        toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
+        return;
+    }
+
+    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+
+    var jqxhr = $.post(url, JSON.stringify(params), function (data) {
+        var el = $(document).find("#" + updateElementId).html(data);
+        toastr.success("ثبت شد", '', { timeOut: 5000 });
+    }, "json");
+    //.fail(function (xhr, textStatus, errorThrown) {
+    //    toastr.error(xhr.responseText);
+    //});
 }
 
 

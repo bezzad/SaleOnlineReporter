@@ -1,0 +1,68 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model TableOption
+
+@{
+    ViewData["dir"] = "ltr";    
+}
+
+
+@section scripts
+{
+    <script>
+        // Call DataTable() func in all of the jquery tables
+        $(document).ready(function () {
+            loadDataTables(@Model.DisplayRowsLength, [@string.Join(", ", Model.CurrencyColumns)]);
+        })
+    </script>
+}
+
+<br />
+
+<h2 dir="rtl">@ViewBag.Title @ViewBag.InvoiceSerial</h2>
+
+<div class="container">
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <!-- data -->
+            <br />
+
+            @(
+                Html.PanelItem(new PanelItemOption()
+                {
+                    Id = "aleableDetails_" + Guid.NewGuid().ToString(),
+                    Body = Html.TableItem(Model).ToHtmlString(),
+                    Title = $"قابل فروش",
+                    HasDetailLink = false,                    
+                    GlyphIcon = "list-alt",
+                    HasSettingPanel = false,
+                    PanelType = PanelType.success
+                })
+            )
+            <!-- /data -->
+        </div>
+
+        <hr />
+
+        <div class="tab-pane fade in active">
+            <!-- data -->
+            <br />
+
+            @(
+                Html.PanelItem(new PanelItemOption()
+                {
+                    Id = "unaleableDetails_" + Guid.NewGuid().ToString(),
+                    Body = Html.TableItem(Model).ToHtmlString(),
+                    Title = $"غیر قابل فروش",
+                    HasDetailLink = false,
+                    GlyphIcon = "list-alt",
+                    HasSettingPanel = false,
+                    PanelType = PanelType.danger
+                })
+            )
+            <!-- /data -->
+        </div>
+
+    </div>
+</div>

@@ -15,24 +15,23 @@
 }
 
 
-
 <div id="SaleReturnInvoicesTable">
 
     @using (Ajax.BeginForm("SaleReturnInvoicesTable", "Warehouse", opt, new { @id = id, @class = "refreshable-panel" }))
     {
         @(Html.PanelItem(new PanelItemOption()
-            {
-                Id = id,
-                Body = Html.TableItem(Model).ToHtmlString(),
-                Title = $"اقلام برگشتی شماره {ViewBag.InvoiceSerial}",
-                IsRefreshable = true,
-                HasDetailLink = true,
-                DetailUrlContent = "<b>انتخاب محصولات قابل فروش</b>",
-                Url = $@"location.href = ""{Url.Content($"~/Warehouse/ChooseReturnedInvoiceDetails/2087")}"";",
-                GlyphIcon = "list-alt",
-                HasSettingPanel = false,
-                PanelType = PanelType.success
-            })
+    {
+        Id = id,
+        Body = Html.TableItem(Model).ToHtmlString(),
+        Title = $"اقلام برگشتی شماره {ViewBag.InvoiceSerial}",
+        IsRefreshable = true,
+        HasDetailLink = true,
+        DetailUrlContent = "<b>تایید اقلام برگشتی انتخابی</b>",
+        Url = $@"location.href = ""{Url.Content($"~/Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={ViewBag.InvoiceSerial}&rows=")}""+getTableSelectedRows();",
+        GlyphIcon = "list-alt",
+        HasSettingPanel = false,
+        PanelType = PanelType.success
+    })
         )
     }
 

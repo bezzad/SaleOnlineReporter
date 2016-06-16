@@ -10,6 +10,7 @@ using WebSaleDistribute.Models;
 using AdoManager;
 using Dapper;
 using System.Data;
+using Newtonsoft.Json.Linq;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -45,25 +46,25 @@ namespace WebSaleDistribute.Controllers
             return View();
         }
 
-        // GET: Warehouse
-        public ActionResult InWay()
+        // GET: Warehouse/InWay/?code={code}
+        public ActionResult InWay(string code)
         {
             ViewBag.Title = "توراهی";
 
             var model = new TableOption() { Id = "entryInWay" };
 
-            string encryptedQrCode = Request.QueryString["code"];
+            //string encryptedQrCode = Request.QueryString["code"];
 
 
-            if (!string.IsNullOrEmpty(encryptedQrCode))
+            if (!string.IsNullOrEmpty(code))
             {
-                if (encryptedQrCode.Length < 8)
+                if (code.Length < 8)
                 {
-                    ViewBag.QrCode = encryptedQrCode;
+                    ViewBag.QrCode = code;
                 }
                 else
                 {
-                    ViewBag.QrCode = encryptedQrCode.RepairCipher()?.Decrypt();
+                    ViewBag.QrCode = code.RepairCipher()?.Decrypt();
                 }
 
                 #region Table Data
@@ -89,7 +90,7 @@ namespace WebSaleDistribute.Controllers
         }
 
 
-        // GET: Warehouse
+        // GET: Warehouse/SaleReturnInvoices
         public ActionResult SaleReturnInvoices()
         {
             ViewBag.Title = "برگشت از فروش";
@@ -97,7 +98,7 @@ namespace WebSaleDistribute.Controllers
             return View();
         }
 
-        // GET: SaleReturnInvoicesTable
+        // GET: Warehouse/SaleReturnInvoicesTable
         public ActionResult SaleReturnInvoicesTable()
         {
             #region Table Data
@@ -125,16 +126,18 @@ namespace WebSaleDistribute.Controllers
             return PartialView("_SaleReturnInvoicesTablePartial", model);
         }
 
-        // GET: SaleReturnInvoicesTable/{invoiceSerial}
+
+
+        // GET: Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}
         public ActionResult ChooseReturnedInvoiceDetails(int invoiceSerial)
         {
-            ViewBag.Title = $"انتخاب برگشتی ها";
+            ViewBag.Title = $"انتخاب اقلام برگشتی قابل فروش";
             ViewBag.InvoiceSerial = invoiceSerial;
 
             return View();
         }
 
-        // GET: SaleReturnInvoicesTable
+        // GET: Warehouse/ChooseReturnedInvoiceDetailsTable/?invoiceSerial={invoiceSerial}
         public ActionResult ChooseReturnedInvoiceDetailsTable(int invoiceSerial)
         {
             ViewBag.InvoiceSerial = invoiceSerial;
@@ -153,10 +156,10 @@ namespace WebSaleDistribute.Controllers
                 Id = "saleReturnInvoices",
                 Schema = schema,
                 Rows = results,
-                DisplayRowsLength = 10,
-                Orders = new[] { Tuple.Create(0, OrderType.desc) },
-                TotalFooterColumns = new string[] { "مبلغ برگشتي" }, // column by name "مبلغ فاکتور"
-                CurrencyColumns = new int[] { 6 },
+                DisplayRowsLength = -1,
+                Orders = new[] { Tuple.Create(0, OrderType.asc) },
+                TotalFooterColumns = new string[] { "تعداد" }, 
+                CurrencyColumns = new int[] { 8 },
                 Checkable = true
             };
 
@@ -164,5 +167,38 @@ namespace WebSaleDistribute.Controllers
 
             return PartialView("_ChooseReturnedInvoiceDetailsTablePartial", model);
         }
+
+        // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows} 
+        public ActionResult CertificationSelectedReturnedInvoiceDetails(int invoiceSerial, string rows)
+        {
+            ViewBag.Title = "تایید نهایی برگشتی";
+            ViewBag.InvoiceSerial = invoiceSerial;
+
+            #region Table Data
+
+            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = invoiceSerial },
+                commandType: CommandType.StoredProcedure);
+
+            List<string> schema;
+            var results = tableData.GetSchemaAndData(out schema);
+
+            var model = new TableOption()
+            {
+                Id = "saleReturnInvoices",
+                Schema = schema,
+                Rows = results,
+                DisplayRowsLength = -1,
+                Orders = new[] { Tuple.Create(0, OrderType.asc) },
+                TotalFooterColumns = new string[] { "تعداد" },
+                CurrencyColumns = new int[] { 7 },
+                Checkable = false
+            };
+
+            #endregion
+
+            return View("CertificationSelectedReturnedInvoiceDetails", model);
+        }
+
     }
 }
