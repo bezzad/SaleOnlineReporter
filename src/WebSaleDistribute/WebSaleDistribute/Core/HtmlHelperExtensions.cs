@@ -480,6 +480,8 @@ namespace WebSaleDistribute.Core
 
         public static MvcHtmlString ComboBox(this HtmlHelper htmlHelper, ComboBoxOption opt)
         {
+            if (opt == null) throw new ArgumentNullException("opt");
+
             var div = new TagBuilder("select");
             div.Attributes.Add("id", opt.Id);
             div.AddCssClass("selectpicker");
@@ -487,13 +489,34 @@ namespace WebSaleDistribute.Core
 
             if (opt.DataStyle != DataStyleType.none) div.Attributes.Add("data-style", $"btn-{opt.DataStyle.ToString()}");
             if (opt.DataLiveSearch) div.Attributes.Add("data-live-search", "true");
-            if (opt.MultipleSelection) { div.Attributes.Add("multiple", ""); div.Attributes.Add("data-max-options", opt.DataMaxOptions.ToString()); }
+            if (opt.MultipleSelection)
+            {
+                div.Attributes.Add("multiple", "");
+                if (!string.IsNullOrEmpty(opt.MultipleSelectedTextFormat)) div.Attributes.Add("data-selected-text-format", opt.MultipleSelectedTextFormat);
+                div.Attributes.Add("data-max-options", opt.DataMaxOptions?.ToString() ?? "auto");
+            }
             if (!string.IsNullOrEmpty(opt.Placeholder)) div.Attributes.Add("title", opt.Placeholder);
             if (opt.ShowTick) div.Attributes.Add("show-tick", "");
             if (opt.ShowMenuArrow) div.Attributes.Add("show-menu-arrow", "");
-            
+            if (!string.IsNullOrEmpty(opt.DataWidth)) div.Attributes.Add("data-width", opt.DataWidth);
+            if (!string.IsNullOrEmpty(opt.DataSize)) div.Attributes.Add("data-width", opt.DataSize);
+            if (opt.ShowSelectDeselectAllOptionsBox) div.Attributes.Add("data-actions-box", "true");
+            if (string.IsNullOrEmpty(opt.MenuHeaderText)) div.Attributes.Add("data-header", opt.MenuHeaderText);
+            if (!opt.Enable) div.Attributes.Add("disabled", "");
+            if (opt.EnforceDesiredWidths) div.Attributes.Add("form-control", "");
+            div.Attributes.Add("showSubtext", opt.ShowOptionSubText.ToString());
 
-            var body = $"";
+            var body = "";
+
+            foreach (var data in opt.Data)
+            {
+                if (data.IsDividerLine) body += "<option data-divider='true'></option>";
+                else
+                {
+                    var subtext = string.IsNullOrEmpty(data.SubText) ? "" : $"data-subtext='{data.SubText}'";
+                    body += $"<option value='{data.Value}' {subtext}>{data.Text}</option>";
+                }
+            }
 
             div.InnerHtml = body;
 
