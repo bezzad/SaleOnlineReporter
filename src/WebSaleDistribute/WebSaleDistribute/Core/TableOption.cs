@@ -17,5 +17,6 @@ namespace WebSaleDistribute.Core
         public bool AutoWidth { get; set; } = true;
         public bool Checkable { get; set; } = false;
         public string AjaxUrl { get; set; } = null;
+        public Dictionary<string, ComboBoxOption> ComboBoxColumnsDataMember { get; set; } = new Dictionary<string, ComboBoxOption>();
     }
 }

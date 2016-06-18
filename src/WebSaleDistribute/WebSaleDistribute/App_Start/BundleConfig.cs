@@ -10,7 +10,7 @@ namespace WebSaleDistribute
         {
             RegisterScripts(bundles);
             RegisterContents(bundles);
-            
+
             BundleTable.EnableOptimizations = !Debugger.IsAttached;
         }
 

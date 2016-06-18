@@ -261,15 +261,8 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
 
     $(id + ' tbody').on('click', 'tr', function (e) {
         if ($(this).hasClass('notCheckable')) {
-            //if ($(this).hasClass('selected')) {
-            //    $(this).removeClass('selected');
-            //}
-            //else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
-            //}
-            // Prevent click event from propagating to parent
-            e.stopPropagation();
         }
     });
 

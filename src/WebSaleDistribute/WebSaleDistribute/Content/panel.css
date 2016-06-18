@@ -25,3 +25,8 @@
 }
 
 /* ------------- /Animated Glyphicon ------------ */
+
+
+.lobipanel > .panel-body {
+    overflow: inherit;
+}

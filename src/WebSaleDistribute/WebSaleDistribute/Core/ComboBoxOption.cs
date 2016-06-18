@@ -126,6 +126,6 @@ namespace WebSaleDistribute.Core
         /// <summary>
         /// Add subtext to an option or optgroup with the data-subtext attribute.
         /// </summary>
-        public bool ShowOptionSubText { get; set; } = true;
+        public bool ShowOptionSubText { get; set; } = false;
     }
 }

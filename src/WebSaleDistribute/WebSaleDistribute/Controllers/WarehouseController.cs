@@ -205,11 +205,21 @@ namespace WebSaleDistribute.Controllers
                 Schema = schema,
                 Rows = lstUnSaleable,
                 DisplayRowsLength = -1,
-                Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                //TotalFooterColumns = new string[] { "تعداد" },
-                //CurrencyColumns = new int[] { 7 },
-                Checkable = false
+                Orders = new[] { Tuple.Create(0, OrderType.asc) }
             };
+
+            var reasons = Connections.SaleCore.SqlConn.Query("SELECT ReasonID, ReasonName FROM Reason");
+            var reasonComboOpt = new ComboBoxOption()
+            {                
+                Placeholder = " انتخاب علت برگشتی ",
+                MenuHeaderText = " علت برگشتی را انتخاب کنید ",
+                ShowOptionSubText = false,
+                DataStyle = Core.Enums.DataStyleType.warning,
+                ShowTick = true,
+                DataSize = "5",
+                Data = reasons.Select(x => new ComboBoxDataModel() { Value = ((object)x.ReasonID).ToString(), Text = x.ReasonName }).ToList()
+            };
+            modelUnSaleable.ComboBoxColumnsDataMember["4"] = reasonComboOpt;
 
             var model = Tuple.Create(modelSaleable, modelUnSaleable);
 

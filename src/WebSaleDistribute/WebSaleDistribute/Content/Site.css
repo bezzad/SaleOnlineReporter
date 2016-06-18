@@ -175,3 +175,32 @@ footer {
 table.dataTable tbody tr {
     cursor: pointer;
 }
+
+
+/* --------------- rtl bootstrap-select ---------------------- */
+.bootstrap-select.btn-group .btn .filter-option {
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    text-align: left; /* in RTL text-align: right; will fix it */
+}
+/*and for the cart, this css:*/
+.bootstrap-select.btn-group .btn .caret {
+    position: absolute;
+    top: 50%;
+    right: 12px;  /* left: 12px; will fix it*/
+    margin-top: -2px;
+    vertical-align: middle;
+}
+.bootstrap-select > .dropdown-toggle {
+    padding-left: 25px;
+    padding-right: 15px;
+}
+
+.dropdown-menu {
+    right: 0;
+    left: auto;
+    float: left;
+    text-align: right;
+}
+/* --------------- rtl bootstrap-select ---------------------- */

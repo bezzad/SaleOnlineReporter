@@ -248,6 +248,27 @@ namespace WebSaleDistribute.Core
                             </tfoot>
                             ";
 
+            //
+            // check which columns is comboBox!
+            var comboCols = new Dictionary<string, string>();
+            if (opt.ComboBoxColumnsDataMember.Any())
+            {
+                foreach (var combo in opt.ComboBoxColumnsDataMember)
+                {
+                    var colName = combo.Key;
+                    //
+                    // if key is column index then find that name and set again by name and combo option data
+                    int index = 0;
+                    if (int.TryParse(combo.Key, out index))
+                    {
+                        if (index >= opt.Schema.Count) throw new IndexOutOfRangeException("The ComboBoxColumnsDataMember has index out of schema columns index range!");
+                        colName = opt.Schema[index]; // get column name of found index
+                    }
+
+                    comboCols[colName] = htmlHelper.ComboBox(combo.Value).ToHtmlString();
+                }
+            }
+
             var trSelectCheckableClass = opt.Checkable ? "" : "notCheckable";
             var tRows = "";
             for (int rIndex = 0; rIndex < (opt.Rows?.Count ?? 0); rIndex++)
@@ -257,7 +278,9 @@ namespace WebSaleDistribute.Core
                 var tds = opt.Checkable ? $@"<td id='{opt.Id}_colSelect_{rIndex}' class='colSelect' style='text-align: center;'><input id='row' type='checkbox' value='false'></td>{Environment.NewLine}" : "";
                 foreach (var col in opt.Schema)
                 {
-                    tds += $"<td>{row[col]}</td>{Environment.NewLine}";
+                    tds += comboCols.ContainsKey(col)
+                        ? $"<td>{comboCols[col]}</td>{Environment.NewLine}"
+                        : $"<td>{row[col]}</td>{Environment.NewLine}";
                 }
                 tRows += $"<tr class='{trSelectCheckableClass}'>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
             }
@@ -485,26 +508,25 @@ namespace WebSaleDistribute.Core
             var div = new TagBuilder("select");
             div.Attributes.Add("id", opt.Id);
             div.AddCssClass("selectpicker");
+            if (opt.ShowTick) div.AddCssClass("show-tick");
+            if (opt.ShowMenuArrow) div.AddCssClass("show-menu-arrow");
             if (opt.EnforceDesiredWidths) div.AddCssClass("form-control");
 
             if (opt.DataStyle != DataStyleType.none) div.Attributes.Add("data-style", $"btn-{opt.DataStyle.ToString()}");
             if (opt.DataLiveSearch) div.Attributes.Add("data-live-search", "true");
             if (opt.MultipleSelection)
             {
-                div.Attributes.Add("multiple", "");
+                div.Attributes.Add("multiple", null);
                 if (!string.IsNullOrEmpty(opt.MultipleSelectedTextFormat)) div.Attributes.Add("data-selected-text-format", opt.MultipleSelectedTextFormat);
                 div.Attributes.Add("data-max-options", opt.DataMaxOptions?.ToString() ?? "auto");
             }
             if (!string.IsNullOrEmpty(opt.Placeholder)) div.Attributes.Add("title", opt.Placeholder);
-            if (opt.ShowTick) div.Attributes.Add("show-tick", "");
-            if (opt.ShowMenuArrow) div.Attributes.Add("show-menu-arrow", "");
             if (!string.IsNullOrEmpty(opt.DataWidth)) div.Attributes.Add("data-width", opt.DataWidth);
-            if (!string.IsNullOrEmpty(opt.DataSize)) div.Attributes.Add("data-width", opt.DataSize);
+            if (!string.IsNullOrEmpty(opt.DataSize)) div.Attributes.Add("data-size", opt.DataSize);
             if (opt.ShowSelectDeselectAllOptionsBox) div.Attributes.Add("data-actions-box", "true");
-            if (string.IsNullOrEmpty(opt.MenuHeaderText)) div.Attributes.Add("data-header", opt.MenuHeaderText);
-            if (!opt.Enable) div.Attributes.Add("disabled", "");
-            if (opt.EnforceDesiredWidths) div.Attributes.Add("form-control", "");
-            div.Attributes.Add("showSubtext", opt.ShowOptionSubText.ToString());
+            if (!string.IsNullOrEmpty(opt.MenuHeaderText)) div.Attributes.Add("data-header", opt.MenuHeaderText);
+            if (!opt.Enable) div.Attributes.Add("disabled", null);
+            div.Attributes.Add("data-show-subtext", opt.ShowOptionSubText.ToString().ToLower());
 
             var body = "";
 
