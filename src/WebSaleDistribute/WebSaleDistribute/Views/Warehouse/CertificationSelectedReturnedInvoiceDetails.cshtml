@@ -72,7 +72,7 @@
             <a class='btn btn-warning' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new { invoiceSerial = @ViewBag.InvoiceSerial })">
                 <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
             </a>
-            <a class='btn btn-success' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new { invoiceSerial = @ViewBag.InvoiceSerial })">
+            <a class='btn btn-success' href="#" onclick="getTableAllData('unsaleable');">
                 ثبت در انبار برگشتی&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
             </a>
         </div>

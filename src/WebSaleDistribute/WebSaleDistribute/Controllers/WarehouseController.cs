@@ -210,13 +210,14 @@ namespace WebSaleDistribute.Controllers
 
             var reasons = Connections.SaleCore.SqlConn.Query("SELECT ReasonID, ReasonName FROM Reason");
             var reasonComboOpt = new ComboBoxOption()
-            {                
-                Placeholder = " انتخاب علت برگشتی ",
-                MenuHeaderText = " علت برگشتی را انتخاب کنید ",
+            {
+                Placeholder = "انتخاب علت برگشتی",
+                MenuHeaderText = "علت برگشتی را انتخاب کنید",
                 ShowOptionSubText = false,
                 DataStyle = Core.Enums.DataStyleType.warning,
                 ShowTick = true,
-                DataSize = "5",
+                DataLiveSearch = true,
+                DataSize = "8",
                 Data = reasons.Select(x => new ComboBoxDataModel() { Value = ((object)x.ReasonID).ToString(), Text = x.ReasonName }).ToList()
             };
             modelUnSaleable.ComboBoxColumnsDataMember["4"] = reasonComboOpt;

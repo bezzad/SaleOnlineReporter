@@ -340,6 +340,36 @@ function getTableFirstSelectedRow(id) {
     return theRow
 }
 
+function getTableAllData(id) {
+    //var targets = [];
+    //$.each($(".selectpicker option:selected"), function () {
+    //    targets.push($(this).val());
+    //});
+    //alert("You have selected the targets: " + targets.join(", "))
+
+    var result = [];
+
+    $('#' + id).DataTable().rows().every(function (element, index, array) { // read any rows
+        var newRow = [];
+        var row = this.data();
+
+        for (i = 0; i < row.length; i++) {
+            if (row[i].startsWith("<select")) { // a combo box found!
+                var newVal;
+                var x = $('.selectpicker option:selected', '<div>' + row[i] + '</div>');
+
+                newVal = x.val(); // set just selected option index
+
+                newRow.push(newVal);
+            }
+            else newRow.push(row[i]);
+        }
+
+        result.push(newRow);
+    });
+    return result;
+}
+
 //
 // Updates "Select all" control in a data table
 //
