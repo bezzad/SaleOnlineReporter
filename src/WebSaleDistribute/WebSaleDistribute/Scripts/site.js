@@ -40,11 +40,10 @@ jQuery(document).ready(function () {
     // reload page reload time from cookie after all ajax gets or posts
     // ref: http://www.w3schools.com/jquery/ajax_ajaxsetup.asp
     $.ajaxSetup({
-        async: false,
         complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); },
         error: function (xhr, status, error) {
             try {
-                var err = JSON.parse(xhr.responseText)
+                var err = JSON.parse(xhr.responseText);
                 //toastr.error(err.ExceptionMessage, err.ExceptionType);
                 toastr.error(err.ExceptionMessage);
             } catch (err) {
