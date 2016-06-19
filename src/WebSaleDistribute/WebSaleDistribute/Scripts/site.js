@@ -39,7 +39,8 @@ jQuery(document).ready(function () {
 
     // reload page reload time from cookie after all ajax gets or posts
     // ref: http://www.w3schools.com/jquery/ajax_ajaxsetup.asp
-    $.ajaxSetup({ async: false,
+    $.ajaxSetup({
+        async: false,
         complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); },
         error: function (xhr, status, error) {
             try {
@@ -357,8 +358,8 @@ function getTableAllData(id) {
 
                 newRow.push(newVal);
             }
-            else
-                newRow.push(cells[i].outerText);
+            else if (cells[i].outerText !== "موردی یافت نشد")
+            { newRow.push(cells[i].outerText); }
         }
 
         //

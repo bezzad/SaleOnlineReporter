@@ -7,6 +7,9 @@ using Microsoft.AspNet.Identity.Owin;
 using WebSaleDistribute.Models;
 using Elmah;
 using System.Net.Http;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -85,7 +88,11 @@ namespace WebSaleDistribute.Controllers
         {
             var content = request.Content;
             string jsonContent = content.ReadAsStringAsync().Result;
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonContent);
+            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
+            int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
+            var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
+            var unsaleableList = ((List<JArray>)data.unsaleableList.ToObject(typeof(List<JArray>))).Select(x => x.ToObject(typeof(System.Dynamic.ExpandoObject)));
+            
             return Ok("ok");
         }
     }
