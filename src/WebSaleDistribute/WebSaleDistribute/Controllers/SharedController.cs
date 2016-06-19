@@ -13,8 +13,6 @@ namespace WebSaleDistribute.Controllers
     [AllowAnonymous]
     public class SharedController : Controller
     {
-        // GET: Home/SetEmployeeType Submit
-        [HttpGet]
         [AllowAnonymous]
         public ActionResult Menu()
         {

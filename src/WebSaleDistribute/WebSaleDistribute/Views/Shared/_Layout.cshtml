@@ -60,7 +60,7 @@
                     </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
-
+                
                 @if (Request.IsAuthenticated)
                 {
                     @Html.Action("GetEmployeeType", "Home");
@@ -85,7 +85,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/lobipanel")
     @Scripts.Render("~/bundles/jquery_dataTables")
-    
+
     @RenderSection("scripts", required: false)
 
     @Scripts.Render("~/bundles/site")

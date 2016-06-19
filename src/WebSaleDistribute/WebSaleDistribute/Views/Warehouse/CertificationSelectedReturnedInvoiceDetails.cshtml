@@ -72,10 +72,37 @@
             <a class='btn btn-warning' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new { invoiceSerial = @ViewBag.InvoiceSerial })">
                 <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
             </a>
-            <a class='btn btn-success' href="#" onclick="getTableAllData('unsaleable');">
+            <a class='btn btn-success' href="#" onclick='storeSelectedValues()'>
                 ثبت در انبار برگشتی&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
             </a>
         </div>
 
     </div>
 </div>
+
+<script>
+    function storeSelectedValues()
+    {
+        var unSaleableList = getTableAllData("unsaleable");
+        for(var i=0;i< unSaleableList.length; i++)
+        {
+            for(var c=0;c<unSaleableList[i].length;c++)
+            {
+                if(unSaleableList[i][c] === undefined) // c is reason column
+                {
+                    toastr.warning("علت برگشتی ردیف " + (i+1) + " را انتخاب کنید!", "عدم @ViewBag.Title", {timeOut: 5000});
+                    return;
+                }
+            }
+        }
+
+        var invoiceBusinessDocSerialNo = @ViewBag.InvoiceSerial;
+
+        var saleableList = [@string.Join(",", ViewBag.SaleableRows)];
+
+        var url = '@Url.Action("StoreReturnedInovicesInWarehouse", "Warehouse")'; 
+        postAsync(url, { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList });
+
+        //window.location.href = "../Index";
+    }
+</script>

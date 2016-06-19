@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using WebSaleDistribute.Models;
 using Elmah;
+using System.Net.Http;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -75,6 +76,17 @@ namespace WebSaleDistribute.Controllers
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return Ok(result);
+        }
+
+        // POST: api/StoreReturnedInovicesInWarehouse
+        [HttpPost]
+        [Route("Warehouse/StoreReturnedInovicesInWarehouse")]
+        public IHttpActionResult StoreReturnedInovicesInWarehouse(HttpRequestMessage request)
+        {
+            var content = request.Content;
+            string jsonContent = content.ReadAsStringAsync().Result;
+            var data = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonContent);
+            return Ok("ok");
         }
     }
 }

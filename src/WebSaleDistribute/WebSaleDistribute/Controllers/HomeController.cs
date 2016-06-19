@@ -52,7 +52,6 @@ namespace WebSaleDistribute.Controllers
         }
 
         // GET: Home/SetEmployeeType Submit
-        [HttpGet]
         [ChildActionOnly]
         public ActionResult GetEmployeeType()
         {

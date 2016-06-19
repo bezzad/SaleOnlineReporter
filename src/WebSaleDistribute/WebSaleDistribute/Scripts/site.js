@@ -39,7 +39,7 @@ jQuery(document).ready(function () {
 
     // reload page reload time from cookie after all ajax gets or posts
     // ref: http://www.w3schools.com/jquery/ajax_ajaxsetup.asp
-    $.ajaxSetup({
+    $.ajaxSetup({ async: false,
         complete: function (result) { setPageReloadTimer(null); jQuery(".status").fadeOut("slow"); },
         error: function (xhr, status, error) {
             try {
@@ -341,32 +341,30 @@ function getTableFirstSelectedRow(id) {
 }
 
 function getTableAllData(id) {
-    //var targets = [];
-    //$.each($(".selectpicker option:selected"), function () {
-    //    targets.push($(this).val());
-    //});
-    //alert("You have selected the targets: " + targets.join(", "))
-
     var result = [];
 
-    $('#' + id).DataTable().rows().every(function (element, index, array) { // read any rows
+    $('#' + id + ' > tbody > tr').each(function () { // read any rows
+
         var newRow = [];
-        var row = this.data();
+        var cells = this.cells;
 
-        for (i = 0; i < row.length; i++) {
-            if (row[i].startsWith("<select")) { // a combo box found!
+        for (var i = 0; i < cells.length; i++) {
+            if ($('select', cells[i].innerHTML).length > 0) { // a combo box found!
                 var newVal;
-                var x = $('.selectpicker option:selected', '<div>' + row[i] + '</div>');
+                var x = $('li.selected[data-original-index]', cells[i].innerHTML); // find selected option
 
-                newVal = x.val(); // set just selected option index
+                newVal = x.attr("data-original-index"); // get selected option value, if not selected then get undefined
 
                 newRow.push(newVal);
             }
-            else newRow.push(row[i]);
+            else
+                newRow.push(cells[i].outerText);
         }
 
+        //
         result.push(newRow);
     });
+
     return result;
 }
 
@@ -418,6 +416,30 @@ function getAsync(url, params) {
     $.get(url, params, function (data) {
         toastr.success(data);
     });
+}
+
+function postAsync(url, params) {
+
+    if (url === null) {
+        toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
+        return;
+    }
+
+    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+
+    $.post(url, JSON.stringify(params), function (data) {
+        toastr.success(data);
+    });
+
+    //$.ajax({
+    //    url: url,
+    //    type: "Post",
+    //    data: JSON.stringify(params),
+    //    dataType: "json",
+    //    contentType: 'application/json; charset=utf-8',
+    //    success: function (data) { toastr.success(data); },
+    //    error: function (msg) { toastr.error(msg.responseText); }
+    //});
 }
 
 function get(url, params, updateElementId) {
