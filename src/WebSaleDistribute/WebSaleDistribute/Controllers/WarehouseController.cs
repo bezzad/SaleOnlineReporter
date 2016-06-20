@@ -38,6 +38,18 @@ namespace WebSaleDistribute.Controllers
         }
 
 
+        private List<string> _steps = new List<string>()
+                {
+                    "انتخاب فاکتور برگشتی",
+                    "تعیین اقلام قابل فروش",
+                    "تایید نهایی اقلام قابل فروش و علت عدم قابل فروش",
+                    "ورود برگشتی به انبار"
+                };
+
+
+
+
+
         // GET: Warehouse
         public ActionResult Warehouse()
         {
@@ -90,12 +102,21 @@ namespace WebSaleDistribute.Controllers
         }
 
 
+
+
+
         // GET: Warehouse/SaleReturnInvoices
         public ActionResult SaleReturnInvoices()
         {
-            ViewBag.Title = "برگشت از فروش";
+            ViewBag.Title = "انتخاب یک فاکتور برگشت از فروش";
 
-            return View();
+            var multipleStepOpt = new MultipleStepProgressTabOption()
+            {
+                Steps = _steps,
+                CurrentStepIndex = 1
+            };
+
+            return View(multipleStepOpt);
         }
 
         // GET: Warehouse/SaleReturnInvoicesTable
@@ -125,16 +146,20 @@ namespace WebSaleDistribute.Controllers
 
             return PartialView("_SaleReturnInvoicesTablePartial", model);
         }
-
-
-
+        
         // GET: Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}
         public ActionResult ChooseReturnedInvoiceDetails(int invoiceSerial)
         {
             ViewBag.Title = $"انتخاب اقلام برگشتی قابل فروش";
             ViewBag.InvoiceSerial = invoiceSerial;
 
-            return View();
+            var multipleStepOpt = new MultipleStepProgressTabOption()
+            {
+                Steps = _steps,
+                CurrentStepIndex = 2
+            };
+
+            return View(multipleStepOpt);
         }
 
         // GET: Warehouse/ChooseReturnedInvoiceDetailsTable/?invoiceSerial={invoiceSerial}
@@ -222,7 +247,13 @@ namespace WebSaleDistribute.Controllers
             };
             modelUnSaleable.ComboBoxColumnsDataMember["4"] = reasonComboOpt;
 
-            var model = Tuple.Create(modelSaleable, modelUnSaleable);
+            var multipleStepOpt = new MultipleStepProgressTabOption()
+            {
+                Steps = _steps,
+                CurrentStepIndex = 3
+            };            
+
+            var model = Tuple.Create(modelSaleable, modelUnSaleable, multipleStepOpt);
 
             #endregion
 

@@ -240,6 +240,7 @@
     <Compile Include="Core\HtmlHelperExtensions.cs" />
     <Compile Include="Core\Enums\OrderType.cs" />
     <Compile Include="Core\HttpRequestMessageExtensions.cs" />
+    <Compile Include="Core\MultipleStepProgressTabOption.cs" />
     <Compile Include="Core\PanelAjaxOptions.cs" />
     <Compile Include="Core\PanelItemOption.cs" />
     <Compile Include="Core\TableOption.cs" />

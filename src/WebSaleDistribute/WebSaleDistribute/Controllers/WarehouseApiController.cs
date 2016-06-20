@@ -91,9 +91,9 @@ namespace WebSaleDistribute.Controllers
             var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
-            var unsaleableList = ((List<JArray>)data.unsaleableList.ToObject(typeof(List<JArray>))).Select(x => x.ToObject(typeof(System.Dynamic.ExpandoObject)));
+            var unsaleableList = ((List<JArray>)data.unsaleableList.ToObject(typeof(List<JArray>))).Select(x => (System.Dynamic.ExpandoObject)x.ToObject(typeof(System.Dynamic.ExpandoObject)));
             
-            return Ok("ok");
+            return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿@{
+﻿@using WebSaleDistribute.Core
+
+@model MultipleStepProgressTabOption
+
+@{
     ViewData["dir"] = "ltr";
 }
 
@@ -12,7 +16,8 @@
     </script>
 }
 
-<br />
+@Html.MultipleStepProgressTab(Model)
+
 
 <h2 dir="rtl">@ViewBag.Title</h2>
 
