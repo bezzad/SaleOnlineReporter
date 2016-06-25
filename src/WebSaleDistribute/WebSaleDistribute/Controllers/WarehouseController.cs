@@ -10,7 +10,7 @@ using WebSaleDistribute.Models;
 using AdoManager;
 using Dapper;
 using System.Data;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -58,6 +58,10 @@ namespace WebSaleDistribute.Controllers
             return View();
         }
 
+
+
+        #region InWay
+
         // GET: Warehouse/InWay/?code={code}
         public ActionResult InWay(string code)
         {
@@ -101,8 +105,10 @@ namespace WebSaleDistribute.Controllers
             return View(model);
         }
 
+        #endregion
 
 
+        #region Sale Return Invoice to Warehous
 
 
         // GET: Warehouse/SaleReturnInvoices
@@ -196,7 +202,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows} 
         public ActionResult CertificationSelectedReturnedInvoiceDetails(int invoiceSerial, string rows)
         {
-            ViewBag.Title = "تایید نهایی برگشتی";
+            ViewBag.Title = "تایید برگشتی قابل فروش و غیر قابل فروش";
             ViewBag.InvoiceSerial = invoiceSerial;
             string[] sRows = ViewBag.SaleableRows = rows.Split(',');
 
@@ -260,5 +266,19 @@ namespace WebSaleDistribute.Controllers
             return View("CertificationSelectedReturnedInvoiceDetails", model);
         }
 
+        // POST: Warehouse/ShowEntryReturnedInvoiceDetails
+        [HttpPost]
+        public ActionResult ShowEntryReturnedInvoiceDetails(string invoiceSerialNo, string saleableRows, string unsaleableList)
+        {
+            ViewBag.Title = "ورود به انبار برگشتی";
+
+            var serialNo = JsonConvert.DeserializeObject<int>(invoiceSerialNo);
+            var saleable = JsonConvert.DeserializeObject(saleableRows);
+            var unsaleable = JsonConvert.DeserializeObject(unsaleableList);
+
+            return View("ShowEntryReturnedInvoiceDetails");
+        }
+
+        #endregion
     }
 }

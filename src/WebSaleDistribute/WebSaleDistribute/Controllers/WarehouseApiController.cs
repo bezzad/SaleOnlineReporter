@@ -28,14 +28,7 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
-        public ApplicationUser CurrentUser
-        {
-            get
-            {
-                return UserManager.FindById(User.Identity.GetUserId());
-            }
-        }
-
+        public ApplicationUser CurrentUser => UserManager.FindById(User.Identity.GetUserId());
 
 
         // GET: api/Warehouse/EntryInWayToWarehouse
@@ -92,6 +85,7 @@ namespace WebSaleDistribute.Controllers
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
             var unsaleableList = ((List<JArray>)data.unsaleableList.ToObject(typeof(List<JArray>))).Select(x => (System.Dynamic.ExpandoObject)x.ToObject(typeof(System.Dynamic.ExpandoObject)));
+            
             
             return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
         }

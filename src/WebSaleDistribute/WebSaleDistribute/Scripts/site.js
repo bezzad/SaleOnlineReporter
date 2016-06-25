@@ -24,8 +24,8 @@ jQuery(document).ready(function () {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut",
         "containerId": 'toast-container',
+        "rtl": 'true'
     }
-
 
     /* Detect Mobile or Desktop */
     // device detection

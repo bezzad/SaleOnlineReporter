@@ -55,7 +55,7 @@
                 {
                     Id = "unaleableDetails_" + Guid.NewGuid().ToString(),
                     Body = Html.TableItem(Model.Item2).ToHtmlString(),
-                    Title = $"غیر قابل فروش",
+                    Title = "غیر قابل فروش",
                     HasDetailLink = false,
                     GlyphIcon = "list-alt",
                     HasSettingPanel = false,
@@ -68,16 +68,21 @@
         <br />
         <br />
 
+        @using (Html.BeginForm("ShowEntryReturnedInvoiceDetails", "Warehouse", FormMethod.Post, new { id = "fromShowEntry" }))
+        {
+            <input type="hidden" id="invoiceSerialNo" name="invoiceSerialNo" value="@ViewBag.InvoiceSerial"/>
+            <input type="hidden" id="saleableRows" name="saleableRows" />
+            <input type="hidden" id="unsaleableList" name="unsaleableList" />
 
-        <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-            <a class='btn btn-warning' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new { invoiceSerial = @ViewBag.InvoiceSerial })">
-                <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
-            </a>
-            <a class='btn btn-success' href="#" onclick='storeSelectedValues()'>
-                ثبت در انبار برگشتی&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
-            </a>
-        </div>
-
+            <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+                <a class='btn btn-warning' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new {invoiceSerial = ViewBag.InvoiceSerial})">
+                    <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
+                </a>
+                <a class='btn btn-success' href="#" onclick='storeSelectedValues()'>
+                    ثبت در انبار برگشتی&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+                </a>
+            </div>
+        }
     </div>
 </div>
 
@@ -101,9 +106,14 @@
 
         var saleableList = [@string.Join(",", ViewBag.SaleableRows)];
 
-        var url = '@Url.Action("StoreReturnedInovicesInWarehouse", "Warehouse")'; 
+        var url = '@Url.Action("StoreReturnedInovicesInWarehouse", "Warehouse")'; // web api post method name: StoreReturnedInovicesInWarehouse
         postAsync(url, { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList });
 
-        //window.location.href = "../Index";
+        //
+        // Set Mvc controller, post method parameters
+        $('#saleableRows').val(JSON.stringify(saleableList));
+        $('#unsaleableList').val(JSON.stringify(unSaleableList));
+
+        setTimeout($("#fromShowEntry").submit(), 5000);
     }
 </script>

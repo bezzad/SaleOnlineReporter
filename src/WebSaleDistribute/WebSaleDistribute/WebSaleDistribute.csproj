@@ -612,6 +612,8 @@
     <Content Include="Views\Warehouse\ChooseReturnedInvoiceDetails.cshtml" />
     <Content Include="Views\Warehouse\_ChooseReturnedInvoiceDetailsTablePartial.cshtml" />
     <Content Include="Views\Warehouse\CertificationSelectedReturnedInvoiceDetails.cshtml" />
+    <Content Include="Views\Warehouse\ShowEntryReturnedInvoiceDetails.cshtml" />
+    <Content Include="Scripts\toastr.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
