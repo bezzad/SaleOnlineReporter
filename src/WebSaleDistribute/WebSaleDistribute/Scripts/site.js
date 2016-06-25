@@ -427,19 +427,35 @@ function postAsync(url, params) {
 
     toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
 
-    $.post(url, JSON.stringify(params), function (data) {
-        toastr.success(data);
-    });
+    $.post(url,
+            JSON.stringify(params),
+            function(data) {
+                toastr.success(data);
 
-    //$.ajax({
-    //    url: url,
-    //    type: "Post",
-    //    data: JSON.stringify(params),
-    //    dataType: "json",
-    //    contentType: 'application/json; charset=utf-8',
-    //    success: function (data) { toastr.success(data); },
-    //    error: function (msg) { toastr.error(msg.responseText); }
-    //});
+            })
+        .error(function() {
+   
+        });
+}
+
+function postAsync(url, params, successCallback) {
+
+    if (url === null) {
+        toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
+        return;
+    }
+
+    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+
+    $.post(url,
+            JSON.stringify(params),
+            function (data) {
+                toastr.success(data);
+                successCallback();
+            })
+        .error(function () {
+
+        });
 }
 
 function get(url, params, updateElementId) {

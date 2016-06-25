@@ -70,7 +70,7 @@
 
         @using (Html.BeginForm("ShowEntryReturnedInvoiceDetails", "Warehouse", FormMethod.Post, new { id = "fromShowEntry" }))
         {
-            <input type="hidden" id="invoiceSerialNo" name="invoiceSerialNo" value="@ViewBag.InvoiceSerial"/>
+            <input type="hidden" id="invoiceSerialNo" name="invoiceSerialNo" value="@ViewBag.InvoiceSerial" />
             <input type="hidden" id="saleableRows" name="saleableRows" />
             <input type="hidden" id="unsaleableList" name="unsaleableList" />
 
@@ -107,13 +107,16 @@
         var saleableList = [@string.Join(",", ViewBag.SaleableRows)];
 
         var url = '@Url.Action("StoreReturnedInovicesInWarehouse", "Warehouse")'; // web api post method name: StoreReturnedInovicesInWarehouse
-        postAsync(url, { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList });
+        postAsync(url, 
+            { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList },
+            function() {
+                //
+                // Set Mvc controller, post method parameters
+                $('#saleableRows').val(JSON.stringify(saleableList));
+                $('#unsaleableList').val(JSON.stringify(unSaleableList));
 
-        //
-        // Set Mvc controller, post method parameters
-        $('#saleableRows').val(JSON.stringify(saleableList));
-        $('#unsaleableList').val(JSON.stringify(unSaleableList));
+                setTimeout($("#fromShowEntry").submit(), 5000);
+            });
 
-        setTimeout($("#fromShowEntry").submit(), 5000);
     }
 </script>
