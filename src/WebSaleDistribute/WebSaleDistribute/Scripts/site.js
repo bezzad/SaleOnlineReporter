@@ -448,14 +448,14 @@ function postAsync(url, params, successCallback) {
     toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
 
     $.post(url,
-            JSON.stringify(params),
-            function (data) {
-                toastr.success(data);
-                successCallback();
-            })
-        .error(function () {
-
+        JSON.stringify(params),
+        function(data) {
+            toastr.success(data);
+            successCallback();
         });
+        //.error(function () {
+
+        //});
 }
 
 function get(url, params, updateElementId) {

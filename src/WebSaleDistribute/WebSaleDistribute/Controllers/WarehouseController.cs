@@ -276,7 +276,14 @@ namespace WebSaleDistribute.Controllers
             var saleable = JsonConvert.DeserializeObject(saleableRows);
             var unsaleable = JsonConvert.DeserializeObject(unsaleableList);
 
-            return View("ShowEntryReturnedInvoiceDetails");
+
+            var multipleStepOpt = new MultipleStepProgressTabOption()
+            {
+                Steps = _steps,
+                CurrentStepIndex = 4
+            };
+
+            return View("ShowEntryReturnedInvoiceDetails", multipleStepOpt);
         }
 
         #endregion

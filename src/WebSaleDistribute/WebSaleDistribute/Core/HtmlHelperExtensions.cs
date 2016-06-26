@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using WebSaleDistribute.Core.Enums;
 using WebSaleDistribute.Models;
 using ZXing;

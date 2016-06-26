@@ -244,6 +244,7 @@
     <Compile Include="Core\PanelAjaxOptions.cs" />
     <Compile Include="Core\PanelItemOption.cs" />
     <Compile Include="Core\TableOption.cs" />
+    <Compile Include="Core\TypeHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

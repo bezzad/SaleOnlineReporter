@@ -11,10 +11,45 @@
 {
     <script>
         // Call DataTable() func in all of the jquery tables
-        $(document).ready(function () {
-            loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength, [@string.Join(", ", Model.Item1.CurrencyColumns)]);
-            loadDataTables('@Model.Item2.Id', @Model.Item2.DisplayRowsLength, [@string.Join(", ", Model.Item2.CurrencyColumns)]);
-        })
+        $(document)
+            .ready(function() {
+                loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength, [@string.Join(", ", Model.Item1.CurrencyColumns)]);
+                loadDataTables('@Model.Item2.Id', @Model.Item2.DisplayRowsLength, [@string.Join(", ", Model.Item2.CurrencyColumns)]);
+            });
+
+        //
+        // store before submit
+        function storeSelectedValues()
+        {
+            var unSaleableList = getTableAllData("unsaleable");
+            for(var i=0;i< unSaleableList.length; i++)
+            {
+                for(var c=0;c<unSaleableList[i].length;c++)
+                {
+                    if(unSaleableList[i][c] === undefined) // c is reason column
+                    {
+                        toastr.warning("علت برگشتی ردیف " + (i+1) + " را انتخاب کنید!", "عدم @ViewBag.Title", {timeOut: 5000});
+                        return;
+                    }
+                }
+            }
+
+            var invoiceBusinessDocSerialNo = @ViewBag.InvoiceSerial;
+
+            var saleableList = [@string.Join(",", ViewBag.SaleableRows)];
+
+            var url = '@Url.Action("StoreReturnedInovicesInWarehouse", "Warehouse")'; // web api post method name: StoreReturnedInovicesInWarehouse
+            postAsync(url,
+                { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList },
+                function() {
+                    //
+                    // Set Mvc controller, post method parameters
+                    $('#saleableRows').val(JSON.stringify(saleableList));
+                    $('#unsaleableList').val(JSON.stringify(unSaleableList));
+
+                    setTimeout(function() { $("#fromShowEntry").submit(); }, 3000);
+                });
+        }
     </script>
 }
 
@@ -68,7 +103,7 @@
         <br />
         <br />
 
-        @using (Html.BeginForm("ShowEntryReturnedInvoiceDetails", "Warehouse", FormMethod.Post, new { id = "fromShowEntry" }))
+        @using (Html.BeginForm("ShowEntryReturnedInvoiceDetails", "Warehouse", FormMethod.Post,  new { id = "fromShowEntry" }))
         {
             <input type="hidden" id="invoiceSerialNo" name="invoiceSerialNo" value="@ViewBag.InvoiceSerial" />
             <input type="hidden" id="saleableRows" name="saleableRows" />
@@ -85,38 +120,3 @@
         }
     </div>
 </div>
-
-<script>
-    function storeSelectedValues()
-    {
-        var unSaleableList = getTableAllData("unsaleable");
-        for(var i=0;i< unSaleableList.length; i++)
-        {
-            for(var c=0;c<unSaleableList[i].length;c++)
-            {
-                if(unSaleableList[i][c] === undefined) // c is reason column
-                {
-                    toastr.warning("علت برگشتی ردیف " + (i+1) + " را انتخاب کنید!", "عدم @ViewBag.Title", {timeOut: 5000});
-                    return;
-                }
-            }
-        }
-
-        var invoiceBusinessDocSerialNo = @ViewBag.InvoiceSerial;
-
-        var saleableList = [@string.Join(",", ViewBag.SaleableRows)];
-
-        var url = '@Url.Action("StoreReturnedInovicesInWarehouse", "Warehouse")'; // web api post method name: StoreReturnedInovicesInWarehouse
-        postAsync(url, 
-            { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList },
-            function() {
-                //
-                // Set Mvc controller, post method parameters
-                $('#saleableRows').val(JSON.stringify(saleableList));
-                $('#unsaleableList').val(JSON.stringify(unSaleableList));
-
-                setTimeout($("#fromShowEntry").submit(), 5000);
-            });
-
-    }
-</script>
