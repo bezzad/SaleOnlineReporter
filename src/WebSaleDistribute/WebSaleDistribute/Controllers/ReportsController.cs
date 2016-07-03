@@ -31,13 +31,7 @@ namespace WebSaleDistribute.Controllers
                 _userManager = value;
             }
         }
-        public ApplicationUser CurrentUser
-        {
-            get
-            {
-                return UserManager.FindById(User.Identity.GetUserId());
-            }
-        }
+        public ApplicationUser CurrentUser => UserManager.FindById(User.Identity.GetUserId());
 
         #region Receipts
 
@@ -47,7 +41,7 @@ namespace WebSaleDistribute.Controllers
             ViewBag.Title = "گزارش رسیدی";
             ViewData["dir"] = "ltr";
 
-            return View();
+            return View("Receipt/Receipts");
         }
 
         // GET: ReceiptsChart      
@@ -76,7 +70,7 @@ namespace WebSaleDistribute.Controllers
             #endregion
             //----------------------------------------------------------          
 
-            return PartialView("ReceiptsChart", HtmlHelperExtensions.GetHighChart(opt));
+            return PartialView("Receipt/ReceiptsChart", HtmlHelperExtensions.GetHighChart(opt));
         }
 
         // GET: ReceiptsTable
@@ -112,7 +106,7 @@ namespace WebSaleDistribute.Controllers
 
             ToolsController.SetLastUserRunningAction(CurrentUser.UserName, "ReceiptsTable", results);
 
-            return PartialView("ReceiptsTable", model);
+            return PartialView("Receipt/ReceiptsTable", model);
         }
 
         #endregion
@@ -125,7 +119,7 @@ namespace WebSaleDistribute.Controllers
             ViewBag.Title = "گزارشات درخواست مشتریان";
             ViewData["dir"] = "ltr";
 
-            return View();
+            return View("CustomersOrders/CustomersOrders");
         }
 
         // GET: CustomersOrdersChart
@@ -156,7 +150,8 @@ namespace WebSaleDistribute.Controllers
                     #endregion
                     //----------------------------------------------------------          
 
-                    return PartialView("CustomersOrdersChart", HtmlHelperExtensions.GetHighChart(opt));
+
+                    return PartialView("CustomersOrders/CustomersOrdersChart", HtmlHelperExtensions.GetHighChart(opt));
                 }
             }
             catch (Exception exp)
@@ -164,7 +159,7 @@ namespace WebSaleDistribute.Controllers
                 Elmah.ErrorSignal.FromCurrentContext().Raise(exp);
             }
 
-            return PartialView("CustomersOrdersChart");
+            return PartialView("CustomersOrders/CustomersOrdersChart");
         }
 
 

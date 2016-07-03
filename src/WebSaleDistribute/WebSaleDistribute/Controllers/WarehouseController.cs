@@ -38,12 +38,19 @@ namespace WebSaleDistribute.Controllers
         }
 
 
-        private List<string> _steps = new List<string>()
+        private List<string> _saleReturnedSteps = new List<string>()
                 {
                     "انتخاب فاکتور برگشتی",
                     "تعیین اقلام قابل فروش",
                     "تایید نهایی اقلام قابل فروش و علت عدم قابل فروش",
                     "ورود برگشتی به انبار"
+                };
+
+        private List<string> _countingWarehouseSteps = new List<string>()
+                {
+                    "انتخاب شمارش انبار",
+                    "شمارش موجودی انبار",
+                    "تایید نهایی شمارش"
                 };
 
 
@@ -102,7 +109,7 @@ namespace WebSaleDistribute.Controllers
                 #endregion
             }
 
-            return View(model);
+            return View("InWay/InWay", model);
         }
 
         #endregion
@@ -118,11 +125,11 @@ namespace WebSaleDistribute.Controllers
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
-                Steps = _steps,
+                Steps = _saleReturnedSteps,
                 CurrentStepIndex = 1
             };
 
-            return View(multipleStepOpt);
+            return View("SaleReturnedInvoice/SaleReturnInvoices", multipleStepOpt);
         }
 
         // GET: Warehouse/SaleReturnInvoicesTable
@@ -150,7 +157,7 @@ namespace WebSaleDistribute.Controllers
 
             #endregion
 
-            return PartialView("_SaleReturnInvoicesTablePartial", model);
+            return PartialView("SaleReturnedInvoice/_SaleReturnInvoicesTablePartial", model);
         }
         
         // GET: Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}
@@ -161,11 +168,11 @@ namespace WebSaleDistribute.Controllers
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
-                Steps = _steps,
+                Steps = _saleReturnedSteps,
                 CurrentStepIndex = 2
             };
 
-            return View(multipleStepOpt);
+            return View("SaleReturnedInvoice/ChooseReturnedInvoiceDetails", multipleStepOpt);
         }
 
         // GET: Warehouse/ChooseReturnedInvoiceDetailsTable/?invoiceSerial={invoiceSerial}
@@ -196,7 +203,7 @@ namespace WebSaleDistribute.Controllers
 
             #endregion
 
-            return PartialView("_ChooseReturnedInvoiceDetailsTablePartial", model);
+            return PartialView("SaleReturnedInvoice/_ChooseReturnedInvoiceDetailsTablePartial", model);
         }
 
         // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows} 
@@ -255,7 +262,7 @@ namespace WebSaleDistribute.Controllers
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
-                Steps = _steps,
+                Steps = _saleReturnedSteps,
                 CurrentStepIndex = 3
             };            
 
@@ -263,7 +270,7 @@ namespace WebSaleDistribute.Controllers
 
             #endregion
 
-            return View("CertificationSelectedReturnedInvoiceDetails", model);
+            return View("SaleReturnedInvoice/CertificationSelectedReturnedInvoiceDetails", model);
         }
 
         // POST: Warehouse/ShowEntryReturnedInvoiceDetails
@@ -279,13 +286,57 @@ namespace WebSaleDistribute.Controllers
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
-                Steps = _steps,
+                Steps = _saleReturnedSteps,
                 CurrentStepIndex = 4
             };
 
-            return View("ShowEntryReturnedInvoiceDetails", multipleStepOpt);
+            return View("SaleReturnedInvoice/ShowEntryReturnedInvoiceDetails", multipleStepOpt);
         }
 
+        #endregion
+
+
+        #region Counting Warehouse 
+
+        // GET: Warehouse/CountingWarehouse
+        public ActionResult CountingWarehouse()
+        {
+            ViewBag.Title = "انتخاب شمارش انبار";
+
+            var multipleStepOpt = new MultipleStepProgressTabOption()
+            {
+                Steps = _countingWarehouseSteps,
+                CurrentStepIndex = 1
+            };
+
+            return View("CountingWarehouse/CountingWarehouse", multipleStepOpt);
+        }
+
+        // GET: Warehouse/CountingWarehouseHeaderTable
+        public ActionResult CountingWarehouseHeaderTable()
+        {
+            #region Table Data
+
+            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                "sp_GetCountingWarehouseHistoryTable", commandType: CommandType.StoredProcedure);
+
+            List<string> schema;
+            var results = tableData.GetSchemaAndData(out schema);
+
+            var model = new TableOption()
+            {
+                Id = "CountingWarehouseHeaderTable",
+                Schema = schema,
+                Rows = results,
+                DisplayRowsLength = 10,
+                Orders = new[] { Tuple.Create(0, OrderType.desc) },
+                Checkable = false
+            };
+
+            #endregion
+
+            return PartialView("CountingWarehouse/_CountingWarehouseHeaderTablePartial", model);
+        }
         #endregion
     }
 }

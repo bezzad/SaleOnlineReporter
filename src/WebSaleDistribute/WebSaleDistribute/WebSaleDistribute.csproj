@@ -599,22 +599,24 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Reports\Receipts.cshtml" />
+    <Content Include="Views\Reports\Receipt\Receipts.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
-    <Content Include="Views\Reports\CustomersOrders.cshtml" />
+    <Content Include="Views\Reports\CustomersOrders\CustomersOrders.cshtml" />
     <Content Include="Views\Shared\_EmployeeTypePartial.cshtml" />
-    <Content Include="Views\Reports\ReceiptsChart.cshtml" />
-    <Content Include="Views\Reports\ReceiptsTable.cshtml" />
-    <Content Include="Views\Reports\CustomersOrdersChart.cshtml" />
+    <Content Include="Views\Reports\Receipt\ReceiptsChart.cshtml" />
+    <Content Include="Views\Reports\Receipt\ReceiptsTable.cshtml" />
+    <Content Include="Views\Reports\CustomersOrders\CustomersOrdersChart.cshtml" />
     <Content Include="Views\Warehouse\Warehouse.cshtml" />
-    <Content Include="Views\Warehouse\InWay.cshtml" />
-    <Content Include="Views\Warehouse\SaleReturnInvoices.cshtml" />
-    <Content Include="Views\Warehouse\_SaleReturnInvoicesTablePartial.cshtml" />
-    <Content Include="Views\Warehouse\ChooseReturnedInvoiceDetails.cshtml" />
-    <Content Include="Views\Warehouse\_ChooseReturnedInvoiceDetailsTablePartial.cshtml" />
-    <Content Include="Views\Warehouse\CertificationSelectedReturnedInvoiceDetails.cshtml" />
-    <Content Include="Views\Warehouse\ShowEntryReturnedInvoiceDetails.cshtml" />
+    <Content Include="Views\Warehouse\InWay\InWay.cshtml" />
+    <Content Include="Views\Warehouse\SaleReturnedInvoice\SaleReturnInvoices.cshtml" />
+    <Content Include="Views\Warehouse\SaleReturnedInvoice\_SaleReturnInvoicesTablePartial.cshtml" />
+    <Content Include="Views\Warehouse\SaleReturnedInvoice\ChooseReturnedInvoiceDetails.cshtml" />
+    <Content Include="Views\Warehouse\SaleReturnedInvoice\_ChooseReturnedInvoiceDetailsTablePartial.cshtml" />
+    <Content Include="Views\Warehouse\SaleReturnedInvoice\CertificationSelectedReturnedInvoiceDetails.cshtml" />
+    <Content Include="Views\Warehouse\SaleReturnedInvoice\ShowEntryReturnedInvoiceDetails.cshtml" />
     <Content Include="Scripts\toastr.js.map" />
+    <Content Include="Views\Warehouse\CountingWarehouse\CountingWarehouse.cshtml" />
+    <Content Include="Views\Warehouse\CountingWarehouse\_CountingWarehouseHeaderTablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
