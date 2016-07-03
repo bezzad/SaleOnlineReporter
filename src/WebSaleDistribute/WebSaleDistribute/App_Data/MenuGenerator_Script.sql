@@ -4,7 +4,7 @@ Go
 -- =============================================
 -- Author:		Behzad Khosravifar
 -- Create date: 1395/03/18
--- Last Update: 1395/03/19
+-- Last Update: 1395/04/13
 -- Description:	Create and Get Web sale distribute menus
 -- =============================================
 CREATE PROCEDURE sp_CreateAndGetWebSaleDistributeMenus @UserId INT
@@ -116,6 +116,24 @@ AS
         
                             SET @cnt = @cnt + 1;
                         END;
+
+			    -- Add Some Menus to role 7 فروشنده
+					INSERT  INTO MenusToRoles
+                    VALUES		( @ProgramID,	--ProgramID
+									7,	--RoleID
+									@ParentMenuID + 1,	--MenuID
+									1,	--IsEnable
+									0 --IsVisible
+								),
+								-- منوی درخواست
+								( @ProgramID,	--ProgramID
+									7,	--RoleID
+									@ParentMenuID + 2,	--MenuID
+									1,	--IsEnable
+									0 --IsVisible
+								)
+
+				
                 
                 -- Add Warehouse role 13
                     INSERT  INTO MenusToRoles
