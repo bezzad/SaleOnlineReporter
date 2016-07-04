@@ -250,23 +250,30 @@ namespace WebSaleDistribute.Core
                             ";
 
             //
-            // check which columns is comboBox!
-            var comboCols = new Dictionary<string, string>();
-            if (opt.ComboBoxColumnsDataMember.Any())
+            // check which columns is input!
+            var inputCols = new Dictionary<string, string>();
+            if (opt.InputColumnsDataMember.Any())
             {
-                foreach (var combo in opt.ComboBoxColumnsDataMember)
+                foreach (var input in opt.InputColumnsDataMember)
                 {
-                    var colName = combo.Key;
+                    var colName = input.Key;
                     //
                     // if key is column index then find that name and set again by name and combo option data
                     int index = 0;
-                    if (int.TryParse(combo.Key, out index))
+                    if (int.TryParse(input.Key, out index))
                     {
-                        if (index >= opt.Schema.Count) throw new IndexOutOfRangeException("The ComboBoxColumnsDataMember has index out of schema columns index range!");
+                        if (index >= opt.Schema.Count) throw new IndexOutOfRangeException("The InputColumnsDataMember has index out of schema columns index range!");
                         colName = opt.Schema[index]; // get column name of found index
                     }
 
-                    comboCols[colName] = htmlHelper.ComboBox(combo.Value).ToHtmlString();
+                    if (input.Value is ComboBoxOption)
+                    {
+                        inputCols[colName] = htmlHelper.ComboBox((ComboBoxOption)input.Value).ToHtmlString();
+                    }
+                    else if (input.Value is TextBoxOption)
+                    {
+                        inputCols[colName] = htmlHelper.TextBox((TextBoxOption)input.Value).ToHtmlString();
+                    }
                 }
             }
 
@@ -279,8 +286,8 @@ namespace WebSaleDistribute.Core
                 var tds = opt.Checkable ? $@"<td id='{opt.Id}_colSelect_{rIndex}' class='colSelect' style='text-align: center;'><input id='row' type='checkbox' value='false'></td>{Environment.NewLine}" : "";
                 foreach (var col in opt.Schema)
                 {
-                    tds += comboCols.ContainsKey(col)
-                        ? $"<td>{comboCols[col]}</td>{Environment.NewLine}"
+                    tds += inputCols.ContainsKey(col)
+                        ? $"<td>{inputCols[col]}</td>{Environment.NewLine}"
                         : $"<td>{row[col]}</td>{Environment.NewLine}";
                 }
                 tRows += $"<tr class='{trSelectCheckableClass}'>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
@@ -542,6 +549,21 @@ namespace WebSaleDistribute.Core
             }
 
             div.InnerHtml = body;
+
+            return MvcHtmlString.Create(div.ToString());
+        }
+
+        public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, TextBoxOption opt)
+        {
+            if (opt == null) throw new ArgumentNullException("opt");
+
+            var div = new TagBuilder("input");
+            div.Attributes.Add("id", opt.Id);
+            div.Attributes.Add("name", opt.Id);
+            div.Attributes.Add("type", "number");
+            div.Attributes.Add("value", "");
+            div.Attributes.Add("placeholder", opt.Placeholder);
+            div.AddCssClass("form-control");
 
             return MvcHtmlString.Create(div.ToString());
         }

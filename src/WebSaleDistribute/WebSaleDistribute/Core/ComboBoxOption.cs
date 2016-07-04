@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebSaleDistribute.Core.Enums;
 using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Core
@@ -8,23 +7,16 @@ namespace WebSaleDistribute.Core
     /// <summary>
     /// https://silviomoreto.github.io/bootstrap-select/examples/
     /// </summary>
-    public class ComboBoxOption
+    public class ComboBoxOption: InputOption
     {
-        /// <summary>
-        /// Combo element id attribute
-        /// </summary>
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        #region Members
+
 
         /// <summary>
         /// options data
         /// </summary>
         public List<ComboBoxDataModel> Data { get; set; } = new List<ComboBoxDataModel>();
-
-        /// <summary>
-        /// You can set the button classes via the data-style attribute.
-        /// </summary>
-        public DataStyleType DataStyle { get; set; } = DataStyleType.none;
-
+        
         /// <summary>
         /// You can add a search input by passing data-live-search="true" attribute
         /// </summary>
@@ -68,14 +60,7 @@ namespace WebSaleDistribute.Core
         /// It also works for option groups.
         /// </summary>
         public int? DataMaxOptions { get; set; } = null;
-
-
-        /// <summary>
-        /// Using the title attribute will set the default placeholder text when nothing is selected. 
-        /// This works for both multiple and standard select boxes.
-        /// </summary>
-        public string Placeholder { get; set; } = null;
-
+        
         /// <summary>
         /// You can also show the checkmark icon on standard select boxes with the show-tick class.
         /// </summary>
@@ -113,11 +98,7 @@ namespace WebSaleDistribute.Core
         /// </summary>
         public string MenuHeaderText { get; set; } = null;
 
-        /// <summary>
-        /// Disabled or enable select box
-        /// </summary>
-        public bool Enable { get; set; } = true;
-
+        
         /// <summary>
         /// Wrap selects in grid columns, or any custom parent element, to easily enforce desired widths.
         /// </summary>
@@ -127,5 +108,7 @@ namespace WebSaleDistribute.Core
         /// Add subtext to an option or optgroup with the data-subtext attribute.
         /// </summary>
         public bool ShowOptionSubText { get; set; } = false;
+
+        #endregion
     }
 }

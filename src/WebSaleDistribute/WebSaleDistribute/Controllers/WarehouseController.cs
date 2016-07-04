@@ -258,7 +258,7 @@ namespace WebSaleDistribute.Controllers
                 DataSize = "8",
                 Data = reasons.Select(x => new ComboBoxDataModel() { Value = ((object)x.ReasonID).ToString(), Text = x.ReasonName }).ToList()
             };
-            modelUnSaleable.ComboBoxColumnsDataMember["4"] = reasonComboOpt;
+            modelUnSaleable.InputColumnsDataMember["4"] = reasonComboOpt;
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
@@ -337,6 +337,75 @@ namespace WebSaleDistribute.Controllers
 
             return PartialView("CountingWarehouse/_CountingWarehouseHeaderTablePartial", model);
         }
+
+        // GET: Warehouse/FillCountingWarehouseDetails/?serial={serial}
+        public ActionResult FillCountingWarehouseDetails(int serial)
+        {
+            ViewBag.Title = $"شمارش موجودی انبار";
+            ViewBag.Serial = serial;
+
+            #region Table Data
+
+            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                "sp_GetEmptyCountingWarehouseHistoryDetailsTable", new { CountingSerialNo = serial },
+                commandType: CommandType.StoredProcedure);
+
+            List<string> schema;
+            var results = tableData.GetSchemaAndData(out schema);
+
+            var table = new TableOption()
+            {
+                Id = "EmptyCountingWarehouseHistoryDetails",
+                Schema = schema,
+                Rows = results,
+                DisplayRowsLength = -1,
+                Orders = new[] { Tuple.Create(0, OrderType.asc) },
+                TotalFooterColumns = new string[] { "وزن خالص", "5", "6" },
+                CurrencyColumns = new int[] { 3 },
+                Checkable = false
+            };
+
+            var txtOpt = new TextBoxOption()
+            {
+                Placeholder = "موجودی",
+                DataStyle = Core.Enums.DataStyleType.warning
+            };
+
+            table.InputColumnsDataMember["5"] = txtOpt;
+            table.InputColumnsDataMember["6"] = txtOpt;
+
+            var multipleStepOpt = new MultipleStepProgressTabOption()
+            {
+                Steps = _countingWarehouseSteps,
+                CurrentStepIndex = 2
+            };
+
+            var model = Tuple.Create(table, multipleStepOpt);
+
+            #endregion
+
+            return View("CountingWarehouse/FillCountingWarehouseDetails", model);
+        }
+
+        // POST: Warehouse/CertificationCountingWarehouseDetails
+        [HttpPost]
+        public ActionResult CertificationCountingWarehouseDetails(string serial, string countingRows)
+        {
+            ViewBag.Title = "تایید نهایی شمارش انبار";
+
+            var serialNo = JsonConvert.DeserializeObject<int>(serial);
+            var countingWarehouse = JsonConvert.DeserializeObject(countingRows);
+
+
+            var multipleStepOpt = new MultipleStepProgressTabOption()
+            {
+                Steps = _countingWarehouseSteps,
+                CurrentStepIndex = 3
+            };
+
+            return View("CountingWarehouse/CertificationCountingWarehouseDetails", multipleStepOpt);
+        }
+
         #endregion
     }
 }

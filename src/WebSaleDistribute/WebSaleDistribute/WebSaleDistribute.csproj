@@ -240,10 +240,12 @@
     <Compile Include="Core\HtmlHelperExtensions.cs" />
     <Compile Include="Core\Enums\OrderType.cs" />
     <Compile Include="Core\HttpRequestMessageExtensions.cs" />
+    <Compile Include="Core\InputOption.cs" />
     <Compile Include="Core\MultipleStepProgressTabOption.cs" />
     <Compile Include="Core\PanelAjaxOptions.cs" />
     <Compile Include="Core\PanelItemOption.cs" />
     <Compile Include="Core\TableOption.cs" />
+    <Compile Include="Core\TextBoxOption.cs" />
     <Compile Include="Core\TypeHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -617,6 +619,8 @@
     <Content Include="Scripts\toastr.js.map" />
     <Content Include="Views\Warehouse\CountingWarehouse\CountingWarehouse.cshtml" />
     <Content Include="Views\Warehouse\CountingWarehouse\_CountingWarehouseHeaderTablePartial.cshtml" />
+    <Content Include="Views\Warehouse\CountingWarehouse\FillCountingWarehouseDetails.cshtml" />
+    <Content Include="Views\Warehouse\CountingWarehouse\CertificationCountingWarehouseDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

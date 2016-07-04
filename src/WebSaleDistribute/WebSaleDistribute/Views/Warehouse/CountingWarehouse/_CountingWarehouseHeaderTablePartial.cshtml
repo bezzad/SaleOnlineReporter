@@ -28,7 +28,7 @@
         IsRefreshable = true,
         HasDetailLink = true,
         DetailUrlContent = "<b>انتخاب شمارش انبار</b>",
-        Url = $@"location.href = ""{Url.Content($"~/Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial=")}""+getTableFirstSelectedRow(""{Model.Id}"")[0];",
+        Url = $@"location.href = ""{Url.Content($"~/Warehouse/FillCountingWarehouseDetails/?serial=")}""+getTableFirstSelectedRow(""{Model.Id}"")[0];",
         GlyphIcon = "list-alt",
         HasSettingPanel = false,
         PanelType = DataStyleType.warning

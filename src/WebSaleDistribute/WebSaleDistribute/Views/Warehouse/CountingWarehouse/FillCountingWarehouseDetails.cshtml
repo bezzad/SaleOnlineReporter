@@ -1,0 +1,87 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model Tuple<TableOption, MultipleStepProgressTabOption>
+
+@{
+    ViewData["dir"] = "ltr";
+}
+
+@section scripts
+{
+    <script>
+        // Call DataTable() func in all of the jquery tables
+        $(document)
+            .ready(function() {
+                loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength, [@string.Join(", ", Model.Item1.CurrencyColumns)]);
+            });
+
+        //
+        // store before submit
+        function storeFilledValues()
+        {
+            var list = getTableAllData("@Model.Item1.Id");
+            for(var i=0;i< list.length; i++)
+            {
+                for(var c=0;c<list[i].length;c++)
+                {
+                    if(list[i][c] === undefined) // c is reason column
+                    {
+                        toastr.warning("موجودی در ردیف " + (i+1) + " خالی میباشد!", "عدم @ViewBag.Title", {timeOut: 5000});
+                        return;
+                    }
+                }
+            }
+            //
+            // Set Mvc controller, post method parameters
+            $('#serial').val(JSON.stringify(@ViewBag.Serial));
+            $('#countingRows').val(JSON.stringify(list));
+        }
+    </script>
+}
+
+@Html.MultipleStepProgressTab(Model.Item2)
+
+
+<h2 dir="rtl">@ViewBag.Title @ViewBag.Serial</h2>
+
+<div class="container">
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <!-- data -->
+            <br />
+
+            @(
+                Html.PanelItem(new PanelItemOption()
+                {
+                    Id = "aleableDetails_" + Guid.NewGuid().ToString(),
+                    Body = Html.TableItem(Model.Item1).ToHtmlString(),
+                    Title = "قابل فروش",
+                    HasDetailLink = false,
+                    GlyphIcon = "list-alt",
+                    HasSettingPanel = false,
+                    PanelType = DataStyleType.success
+                })
+            )
+            <!-- /data -->
+        </div>
+
+        <br />
+        <br />
+
+        @using (Html.BeginForm("CertificationCountingWarehouseDetails", "Warehouse", FormMethod.Post, new { id = "fromShowEntry" }))
+        {
+            <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
+            <input type="hidden" id="countingRows" name="countingRows" />
+
+            <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+                <a class='btn btn-warning' href="@Url.Action("CountingWarehouse", "Warehouse", new {invoiceSerial = ViewBag.InvoiceSerial})">
+                    <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
+                </a>
+                <a class='btn btn-success' href="#" onclick='storeFilledValues()'>
+                    ثبت شمارش انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+                </a>
+            </div>
+        }
+    </div>
+</div>
