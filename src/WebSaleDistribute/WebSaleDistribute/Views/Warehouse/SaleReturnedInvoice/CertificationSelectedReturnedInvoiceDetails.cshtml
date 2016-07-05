@@ -47,7 +47,10 @@
                     $('#saleableRows').val(JSON.stringify(saleableList));
                     $('#unsaleableList').val(JSON.stringify(unSaleableList));
 
-                    setTimeout(function() { $("#fromShowEntry").submit(); }, 3000);
+                    setTimeout(function() {
+                        toastr.warning("جهت دریافت رسید منتظر بمانید ...", "انتقال به صفحه نمایش رسید");
+                        $("#fromShowEntry").submit();
+                    }, 3000);
                 });
         }
     </script>

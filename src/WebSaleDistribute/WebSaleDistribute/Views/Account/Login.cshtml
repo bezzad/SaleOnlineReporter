@@ -10,7 +10,7 @@
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
             @Html.AntiForgeryToken()
-            <br/>
+            <br />
             if (Model?.UserName == null)
             {
                 <h4>برای ورود به سیستم از شماره پرسنلی خود استفاده کنید.</h4>
@@ -21,7 +21,7 @@
             }
             <hr />
             <br />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             if (Model?.UserName == null)
             {
@@ -46,18 +46,18 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", autofocus = "" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
-                <div class="form-group" dir="ltr">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox control">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
+            <div class="form-group" dir="ltr">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox control">
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        @Html.LabelFor(m => m.RememberMe)
                     </div>
                 </div>
+            </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="ورود به سیستم" class="btn btn-default" />

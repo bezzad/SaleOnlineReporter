@@ -54,11 +54,11 @@
             @(
                 Html.PanelItem(new PanelItemOption()
                 {
-                    Id = "aleableDetails_" + Guid.NewGuid().ToString(),
+                    Id = Model.Item1.Id + "_" + Guid.NewGuid(),
                     Body = Html.TableItem(Model.Item1).ToHtmlString(),
-                    Title = "قابل فروش",
+                    Title = "لیست کالاهای انبار",
                     HasDetailLink = false,
-                    GlyphIcon = "list-alt",
+                    GlyphIcon = "sort-by-order",
                     HasSettingPanel = false,
                     PanelType = DataStyleType.success
                 })

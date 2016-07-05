@@ -235,6 +235,7 @@
     <Compile Include="Core\ChartOption.cs" />
     <Compile Include="Core\ComboBoxOption.cs" />
     <Compile Include="Core\Enums\DataStyleType.cs" />
+    <Compile Include="Core\Enums\InputTypes.cs" />
     <Compile Include="Core\FileDownloadAttribute.cs" />
     <Compile Include="Core\HelperExtensions.cs" />
     <Compile Include="Core\HtmlHelperExtensions.cs" />

@@ -11,6 +11,7 @@ using AdoManager;
 using Dapper;
 using System.Data;
 using Newtonsoft.Json;
+using WebSaleDistribute.Core.Enums;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -159,7 +160,7 @@ namespace WebSaleDistribute.Controllers
 
             return PartialView("SaleReturnedInvoice/_SaleReturnInvoicesTablePartial", model);
         }
-        
+
         // GET: Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}
         public ActionResult ChooseReturnedInvoiceDetails(int invoiceSerial)
         {
@@ -264,7 +265,7 @@ namespace WebSaleDistribute.Controllers
             {
                 Steps = _saleReturnedSteps,
                 CurrentStepIndex = 3
-            };            
+            };
 
             var model = Tuple.Create(modelSaleable, modelUnSaleable, multipleStepOpt);
 
@@ -360,7 +361,7 @@ namespace WebSaleDistribute.Controllers
                 Rows = results,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                TotalFooterColumns = new string[] { "وزن خالص", "5", "6" },
+                //TotalFooterColumns = new string[] { "وزن خالص" },
                 CurrencyColumns = new int[] { 3 },
                 Checkable = false
             };
@@ -368,7 +369,11 @@ namespace WebSaleDistribute.Controllers
             var txtOpt = new TextBoxOption()
             {
                 Placeholder = "موجودی",
-                DataStyle = Core.Enums.DataStyleType.warning
+                DataStyle = Core.Enums.DataStyleType.warning,
+                Max = 9999999,
+                Min = 0,
+                Step = 1,
+                Type = InputTypes.Number
             };
 
             table.InputColumnsDataMember["5"] = txtOpt;

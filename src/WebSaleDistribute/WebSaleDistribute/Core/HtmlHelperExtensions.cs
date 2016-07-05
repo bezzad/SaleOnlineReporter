@@ -559,11 +559,23 @@ namespace WebSaleDistribute.Core
 
             var div = new TagBuilder("input");
             div.Attributes.Add("id", opt.Id);
-            div.Attributes.Add("name", opt.Id);
-            div.Attributes.Add("type", "number");
-            div.Attributes.Add("value", "");
+            div.Attributes.Add("autocomplete", opt.AutoComplete ? "on" : "off");
+            if (opt.AutoFocus) div.Attributes.Add("autofocus", null);
+            if (!string.IsNullOrEmpty(opt.Name)) div.Attributes.Add("name", opt.Name);
+            if ((opt.Type == InputTypes.Checkbox || opt.Type == InputTypes.Radio) && opt.Checked) div.Attributes.Add("checked", null);
+            if (opt.Max != null) div.Attributes.Add("max", opt.Max.ToString());
+            if (opt.Min != null) div.Attributes.Add("min", opt.Min.ToString());
+            if (opt.Step != null) div.Attributes.Add("step", opt.Step.ToString());
+            if (opt.ReadOnly) div.Attributes.Add("readonly", null);
+            div.Attributes.Add("type", opt.Type);
+            if (opt.Value != null) div.Attributes.Add("value", opt.Value);
             div.Attributes.Add("placeholder", opt.Placeholder);
+            if (!opt.Enable) div.Attributes.Add("disabled", null);
             div.AddCssClass("form-control");
+            if (opt.Type == InputTypes.File) div.AddCssClass("form-control-file");
+            if (opt.Type == InputTypes.Radio) div.AddCssClass("radio");
+            if (opt.Type == InputTypes.Checkbox) div.AddCssClass("checkbox");
+            if (opt.DataStyle != DataStyleType.none) div.AddCssClass("form-control-" + opt.DataStyle.ToString().ToLower());
 
             return MvcHtmlString.Create(div.ToString());
         }
