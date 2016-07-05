@@ -18,6 +18,8 @@ namespace WebSaleDistribute.Controllers
     [Authorize]
     public class WarehouseController : Controller
     {
+        #region Properties
+
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -54,9 +56,10 @@ namespace WebSaleDistribute.Controllers
                     "تایید نهایی شمارش"
                 };
 
+        #endregion
 
 
-
+        #region Mehtods
 
         // GET: Warehouse
         public ActionResult Warehouse()
@@ -65,7 +68,6 @@ namespace WebSaleDistribute.Controllers
 
             return View();
         }
-
 
 
         #region InWay
@@ -359,7 +361,7 @@ namespace WebSaleDistribute.Controllers
                 Id = "EmptyCountingWarehouseHistoryDetails",
                 Schema = schema,
                 Rows = results,
-                DisplayRowsLength = -1,
+                DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
                 //TotalFooterColumns = new string[] { "وزن خالص" },
                 CurrencyColumns = new int[] { 3 },
@@ -369,8 +371,8 @@ namespace WebSaleDistribute.Controllers
             var txtOpt = new TextBoxOption()
             {
                 Placeholder = "موجودی",
-                DataStyle = Core.Enums.DataStyleType.warning,
-                Max = 9999999,
+                DataStyle = DataStyleType.warning,
+                Max = 999999,
                 Min = 0,
                 Step = 1,
                 Type = InputTypes.Number
@@ -410,6 +412,9 @@ namespace WebSaleDistribute.Controllers
 
             return View("CountingWarehouse/CertificationCountingWarehouseDetails", multipleStepOpt);
         }
+
+        #endregion
+
 
         #endregion
     }

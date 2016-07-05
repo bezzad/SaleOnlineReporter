@@ -36,6 +36,11 @@
             // Set Mvc controller, post method parameters
             $('#serial').val(JSON.stringify(@ViewBag.Serial));
             $('#countingRows').val(JSON.stringify(list));
+
+            toastr.info("لطفا منتظر باشید");
+            setTimeout(function() {
+                $("#fromGotoCertification").submit();
+            }, 2000);
         }
     </script>
 }
@@ -69,14 +74,15 @@
         <br />
         <br />
 
-        @using (Html.BeginForm("CertificationCountingWarehouseDetails", "Warehouse", FormMethod.Post, new { id = "fromShowEntry" }))
+        @using (Html.BeginForm("CertificationCountingWarehouseDetails", "Warehouse", FormMethod.Post, new { id = "fromGotoCertification" }))
         {
             <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
             <input type="hidden" id="countingRows" name="countingRows" />
 
             <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                <a class='btn btn-warning' href="@Url.Action("CountingWarehouse", "Warehouse", new {invoiceSerial = ViewBag.InvoiceSerial})">
-                    <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
+                <a class='btn btn-warning' href="@Url.Action("CountingWarehouse", "Warehouse")">
+                    <span class='glyphicon>
+                        <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
                 </a>
                 <a class='btn btn-success' href="#" onclick='storeFilledValues()'>
                     ثبت شمارش انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>

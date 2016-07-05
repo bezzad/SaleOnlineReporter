@@ -350,12 +350,14 @@ function getTableAllData(id) {
 
         for (var i = 0; i < cells.length; i++) {
             if ($('select', cells[i].innerHTML).length > 0) { // a combo box found!
-                var newVal;
                 var x = $('li.selected[data-original-index]', cells[i].innerHTML); // find selected option
 
-                newVal = x.attr("data-original-index"); // get selected option value, if not selected then get undefined
+                var newVal = x.attr("data-original-index"); // get selected option value, if not selected then get undefined
 
                 newRow.push(newVal);
+            }
+            else if ($('input', cells[i].innerHTML).length > 0) { // a input tag found
+                newRow.push(cells[i].children[0].children[0].value); 
             }
             else if (cells[i].outerText !== "موردی یافت نشد")
             { newRow.push(cells[i].outerText); }
@@ -429,12 +431,12 @@ function postAsync(url, params) {
 
     $.post(url,
             JSON.stringify(params),
-            function(data) {
+            function (data) {
                 toastr.success(data);
 
             })
-        .error(function() {
-   
+        .error(function () {
+
         });
 }
 
@@ -449,13 +451,13 @@ function postAsync(url, params, successCallback) {
 
     $.post(url,
         JSON.stringify(params),
-        function(data) {
+        function (data) {
             toastr.success(data);
             successCallback();
         });
-        //.error(function () {
+    //.error(function () {
 
-        //});
+    //});
 }
 
 function get(url, params, updateElementId) {
