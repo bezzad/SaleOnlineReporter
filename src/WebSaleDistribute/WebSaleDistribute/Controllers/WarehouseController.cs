@@ -11,6 +11,7 @@ using AdoManager;
 using Dapper;
 using System.Data;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WebSaleDistribute.Core.Enums;
 
 namespace WebSaleDistribute.Controllers
@@ -401,7 +402,8 @@ namespace WebSaleDistribute.Controllers
             ViewBag.Title = "تایید نهایی شمارش انبار";
 
             var serialNo = JsonConvert.DeserializeObject<int>(serial);
-            var countingWarehouse = JsonConvert.DeserializeObject(countingRows);
+            var countingWarehouse = JsonConvert.DeserializeObject<List<JArray>>(countingRows);
+            var xx = countingWarehouse.Select(x => x.ToExpando());
 
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
