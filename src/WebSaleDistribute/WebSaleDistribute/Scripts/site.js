@@ -337,11 +337,18 @@ function getTableFirstSelectedRow(id) {
     $('#' + id).DataTable().rows('.selected').each(function () {
         theRow = this.data()[0];
     });
-    return theRow
+    return theRow;
 }
 
 function getTableAllData(id) {
     var result = [];
+
+    var table = $('#' + id).DataTable();
+    var data = table.rows().data();
+
+    for (var r = 0; r < data.length; r++) {
+        var row = data[0];
+    }
 
     $('#' + id + ' > tbody > tr').each(function () { // read any rows
 
@@ -357,10 +364,21 @@ function getTableAllData(id) {
                 newRow.push(newVal);
             }
             else if ($('input', cells[i].innerHTML).length > 0) { // a input tag found
-                newRow.push(cells[i].children[0].children[0].value); 
+                var type = cells[i].children[0].children[0].type;
+                var val = cells[i].children[0].children[0].value;
+                if (type === 'number' && (val === null || val === '')) val = 0; // just numeric
+
+                newRow.push(val);
             }
-            else if (cells[i].outerText !== "موردی یافت نشد")
-            { newRow.push(cells[i].outerText); }
+            else if (cells[i].outerText !== "موردی یافت نشد") {
+                var str = cells[i].outerText.replace(',', '').replace(' ', '');
+                var int = parseFloat(str);
+
+                if (int.toString() === str)
+                    newRow.push(int);
+                else
+                    newRow.push(cells[i].outerText);
+            }
         }
 
         //
@@ -419,7 +437,7 @@ function getAsync(url, params) {
     $.get(url, params, function (data) {
         toastr.success(data);
         $(".btn-detail").attr("disabled", false);
-    }).error(function() {
+    }).error(function () {
         $(".btn-detail").attr("disabled", false);
     });
 }

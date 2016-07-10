@@ -363,8 +363,27 @@ namespace WebSaleDistribute.Controllers
 
             var serialNo = JsonConvert.DeserializeObject<int>(serial);
             var countingWarehouse = JsonConvert.DeserializeObject<List<JArray>>(countingRows);
-            var xx = countingWarehouse.Select(x => x.ToExpando());
+            var countingDynamicTable = countingWarehouse.Select(x => x.ToObject<object[]>());
 
+            var tableSchema = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                sql: "sp_GetEmptyCountingWarehouseHistoryDetailsTable", param: new {CountingSerialNo = -1},
+                commandType: CommandType.StoredProcedure).ToDataTable().Clone();
+
+            foreach (var row in countingDynamicTable)
+            {
+                tableSchema.Rows.Add(row);
+            }
+
+            var table = new TableOption()
+            {
+                Id = "CountingWarehouseHistoryDetails",
+                Data = tableSchema,
+                DisplayRowsLength = 10,
+                Orders = new[] { Tuple.Create(0, OrderType.asc) },
+                //TotalFooterColumns = new string[] { "وزن خالص" },
+                CurrencyColumns = new int[] { 3 },
+                Checkable = false
+            };
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
