@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebSaleDistribute.Core;
 using WebSaleDistribute.Models;
@@ -17,32 +14,11 @@ using WebSaleDistribute.Core.Enums;
 namespace WebSaleDistribute.Controllers
 {
     [Authorize]
-    public class WarehouseController : Controller
+    public class WarehouseController : BaseController
     {
         #region Properties
 
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-        public ApplicationUser CurrentUser
-        {
-            get
-            {
-                return UserManager.FindById(User.Identity.GetUserId());
-            }
-        }
-
-
-        private List<string> _saleReturnedSteps = new List<string>()
+        private readonly List<string> _saleReturnedSteps = new List<string>()
                 {
                     "انتخاب فاکتور برگشتی",
                     "تعیین اقلام قابل فروش",
@@ -50,7 +26,7 @@ namespace WebSaleDistribute.Controllers
                     "ورود برگشتی به انبار"
                 };
 
-        private List<string> _countingWarehouseSteps = new List<string>()
+        private readonly List<string> _countingWarehouseSteps = new List<string>()
                 {
                     "انتخاب شمارش انبار",
                     "شمارش موجودی انبار",
@@ -80,9 +56,6 @@ namespace WebSaleDistribute.Controllers
 
             var model = new TableOption() { Id = "entryInWay" };
 
-            //string encryptedQrCode = Request.QueryString["code"];
-
-
             if (!string.IsNullOrEmpty(code))
             {
                 if (code.Length < 8)
@@ -99,15 +72,11 @@ namespace WebSaleDistribute.Controllers
                 var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                     "sp_GetInWayDetailsByOldInvoicId",
                     new { OldInvoicId = ViewBag.QrCode },
-                    commandType: CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure).ToDataTable();
 
-                List<string> schema;
-                var results = tableData.GetSchemaAndData(out schema);
-
-                model.Schema = schema;
-                model.Rows = results;
+                model.Data = tableData;
                 model.DisplayRowsLength = 50;
-                model.TotalFooterColumns = new string[] { "9", "تعداد" }; // column by name "تعداد" and column by index 9
+                model.TotalFooterColumns = new [] { "TotalPrice", "Qty" }; // column by name "تعداد" and "قیمت کل"
                 model.CurrencyColumns = new[] { 7, 8, 9 };
 
                 #endregion
@@ -142,16 +111,12 @@ namespace WebSaleDistribute.Controllers
             #region Table Data
 
             var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
-                "sp_GetSaleReturnInvoicesTable", commandType: CommandType.StoredProcedure);
-
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
+                "sp_GetSaleReturnInvoicesTable", commandType: CommandType.StoredProcedure).ToDataTable();
 
             var model = new TableOption()
             {
                 Id = "saleReturnInvoices",
-                Schema = schema,
-                Rows = results,
+                Data = tableData,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
                 TotalFooterColumns = new string[] { "مبلغ برگشتي" },
@@ -188,16 +153,12 @@ namespace WebSaleDistribute.Controllers
 
             var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                 "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = invoiceSerial },
-                commandType: CommandType.StoredProcedure);
-
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
+                commandType: CommandType.StoredProcedure).ToDataTable();
 
             var model = new TableOption()
             {
                 Id = "saleReturnInvoices",
-                Schema = schema,
-                Rows = results,
+                Data = tableData,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
                 TotalFooterColumns = new string[] { "تعداد" },
@@ -221,31 +182,38 @@ namespace WebSaleDistribute.Controllers
 
             var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                 "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = invoiceSerial },
-                commandType: CommandType.StoredProcedure);
+                commandType: CommandType.StoredProcedure).ToDataTable();
 
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
+            // creates a copy of the schema (columns)only.
+            DataTable lstSaleable = tableData.Clone(), 
+                lstUnSaleable = tableData.Clone();
 
-            var lstSaleable = results.Where(x => sRows.Contains(((IDictionary<string, object>)x).First().Value.ToString())).ToList();
-            var lstUnSaleable = results.Where(x => !sRows.Contains(((IDictionary<string, object>)x).First().Value.ToString())).ToList();
+            // check row id for saleable list
+            foreach (DataRow row in tableData.Rows)
+            {
+                if (sRows.Contains(row[0].ToString())) // row[0] = row["Id"]
+                {
+                    lstSaleable.Rows.Add(row.ItemArray);
+                }
+                else
+                {
+                    lstUnSaleable.Rows.Add(row.ItemArray);
+                }
+            }
 
             var modelSaleable = new TableOption()
             {
                 Id = "saleable",
-                Schema = schema,
-                Rows = lstSaleable,
+                Data = lstSaleable,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                //TotalFooterColumns = new string[] { "تعداد" },
-                //CurrencyColumns = new int[] { 7 },
                 Checkable = false
             };
 
             var modelUnSaleable = new TableOption()
             {
                 Id = "unsaleable",
-                Schema = schema,
-                Rows = lstUnSaleable,
+                Data = lstUnSaleable,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) }
             };
@@ -322,16 +290,12 @@ namespace WebSaleDistribute.Controllers
             #region Table Data
 
             var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
-                "sp_GetCountingWarehouseHistoryTable", commandType: CommandType.StoredProcedure);
-
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
+                "sp_GetCountingWarehouseHistoryTable", commandType: CommandType.StoredProcedure).ToDataTable();
 
             var model = new TableOption()
             {
                 Id = "CountingWarehouseHeaderTable",
-                Schema = schema,
-                Rows = results,
+                Data = tableData,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
                 Checkable = false
@@ -352,16 +316,12 @@ namespace WebSaleDistribute.Controllers
 
             var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                 "sp_GetEmptyCountingWarehouseHistoryDetailsTable", new { CountingSerialNo = serial },
-                commandType: CommandType.StoredProcedure);
-
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
+                commandType: CommandType.StoredProcedure).ToDataTable();
 
             var table = new TableOption()
             {
                 Id = "EmptyCountingWarehouseHistoryDetails",
-                Schema = schema,
-                Rows = results,
+                Data = tableData,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
                 //TotalFooterColumns = new string[] { "وزن خالص" },

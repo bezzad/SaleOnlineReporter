@@ -1,16 +1,10 @@
 ﻿using Dapper;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -19,32 +13,18 @@ using WebSaleDistribute.Core;
 namespace WebSaleDistribute.Controllers
 {    
     [AllowAnonymous]    
-    public class ToolsController : Controller
+    public class ToolsController : BaseController
     {
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-        private static Dictionary<string, IEnumerable<dynamic>> LastUserRunningAction =
-            new Dictionary<string, IEnumerable<dynamic>>();
-
-        internal static void SetLastUserRunningAction(string username, string actionName, IEnumerable<dynamic> data)
+        private static readonly Dictionary<string, DataTable> LastUserRunningAction = new Dictionary<string, DataTable>();
+        
+        internal static void SetLastUserRunningAction(string username, string actionName, DataTable data)
         {
             string key = $"{username}_{actionName}";
 
             LastUserRunningAction[key] = data;
         }
 
-        internal static IEnumerable<dynamic> GetLastUserRunningAction(string username, string actionName)
+        internal static DataTable GetLastUserRunningAction(string username, string actionName)
         {
             string key = $"{username}_{actionName}";
 
@@ -68,11 +48,11 @@ namespace WebSaleDistribute.Controllers
             if (data == null) return null;
 
             var grid = new GridView();
-            grid.DataSource = data.ToDataTable();
+            grid.DataSource = data;
             grid.DataBind();
 
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            var sw = new StringWriter();
+            var htw = new HtmlTextWriter(sw);
 
             grid.RenderControl(htw);
 

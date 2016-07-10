@@ -38,7 +38,7 @@
                     Title = $" توراهی شماره {ViewBag.QrCode}",
                     HasDetailLink = true,
                     DetailUrlContent = "<b>ورود به انبار</b>",
-                    Url = @"getAsync(""" + Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}") + @""");",
+                    Url = @"getAsync(""" + Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}") + @"""); $("".btn-detail"").attr(""disabled"",true);",
                     GlyphIcon = "list-alt",
                     HasSettingPanel = false,
                     PanelType = DataStyleType.success

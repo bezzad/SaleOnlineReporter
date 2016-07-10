@@ -13,29 +13,8 @@ using WebSaleDistribute.Models;
 namespace WebSaleDistribute.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-        public ApplicationUser CurrentUser
-        {
-            get
-            {
-                return UserManager.FindById(User.Identity.GetUserId());
-            }
-        }
-
-
         public ActionResult Index()
         {
             var menus = User?.GetMenus();

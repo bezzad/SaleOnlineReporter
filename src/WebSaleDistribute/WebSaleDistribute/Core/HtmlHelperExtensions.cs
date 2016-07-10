@@ -3,15 +3,13 @@ using DotNet.Highcharts.Helpers;
 using DotNet.Highcharts.Options;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 using WebSaleDistribute.Core.Enums;
-using WebSaleDistribute.Models;
 using ZXing;
 using ZXing.Common;
 
@@ -45,13 +43,7 @@ namespace WebSaleDistribute.Core
         /// Create a Panel
         /// </summary>
         /// <param name="htmlHelper"></param>
-        /// <param name="body"></param>
-        /// <param name="title"></param>
-        /// <param name="url"></param>
-        /// <param name="glyphicon">glyphicon name, for more detail see: <see cref="http://getbootstrap.com/components/"></see>/></param>
-        /// <param name="divCssClass"></param>
-        /// <param name="pType"></param>
-        /// <param name="hasSetting"></param>
+        /// <param name="option"></param>
         /// <returns></returns>
         public static MvcHtmlString PanelItem(this HtmlHelper htmlHelper, PanelItemOption option)
         {
@@ -104,14 +96,9 @@ namespace WebSaleDistribute.Core
                                         </ul><div class='dropdown-toggle' data-toggle='dropdown'><span class='panel-control-icon glyphicon glyphicon-save-file'></span></div>
                                         ";
 
-            //var detailLink = $@"<hr/>
-            //                   <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-            //                       <a href='{option.Url}'>{option.DetailUrlContent}&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span></a>
-            //                   </div>";
-
             var detailLink = $@"<hr/>
                                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                                    <button type='button' class='btn btn-" + option.PanelType.ToString() + $@"' onclick='{option.Url}'>
+                                    <button type='button' class='btn btn-detail btn-" + option.PanelType.ToString() + $@"' onclick='{option.Url}'>
                                       {option.DetailUrlContent}&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
                                     </button>
                                  </div>";
@@ -173,11 +160,18 @@ namespace WebSaleDistribute.Core
             div.AddCssClass("order-column");
             div.AddCssClass("stripe");
 
-            if (opt.Schema.Count() < (opt.Orders?.Count() ?? 0)) throw new IndexOutOfRangeException("The Orders columns numbers is more than data table columns count!");
-            if (opt.Schema.Count() < (opt.CurrencyColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Currency columns numbers is more than data table columns count!");
-            if (opt.Schema.Count() < (opt.AverageFooterColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Average columns numbers is more than data table columns count!");
-            if (opt.Schema.Count() < (opt.TotalFooterColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Sum and Total columns numbers is more than data table columns count!");
+            if (opt.Data.Columns.Count < (opt.Orders?.Count() ?? 0)) throw new IndexOutOfRangeException("The Orders columns numbers is more than data table columns count!");
+            if (opt.Data.Columns.Count < (opt.CurrencyColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Currency columns numbers is more than data table columns count!");
+            if (opt.Data.Columns.Count < (opt.AverageFooterColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Average columns numbers is more than data table columns count!");
+            if (opt.Data.Columns.Count < (opt.TotalFooterColumns?.Count() ?? 0)) throw new IndexOutOfRangeException("The Sum and Total columns numbers is more than data table columns count!");
 
+            var schema =
+                opt.Data.Columns.Cast<DataColumn>()
+                    .Select(c => new
+                    {
+                        Name = c.ColumnName,
+                        Header = Resources.Localization.ResourceManager.GetString(c.ColumnName)
+                    }).ToList();
 
             if (opt?.Orders?.Any() == true)
             {
@@ -185,7 +179,7 @@ namespace WebSaleDistribute.Core
                 foreach (Tuple<int, OrderType> order in opt.Orders)
                 {
                     var targetColIndex = order.Item1 + (opt.Checkable ? 1 : 0);
-                    val += $@"[ {targetColIndex}, ""{order.Item2.ToString()}"" ], ";
+                    val += $@"[ {targetColIndex}, ""{order.Item2}"" ], ";
                 }
                 val = val.Substring(0, val.Length - 2) + "]";
 
@@ -196,7 +190,7 @@ namespace WebSaleDistribute.Core
             var thFooter = opt.Checkable ? $"<th></th>{Environment.NewLine}" : "";
             //
             // set sum footer columns
-            for (var colIndex = 0; colIndex < opt.Schema.Count; colIndex++)
+            for (var colIndex = 0; colIndex < schema.Count; colIndex++)
             {
                 string classification = "";
                 //
@@ -205,8 +199,8 @@ namespace WebSaleDistribute.Core
                 {
                     foreach (var colName in opt.TotalFooterColumns)
                     {
-                        int index = 0;
-                        if (colName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
+                        int index;
+                        if (colName.Equals(schema[colIndex].Name, StringComparison.CurrentCultureIgnoreCase)
                             || (int.TryParse(colName, out index) && index == colIndex))
                         {
                             classification = "sum";
@@ -220,8 +214,8 @@ namespace WebSaleDistribute.Core
                 {
                     foreach (var colName in opt.AverageFooterColumns)
                     {
-                        int index = 0;
-                        if (colName.Equals(opt.Schema[colIndex], StringComparison.CurrentCultureIgnoreCase)
+                        int index;
+                        if (colName.Equals(schema[colIndex].Name, StringComparison.CurrentCultureIgnoreCase)
                             || (int.TryParse(colName, out index) && index == colIndex))
                         {
                             classification = "avg";
@@ -231,7 +225,7 @@ namespace WebSaleDistribute.Core
                 }
 
                 classification = string.IsNullOrEmpty(classification) ? "empty" : classification;
-                var headFoot = $"<th class='{classification}' style='text-align:left'>{opt.Schema[colIndex]}</th>{Environment.NewLine}";
+                var headFoot = $"<th class='{classification}' style='text-align:left'>{schema[colIndex].Header}</th>{Environment.NewLine}";
                 thHeader += headFoot;
                 thFooter += headFoot;
             }
@@ -259,11 +253,11 @@ namespace WebSaleDistribute.Core
                     var colName = input.Key;
                     //
                     // if key is column index then find that name and set again by name and combo option data
-                    int index = 0;
+                    int index;
                     if (int.TryParse(input.Key, out index))
                     {
-                        if (index >= opt.Schema.Count) throw new IndexOutOfRangeException("The InputColumnsDataMember has index out of schema columns index range!");
-                        colName = opt.Schema[index]; // get column name of found index
+                        if (index >= schema.Count) throw new IndexOutOfRangeException("The InputColumnsDataMember has index out of schema columns index range!");
+                        colName = schema[index].Name; // get column name of found index
                     }
 
                     if (input.Value is ComboBoxOption)
@@ -279,16 +273,16 @@ namespace WebSaleDistribute.Core
 
             var trSelectCheckableClass = opt.Checkable ? "" : "notCheckable";
             var tRows = "";
-            for (int rIndex = 0; rIndex < (opt.Rows?.Count ?? 0); rIndex++)
+            for (var rIndex = 0; rIndex < opt.Data.Rows.Count; rIndex++)
             {
-                IDictionary<string, object> row = opt.Rows[rIndex];
+                var row = opt.Data.Rows[rIndex];
 
                 var tds = opt.Checkable ? $@"<td id='{opt.Id}_colSelect_{rIndex}' class='colSelect' style='text-align: center;'><input id='row' type='checkbox' value='false'></td>{Environment.NewLine}" : "";
-                foreach (var col in opt.Schema)
+                foreach (var col in schema)
                 {
-                    tds += inputCols.ContainsKey(col)
-                        ? $"<td>{inputCols[col]}</td>{Environment.NewLine}"
-                        : $"<td>{row[col]}</td>{Environment.NewLine}";
+                    tds += inputCols.ContainsKey(col.Name)
+                        ? $"<td>{inputCols[col.Name]}</td>{Environment.NewLine}"
+                        : $"<td>{row[col.Name]}</td>{Environment.NewLine}";
                 }
                 tRows += $"<tr class='{trSelectCheckableClass}'>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
             }
@@ -579,7 +573,7 @@ namespace WebSaleDistribute.Core
             if (opt.DataStyle != DataStyleType.none)
             {
                 input.AddCssClass("form-control-" + opt.DataStyle.ToString().ToLower());
-                div.AddCssClass("has-"+opt.DataStyle.ToString().ToLower());
+                div.AddCssClass("has-" + opt.DataStyle.ToString().ToLower());
             }
 
             div.InnerHtml = input.ToString();

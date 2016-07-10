@@ -17,25 +17,10 @@ namespace WebSaleDistribute.Controllers
     [Authorize]
     public class ReportsApiController : ApiController
     {
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-        public ApplicationUser CurrentUser
-        {
-            get
-            {
-                return UserManager.FindById(User.Identity.GetUserId());
-            }
-        }
+        public ApplicationUserManager UserManager => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        public ApplicationUser CurrentUser => UserManager.FindById(User.Identity.GetUserId());
+
+
 
         // GET: api/Reports
         [Route("Reports/GetInvoiceRemainChart")]

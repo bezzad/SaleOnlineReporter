@@ -410,6 +410,7 @@ function getAsync(url, params) {
 
     if (url === null) {
         toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
+        $('.btn-detail').attr('disabled', false);
         return;
     }
 
@@ -417,6 +418,9 @@ function getAsync(url, params) {
 
     $.get(url, params, function (data) {
         toastr.success(data);
+        $(".btn-detail").attr("disabled", false);
+    }).error(function() {
+        $(".btn-detail").attr("disabled", false);
     });
 }
 

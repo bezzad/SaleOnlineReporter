@@ -9,30 +9,13 @@ using System.Data;
 using DotNet.Highcharts.Options;
 using DotNet.Highcharts.Enums;
 using DotNet.Highcharts.Helpers;
-using WebSaleDistribute.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using System.Globalization;
 
 namespace WebSaleDistribute.Controllers
 {
     [Authorize]
-    public class ReportsController : Controller
+    public class ReportsController : BaseController
     {
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-        public ApplicationUser CurrentUser => UserManager.FindById(User.Identity.GetUserId());
-
         #region Receipts
 
         // GET: Receipts        
@@ -51,7 +34,7 @@ namespace WebSaleDistribute.Controllers
             #region Chart Data
 
             var api = new ReportsApiController();
-            var data = api.GetInvoiceRemainChart();
+            var data = api.GetInvoiceRemainChart().ToList();
 
             var opt = new ChartOption()
             {
@@ -80,23 +63,20 @@ namespace WebSaleDistribute.Controllers
 
             // Fill Table data ------------------------------------------
             #region Table Data
+
             var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
                 "sp_GetInvoiceRemain",
                 new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = "2" },
-                commandType: CommandType.StoredProcedure);
-
-            List<string> schema;
-            var results = tableData.GetSchemaAndData(out schema);
+                commandType: CommandType.StoredProcedure).ToDataTable();
 
             var model = new TableOption()
             {
                 Id = "receipts",
-                Schema = schema,
-                Rows = results,
+                Data = tableData,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
-                TotalFooterColumns = new[] { "مانده فاکتور", "قابل پرداخت" },
-                AverageFooterColumns = new[] { "تعداد روز" },
+                TotalFooterColumns = new[] { "InvoiceRemain", "Payable" },
+                AverageFooterColumns = new[] { "ShamsiDateDiff" },
                 CurrencyColumns = new[] { 8, 9 }
             };
 
@@ -104,7 +84,7 @@ namespace WebSaleDistribute.Controllers
             //-----------------------------------------------------------
 
 
-            ToolsController.SetLastUserRunningAction(CurrentUser.UserName, "ReceiptsTable", results);
+            ToolsController.SetLastUserRunningAction(CurrentUser.UserName, "ReceiptsTable", tableData);
 
             return PartialView("Receipt/ReceiptsTable", model);
         }

@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Drawing;
 using System.Drawing.Imaging;
+using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Core
 {
@@ -97,7 +98,7 @@ namespace WebSaleDistribute.Core
 
         public static List<ExpandoObject> GetSchemaAndData(this IDataReader reader, out List<string> schema)
         {
-            schema = reader.GetSchemaTable().Rows
+            schema = reader.GetSchemaTable()?.Rows
                                      .Cast<DataRow>()
                                      .Select(r => (string)r["ColumnName"])
                                      .ToList();
@@ -108,18 +109,33 @@ namespace WebSaleDistribute.Core
             while (reader.Read())
             {
                 var obj = new ExpandoObject();
-                foreach (var col in schema)
-                {
-                    var row = (obj as IDictionary<string, object>);
+                if (schema != null)
+                    foreach (var col in schema)
+                    {
+                        var row = ((IDictionary<string, object>) obj);
 
-                    if (string.IsNullOrEmpty(col) || row.ContainsKey(col)) continue;
+                        if (string.IsNullOrEmpty(col) || row.ContainsKey(col)) continue;
 
-                    row.Add(col, reader[col]);
-                }
+                        row.Add(col, reader[col]);
+                    }
                 results.Add(obj);
             }
 
             return results;
+        }
+
+        public static List<ExpandoObject> GetSchemaAndData(this IDataReader reader)
+        {
+            List<string> schema;
+            return reader.GetSchemaAndData(out schema);
+        }
+
+        public static DataTable ToDataTable(this IDataReader reader)
+        {
+            var dt = new DataTable();
+            dt.Load(reader);
+
+            return dt;
         }
 
         public static string GetPersianDate(this DateTime date)

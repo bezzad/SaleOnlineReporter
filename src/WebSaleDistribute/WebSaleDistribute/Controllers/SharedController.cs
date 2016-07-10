@@ -11,7 +11,7 @@ using WebSaleDistribute.Models;
 namespace WebSaleDistribute.Controllers
 {
     [AllowAnonymous]
-    public class SharedController : Controller
+    public class SharedController : BaseController
     {
         [AllowAnonymous]
         public ActionResult Menu()
