@@ -104,8 +104,8 @@ function intVal(i) {
 
 // add sum method to any array class
 var sum = function (array, prop) {
-    var total = 0
-    for (var i = 0, _len = array.length; i < _len; i++) {
+    var total = 0;
+    for (var i = 0, len = array.length; i < len; i++) {
         total += intVal(array[i][prop]);
     }
     return total.toLocaleString('fa-IR');
@@ -323,8 +323,22 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
 
     // Handle table draw event
     table.on('draw', function () {
+        $("input").change(function () {
+            $(this).attr("value", this.value);
+        });
+
         // Update state of "Select all" control
         updateDataTableSelectAllCtrl(table, id);
+    });
+
+    $("input").change(function () {
+        $(this).attr("value", this.value);
+    });
+
+    $(id + ' tbody').on('change', 'td', function () {
+        var cell = table.cell(this);
+        cell.data(this.innerHTML);//.draw();
+        //cell.data("222");//.draw();
     });
 }
 
@@ -342,48 +356,42 @@ function getTableFirstSelectedRow(id) {
 
 function getTableAllData(id) {
     var result = [];
-
     var table = $('#' + id).DataTable();
-    var data = table.rows().data();
+    var rows = table.rows().data();
 
-    for (var r = 0; r < data.length; r++) {
-        var row = data[0];
-    }
-
-    $('#' + id + ' > tbody > tr').each(function () { // read any rows
-
+    for (var r = 0; r < rows.length; r++) {
         var newRow = [];
-        var cells = this.cells;
+        var cells = rows[r];
 
         for (var i = 0; i < cells.length; i++) {
-            if ($('select', cells[i].innerHTML).length > 0) { // a combo box found!
-                var x = $('li.selected[data-original-index]', cells[i].innerHTML); // find selected option
+            try {
+                if ($('select', '<div>' + cells[i] + '</div>').length > 0) { // a combo box found!
+                    var selectedOption = $('li.selected[data-original-index]', cells[i]); // find selected option
 
-                var newVal = x.attr("data-original-index"); // get selected option value, if not selected then get undefined
+                    if (selectedOption.length > 0) {
+                        // get selected option value, if not selected then get undefined
+                        var newVal = selectedOption.attr("data-original-index");
+                        newRow.push(newVal);
+                    } else {
+                        newRow.push(null);
+                    }
+                } else if ($("input", cells[i]).length > 0) { // a input tag found
+                    var input = $("input", cells[i])[0];
+                    var val = input.value;
+                    if (input.type === "number" && (val === null || val === "")) val = 0; // just numeric
 
-                newRow.push(newVal);
-            }
-            else if ($('input', cells[i].innerHTML).length > 0) { // a input tag found
-                var type = cells[i].children[0].children[0].type;
-                var val = cells[i].children[0].children[0].value;
-                if (type === 'number' && (val === null || val === '')) val = 0; // just numeric
-
-                newRow.push(val);
-            }
-            else if (cells[i].outerText !== "موردی یافت نشد") {
-                var str = cells[i].outerText.replace(',', '').replace(' ', '');
-                var int = parseFloat(str);
-
-                if (int.toString() === str)
-                    newRow.push(int);
-                else
-                    newRow.push(cells[i].outerText);
+                    newRow.push(val);
+                } else if (cells[i].outerText !== "موردی یافت نشد") {
+                    newRow.push(cells[i]);
+                }
+            } catch (err) {
+                newRow.push(cells[i]);
             }
         }
 
         //
         result.push(newRow);
-    });
+    }
 
     return result;
 }

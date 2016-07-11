@@ -26,7 +26,7 @@
             {
                 for(var c=0;c<unSaleableList[i].length;c++)
                 {
-                    if(unSaleableList[i][c] === undefined) // c is reason column
+                    if(unSaleableList[i][c] === undefined || unSaleableList[i][c] === null) // c is reason column
                     {
                         toastr.warning("علت برگشتی ردیف " + (i+1) + " را انتخاب کنید!", "عدم @ViewBag.Title", {timeOut: 5000});
                         return;
