@@ -323,22 +323,26 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
 
     // Handle table draw event
     table.on('draw', function () {
-        $("input").change(function () {
-            $(this).attr("value", this.value);
-        });
+        setinputChangeValueEventListener();
 
         // Update state of "Select all" control
         updateDataTableSelectAllCtrl(table, id);
     });
 
-    $("input").change(function () {
-        $(this).attr("value", this.value);
-    });
+    $(id + " tbody").on("change", "td", function () {
+        if ($('input[type=checkbox]', this.outerHTML).length > 0) return;
 
-    $(id + ' tbody').on('change', 'td', function () {
         var cell = table.cell(this);
         cell.data(this.innerHTML);//.draw();
-        //cell.data("222");//.draw();
+        setinputChangeValueEventListener();
+    });
+
+    setinputChangeValueEventListener();
+}
+
+function setinputChangeValueEventListener() {
+    $("input:not([type=checkbox])").bind("change keyup paste input", function () {
+        $(this).attr("value", this.value);
     });
 }
 

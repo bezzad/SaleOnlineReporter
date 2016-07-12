@@ -391,7 +391,9 @@ namespace WebSaleDistribute.Controllers
                 CurrentStepIndex = 3
             };
 
-            return View("CountingWarehouse/CertificationCountingWarehouseDetails", multipleStepOpt);
+            var model = Tuple.Create(table, multipleStepOpt);
+
+            return View("CountingWarehouse/CertificationCountingWarehouseDetails", model);
         }
 
         #endregion
