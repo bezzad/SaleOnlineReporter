@@ -16,6 +16,7 @@
     @Styles.Render("~/Content/stylesheets")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/scripts")
     @RenderSection("topScripts", required: false)
 </head>
 <body>
@@ -68,8 +69,6 @@
             </p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/scripts")
 
     @RenderSection("scripts", required: false)
 
