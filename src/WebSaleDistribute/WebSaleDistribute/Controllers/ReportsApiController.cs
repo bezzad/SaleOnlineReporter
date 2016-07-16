@@ -46,7 +46,7 @@ namespace WebSaleDistribute.Controllers
             var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
-            var result = (CurrentUser.EmployeeType > 5) ?
+            var result = (CurrentUser.EmployeeType >= 5) ?
                 await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate },
                 commandType: System.Data.CommandType.StoredProcedure)

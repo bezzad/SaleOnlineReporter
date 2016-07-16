@@ -374,6 +374,10 @@ namespace WebSaleDistribute.Controllers
                 tableSchema.Rows.Add(row);
             }
 
+            var tempStorageDataTable = tableSchema.Copy();
+            tempStorageDataTable.Columns.Add("CountingNo", typeof(int)).SetOrdinal(0);
+            tempStorageDataTable.Columns.Add("UserID", typeof(int)).SetOrdinal(0);
+
             var table = new TableOption()
             {
                 Id = "CountingWarehouseHistoryDetails",

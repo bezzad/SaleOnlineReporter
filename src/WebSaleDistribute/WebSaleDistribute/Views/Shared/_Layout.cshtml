@@ -1,4 +1,5 @@
-﻿@using WebSaleDistribute.Core
+﻿@using System.Diagnostics
+@using WebSaleDistribute.Core
 
 @{
     string dir = ViewData["dir"]?.ToString() ?? "rtl";
@@ -12,21 +13,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - شونیز</title>
     <link rel="icon" type="image/png" href="@Url.Content("~/images/favicon.ico")" />
-    <!--[if IE]>
-    <link rel="shortcut icon" href="@Url.Content("~/images/favicon.ico")" type="image/vnd.microsoft.icon" />
-    <![endif]-->
 
-
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/jquery_ui")
-    @Styles.Render("~/Content/toastr")
-    @Styles.Render("~/Content/lobipanel")
-    @Styles.Render("~/Content/jquery_dataTables")
+    @Styles.Render("~/Content/stylesheets")
 
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jquery_ui")
-    @Scripts.Render("~/bundles/toastr")
+
+    @(Debugger.IsAttached
+        ? Scripts.Render("~/bundles/scripts")
+        : Scripts.RenderFormat("<script type=\"text/javascript\" src=\"{0}\" async></script>", "~/bundles/scripts"))
+
     @RenderSection("styles", required: false)
 
 </head>
@@ -69,12 +64,9 @@
             </div>
         </div>
     </div>
-    <div class="container body-content" dir='@dir'>
-
+    <div class="container body-content" dir="@dir">
         <div id="MessagePanel">
-
         </div>
-
         @RenderBody()
         <hr />
         <footer>
@@ -82,20 +74,23 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/lobipanel")
-    @Scripts.Render("~/bundles/jquery_dataTables")
-
     @RenderSection("scripts", required: false)
-
-    @Scripts.Render("~/bundles/site")
 
     @if (Request.IsAuthenticated)
     {
         <script>
-            window.onload = function () {
+            @*window.onload = function () {
                 setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")");
-            };
+            };*@
+            if (document.loaded) {
+                setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")");
+            } else {
+                if (window.addEventListener) {
+                    window.addEventListener('load', setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")"), false);
+                } else {
+                    window.attachEvent('onload', setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")"));
+                }
+            }
         </script>
     }
 </body>

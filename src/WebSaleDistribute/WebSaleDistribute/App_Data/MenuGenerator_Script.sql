@@ -1,13 +1,18 @@
 ﻿USE [UsersManagements]
-Go
+GO
+/****** Object:  StoredProcedure [dbo].[sp_CreateAndGetWebSaleDistributeMenus]    Script Date: 16/07/2016 08:30:51 ق.ظ ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
 -- =============================================
 -- Author:		Behzad Khosravifar
 -- Create date: 1395/03/18
--- Last Update: 1395/04/13
+-- Last Update: 1395/03/19
 -- Description:	Create and Get Web sale distribute menus
 -- =============================================
-CREATE PROCEDURE sp_CreateAndGetWebSaleDistributeMenus @UserId INT
+CREATE PROCEDURE [dbo].[sp_CreateAndGetWebSaleDistributeMenus] @UserId INT
 AS
     BEGIN        
         BEGIN TRY
@@ -118,21 +123,37 @@ AS
                         END;
 
 			    -- Add Some Menus to role 7 فروشنده
-					INSERT  INTO MenusToRoles
-                    VALUES		( @ProgramID,	--ProgramID
-									7,	--RoleID
-									@ParentMenuID + 1,	--MenuID
-									1,	--IsEnable
-									0 --IsVisible
-								),
+                    INSERT  INTO MenusToRoles
+                    VALUES  ( @ProgramID,	--ProgramID
+                              7,	--RoleID
+                              @ParentMenuID + 1,	--MenuID
+                              1,	--IsEnable
+                              0 --IsVisible
+                              ),
 								-- منوی درخواست
-								( @ProgramID,	--ProgramID
-									7,	--RoleID
-									@ParentMenuID + 2,	--MenuID
-									1,	--IsEnable
-									0 --IsVisible
-								)
+                            ( @ProgramID,	--ProgramID
+                              7,	--RoleID
+                              @ParentMenuID + 2,	--MenuID
+                              1,	--IsEnable
+                              0 --IsVisible
+                              )
 
+
+					-- Add Some Menus to role 6 متصدی
+                    INSERT  INTO MenusToRoles
+                    VALUES  ( @ProgramID,	--ProgramID
+                              6,	--RoleID
+                              @ParentMenuID + 1,	--MenuID
+                              1,	--IsEnable
+                              0 --IsVisible
+                              ),
+								-- منوی درخواست
+                            ( @ProgramID,	--ProgramID
+                              6,	--RoleID
+                              @ParentMenuID + 2,	--MenuID
+                              1,	--IsEnable
+                              0 --IsVisible
+                              )
 				
                 
                 -- Add Warehouse role 13
@@ -143,6 +164,10 @@ AS
                               1,	--IsEnable
                               0 --IsVisible
                               )
+
+
+
+
                     
     -----------------------------------------------
                 END
@@ -168,4 +193,3 @@ AS
 
 
     END
-GO
