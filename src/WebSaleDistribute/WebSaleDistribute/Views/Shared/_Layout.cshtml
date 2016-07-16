@@ -1,5 +1,4 @@
-﻿@using System.Diagnostics
-@using WebSaleDistribute.Core
+﻿@using WebSaleDistribute.Core
 
 @{
     string dir = ViewData["dir"]?.ToString() ?? "rtl";
@@ -15,15 +14,9 @@
     <link rel="icon" type="image/png" href="@Url.Content("~/images/favicon.ico")" />
 
     @Styles.Render("~/Content/stylesheets")
-
-    @Scripts.Render("~/bundles/modernizr")
-
-    @(Debugger.IsAttached
-        ? Scripts.Render("~/bundles/scripts")
-        : Scripts.RenderFormat("<script type=\"text/javascript\" src=\"{0}\" async></script>", "~/bundles/scripts"))
-
     @RenderSection("styles", required: false)
-
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("topScripts", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -55,7 +48,7 @@
                     </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
-                
+
                 @if (Request.IsAuthenticated)
                 {
                     @Html.Action("GetEmployeeType", "Home");
@@ -70,18 +63,19 @@
         @RenderBody()
         <hr />
         <footer>
-            <p dir="ltr">&copy; @DateTime.Now.Year - Shoniz.co @version <i id="MobileVersion">Desktop</i></p>
+            <p dir="ltr">
+                &copy; @DateTime.Now.Year - Shoniz.co @version <i id="MobileVersion">Desktop</i>
+            </p>
         </footer>
     </div>
+
+    @Scripts.Render("~/bundles/scripts")
 
     @RenderSection("scripts", required: false)
 
     @if (Request.IsAuthenticated)
     {
         <script>
-            @*window.onload = function () {
-                setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")");
-            };*@
             if (document.loaded) {
                 setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")");
             } else {
