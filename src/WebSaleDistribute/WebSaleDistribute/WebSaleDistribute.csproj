@@ -312,6 +312,7 @@
     <Content Include="Content\errors.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="fonts\Yekan.svg" />
     <Content Include="images\bwShonizFa.png" />
     <Content Include="images\favicon.ico" />
     <Content Include="images\loading.gif" />
@@ -375,6 +376,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.fa.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="fonts\Yekan.eot" />
+    <Content Include="fonts\Yekan.ttf" />
+    <Content Include="fonts\Yekan.woff" />
     <None Include="Properties\PublishProfiles\Apps.dbitabriz.local.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

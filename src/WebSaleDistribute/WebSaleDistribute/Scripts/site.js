@@ -330,7 +330,7 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
     });
 
     $(id + " tbody").on("change", "td", function () {
-        if ($('input[type=checkbox]', this.outerHTML).length > 0) return;
+        if ($("input[type=checkbox]", this.outerHTML).length > 0) return;
 
         var cell = table.cell(this);
         cell.data(this.innerHTML);//.draw();
@@ -341,7 +341,7 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
 }
 
 function setinputChangeValueEventListener() {
-    $("input:not([type=checkbox])").bind("change keyup paste input", function () {
+    $("input:not([type=checkbox])").bind("change", function () {
         $(this).attr("value", this.value);
     });
 }
