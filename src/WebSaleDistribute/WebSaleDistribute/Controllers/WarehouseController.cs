@@ -7,6 +7,7 @@ using WebSaleDistribute.Models;
 using AdoManager;
 using Dapper;
 using System.Data;
+using System.Data.SqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebSaleDistribute.Core.Enums;
@@ -76,7 +77,7 @@ namespace WebSaleDistribute.Controllers
 
                 model.Data = tableData;
                 model.DisplayRowsLength = 50;
-                model.TotalFooterColumns = new [] { "TotalPrice", "Qty" }; // column by name "تعداد" and "قیمت کل"
+                model.TotalFooterColumns = new[] { "TotalPrice", "Qty" }; // column by name "تعداد" and "قیمت کل"
                 model.CurrencyColumns = new[] { 7, 8, 9 };
 
                 #endregion
@@ -185,7 +186,7 @@ namespace WebSaleDistribute.Controllers
                 commandType: CommandType.StoredProcedure).ToDataTable();
 
             // creates a copy of the schema (columns)only.
-            DataTable lstSaleable = tableData.Clone(), 
+            DataTable lstSaleable = tableData.Clone(),
                 lstUnSaleable = tableData.Clone();
 
             // check row id for saleable list
@@ -309,7 +310,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/FillCountingWarehouseDetails/?serial={serial}
         public ActionResult FillCountingWarehouseDetails(int serial)
         {
-            ViewBag.Title = $"شمارش موجودی انبار";
+            ViewBag.Title = "شمارش موجودی انبار";
             ViewBag.Serial = serial;
 
             #region Table Data
@@ -336,7 +337,8 @@ namespace WebSaleDistribute.Controllers
                 Max = 999999,
                 Min = 0,
                 Step = 1,
-                Type = InputTypes.Number
+                Type = InputTypes.Number,
+                DefaultValue = "0"
             };
 
             table.InputColumnsDataMember["5"] = txtOpt;
@@ -366,7 +368,7 @@ namespace WebSaleDistribute.Controllers
             var countingDynamicTable = countingWarehouse.Select(x => x.ToObject<object[]>());
 
             var tableSchema = Connections.SaleTabriz.SqlConn.ExecuteReader(
-                sql: "sp_GetEmptyCountingWarehouseHistoryDetailsTable", param: new {CountingSerialNo = -1},
+                sql: "sp_GetEmptyCountingWarehouseHistoryDetailsTable", param: new { CountingSerialNo = -1 },
                 commandType: CommandType.StoredProcedure).ToDataTable().Clone();
 
             foreach (var row in countingDynamicTable)
@@ -374,9 +376,54 @@ namespace WebSaleDistribute.Controllers
                 tableSchema.Rows.Add(row);
             }
 
-            var tempStorageDataTable = tableSchema.Copy();
-            tempStorageDataTable.Columns.Add("CountingNo", typeof(int)).SetOrdinal(0);
-            tempStorageDataTable.Columns.Add("UserID", typeof(int)).SetOrdinal(0);
+            var temp = tableSchema.AsEnumerable().Select(x => new
+            {
+                CountingNo = serial,
+                WarehouseOrderNo = x["WarehouseOrderNo"],
+                ProductCode = x["ProductCode"],
+                ProductName = x["ProductName"],
+                NetWeight = x["NetWeight"],
+                Shortcut = x["Shortcut"],
+                WarehouseCartonOnHand = x["WarehouseCartonOnHand"],
+                WarehousePacketOnHand = x["WarehousePacketOnHand"],
+                UserID = CurrentUser.UserName
+            }).ToList();
+
+            var connection = Connections.SaleCore.SqlConn;
+            connection.Open();
+            using (SqlTransaction trans = connection.BeginTransaction())
+            {
+                // First clear temp table data for this counting no.
+                connection.Execute("sp_TempCountingWarehouseHistoryDetail_Delete", new {CountingNo = serial},
+                    transaction: trans, commandType: CommandType.StoredProcedure);
+
+                // Bulk copy all rows to temp table
+                connection.Execute(@"
+                 INSERT INTO TempCountingWarehouseHistoryDetail
+                       (CountingNo
+                       ,WarehouseOrderNo
+                       ,ProductCode
+                       ,ProductName
+                       ,NetWeight
+                       ,Shortcut
+                       ,WarehouseCartonOnHand
+                       ,WarehousePacketOnHand
+                       ,UserID)
+                 VALUES
+                       (@CountingNo
+                       ,@WarehouseOrderNo
+                       ,@ProductCode
+                       ,@ProductName
+                       ,@NetWeight
+                       ,@Shortcut
+                       ,@WarehouseCartonOnHand
+                       ,@WarehousePacketOnHand
+                       ,@UserID)", 
+                       temp, transaction: trans);
+
+                trans.Commit();
+                connection.Close();
+            }
 
             var table = new TableOption()
             {

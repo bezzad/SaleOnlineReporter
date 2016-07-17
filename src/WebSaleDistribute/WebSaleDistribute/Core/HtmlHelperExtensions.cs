@@ -245,28 +245,17 @@ namespace WebSaleDistribute.Core
 
             //
             // check which columns is input!
-            var inputCols = new Dictionary<string, string>();
             if (opt.InputColumnsDataMember.Any())
             {
-                foreach (var input in opt.InputColumnsDataMember)
+                var keys = opt.InputColumnsDataMember.Keys.ToArray();
+                foreach (string key in keys)
                 {
-                    var colName = input.Key;
-                    //
                     // if key is column index then find that name and set again by name and combo option data
                     int index;
-                    if (int.TryParse(input.Key, out index))
+                    if (int.TryParse(key, out index))
                     {
                         if (index >= schema.Count) throw new IndexOutOfRangeException("The InputColumnsDataMember has index out of schema columns index range!");
-                        colName = schema[index].Name; // get column name of found index
-                    }
-
-                    if (input.Value is ComboBoxOption)
-                    {
-                        inputCols[colName] = htmlHelper.ComboBox((ComboBoxOption)input.Value).ToHtmlString();
-                    }
-                    else if (input.Value is TextBoxOption)
-                    {
-                        inputCols[colName] = htmlHelper.TextBox((TextBoxOption)input.Value).ToHtmlString();
+                        opt.InputColumnsDataMember[schema[index].Name] = opt.InputColumnsDataMember[key]; // get column name of found index
                     }
                 }
             }
@@ -280,9 +269,24 @@ namespace WebSaleDistribute.Core
                 var tds = opt.Checkable ? $@"<td id='{opt.Id}_colSelect_{rIndex}' class='colSelect' style='text-align: center;'><input id='row' type='checkbox' value='false'></td>{Environment.NewLine}" : "";
                 foreach (var col in schema)
                 {
-                    tds += inputCols.ContainsKey(col.Name)
-                        ? $"<td>{inputCols[col.Name]}</td>{Environment.NewLine}"
-                        : $"<td>{row[col.Name]}</td>{Environment.NewLine}";
+                    if (opt.InputColumnsDataMember.ContainsKey(col.Name))
+                    {
+                        var input = opt.InputColumnsDataMember[col.Name];
+                        var data = "";
+                        if (input is ComboBoxOption)
+                        {
+                            data = htmlHelper.ComboBox((ComboBoxOption)input).ToHtmlString();
+                        }
+                        else if (input is TextBoxOption)
+                        {
+                            data = htmlHelper.TextBox((TextBoxOption)input, row[col.Name].ToString()).ToHtmlString();
+                        }
+                        tds += $"<td>{data}</td>{Environment.NewLine}";
+                    }
+                    else
+                    {
+                        tds += $"<td>{row[col.Name]}</td>{Environment.NewLine}";
+                    }
                 }
                 tRows += $"<tr class='{trSelectCheckableClass}'>{Environment.NewLine}{tds}{Environment.NewLine}</tr>";
             }
@@ -547,7 +551,7 @@ namespace WebSaleDistribute.Core
             return MvcHtmlString.Create(div.ToString());
         }
 
-        public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, TextBoxOption opt)
+        public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, TextBoxOption opt, string value = null)
         {
             if (opt == null) throw new ArgumentNullException("opt");
 
@@ -563,7 +567,8 @@ namespace WebSaleDistribute.Core
             if (opt.Step != null) input.Attributes.Add("step", opt.Step.ToString());
             if (opt.ReadOnly) input.Attributes.Add("readonly", null);
             input.Attributes.Add("type", opt.Type);
-            if (opt.Value != null) input.Attributes.Add("value", opt.Value);
+            var val = opt.Value ?? value;
+            if (val != null && val != opt.DefaultValue) input.Attributes.Add("value", val);
             input.Attributes.Add("placeholder", opt.Placeholder);
             if (!opt.Enable) input.Attributes.Add("disabled", null);
             input.AddCssClass("form-control");

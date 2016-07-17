@@ -78,6 +78,12 @@ namespace WebSaleDistribute.Core
         public string Value { get; set; } = null;
 
         /// <summary>
+        /// Default value of an <code><input/></code> element. 
+        /// For example 0 is default value in numeric textbox.
+        /// </summary>
+        public string DefaultValue { get; set; } = "";
+
+        /// <summary>
         /// Specifies the name of an <code><input/></code> element
         /// </summary>
         public string Name { get; set; } = null;

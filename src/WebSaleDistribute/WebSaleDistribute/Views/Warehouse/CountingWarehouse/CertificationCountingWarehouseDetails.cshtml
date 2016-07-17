@@ -3,6 +3,20 @@
 
 @model Tuple<TableOption, MultipleStepProgressTabOption>
 
+@{
+    ViewData["dir"] = "ltr";
+}
+
+@section scripts
+{
+    <script>
+        $(document)
+            .ready(function() {
+                loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength, [@string.Join(", ", Model.Item1.CurrencyColumns)]);
+            });
+    </script>
+}
+
 @Html.MultipleStepProgressTab(Model.Item2)
 
 
@@ -19,11 +33,11 @@
                 {
                     Id = Model.Item1.Id + "_" + Guid.NewGuid(),
                     Body = Html.TableItem(Model.Item1).ToHtmlString(),
-                    Title = "لیست کالاهای انبار",
+                    Title = "لیست شمارش ثبتی کالاهای انبار",
                     HasDetailLink = false,
                     GlyphIcon = "sort-by-order",
                     HasSettingPanel = false,
-                    PanelType = DataStyleType.success
+                    PanelType = DataStyleType.primary
                 })
             )
             <!-- /data -->
