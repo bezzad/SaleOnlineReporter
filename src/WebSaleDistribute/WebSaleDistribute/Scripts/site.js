@@ -481,7 +481,7 @@ function postAsync(url, params, successCallback) {
         return;
     }
 
-    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+    toastr.info("لطفا منتظر بمانید", "", { timeOut: 3000 });
 
     $.post(url,
         JSON.stringify(params),

@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using WebSaleDistribute.Core;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -88,6 +89,42 @@ namespace WebSaleDistribute.Controllers
             
             
             return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
+        }
+
+        // POST: api/CountingWarehouseFinalAccept
+        [HttpPost]
+        [Route("Warehouse/CountingWarehouseFinalAccept")]
+        public IHttpActionResult CountingWarehouseFinalAccept(HttpRequestMessage request)
+        {
+            var content = request.Content;
+            string jsonContent = content.ReadAsStringAsync().Result;
+            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
+            int countingSerialNo = data.countingSerialNo.ToObject(typeof(int));
+            string msg = $"متاسفانه خطایی هنگام ثبت شمارش {countingSerialNo} رخ داده است!";
+
+            try
+            {
+                var param = new
+                {
+                    CountingSerialNo = countingSerialNo,
+                    UserId = User.Identity.GetUserId(),
+                    RunDate = DateTime.Now.GetPersianDate()
+                };
+
+                var result = Connections.SaleTabriz.SqlConn.Execute("sp_FinalAcceptCountingWarehouseHistory",
+                    param,
+                    commandType: System.Data.CommandType.StoredProcedure);
+
+                if (result > 0)
+                    msg = $"شمارش انبار {countingSerialNo} با موفقیت ثبت شد";
+            }
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+                return InternalServerError(exp);
+            }
+
+            return Ok(msg);
         }
     }
 }

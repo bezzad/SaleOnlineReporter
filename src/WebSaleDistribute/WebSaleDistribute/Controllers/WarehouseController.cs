@@ -362,8 +362,8 @@ namespace WebSaleDistribute.Controllers
         public ActionResult CertificationCountingWarehouseDetails(string serial, string countingRows)
         {
             ViewBag.Title = "تایید نهایی شمارش انبار";
-
-            var serialNo = JsonConvert.DeserializeObject<int>(serial);
+            ViewBag.Serial = JsonConvert.DeserializeObject<int>(serial);
+            
             var countingWarehouse = JsonConvert.DeserializeObject<List<JArray>>(countingRows);
             var countingDynamicTable = countingWarehouse.Select(x => x.ToObject<object[]>());
 

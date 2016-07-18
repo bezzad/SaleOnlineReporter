@@ -12,8 +12,19 @@
     <script>
         $(document)
             .ready(function() {
-                loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength, [@string.Join(", ", Model.Item1.CurrencyColumns)]);
+                loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength,
+                [@string.Join(", ", Model.Item1.CurrencyColumns)]);
             });
+
+        function sendCertificateCommand() {
+            var url = '@Url.Action("CountingWarehouseFinalAccept", "Warehouse")';
+            // web api post method name: CountingWarehouseFinalAccept
+            postAsync(url,
+            { 'countingSerialNo': '@ViewBag.Serial' },
+                function() {
+                    setTimeout(function() { window.location.href = "@Url.Action("Warehouse", "Warehouse")"; }, 5000);
+                });
+        }
     </script>
 }
 
@@ -45,20 +56,16 @@
 
         <br />
         <br />
+        <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
+        <input type="hidden" id="countingRows" name="countingRows" />
 
-        @using (Html.BeginForm("CertificationCountingWarehouseDetails", "Warehouse", FormMethod.Post, new { id = "fromGotoCertification" }))
-        {
-            <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
-            <input type="hidden" id="countingRows" name="countingRows" />
-
-            <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                <a class='btn btn-warning' href="@Url.Action("CountingWarehouse", "Warehouse")">
-                    <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;ویرایش شمارش
-                </a>
-                <a class='btn btn-success' href="#" onclick='storeFilledValues()'>
-                    ثبت بدون بازگشت شمارش انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
-                </a>
-            </div>
-        }
+        <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+            <a class='btn btn-warning' href="@Url.Action("FillCountingWarehouseDetails", "Warehouse", new { serial = ViewBag.Serial })">
+                <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;ویرایش شمارش
+            </a>
+            <a class='btn btn-success' href="#" onclick='sendCertificateCommand()'>
+                ثبت بدون بازگشت شمارش انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+            </a>
+        </div>
     </div>
 </div>

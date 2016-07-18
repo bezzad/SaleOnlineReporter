@@ -112,7 +112,7 @@ namespace WebSaleDistribute.Core
                 if (schema != null)
                     foreach (var col in schema)
                     {
-                        var row = ((IDictionary<string, object>) obj);
+                        var row = ((IDictionary<string, object>)obj);
 
                         if (string.IsNullOrEmpty(col) || row.ContainsKey(col)) continue;
 
@@ -140,8 +140,9 @@ namespace WebSaleDistribute.Core
 
         public static string GetPersianDate(this DateTime date)
         {
-            PersianCalendar jc = new PersianCalendar();
-            return string.Format("{0:0000}/{1:00}/{2:00}", jc.GetYear(date), jc.GetMonth(date), jc.GetDayOfMonth(date));
+            var jc = new PersianCalendar();
+            return
+                $"{jc.GetYear(date):0000}/{jc.GetMonth(date):00}/{jc.GetDayOfMonth(date):00} {jc.GetHour(date):00}:{jc.GetMinute(date):00}:{jc.GetSecond(date):00}.{jc.GetMilliseconds(date)}";
         }
 
 
