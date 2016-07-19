@@ -24,8 +24,8 @@
             });
 
         $("#clearShortcutInput").click(function() {
-            var sh = document.getElementById("shortcut-input"); 
-            sh.value = ""; 
+            var sh = document.getElementById("shortcut-input");
+            sh.value = "";
             sh.focus();
         });
 
@@ -43,8 +43,7 @@
                 for (var c = 0; c < list[i].length; c++) {
                     if (list[i][c] === undefined) // c is reason column
                     {
-                        toastr.warning("موجودی در ردیف " + (i + 1) + " خالی میباشد!", "عدم @ViewBag.Title",
-                        { timeOut: 5000 });
+                        toastr.warning("موجودی در ردیف " + (i + 1) + " خالی میباشد!", "عدم @ViewBag.Title", { timeOut: 5000 });
                         return;
                     }
                 }
@@ -56,8 +55,8 @@
 
             toastr.info("لطفا منتظر باشید");
             setTimeout(function() {
-                    $("#fromGotoCertification").submit();
-                },
+                $("#fromGotoCertification").submit();
+            },
                 2000);
         }
     </script>
@@ -65,12 +64,11 @@
 
 @Html.MultipleStepProgressTab(Model.Item2)
 
-<h2 dir="rtl">@ViewBag.Title @ViewBag.Serial</h2>
+<h3 dir="rtl">@ViewBag.Title @ViewBag.Serial</h3>
 
 <div class="container">
     <div class="tab-content">
         <div class="tab-pane fade in active">
-            <br />
             @(
                 Html.PanelItem(new PanelItemOption()
                 {
@@ -85,8 +83,6 @@
             )
         </div>
         <br />
-        <br />
-
         @using (Html.BeginForm("CertificationCountingWarehouseDetails", "Warehouse", FormMethod.Post, new { id = "fromGotoCertification" }))
         {
             <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />

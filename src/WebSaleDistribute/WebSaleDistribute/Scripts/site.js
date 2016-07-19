@@ -134,7 +134,7 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
         "iDisplayLength": iDisplayLength,   // Set default of 10 rows
         "bAutoWidth": true, // smart column width calculation
         "bPaginate": true, // pagination
-        "stateSave": true, // save the state of a table (its paging position, ordering state etc) so that is can be restored when the user reloads a page, or comes back to the page after visiting a sub-page.
+        "stateSave": false, // save the state of a table (its paging position, ordering state etc) so that is can be restored when the user reloads a page, or comes back to the page after visiting a sub-page.
         "sPaginationType": "full_numbers",
         "language": {
             "sProcessing": "درحال پردازش...",
@@ -409,29 +409,31 @@ function updateDataTableSelectAllCtrl(table, id) {
     var tr = $(id + ' tbody tr'); // has checkable row or return
     if (tr.hasClass('notCheckable') === false) {
         var $table = table.table().node();
-        var $chkbox_all = $('tbody input[type="checkbox"]', $table);
-        var $chkbox_checked = $('tbody input[type="checkbox"]:checked', $table);
-        var chkbox_select_all = $('thead input[name="select_all"]', $table).get(0);
+        var $chkboxAll = $('tbody input[type="checkbox"]', $table);
+        var $chkboxChecked = $('tbody input[type="checkbox"]:checked', $table);
+        var chkboxSelectAll = $('thead input[name="select_all"]', $table).get(0);
 
-        // If none of the checkboxes are checked
-        if ($chkbox_checked.length === 0) {
-            chkbox_select_all.checked = false;
-            if ('indeterminate' in chkbox_select_all) {
-                chkbox_select_all.indeterminate = false;
-            }
+        if (chkboxAll.length > 0) {
+            // If none of the checkboxes are checked
+            if ($chkboxChecked.length === 0) {
+                chkboxSelectAll.checked = false;
+                if ('indeterminate' in chkboxSelectAll) {
+                    chkboxSelectAll.indeterminate = false;
+                }
 
-            // If all of the checkboxes are checked
-        } else if ($chkbox_checked.length === $chkbox_all.length) {
-            chkbox_select_all.checked = true;
-            if ('indeterminate' in chkbox_select_all) {
-                chkbox_select_all.indeterminate = false;
-            }
+                // If all of the checkboxes are checked
+            } else if ($chkboxChecked.length === $chkboxAll.length) {
+                chkboxSelectAll.checked = true;
+                if ('indeterminate' in chkboxSelectAll) {
+                    chkboxSelectAll.indeterminate = false;
+                }
 
-            // If some of the checkboxes are checked
-        } else {
-            chkbox_select_all.checked = true;
-            if ('indeterminate' in chkbox_select_all) {
-                chkbox_select_all.indeterminate = true;
+                // If some of the checkboxes are checked
+            } else {
+                chkboxSelectAll.checked = true;
+                if ('indeterminate' in chkboxSelectAll) {
+                    chkboxSelectAll.indeterminate = true;
+                }
             }
         }
     }

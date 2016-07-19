@@ -5,22 +5,40 @@
 
 @{
     ViewData["dir"] = "ltr";
+    var searchShortcut = @"<div class='input-group'>
+                                <span class='input-group-btn'>
+                                    <button id='clearShortcutInput' class='btn btn-default' type='button'>پاکن</button>
+                                </span>
+                                <input id='shortcut-input' type='number' class='form-control' placeholder='جستجوی کد میانبر' aria-label='Amount (to the nearest dollar)'>
+                            </div><br/>";
 }
 
 @section scripts
 {
     <script>
+        var table;
         $(document)
             .ready(function() {
-                loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength,
+                table = loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength,
                 [@string.Join(", ", Model.Item1.CurrencyColumns)]);
             });
 
+        $("#clearShortcutInput").click(function() {
+            var sh = document.getElementById("shortcut-input"); 
+            sh.value = ""; 
+            sh.focus();
+        });
+
+        var txtShourtcut = $("#shortcut-input");
+        txtShourtcut.bind("keyup change",
+            function() {
+                table.columns(4).search(txtShourtcut.val()).draw();
+            });
+
         function sendCertificateCommand() {
-            var url = '@Url.Action("CountingWarehouseFinalAccept", "Warehouse")';
-            // web api post method name: CountingWarehouseFinalAccept
+            var url = '@Url.Action("CountingWarehouseFinalAccept", "Warehouse")'; // web api post method name: CountingWarehouseFinalAccept
             postAsync(url,
-            { 'countingSerialNo': '@ViewBag.Serial' },
+                { 'countingSerialNo': '@ViewBag.Serial' },
                 function() {
                     setTimeout(function() { window.location.href = "@Url.Action("Warehouse", "Warehouse")"; }, 5000);
                 });
@@ -30,20 +48,16 @@
 
 @Html.MultipleStepProgressTab(Model.Item2)
 
-
-<h2 dir="rtl">@ViewBag.Title @ViewBag.Serial</h2>
+<h3 dir="rtl">@ViewBag.Title @ViewBag.Serial</h3>
 
 <div class="container">
     <div class="tab-content">
         <div class="tab-pane fade in active">
-            <!-- data -->
-            <br />
-
             @(
                 Html.PanelItem(new PanelItemOption()
                 {
                     Id = Model.Item1.Id + "_" + Guid.NewGuid(),
-                    Body = Html.TableItem(Model.Item1).ToHtmlString(),
+                    Body = searchShortcut + Html.TableItem(Model.Item1).ToHtmlString(),
                     Title = "لیست شمارش ثبتی کالاهای انبار",
                     HasDetailLink = false,
                     GlyphIcon = "sort-by-order",
@@ -51,10 +65,7 @@
                     PanelType = DataStyleType.primary
                 })
             )
-            <!-- /data -->
         </div>
-
-        <br />
         <br />
         <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
         <input type="hidden" id="countingRows" name="countingRows" />

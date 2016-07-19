@@ -595,18 +595,16 @@ namespace WebSaleDistribute.Core
                     /*form styles*/
                     #msform {{
                         width: 100%;
-                        margin: 50px auto;
+                        margin: 30px auto;
                         text-align: center;
                         position: relative;
                     }}
-
                     /*progressbar*/
                     #sprogressbar {{
                         overflow: hidden;
                         /*CSS counters to number the steps*/
                         counter-reset: step;
                     }}
-
                         #sprogressbar li {{
                             list-style-type: none;
                             color: {opt.StepTextColor};
@@ -616,7 +614,6 @@ namespace WebSaleDistribute.Core
                             float: left;
                             position: relative;
                         }}
-
                             /* circle nodes */
                             #sprogressbar li:before {{
                                 content: counter(step);
@@ -631,7 +628,6 @@ namespace WebSaleDistribute.Core
                                 margin: 0 auto 5px auto;
                                 padding-right: 1px;
                             }}
-
                             /*progressbar connectors*/
                             #sprogressbar li:after {{
                                 content: '';
@@ -643,12 +639,10 @@ namespace WebSaleDistribute.Core
                                 top: 12px;
                                 z-index: -1; /*put it behind the numbers*/
                             }}
-
                             #sprogressbar li:first-child:after {{
                                 /*connector not needed before the first step*/
                                 content: none;
                             }}
-
                             /*marking active/completed steps green*/
                             /*The number of the step and the connector before it = green*/
                             #sprogressbar li.active:before, #sprogressbar li.active:after {{
@@ -656,7 +650,6 @@ namespace WebSaleDistribute.Core
                                 color: {opt.NodeBorderColor};
                                 padding-right: 1px;
                             }}
-
                             /*circle border color*/
                             #sprogressbar li.active:before {{
                                 border: 2px solid {opt.SelectedNodeBackground};
