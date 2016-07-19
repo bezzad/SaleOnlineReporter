@@ -338,6 +338,8 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
     });
 
     setinputChangeValueEventListener();
+
+    return table;
 }
 
 function setinputChangeValueEventListener() {
