@@ -27,10 +27,11 @@
             var sh = document.getElementById("shortcut-input");
             sh.value = "";
             sh.focus();
+            table.columns(4).search(txtShourtcut.val()).draw();
         });
 
         var txtShourtcut = $("#shortcut-input");
-        txtShourtcut.bind("keyup change",
+        txtShourtcut.bind("keyup change input destroy paste cut blur",
                 function() {
                     table.columns(4).search(txtShourtcut.val()).draw();
                 });
