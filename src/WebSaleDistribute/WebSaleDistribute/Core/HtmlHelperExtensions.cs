@@ -170,7 +170,7 @@ namespace WebSaleDistribute.Core
                     .Select(c => new
                     {
                         Name = c.ColumnName,
-                        Header = Resources.Localization.ResourceManager.GetString(c.ColumnName)
+                        Header = Resources.Localization.ResourceManager.GetString(c.ColumnName) ?? c.ColumnName
                     }).ToList();
 
             if (opt?.Orders?.Any() == true)
@@ -588,7 +588,7 @@ namespace WebSaleDistribute.Core
 
         public static MvcHtmlString MultipleStepProgressTab(this HtmlHelper htmlHelper, MultipleStepProgressTabOption opt)
         {
-            if (opt == null) throw new ArgumentNullException("opt");
+            if (opt == null) throw new ArgumentNullException(nameof(opt));
 
             var style =
                 $@"<style>

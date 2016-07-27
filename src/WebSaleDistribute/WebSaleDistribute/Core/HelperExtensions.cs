@@ -194,8 +194,10 @@ namespace WebSaleDistribute.Core
             if (!data.Any()) return dt;
 
             // Get header
-            var dapperRowProperties = (data[0] as IDictionary<string, object>).Keys;
-            foreach (string col in dapperRowProperties)
+            var o = data[0] as IDictionary<string, object>;
+            if (o == null) return dt;
+            var dapperRowProperties = o.Keys;
+            foreach (var col in dapperRowProperties)
             {
                 dt.Columns.Add(col);
             }
@@ -206,7 +208,7 @@ namespace WebSaleDistribute.Core
                 var row = dt.Rows.Add();
                 foreach (string prop in dapperRowProperties)
                 {
-                    row[prop] = item[prop].ToString();
+                    row[prop] = item[prop]?.ToString();
                 }
             }
 
@@ -240,7 +242,6 @@ namespace WebSaleDistribute.Core
 
             return result;
         }
-
 
         /// <summary>
         /// Converts a DataTable to a list with generic objects
@@ -282,5 +283,18 @@ namespace WebSaleDistribute.Core
             }
         }
 
+        public static List<string> GetViewsName(this System.Web.Mvc.Controller controller)
+        {
+            var cType = controller.GetType();
+
+            return cType.GetUserDefinedMethodsName().Distinct().ToList();
+        }
+
+        public static List<string> GetUserDefinedMethodsName(this Type tC)
+        {
+            var result = tC.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).Select(mi => mi.Name).Distinct().ToList();
+
+            return result;
+        }
     }
 }

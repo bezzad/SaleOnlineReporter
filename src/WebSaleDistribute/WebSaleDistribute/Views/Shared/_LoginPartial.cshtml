@@ -1,6 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.EntityFramework
+@using WebSaleDistribute.Controllers
+@using WebSaleDistribute.Core
 @using WebSaleDistribute.Models
+@using WebSaleDistribute.Resources
 
 
 
@@ -34,12 +37,20 @@
                                 &nbsp;خطاها&nbsp;<span class="glyphicon glyphicon-exclamation-sign"></span>
                             </a>
                         </li>
+                        foreach (var action in typeof(AdminController).GetUserDefinedMethodsName())
+                        {
+                            <li>
+                                <a id="settingLink" href="@Url.Action(action, "Admin")">
+                                    &nbsp;@Localization.ResourceManager.GetString(action)&nbsp;<span class="glyphicon glyphicon-wrench"></span>
+                                </a>
+                            </li>
+                        }
                     }
                     <li>
                         <a id="settingLink" href="@Url.Action("Index", "Manage", routeValues: null)">
                             &nbsp;تنظیمات&nbsp;<span class="glyphicon glyphicon-cog"></span>
                         </a>
-                    </li>                
+                    </li>
                     <li role="separator" class="divider"></li>
                     <li>
                         <a href="javascript:document.getElementById('logoutForm').submit()">
@@ -48,7 +59,7 @@
                     </li>
                 </ul>
             </li>
-           
+
         </ul>
     }
 }

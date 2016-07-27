@@ -123,7 +123,8 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
 
     if (currencyColumns === undefined || currencyColumns === null) currencyColumns = [];
 
-    id = "#" + id;
+    if (id === undefined || id === null) id = "table";
+    else id = "#" + id;
 
     var table = $(id).DataTable({
         //select: true,

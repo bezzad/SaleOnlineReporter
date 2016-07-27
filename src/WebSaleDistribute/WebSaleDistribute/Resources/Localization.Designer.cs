@@ -88,6 +88,15 @@ namespace WebSaleDistribute.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check And Repair User.
+        /// </summary>
+        public static string CheckAndRepairUser {
+            get {
+                return ResourceManager.GetString("CheckAndRepairUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to City.
         /// </summary>
         public static string CityName {
@@ -169,11 +178,101 @@ namespace WebSaleDistribute.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Force Disabled.
+        /// </summary>
+        public static string ForceDisabled {
+            get {
+                return ResourceManager.GetString("ForceDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Icon {
+            get {
+                return ResourceManager.GetString("Icon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IMEI.
+        /// </summary>
+        public static string IMEI {
+            get {
+                return ResourceManager.GetString("IMEI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invoice Remain.
         /// </summary>
         public static string InvoiceRemain {
             get {
                 return ResourceManager.GetString("InvoiceRemain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable or not ?.
+        /// </summary>
+        public static string IsEnabled {
+            get {
+                return ResourceManager.GetString("IsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visable.
+        /// </summary>
+        public static string IsVisable {
+            get {
+                return ResourceManager.GetString("IsVisable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visable.
+        /// </summary>
+        public static string IsVisible {
+            get {
+                return ResourceManager.GetString("IsVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller.
+        /// </summary>
+        public static string Link {
+            get {
+                return ResourceManager.GetString("Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menu ID.
+        /// </summary>
+        public static string MenuID {
+            get {
+                return ResourceManager.GetString("MenuID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menu Name.
+        /// </summary>
+        public static string MenuName {
+            get {
+                return ResourceManager.GetString("MenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order.
+        /// </summary>
+        public static string MenuOrder {
+            get {
+                return ResourceManager.GetString("MenuOrder", resourceCulture);
             }
         }
         
@@ -192,6 +291,24 @@ namespace WebSaleDistribute.Resources {
         public static string NominalCode {
             get {
                 return ResourceManager.GetString("NominalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        public static string PageName {
+            get {
+                return ResourceManager.GetString("PageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent ID.
+        /// </summary>
+        public static string ParentMenuID {
+            get {
+                return ResourceManager.GetString("ParentMenuID", resourceCulture);
             }
         }
         
@@ -255,6 +372,15 @@ namespace WebSaleDistribute.Resources {
         public static string ProductName {
             get {
                 return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program ID.
+        /// </summary>
+        public static string ProgramID {
+            get {
+                return ResourceManager.GetString("ProgramID", resourceCulture);
             }
         }
         
@@ -390,6 +516,15 @@ namespace WebSaleDistribute.Resources {
         public static string UnitPrice {
             get {
                 return ResourceManager.GetString("UnitPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Id.
+        /// </summary>
+        public static string UserID {
+            get {
+                return ResourceManager.GetString("UserID", resourceCulture);
             }
         }
         

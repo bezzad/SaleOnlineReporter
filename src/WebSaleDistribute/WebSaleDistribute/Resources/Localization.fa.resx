@@ -126,6 +126,9 @@
   <data name="BusinessDocStatusName" xml:space="preserve">
     <value>وضعیت سند</value>
   </data>
+  <data name="CheckAndRepairUser" xml:space="preserve">
+    <value>بررسی و اصلاح کاربر</value>
+  </data>
   <data name="CityName" xml:space="preserve">
     <value>شهر</value>
   </data>
@@ -153,14 +156,47 @@
   <data name="EmployeeName" xml:space="preserve">
     <value>نام ویزیتور</value>
   </data>
+  <data name="ForceDisabled" xml:space="preserve">
+    <value>غیر فعال اجباری</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IMEI" xml:space="preserve">
+    <value>سریال دستگاه</value>
+  </data>
   <data name="InvoiceRemain" xml:space="preserve">
     <value>مانده فاکتور</value>
+  </data>
+  <data name="IsEnabled" xml:space="preserve">
+    <value>فعال؟</value>
+  </data>
+  <data name="IsVisable" xml:space="preserve">
+    <value>قابل نمایش</value>
+  </data>
+  <data name="IsVisible" xml:space="preserve">
+    <value>قابل نمایش</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>کنترلر</value>
+  </data>
+  <data name="MenuName" xml:space="preserve">
+    <value>نام منو</value>
+  </data>
+  <data name="MenuOrder" xml:space="preserve">
+    <value>ترتیب منو</value>
   </data>
   <data name="NetWeight" xml:space="preserve">
     <value>وزن خالص</value>
   </data>
   <data name="NominalCode" xml:space="preserve">
     <value>کد محصول</value>
+  </data>
+  <data name="PageName" xml:space="preserve">
+    <value>نام صفحه</value>
+  </data>
+  <data name="ParentMenuID" xml:space="preserve">
+    <value>شناسه منو پدر</value>
   </data>
   <data name="Payable" xml:space="preserve">
     <value>قابل پرداخت</value>
@@ -182,6 +218,9 @@
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>نام محصول</value>
+  </data>
+  <data name="ProgramID" xml:space="preserve">
+    <value>شناسه برنامه</value>
   </data>
   <data name="Qty" xml:space="preserve">
     <value>تعداد</value>
@@ -231,6 +270,9 @@
   <data name="UnitPrice" xml:space="preserve">
     <value>قیمت واحد</value>
   </data>
+  <data name="UserID" xml:space="preserve">
+    <value>شناسه کاربر</value>
+  </data>
   <data name="WarehouseCartonOnHand" xml:space="preserve">
     <value>موجودی کارتن</value>
   </data>
@@ -239,5 +281,8 @@
   </data>
   <data name="WarehousePacketOnHand" xml:space="preserve">
     <value>موجودی بسته</value>
+  </data>
+  <data name="MenuID" xml:space="preserve">
+    <value>شناسه منو</value>
   </data>
 </root>
