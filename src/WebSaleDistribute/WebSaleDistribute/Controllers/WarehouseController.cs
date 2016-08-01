@@ -363,7 +363,7 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = "تایید نهایی شمارش انبار";
             ViewBag.Serial = JsonConvert.DeserializeObject<int>(serial);
-            
+
             var countingWarehouse = JsonConvert.DeserializeObject<List<JArray>>(countingRows);
             var countingDynamicTable = countingWarehouse.Select(x => x.ToObject<object[]>());
 
@@ -394,7 +394,7 @@ namespace WebSaleDistribute.Controllers
             using (SqlTransaction trans = connection.BeginTransaction())
             {
                 // First clear temp table data for this counting no.
-                connection.Execute("sp_TempCountingWarehouseHistoryDetail_Delete", new {CountingNo = serial},
+                connection.Execute("sp_TempCountingWarehouseHistoryDetail_Delete", new { CountingNo = serial },
                     transaction: trans, commandType: CommandType.StoredProcedure);
 
                 // Bulk copy all rows to temp table
@@ -418,7 +418,7 @@ namespace WebSaleDistribute.Controllers
                        ,@Shortcut
                        ,@WarehouseCartonOnHand
                        ,@WarehousePacketOnHand
-                       ,@UserID)", 
+                       ,@UserID)",
                        temp, transaction: trans);
 
                 trans.Commit();
