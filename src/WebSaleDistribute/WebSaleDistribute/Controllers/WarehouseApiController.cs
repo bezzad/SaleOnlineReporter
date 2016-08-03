@@ -8,8 +8,11 @@ using WebSaleDistribute.Models;
 using Elmah;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using Newtonsoft.Json;
 using WebSaleDistribute.Core;
 
 namespace WebSaleDistribute.Controllers
@@ -90,6 +93,90 @@ namespace WebSaleDistribute.Controllers
             
             return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
         }
+
+
+        // POST: api/StoreReturnedInovicesInWarehouse
+        [HttpPost]
+        [Route("Warehouse/CountingWarehouseAutoSave")]
+        public IHttpActionResult CountingWarehouseAutoSave(HttpRequestMessage request)
+        {
+            var content = request.Content;
+            string jsonContent = content.ReadAsStringAsync().Result;
+            var data = JsonConvert.DeserializeObject<dynamic>(jsonContent);
+            var serialNo = data.serialNo.ToString();
+            var countingDetails = data.countingRows.ToString();
+            StoreWarehouseCounting(serialNo, countingDetails);
+            return Ok("ذخیره سازی خودکار انجام شد.");
+        }
+
+        public DataTable StoreWarehouseCounting(string serial, string countingRows)
+        {
+            var serialNo = JsonConvert.DeserializeObject<int>(serial);
+
+            var countingWarehouse = JsonConvert.DeserializeObject<List<JArray>>(countingRows);
+            var countingDynamicTable = countingWarehouse.Select(x => x.ToObject<object[]>());
+
+            var tableSchema = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                sql: "sp_GetEmptyCountingWarehouseHistoryDetailsTable", param: new { CountingSerialNo = -1 },
+                commandType: CommandType.StoredProcedure).ToDataTable().Clone();
+
+            foreach (var row in countingDynamicTable)
+            {
+                tableSchema.Rows.Add(row);
+            }
+
+            var temp = tableSchema.AsEnumerable().Select(x => new
+            {
+                CountingNo = serial,
+                WarehouseOrderNo = x["WarehouseOrderNo"],
+                ProductCode = x["ProductCode"],
+                ProductName = x["ProductName"],
+                NetWeight = x["NetWeight"],
+                Shortcut = x["Shortcut"],
+                WarehouseCartonOnHand = x["WarehouseCartonOnHand"],
+                WarehousePacketOnHand = x["WarehousePacketOnHand"],
+                UserID = CurrentUser.UserName
+            }).ToList();
+
+            var connection = Connections.SaleCore.SqlConn;
+            connection.Open();
+            using (SqlTransaction trans = connection.BeginTransaction())
+            {
+                // First clear temp table data for this counting no.
+                connection.Execute("sp_TempCountingWarehouseHistoryDetail_Delete", new { CountingNo = serialNo },
+                    transaction: trans, commandType: CommandType.StoredProcedure);
+
+                // Bulk copy all rows to temp table
+                connection.Execute(@"
+                 INSERT INTO TempCountingWarehouseHistoryDetail
+                       (CountingNo
+                       ,WarehouseOrderNo
+                       ,ProductCode
+                       ,ProductName
+                       ,NetWeight
+                       ,Shortcut
+                       ,WarehouseCartonOnHand
+                       ,WarehousePacketOnHand
+                       ,UserID)
+                 VALUES
+                       (@CountingNo
+                       ,@WarehouseOrderNo
+                       ,@ProductCode
+                       ,@ProductName
+                       ,@NetWeight
+                       ,@Shortcut
+                       ,@WarehouseCartonOnHand
+                       ,@WarehousePacketOnHand
+                       ,@UserID)",
+                       temp, transaction: trans);
+
+                trans.Commit();
+                connection.Close();
+            }
+
+            return tableSchema;
+        }
+
 
         // POST: api/CountingWarehouseFinalAccept
         [HttpPost]

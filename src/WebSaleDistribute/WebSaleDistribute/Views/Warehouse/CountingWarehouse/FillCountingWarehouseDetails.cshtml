@@ -20,35 +20,29 @@
         // Call DataTable() func in all of the jquery tables
         $(document)
             .ready(function() {
-                table = loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength, [@string.Join(", ", Model.Item1.CurrencyColumns)]);
+                table = loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength,
+                [@string.Join(", ", Model.Item1.CurrencyColumns)]);
             });
 
-        $("#clearShortcutInput").click(function() {
-            var sh = document.getElementById("shortcut-input");
-            sh.value = "";
-            sh.focus();
-            table.columns(4).search(txtShourtcut.val()).draw();
-        });
+        $("#clearShortcutInput")
+            .click(function() {
+                var sh = document.getElementById("shortcut-input");
+                sh.value = "";
+                sh.focus();
+                table.columns(4).search(txtShourtcut.val()).draw();
+            });
 
         var txtShourtcut = $("#shortcut-input");
         txtShourtcut.bind("keyup change input destroy paste cut blur",
-                function() {
-                    table.columns(4).search(txtShourtcut.val()).draw();
-                });
+            function() {
+                table.columns(4).search(txtShourtcut.val()).draw();
+            });
 
         //
         // store before submit
         function storeFilledValues() {
             var list = getTableAllData("@Model.Item1.Id");
-            for (var i = 0; i < list.length; i++) {
-                for (var c = 0; c < list[i].length; c++) {
-                    if (list[i][c] === undefined) // c is reason column
-                    {
-                        toastr.warning("موجودی در ردیف " + (i + 1) + " خالی میباشد!", "عدم @ViewBag.Title", { timeOut: 5000 });
-                        return;
-                    }
-                }
-            }
+
             //
             // Set Mvc controller, post method parameters
             $('#serial').val(JSON.stringify(@ViewBag.Serial));
@@ -60,6 +54,26 @@
             },
                 2000);
         }
+
+        var autoSaveDuration = 120000;
+        function AutoSave() {
+            //
+            // Set Mvc controller, post method parameters
+            var dataParams = {
+                serialNo: @ViewBag.Serial,
+                countingRows: getTableAllData("@Model.Item1.Id")
+            };
+
+            $.post('@Url.Action("CountingWarehouseAutoSave", "Warehouse")',
+                    JSON.stringify(dataParams),
+                    function(data) {
+                        toastr.success(data);
+                    })
+                .done(function() { setTimeout(AutoSave, autoSaveDuration); });
+
+        }
+
+        setTimeout(AutoSave, autoSaveDuration);
     </script>
 }
 
@@ -86,17 +100,17 @@
         <br />
         @using (Html.BeginForm("CertificationCountingWarehouseDetails", "Warehouse", FormMethod.Post, new { id = "fromGotoCertification" }))
         {
-            <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
-            <input type="hidden" id="countingRows" name="countingRows" />
+        <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
+        <input type="hidden" id="countingRows" name="countingRows" />
 
-            <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
-                <a class='btn btn-warning' href="@Url.Action("CountingWarehouse", "Warehouse")">
-                    <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
-                </a>
-                <a class='btn btn-success' href="#" onclick='storeFilledValues()'>
-                    ثبت شمارش انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
-                </a>
-            </div>
+        <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+            <a class='btn btn-warning' href="@Url.Action("CountingWarehouse", "Warehouse")">
+                <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
+            </a>
+            <a class='btn btn-success' href="#" onclick='storeFilledValues()'>
+                ثبت شمارش انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+            </a>
+        </div>
         }
     </div>
 </div>

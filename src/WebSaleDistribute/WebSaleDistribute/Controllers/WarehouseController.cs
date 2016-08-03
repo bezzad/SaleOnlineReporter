@@ -364,75 +364,15 @@ namespace WebSaleDistribute.Controllers
             ViewBag.Title = "تایید نهایی شمارش انبار";
             ViewBag.Serial = JsonConvert.DeserializeObject<int>(serial);
 
-            var countingWarehouse = JsonConvert.DeserializeObject<List<JArray>>(countingRows);
-            var countingDynamicTable = countingWarehouse.Select(x => x.ToObject<object[]>());
-
-            var tableSchema = Connections.SaleTabriz.SqlConn.ExecuteReader(
-                sql: "sp_GetEmptyCountingWarehouseHistoryDetailsTable", param: new { CountingSerialNo = -1 },
-                commandType: CommandType.StoredProcedure).ToDataTable().Clone();
-
-            foreach (var row in countingDynamicTable)
-            {
-                tableSchema.Rows.Add(row);
-            }
-
-            var temp = tableSchema.AsEnumerable().Select(x => new
-            {
-                CountingNo = serial,
-                WarehouseOrderNo = x["WarehouseOrderNo"],
-                ProductCode = x["ProductCode"],
-                ProductName = x["ProductName"],
-                NetWeight = x["NetWeight"],
-                Shortcut = x["Shortcut"],
-                WarehouseCartonOnHand = x["WarehouseCartonOnHand"],
-                WarehousePacketOnHand = x["WarehousePacketOnHand"],
-                UserID = CurrentUser.UserName
-            }).ToList();
-
-            var connection = Connections.SaleCore.SqlConn;
-            connection.Open();
-            using (SqlTransaction trans = connection.BeginTransaction())
-            {
-                // First clear temp table data for this counting no.
-                connection.Execute("sp_TempCountingWarehouseHistoryDetail_Delete", new { CountingNo = serial },
-                    transaction: trans, commandType: CommandType.StoredProcedure);
-
-                // Bulk copy all rows to temp table
-                connection.Execute(@"
-                 INSERT INTO TempCountingWarehouseHistoryDetail
-                       (CountingNo
-                       ,WarehouseOrderNo
-                       ,ProductCode
-                       ,ProductName
-                       ,NetWeight
-                       ,Shortcut
-                       ,WarehouseCartonOnHand
-                       ,WarehousePacketOnHand
-                       ,UserID)
-                 VALUES
-                       (@CountingNo
-                       ,@WarehouseOrderNo
-                       ,@ProductCode
-                       ,@ProductName
-                       ,@NetWeight
-                       ,@Shortcut
-                       ,@WarehouseCartonOnHand
-                       ,@WarehousePacketOnHand
-                       ,@UserID)",
-                       temp, transaction: trans);
-
-                trans.Commit();
-                connection.Close();
-            }
+            var result = new WarehouseApiController().StoreWarehouseCounting(serial, countingRows);
 
             var table = new TableOption()
             {
                 Id = "CountingWarehouseHistoryDetails",
-                Data = tableSchema,
+                Data = result,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                //TotalFooterColumns = new string[] { "وزن خالص" },
-                CurrencyColumns = new int[] { 3 },
+                CurrencyColumns = new [] { 3 },
                 Checkable = false
             };
 
