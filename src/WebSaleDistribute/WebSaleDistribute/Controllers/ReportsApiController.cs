@@ -26,7 +26,7 @@ namespace WebSaleDistribute.Controllers
         [Route("Reports/GetInvoiceRemainChart")]
         public IEnumerable<dynamic> GetInvoiceRemainChart()
         {
-            var result = Connections.SaleTabriz.SqlConn.Query("sp_GetInvoiceRemainChart",
+            var result = Connections.SaleBranch.SqlConn.Query("sp_GetInvoiceRemainChart",
                 new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = DateTime.Now.GetPersianDate() },
                 commandType: System.Data.CommandType.StoredProcedure);
 
@@ -47,10 +47,10 @@ namespace WebSaleDistribute.Controllers
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
             var result = (CurrentUser.EmployeeType > 5) ?
-                await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
+                await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate },
                 commandType: System.Data.CommandType.StoredProcedure)
-            : await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
+            : await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
                 new { OfficerEmployeeID = CurrentUser.UserName, OfficerEmployeeTypeID = CurrentUser.EmployeeType, FromDate = fromDate, ToDate = toDate },
                 commandType: System.Data.CommandType.StoredProcedure);
 
@@ -66,7 +66,7 @@ namespace WebSaleDistribute.Controllers
             var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
-            var result = await Connections.SaleTabriz.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
+            var result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate, OfficerEmployeeID = officerEmployeeId, OfficerEmployeeTypeID = officerEmployeeTypeId },
                 commandType: System.Data.CommandType.StoredProcedure);
 

@@ -70,7 +70,7 @@ namespace WebSaleDistribute.Controllers
 
                 #region Table Data
 
-                var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+                var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                     "sp_GetInWayDetailsByOldInvoicId",
                     new { OldInvoicId = ViewBag.QrCode },
                     commandType: CommandType.StoredProcedure).ToDataTable();
@@ -111,7 +111,7 @@ namespace WebSaleDistribute.Controllers
         {
             #region Table Data
 
-            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                 "sp_GetSaleReturnInvoicesTable", commandType: CommandType.StoredProcedure).ToDataTable();
 
             var model = new TableOption()
@@ -152,7 +152,7 @@ namespace WebSaleDistribute.Controllers
 
             #region Table Data
 
-            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                 "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = invoiceSerial },
                 commandType: CommandType.StoredProcedure).ToDataTable();
 
@@ -181,7 +181,7 @@ namespace WebSaleDistribute.Controllers
 
             #region Table Data
 
-            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                 "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = invoiceSerial },
                 commandType: CommandType.StoredProcedure).ToDataTable();
 
@@ -290,7 +290,7 @@ namespace WebSaleDistribute.Controllers
         {
             #region Table Data
 
-            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                 "sp_GetCountingWarehouseHistoryTable", commandType: CommandType.StoredProcedure).ToDataTable();
 
             var model = new TableOption()
@@ -315,7 +315,7 @@ namespace WebSaleDistribute.Controllers
 
             #region Table Data
 
-            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                 "sp_GetEmptyCountingWarehouseHistoryDetailsTable", new { CountingSerialNo = serial },
                 commandType: CommandType.StoredProcedure).ToDataTable();
 

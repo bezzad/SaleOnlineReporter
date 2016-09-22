@@ -33,7 +33,7 @@ internal static partial class Connections
 		 
 		public static AdoManager.ConnectionManager UsersManagements { get { return ConnectionManager.Find("UsersManagements"); } }
 		 
-		public static AdoManager.ConnectionManager SaleTabriz { get { return ConnectionManager.Find("SaleTabriz"); } }
+		public static AdoManager.ConnectionManager SaleBranch { get { return ConnectionManager.Find("SaleBranch"); } }
 		 
 		public static AdoManager.ConnectionManager SaleCore { get { return ConnectionManager.Find("SaleCore"); } }
 		

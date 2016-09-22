@@ -64,7 +64,7 @@ namespace WebSaleDistribute.Controllers
             // Fill Table data ------------------------------------------
             #region Table Data
 
-            var tableData = Connections.SaleTabriz.SqlConn.ExecuteReader(
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                 "sp_GetInvoiceRemain",
                 new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = "2" },
                 commandType: CommandType.StoredProcedure).ToDataTable();

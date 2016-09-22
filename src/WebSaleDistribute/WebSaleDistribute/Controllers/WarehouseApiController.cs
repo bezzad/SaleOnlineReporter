@@ -49,7 +49,7 @@ namespace WebSaleDistribute.Controllers
                     UserId = User.Identity.GetUserId()
                 };
 
-                var result = Connections.SaleTabriz.SqlConn.Execute("sp_EntryInWayToWareHouseByOldInvoiceId",
+                var result = Connections.SaleBranch.SqlConn.Execute("sp_EntryInWayToWareHouseByOldInvoiceId",
                     param,
                     commandType: System.Data.CommandType.StoredProcedure);
 
@@ -71,7 +71,7 @@ namespace WebSaleDistribute.Controllers
         [Route("Warehouse/GetInvoiceDetails/{businessDocSerialNo}")]
         public IHttpActionResult GetInvoiceDetails(int businessDocSerialNo)
         {
-            var result = Connections.SaleTabriz.SqlConn.Execute("sp_GetSaleReturnInvoiceDetailsTable",
+            var result = Connections.SaleBranch.SqlConn.Execute("sp_GetSaleReturnInvoiceDetailsTable",
                 new { SerialNo = businessDocSerialNo },
                 commandType: System.Data.CommandType.StoredProcedure);
 
@@ -116,7 +116,7 @@ namespace WebSaleDistribute.Controllers
             var countingWarehouse = JsonConvert.DeserializeObject<List<JArray>>(countingRows);
             var countingDynamicTable = countingWarehouse.Select(x => x.ToObject<object[]>());
 
-            var tableSchema = Connections.SaleTabriz.SqlConn.ExecuteReader(
+            var tableSchema = Connections.SaleBranch.SqlConn.ExecuteReader(
                 sql: "sp_GetEmptyCountingWarehouseHistoryDetailsTable", param: new { CountingSerialNo = -1 },
                 commandType: CommandType.StoredProcedure).ToDataTable().Clone();
 
@@ -198,7 +198,7 @@ namespace WebSaleDistribute.Controllers
                     RunDate = DateTime.Now.GetPersianDate()
                 };
 
-                var result = Connections.SaleTabriz.SqlConn.Execute("sp_FinalAcceptCountingWarehouseHistory",
+                var result = Connections.SaleBranch.SqlConn.Execute("sp_FinalAcceptCountingWarehouseHistory",
                     param,
                     commandType: System.Data.CommandType.StoredProcedure);
 

@@ -26,11 +26,7 @@ namespace WebSaleDistribute
 
         private void SetConnection()
         {
-#if DEBUG // If(Debugger.IsAttached)
-            ConnectionManager.SetToDefaultConnection(Connections.UsersManagements.Connection.Name); // local
-#else
-            ConnectionManager.SetToDefaultConnection(Connections.UsersManagements.Connection.Name); // server
-#endif
+            ConnectionManager.SetToDefaultConnection(Connections.UsersManagements.Connection.Name); 
         }
 
         protected void Application_Error(object sender, EventArgs e)
