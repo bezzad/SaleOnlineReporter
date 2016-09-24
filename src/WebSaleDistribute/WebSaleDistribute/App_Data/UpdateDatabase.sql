@@ -306,7 +306,7 @@ AS
                 SELECT  @AdminUserID ,
                         ''behzad.khosravifar@gmail.com'' ,
                         1 ,
-                        SUBSTRING(master.dbo.fn_varbintohexstr(HASHBYTES(''MD5'', ''H\,g,d@13'')), 3, 32) , --Password: admin
+                        SUBSTRING(master.dbo.fn_varbintohexstr(HASHBYTES(''MD5'', ''H\,g,d@13'')), 3, 32) , --Password
                         NEWID() ,
                         ''+989149149202'' ,
                         1 ,
@@ -316,7 +316,7 @@ AS
                         0 ,
                         ''Admin'' ,
                         ''مدیر برنامه'' ,
-                        '''' ,
+                        ''353975074012655'' ,
                         ''ApplicationUser''
     
    
