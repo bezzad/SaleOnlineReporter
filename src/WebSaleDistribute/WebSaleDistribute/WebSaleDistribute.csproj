@@ -292,6 +292,7 @@
       <LastGenOutput>Connections.cs</LastGenOutput>
     </Content>
     <Content Include="App_Data\CreateSpHTTPRequest_Script.sql" />
+    <EmbeddedResource Include="App_Data\sp_CheckAndCreateEmployeeRoles.sql" />
     <Content Include="App_Data\VersionUpdater.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>VersionUpdater.txt</LastGenOutput>
