@@ -1,0 +1,26 @@
+﻿
+@section topScripts
+{
+    @Scripts.Render("~/bundles/highcharts")
+}
+
+
+
+<br />
+
+<div class="container">
+    <ul class="nav nav-pills">
+        <li style="font-size: 30px; float: right;">@ViewBag.Title</li>
+        <li class="active"><a data-toggle="pill" href="#chart"> <span class="glyphicon glyphicon-stats"></span> نمودار</a></li>       
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade in active" dir="ltr">
+            <!-- data -->
+            <br />
+            @Html.Action("CustomersOrdersChart", "Reports")
+            <!-- /data -->
+        </div>
+    </div>
+
+</div>

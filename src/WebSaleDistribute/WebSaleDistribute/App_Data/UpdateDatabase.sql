@@ -230,7 +230,7 @@ AS
                 2 ,-- ProgramID - smallint
                 255 , -- AccessTypeID - tinyint
                 0 -- CheckComputerAndLogin - tinyint
-        FROM    SaleTehran1395.dbo.Employee e
+        FROM    SaleBranch.dbo.Employee e
                 INNER JOIN usersmanagements.dbo.users u ON u.EmployeeID = e.EmployeeID
                 LEFT JOIN usersmanagements.dbo.PrgAccess pa ON pa.userid = u.userid
         WHERE   e.isActive = 1
@@ -258,7 +258,7 @@ AS
         SELECT  u.UserID ,  -- UserID - int
                 2 ,-- ProgramID - smallint
                 6  -- RoleID - smallint 		 
-        FROM    SaleTehran1395.dbo.Employee e
+        FROM    SaleBranch.dbo.Employee e
                 INNER JOIN UsersManagements.dbo.Users u ON u.EmployeeId = e.EmployeeId
                 LEFT JOIN UsersManagements.dbo.UsersInRoles ur ON ur.UserID = u.UserID
         WHERE   e.isActive = 1
@@ -269,7 +269,7 @@ AS
         SELECT  u.UserID ,  -- UserID - int
                 2 ,-- ProgramID - smallint
                 6  -- RoleID - smallint 		  
-        FROM    SaleTehran1395.dbo.Employee e
+        FROM    SaleBranch.dbo.Employee e
                 INNER JOIN UsersManagements.dbo.Users u ON u.EmployeeId = e.EmployeeId
                 LEFT JOIN UsersManagements.dbo.UsersInRoles ur ON ur.UserID = u.UserID
         WHERE   e.isActive = 1
@@ -298,7 +298,7 @@ AS
                 2 ,-- ProgramID - smallint
                 255 , -- AccessTypeID - tinyint
                 0 -- CheckComputerAndLogin - tinyint
-        FROM    SaleTehran1395.dbo.Employee e
+        FROM    SaleBranch.dbo.Employee e
                 INNER JOIN UsersManagements.dbo.Users u ON u.EmployeeId = e.EmployeeId
                 LEFT JOIN UsersManagements.dbo.PrgAccess pa ON pa.UserID = u.UserID
         WHERE   e.isActive = 1
@@ -325,7 +325,7 @@ AS
         SELECT  u.UserID ,  -- UserID - int
                 2 ,-- ProgramID - smallint
                 7  -- RoleID - smallint 
-        FROM    SaleTehran1395.dbo.Employee e
+        FROM    SaleBranch.dbo.Employee e
                 INNER JOIN UsersManagements.dbo.Users u ON u.EmployeeId = e.EmployeeId
                 LEFT JOIN UsersManagements.dbo.UsersInRoles ur ON ur.UserID = u.UserID
         WHERE   e.isActive = 1
@@ -336,7 +336,7 @@ AS
         SELECT  u.UserID ,  -- UserID - int
                 2 ,-- ProgramID - smallint
                 7  -- RoleID - smallint 	
-        FROM    SaleTehran1395.dbo.Employee e
+        FROM    SaleBranch.dbo.Employee e
                 INNER JOIN UsersManagements.dbo.Users u ON u.EmployeeId = e.EmployeeId
                 LEFT JOIN UsersManagements.dbo.UsersInRoles ur ON ur.UserID = u.UserID
         WHERE   e.isActive = 1

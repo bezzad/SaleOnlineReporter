@@ -1,0 +1,214 @@
+﻿@font-face {
+    font-family: 'IRANSans';
+    src: url('../fonts/iransans.ttf');
+}
+
+@font-face {
+	font-family: 'yekan';
+	src: url('../fonts/Yekan.eot');
+	src: url(../fonts/Yekan.eot?#iefix) format("embedded-opentype"), url(../fonts/Yekan.woff) format("woff"), url(../fonts/Yekan.ttf) format("truetype"), url(../fonts/Yekan.svg#BYekan) format("svg");
+	font-weight: normal;
+	font-style: normal
+}
+
+/** {
+     font-family: "IRANSans", "IRANSans-web", "B Nazanin";
+}*/
+
+body {
+    background-image: url(../images/site_cover.jpg);
+    -ms-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-attachment: fixed;
+    z-index: -1;
+    padding-top: 55px;
+    padding-bottom: 20px;
+    font-family: "IRANSans", "yekan", "B Nazanin";
+}
+
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 1px;
+    padding-right: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    -ms-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+    word-wrap: break-word;
+}
+
+.hyphenate {
+    /* Careful, this breaks the word wherever it is without a hyphen */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* Adds a hyphen where the word breaks */
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.menuButtons {
+    width: 100px;
+    height: 80px;
+    /* Careful, this breaks the word wherever it is without a hyphen */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-word;
+    /* Adds a hyphen where the word breaks */
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.word-wrap {
+    width: 150px;
+    height: 70px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    border: 1px solid #a3bb97;
+    text-align: center;
+}
+
+.gi-1x {
+    font-size: 1em;
+}
+
+.gi-2x {
+    font-size: 2em;
+}
+
+.gi-3x {
+    font-size: 3em;
+}
+
+.gi-4x {
+    font-size: 4em;
+}
+
+.gi-5x {
+    font-size: 5em;
+}
+
+a {
+    font-size: 15px;
+    word-wrap: break-word;
+    text-decoration: none !important;
+}
+
+li {
+    font-size: 15px;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+.control-label {
+    float: right;
+}
+
+.control {
+    float: right;
+}
+
+.dropdown-menu > li > a {
+    direction: ltr;
+}
+
+/* Bootstrap Message Alert */
+#MessagePanel {
+    position: fixed;
+    top: 90px;
+    right: 30px;
+    z-index: 1;
+}
+
+hr {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-top: 1px solid #e5c2b9;
+    border-width: 1px;
+}
+
+footer {
+    overflow: hidden;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 20px 1px;
+}
+
+    footer[dir=ltr] p {
+        font-family: 'Segoe UI';
+        font-size: smaller;
+    }
+
+table.dataTable tbody tr {
+    cursor: pointer;
+}
+
+
+/* --------------- rtl bootstrap-select ---------------------- */
+.bootstrap-select.btn-group .btn .filter-option {
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    text-align: left; /* in RTL text-align: right; will fix it */
+}
+/*and for the cart, this css:*/
+.bootstrap-select.btn-group .btn .caret {
+    position: absolute;
+    top: 50%;
+    right: 12px;  /* left: 12px; will fix it*/
+    margin-top: -2px;
+    vertical-align: middle;
+}
+.bootstrap-select > .dropdown-toggle {
+    padding-left: 25px;
+    padding-right: 15px;
+}
+
+.dropdown-menu {
+    right: 0;
+    left: auto;
+    float: left;
+    text-align: right;
+}
+/* --------------- rtl bootstrap-select ---------------------- */

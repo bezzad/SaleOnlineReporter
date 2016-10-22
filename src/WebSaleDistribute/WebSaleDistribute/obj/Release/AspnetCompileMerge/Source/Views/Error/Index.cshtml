@@ -1,0 +1,89 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "خطا " + @Response.StatusCode;
+    ViewData["dir"] = "rtl";
+}
+
+@section scripts{
+    @Styles.Render("~/Content/errors")
+    @Scripts.Render("~/bundles/clipboard")
+    <script>
+        new Clipboard('.btn-clipboard');
+    </script>
+}
+
+<div class="error_box">
+    <br />
+
+    <h1 class="text-danger error-number">خطا @Response.StatusCode</h1>
+    <h2 class="text-danger error-text">
+        پردازش درخواست شما با خطا مواجه شد.
+    </h2>
+
+    <br />
+
+    <h4>
+        ممکن است این اتفاق به دلایل زیر اتفاق افتاده باشد:
+    </h4>
+    <br />
+    @if (Response.StatusCode != 404)
+    {
+        <h5>
+            1. شما مجوز دسترسی به این صفحه را نداشته باشید.
+            <br />
+            <br />
+            2. اعتبار زمانی ورود شما منقضی شده باشد.
+            <br />
+            <br />
+            3. سرور به دلایلی قادر به انجام درخواست شما نیست.
+        </h5>
+    }
+    else
+    {
+        <h5>
+            آدرس وارده نا معتبر می باشد!
+        </h5>
+    }
+    <br />
+    <p class="go-home">
+        <a href="/">برگشت به صفحه اصلی</a>
+    </p>
+</div>
+<br />
+
+@if (Model != null && Response.StatusCode != 404) // && HttpContext.Current.IsDebuggingEnabled
+{
+    <div dir="ltr">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#errorDetails" aria-controls="home" role="tab" data-toggle="tab">Error Details</a></li>
+            <li role="presentation"><a href="#stackTrace" aria-controls="profile" role="tab" data-toggle="tab">Stack Trace</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="errorDetails" align="left">
+                <div style="padding: 50px;">
+                    <div class="col-xs-2 "><b>Exception: </b></div><div class="col-xs-10">@Model.Exception.Message</div>
+                    <br /><br />
+                    <div class="col-xs-2 "><b>Controller: </b></div><div class="col-xs-10">@Model.ControllerName</div>
+                    <br /><br />
+                    <div class="col-xs-2 "><b>Action: </b></div><div class="col-xs-10">@Model.ActionName</div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="stackTrace" align="left">
+                <div class="zero-clipboard">
+                    <span class="btn-clipboard" data-clipboard-demo data-clipboard-target="#stackTraceContent"><span class="glyphicon glyphicon-copy"></span> Copy </span>
+                </div>
+                <figure class="highlight">
+                    <pre>
+                    <code class="language-html" data-lang="html" id="stackTraceContent">@Model.Exception.StackTrace</code>
+                    </pre>
+                </figure>
+            </div>
+        </div>
+
+    </div>
+}

@@ -1,0 +1,50 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model TableOption
+
+@{
+    ViewData["dir"] = "ltr";
+
+    var id = "EntryInWayTables_" + Guid.NewGuid().ToString();
+}
+
+
+@section scripts
+{
+    <script>
+        // Call DataTable() func in all of the jquery tables
+        $(document).ready(function () {
+            loadDataTables('@Model.Id', @Model.DisplayRowsLength, [@string.Join(", ", Model.CurrencyColumns)]);            
+        })
+    </script>
+}
+
+<br />
+
+<h2 dir="rtl">@ViewBag.Title</h2>
+
+<div class="container">
+    <div class="tab-content">
+        <div id="grid" class="tab-pane fade in active">
+            <!-- data -->
+            <br />
+
+            @(
+                Html.PanelItem(new PanelItemOption()
+                {
+                    Id = id,
+                    Body = Html.TableItem(Model).ToHtmlString(),
+                    Title = $" توراهی شماره {ViewBag.QrCode}",
+                    HasDetailLink = true,
+                    DetailUrlContent = "<b>ورود به انبار</b>",
+                    Url = @"getAsync(""" + Request.Url.GetLeftPart(UriPartial.Authority) + Url.Content($"~/Warehouse/EntryInWayToWarehouse/{ViewBag.QrCode}") + @"""); $("".btn-detail"").attr(""disabled"",true);",
+                    GlyphIcon = "list-alt",
+                    HasSettingPanel = false,
+                    PanelType = DataStyleType.success
+                })
+            )
+            <!-- /data -->
+        </div>
+    </div>
+</div>

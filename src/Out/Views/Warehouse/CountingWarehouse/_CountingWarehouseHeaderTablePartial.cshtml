@@ -1,0 +1,39 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model TableOption
+
+@{
+    var id = "CountingWarehouseHeaderTable_" + Guid.NewGuid().ToString();
+
+    var opt = new PanelAjaxOptions(id)
+    {
+        UpdateTargetId = "CountingWarehouseHeaderTable"
+    };
+
+    opt.OnSuccess += $" loadDataTables('{Model.Id}', {Model.DisplayRowsLength}, [{string.Join(", ", Model.CurrencyColumns)}]);";
+}
+
+
+
+<div id="SaleReturnInvoicesTable">
+
+    @using (Ajax.BeginForm("CountingWarehouseHeaderTable", "Warehouse", opt, new { @id = id, @class = "refreshable-panel" }))
+    {
+        @(Html.PanelItem(new PanelItemOption()
+    {
+        Id = id,
+        Body = Html.TableItem(Model).ToHtmlString(),
+        Title = "لیست شمارش ها",
+        IsRefreshable = true,
+        HasDetailLink = true,
+        DetailUrlContent = "<b>انتخاب شمارش انبار</b>",
+        Url = $@"location.href = ""{Url.Content($"~/Warehouse/FillCountingWarehouseDetails/?serial=")}""+getTableFirstSelectedRow(""{Model.Id}"")[0];",
+        GlyphIcon = "list-alt",
+        HasSettingPanel = false,
+        PanelType = DataStyleType.warning
+    })
+        )
+    }
+
+</div>

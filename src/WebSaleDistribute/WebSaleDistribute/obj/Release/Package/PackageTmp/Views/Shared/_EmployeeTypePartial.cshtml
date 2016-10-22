@@ -1,0 +1,61 @@
+﻿@using WebSaleDistribute.Models
+
+@{
+        AjaxOptions Opt = new AjaxOptions
+        {
+            UpdateTargetId = "employeeTypes",
+            InsertionMode = InsertionMode.Replace,
+            HttpMethod = "POST",
+            OnSuccess = @"$("".refreshable-panel"").submit();",
+            LoadingElementId = "loading" 
+    };
+}
+
+@if (Request.IsAuthenticated)
+{
+    var employeeTypes = (List<EmployeeTypeModels>)ViewData["EmployeeTypes"];
+
+    var selectedEmpId = (int?)ViewData["SelectedEmployeTypeId"];
+
+    <div id="employeeTypes">
+
+        @using (Ajax.BeginForm("SetEmployeeType", "Home", new { employeeTypeId = (int?)null }, Opt))
+        {
+            <ul class="nav navbar-nav navbar-right">
+                @if (selectedEmpId == null)
+                {
+                    <li dir="rtl">
+                        <a>
+                            شما مجوز استفاده از برنامه را ندارید!
+                            <span class="glyphicon glyphicon-eye-close"></span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            @(employeeTypes.FirstOrDefault(x => x.EmployeeTypeID == selectedEmpId)?.EmployeeTypeName)
+                            @if (employeeTypes.Count > 1)
+                            {<span class="caret"></span>}
+                        </a>
+                        @if (employeeTypes.Count > 1)
+                        {
+                            <ul class="dropdown-menu">
+                                @foreach (var et in employeeTypes)
+                                {
+                                    <li>
+                                        <button class="btn form-control" id="employeeTypeId" name="employeeTypeId" type="submit" value="@et.EmployeeTypeID">@et.EmployeeTypeName</button>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+
+        }
+    </div>
+
+}

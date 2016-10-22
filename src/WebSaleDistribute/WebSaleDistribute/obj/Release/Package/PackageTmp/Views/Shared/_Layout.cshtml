@@ -1,0 +1,90 @@
+﻿@using WebSaleDistribute.Core
+
+@{
+    string dir = ViewData["dir"]?.ToString() ?? "rtl";
+    var version = "ver" + typeof(WebSaleDistribute.MvcApplication).Assembly.GetName().Version.ToString(3);
+}
+
+<!DOCTYPE html>
+<html class="background-image" lang="fa">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - شونیز</title>
+    <link rel="icon" type="image/png" href="@Url.Content("~/images/favicon.ico")" />
+
+    @Styles.Render("~/Content/stylesheets")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/scripts")
+    @RenderSection("topScripts", required: false)
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header dropdown">
+                <img class="navbar-brand nav" style="width: 110px;" alt="shoniz logo" src="@Url.Content("~/images/bwShonizFa.png")" />
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="dropdown-toggle navbar-brand nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">گزارشات آنلاین <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li>@Html.ActionLink("خانه", "Index", "Home")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li role="separator" class="divider"></li>
+                        @Html.Action("Menu", "Shared")
+                    }
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a>
+                            <!-- loader link: http://preloaders.net/en/circular/spin-and-pulsate/ -->
+                            <img id="loading" class="status" src="@Url.Content("~/images/loading.gif")" alt="Spin and pulsate 32 pixels wide" style="position: absolute;" />
+                        </a>
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+
+                @if (Request.IsAuthenticated)
+                {
+                    @Html.Action("GetEmployeeType", "Home");
+                }
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" dir="@dir">
+        <div id="MessagePanel">
+        </div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p dir="ltr">
+                &copy; @DateTime.Now.Year - Shoniz.co @version <i id="MobileVersion">Desktop</i>
+            </p>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+    @if (Request.IsAuthenticated)
+    {
+        <script>
+            if (document.loaded) {
+                setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")");
+            } else {
+                if (window.addEventListener) {
+                    window.addEventListener('load', setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")"), false);
+                } else {
+                    window.attachEvent('onload', setPageReloadTimer("@HelperExtensions.AppSetting("ReloadPageTimeoutIntervalCookieName")"));
+                }
+            }
+        </script>
+    }
+</body>
+</html>

@@ -1,0 +1,77 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+@using WebSaleDistribute.Resources
+@model Tuple<TableOption, TableOption>
+@{
+    ViewBag.Title = Localization.CheckAndRepairUser;
+}
+@section scripts
+{
+    <script>
+        $(document)
+            .ready(function () {
+                loadDataTables();
+            });
+    </script>
+}
+
+
+<h2>@ViewBag.Title</h2>
+
+<br /><br />
+
+@using (Html.BeginForm("CheckAndRepairUser", "Admin", FormMethod.Post, new { id = "fromCheckUser" }))
+{
+    <div class="form-group">
+        @{
+            var txtOpt = new TextBoxOption()
+            {
+                DataStyle = DataStyleType.info,
+                Placeholder = "شماره پرسنلی",
+                Type = InputTypes.Number,
+                Min = 1,
+                Name = "empId"
+            };
+        }
+        @Html.TextBox(txtOpt)
+        <br />
+        <button type="submit" style="">بررسی و اصلاح</button>
+    </div>
+
+            if (IsPost && Model != null)
+            {
+                <div class="container">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active">
+                            @(
+    Html.PanelItem(new PanelItemOption()
+    {
+        Id = Model.Item1.Id + "_" + Guid.NewGuid(),
+        Body = Html.TableItem(Model.Item1).ToHtmlString(),
+        Title = "مشخصات کاربر",
+        HasDetailLink = false,
+        GlyphIcon = "glyphicon-user",
+        HasSettingPanel = false,
+        PanelType = DataStyleType.success
+    })
+                            )
+
+                            <br />
+
+                            @(
+    Html.PanelItem(new PanelItemOption()
+    {
+        Id = Model.Item2.Id + "_" + Guid.NewGuid(),
+        Body = Html.TableItem(Model.Item2).ToHtmlString(),
+        Title = "منوهای این کاربر",
+        HasDetailLink = false,
+        GlyphIcon = "glyphicon-th-large",
+        HasSettingPanel = false,
+        PanelType = DataStyleType.info
+    })
+                            )
+                        </div>
+                    </div>
+                </div>
+                }
+            }

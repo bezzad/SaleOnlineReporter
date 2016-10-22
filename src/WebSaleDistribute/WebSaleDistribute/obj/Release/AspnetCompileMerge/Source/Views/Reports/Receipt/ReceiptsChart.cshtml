@@ -1,0 +1,36 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model DotNet.Highcharts.Highcharts
+
+
+@{
+    var id = "ReceiptsChart_" + Guid.NewGuid().ToString();
+
+    var opt = new PanelAjaxOptions(id)
+    {
+        UpdateTargetId = "ReceiptsChart"
+    };
+}
+
+
+<div id="ReceiptsChart">
+
+    @using (Ajax.BeginForm("ReceiptsChart", "Reports", opt, new { @id = id, @class = "refreshable-panel" }))
+    {
+        @(Html.PanelItem(new PanelItemOption()
+            {
+                Id = id,
+                Body = Model?.ToHtmlString(),
+                Title = "نمودار رسیدی",
+                Url = "#",
+                GlyphIcon = "stats",
+                HasDetailLink = false,
+                HasSettingPanel = false,
+                PanelType = DataStyleType.primary,
+                IsRefreshable = true
+            })
+        )
+    }
+
+</div>

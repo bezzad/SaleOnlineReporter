@@ -1,0 +1,38 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model TableOption
+
+@{
+    var id = "ReceiptsTable_" + Guid.NewGuid().ToString();
+
+    var opt = new PanelAjaxOptions(id)
+    {
+        UpdateTargetId = "ReceiptsTable",
+    };
+
+    opt.OnSuccess += $" loadDataTables('{Model.Id}', {Model.DisplayRowsLength}, [{string.Join(", ", Model.CurrencyColumns)}]);";
+}
+
+<div id="ReceiptsTable">
+
+    @using (Ajax.BeginForm("ReceiptsTable", "Reports", opt, new { @id = id, @class = "refreshable-panel" }))
+    {
+        @(Html.PanelItem(new PanelItemOption()
+            {
+                Id = id,
+                Body = Html.TableItem(Model).ToHtmlString(),
+                Title = "لیست رسیدی ها",
+                Url = "#",
+                GlyphIcon = "list-alt",
+                HasDetailLink = false,
+                HasSettingPanel = false,
+                PanelType = DataStyleType.primary,
+                IsRefreshable = true,
+                ExportToExcelAction = Url.Action("ExportToExcel", "Tools",
+                                    new { username = ViewBag.Username, actionName = ViewContext.RouteData.Values["action"].ToString() })
+            })
+        )
+    }
+
+</div>

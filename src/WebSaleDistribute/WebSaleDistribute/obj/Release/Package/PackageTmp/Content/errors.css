@@ -1,0 +1,222 @@
+﻿p {
+    margin: 0;
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.error_box_wrap {
+    margin: 10% auto 0 auto;
+    width: 850px;
+    min-height: 500px;
+}
+
+    .error_box_wrap .logo {
+        margin-bottom: 20px;
+    }
+
+        .error_box_wrap .logo img {
+            border: 0;
+        }
+
+.error_box .error-number {
+    font-size: 100px;
+    color: #e85076;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    opacity: 0;
+    -moz-animation: 0.8s ease-in 1.3s normal forwards 1 change-error-text;
+    -webkit-animation: 0.8s ease-in 1.3s normal forwards 1 change-error-text;
+    -o-animation: 0.8s ease-in 1.3s normal forwards 1 change-error-text;
+    animation: 0.8s ease-in-out 1.3s normal forwards 1 change-error-text;
+}
+
+.error_box .error-text {
+    color: #e85076;
+    margin-bottom: 45px;
+    opacity: 0;
+    -moz-animation: 0.8s ease-in 1.6s normal forwards 1 change-error-text;
+    -webkit-animation: 0.8s ease-in 1.6s normal forwards 1 change-error-text;
+    -o-animation: 0.8s ease-in 1.6s normal forwards 1 change-error-text;
+    animation: 0.8s ease-in-out 1.6s normal forwards 1 change-error-text;
+}
+
+.error_box .go-home a {
+    background: #54ba9f;
+    color: #fff;
+    font: 24px/24px EuropeRegular;
+    opacity: 0;
+    padding: 20px 85px 13px;
+    text-decoration: none;
+    text-transform: uppercase;
+    -moz-animation: 0.8s ease-in 2s normal forwards 1 change-error-text;
+    -webkit-animation: 0.8s ease-in 2s normal forwards 1 change-error-text;
+    -o-animation: 0.8s ease-in 2s normal forwards 1 change-error-text;
+    animation: 0.8s ease-in-out 2s normal forwards 1 change-error-text;
+}
+
+.zero-clipboard {
+    position: relative;
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .zero-clipboard {
+        display: block;
+    }
+}
+
+.highlight {
+    padding: 9px 14px;
+    margin-bottom: 14px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+}
+
+    .highlight pre code {
+        font-size: inherit;
+        color: #333;
+    }
+
+code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+
+.btn-clipboard {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    display: block;
+    padding: 5px 8px;
+    font-size: 12px;
+    color: #767676;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #e1e1e8;
+    border-radius: 0 4px 0 4px;
+}
+
+.btn-clipboard:hover {
+    background-color: #07a36e;
+}
+
+
+.highlight pre {
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    word-break: normal;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: auto;
+}
+
+code, kbd, pre, samp {
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+.highlight pre code:first-child {
+    display: inline-block;
+    padding-right: 45px;
+}
+
+
+
+/*********
+   KeyFrames
+   ********/
+
+
+/* Error text */
+@-moz-keyframes change-error-text {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes change-error-text {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes change-error-text {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes change-error-text {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes change-error-text {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 940px) {
+    .error_box_wrap {
+        width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .error_box_wrap {
+        margin-top: 0;
+    }
+
+    .error_box {
+        margin-bottom: 30px;
+    }
+
+        .error_box .error-number {
+            font-size: 134px;
+        }
+}

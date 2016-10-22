@@ -125,6 +125,7 @@ namespace WebSaleDistribute.Migrations
 
             // insert fixed data in database [SaleDistributeIdentity]
             var insertUsersManagersDataScript = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryUpdateDatabase);
+            insertUsersManagersDataScript = insertUsersManagersDataScript.Replace("SaleBranch", Connections.SaleBranch.Connection.DatabaseName);
             Connections.SaleDistributeIdentity.ExecuteNonQuery(insertUsersManagersDataScript);
             ctx.Database.ExecuteSqlCommand("Exec sp_UpdateDatabase");
 

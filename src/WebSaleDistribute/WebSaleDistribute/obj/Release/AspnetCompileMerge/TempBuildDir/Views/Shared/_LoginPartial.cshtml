@@ -1,0 +1,83 @@
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@using WebSaleDistribute.Controllers
+@using WebSaleDistribute.Core
+@using WebSaleDistribute.Models
+@using WebSaleDistribute.Resources
+
+
+
+@if (Request.IsAuthenticated)
+{
+    var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+    var currentUser = manager.FindById(User.Identity.GetUserId());
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> @currentUser.FullName  <span class="caret"></span></a>
+                <ul class="dropdown-menu loginMenu">
+                    <li>
+                        <a id="profileLink" href="#">
+                            &nbsp;حسابم&nbsp;<span class="glyphicon glyphicon-user"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="inboxLink" href="#">
+                            &nbsp;پیامها&nbsp;<span class="glyphicon glyphicon-envelope"></span>
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a id="settingLink" href="@Url.Content("~/elmah")">
+                                &nbsp;خطاها&nbsp;<span class="glyphicon glyphicon-exclamation-sign"></span>
+                            </a>
+                        </li>
+                        foreach (var action in typeof(AdminController).GetUserDefinedMethodsName())
+                        {
+                            <li>
+                                <a id="settingLink" href="@Url.Action(action, "Admin")">
+                                    &nbsp;@Localization.ResourceManager.GetString(action)&nbsp;<span class="glyphicon glyphicon-wrench"></span>
+                                </a>
+                            </li>
+                        }
+                    }
+                    <li>
+                        <a id="settingLink" href="@Url.Action("Index", "Manage", routeValues: null)">
+                            &nbsp;تنظیمات&nbsp;<span class="glyphicon glyphicon-cog"></span>
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            &nbsp;خروج&nbsp;<span class="glyphicon glyphicon-log-out"></span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        @if (User.IsInRole("Admin"))
+        {
+            <li>
+                <a id="registerLink" href="@Url.Action("Register", "Account", routeValues: null)">
+                    ثبت نام&nbsp;<span class="glyphicon glyphicon-user"></span>
+                </a>
+            </li>
+        }
+        <li>
+            <a id="loginLink" href="@Url.Action("Login", "Account", routeValues: null)">
+                ورود به سیستم&nbsp;<span class="glyphicon glyphicon-log-in"></span>
+            </a>
+        </li>
+    </ul>
+}

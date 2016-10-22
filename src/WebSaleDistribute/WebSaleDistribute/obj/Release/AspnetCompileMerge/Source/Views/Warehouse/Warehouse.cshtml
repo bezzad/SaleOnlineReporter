@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["dir"] = "rtl";
+}
+
+<br />
+
+<h2 dir="rtl">@ViewBag.Title</h2>
+
+<div class="container">
+    <div>
+        <div class="col-xs-3">
+            <a class="word-wrap btn-block alert-success" href="shoniz://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/InWay/?code={code}")">
+                <p>اسکن بار کد توراهی</p>
+                <span class="glyphicon glyphicon-qrcode gi-2x"></span>
+            </a>
+        </div>
+
+        <div class="col-xs-3">
+            <a class="word-wrap btn-block alert-success" href="@Url.Content("~/Warehouse/SaleReturnInvoices")">
+                <p>برگشت از فروش</p>
+                <span class="glyphicon glyphicon-share gi-2x"></span>
+            </a>
+        </div>
+
+        <div class="col-xs-3">
+            <a class="word-wrap btn-block alert-success" href="@Url.Content("~/Warehouse/CountingWarehouse")">
+                <p>شمارش انبار</p>
+                <span class="glyphicon glyphicon-sort-by-order gi-2x"></span>
+            </a>
+        </div>
+    </div>
+</div>

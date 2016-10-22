@@ -1,0 +1,116 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
+@model Tuple<TableOption, MultipleStepProgressTabOption>
+
+@{
+    ViewData["dir"] = "ltr";
+    var searchShortcut = @"<div class='input-group'>
+                                <span class='input-group-btn'>
+                                    <button id='clearShortcutInput' class='btn btn-default' type='button'>پاکن</button>
+                                </span>
+                                <input id='shortcut-input' type='number' class='form-control' placeholder='جستجوی کد میانبر' aria-label='Amount (to the nearest dollar)'>
+                            </div><br/>";
+}
+
+@section scripts
+{
+    <script>
+        var table;
+        // Call DataTable() func in all of the jquery tables
+        $(document)
+            .ready(function() {
+                table = loadDataTables('@Model.Item1.Id', @Model.Item1.DisplayRowsLength,
+                [@string.Join(", ", Model.Item1.CurrencyColumns)]);
+            });
+
+        $("#clearShortcutInput")
+            .click(function() {
+                var sh = document.getElementById("shortcut-input");
+                sh.value = "";
+                sh.focus();
+                table.columns(4).search(txtShourtcut.val()).draw();
+            });
+
+        var txtShourtcut = $("#shortcut-input");
+        txtShourtcut.bind("keyup change input destroy paste cut blur",
+            function() {
+                table.columns(4).search(txtShourtcut.val()).draw();
+            });
+
+        //
+        // store before submit
+        function storeFilledValues() {
+            var list = getTableAllData("@Model.Item1.Id");
+
+            //
+            // Set Mvc controller, post method parameters
+            $('#serial').val(JSON.stringify(@ViewBag.Serial));
+            $('#countingRows').val(JSON.stringify(list));
+
+            toastr.info("لطفا منتظر باشید");
+            setTimeout(function() {
+                $("#fromGotoCertification").submit();
+            },
+                2000);
+        }
+
+        var autoSaveDuration = 120000;
+        function AutoSave() {
+            //
+            // Set Mvc controller, post method parameters
+            var dataParams = {
+                serialNo: @ViewBag.Serial,
+                countingRows: getTableAllData("@Model.Item1.Id")
+            };
+
+            $.post('@Url.Action("CountingWarehouseAutoSave", "Warehouse")',
+                    JSON.stringify(dataParams),
+                    function(data) {
+                        toastr.success(data);
+                    })
+                .done(function() { setTimeout(AutoSave, autoSaveDuration); });
+
+        }
+
+        setTimeout(AutoSave, autoSaveDuration);
+    </script>
+}
+
+@Html.MultipleStepProgressTab(Model.Item2)
+
+<h3 dir="rtl">@ViewBag.Title @ViewBag.Serial</h3>
+
+<div class="container">
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            @(
+                Html.PanelItem(new PanelItemOption()
+                {
+                    Id = Model.Item1.Id + "_" + Guid.NewGuid(),
+                    Body = searchShortcut + Html.TableItem(Model.Item1).ToHtmlString(),
+                    Title = "لیست کالاهای انبار",
+                    HasDetailLink = false,
+                    GlyphIcon = "sort-by-order",
+                    HasSettingPanel = false,
+                    PanelType = DataStyleType.success
+                })
+            )
+        </div>
+        <br />
+        @using (Html.BeginForm("CertificationCountingWarehouseDetails", "Warehouse", FormMethod.Post, new { id = "fromGotoCertification" }))
+        {
+        <input type="hidden" id="serial" name="serial" value="@ViewBag.Serial" />
+        <input type="hidden" id="countingRows" name="countingRows" />
+
+        <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+            <a class='btn btn-warning' href="@Url.Action("CountingWarehouse", "Warehouse")">
+                <span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;برگشت به مرحله قبل
+            </a>
+            <a class='btn btn-success' href="#" onclick='storeFilledValues()'>
+                ثبت شمارش انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+            </a>
+        </div>
+        }
+    </div>
+</div>
