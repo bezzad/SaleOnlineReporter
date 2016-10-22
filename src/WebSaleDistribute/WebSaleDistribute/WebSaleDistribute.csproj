@@ -293,15 +293,6 @@
     </Content>
     <Content Include="App_Data\CreateSpHTTPRequest_Script.sql" />
     <EmbeddedResource Include="App_Data\sp_CheckAndCreateEmployeeRoles.sql" />
-    <Content Include="App_Data\VersionUpdater.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>VersionUpdater.txt</LastGenOutput>
-    </Content>
-    <Content Include="App_Data\VersionUpdater.txt">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>VersionUpdater.tt</DependentUpon>
-    </Content>
     <Content Include="App_Readme\Elmah.SqlServer.sql" />
     <Content Include="App_Readme\Elmah.SqlServer.txt" />
     <Content Include="App_Readme\Elmah.txt" />
@@ -424,6 +415,15 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Properties\AutoVersionUpdater.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AutoVersionUpdater.txt</LastGenOutput>
+    </Content>
+    <Content Include="Properties\AutoVersionUpdater.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AutoVersionUpdater.tt</DependentUpon>
+    </Content>
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />
