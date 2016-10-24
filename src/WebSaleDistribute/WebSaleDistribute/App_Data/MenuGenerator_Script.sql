@@ -1,6 +1,7 @@
 ﻿USE [UsersManagements]
 GO
-
+DROP PROCEDURE IF EXISTS  [dbo].[sp_CreateAndGetWebSaleDistributeMenus]
+GO
 -- =============================================
 -- Author:		Behzad Khosravifar
 -- Create date: 1395/03/18
@@ -190,10 +191,12 @@ AS
     END
 GO
 
+------------------------------------------------------------------------------------------------------------
 
 USE [SaleDistributeIdentity]
 GO
-
+DROP PROCEDURE IF EXISTS  [dbo].[sp_CheckAndCreateEmployeesRoles]
+GO
 -- =============================================
 -- Author:		Behzad Khosravifar
 -- Create date: 1395/04/31

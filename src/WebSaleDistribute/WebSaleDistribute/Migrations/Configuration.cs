@@ -132,6 +132,11 @@ namespace WebSaleDistribute.Migrations
             // create elmah tables
             var elmahDbScript = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryElmah);
             Connections.SaleDistributeIdentity.ExecuteBatchNonQuery(elmahDbScript);
+
+
+            // Update and insert menu
+            var updateMenuScripts = HelperExtensions.ReadResourceFile(Properties.Settings.Default.QueryMenu);
+            Connections.SaleDistributeIdentity.ExecuteBatchNonQuery(updateMenuScripts);
         }
     }
 }
