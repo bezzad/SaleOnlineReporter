@@ -22,7 +22,6 @@ namespace WebSaleDistribute.Controllers
 
 
 
-        // GET: api/Reports
         [Route("Reports/GetInvoiceRemainChart")]
         public IEnumerable<dynamic> GetInvoiceRemainChart()
         {
@@ -34,7 +33,6 @@ namespace WebSaleDistribute.Controllers
         }
 
 
-        // GET: api/Reports/GetOfficerOrderStatisticsChart
         [Route("Reports/GetOfficerOrderStatisticsChart")]
         public async Task<IHttpActionResult> GetOfficerOrderStatisticsChart()
         {
@@ -58,7 +56,6 @@ namespace WebSaleDistribute.Controllers
         }
 
 
-        // GET: api/Reports/GetOrderStatisticsChart/{officerEmployeeTypeId}/{officerEmployeeId}
         [Route("Reports/GetOrderStatisticsChart/{officerEmployeeTypeId}/{officerEmployeeId}")]
         public async Task<IHttpActionResult> GetOrderStatisticsChart(int officerEmployeeTypeId, int officerEmployeeId)
         {
@@ -68,6 +65,21 @@ namespace WebSaleDistribute.Controllers
 
             var result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate, OfficerEmployeeID = officerEmployeeId, OfficerEmployeeTypeID = officerEmployeeTypeId },
+                commandType: System.Data.CommandType.StoredProcedure);
+
+            return Ok(result);
+        }
+        
+
+        [Route("Reports/GetVisitorCustomersOrderStatisticsChart/{visitorEmployeeId}")]
+        public async Task<IHttpActionResult> GetVisitorCustomersOrderStatisticsChart(int visitorEmployeeId)
+        {
+            var routParams = Request.GetQueryStrings();
+            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
+            var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
+
+            var result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetVisitorCustomersOrderStatisticsChart",
+                new { FromDate = fromDate, ToDate = toDate, VisitorEmployeeID = visitorEmployeeId },
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return Ok(result);
