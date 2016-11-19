@@ -564,6 +564,8 @@
     <Content Include="Scripts\i18n\defaults-en_US.min.js" />
     <Content Include="Scripts\i18n\defaults-es_CL.js" />
     <Content Include="Scripts\i18n\defaults-es_CL.min.js" />
+    <Content Include="Scripts\i18n\defaults-es_ES.js" />
+    <Content Include="Scripts\i18n\defaults-es_ES.min.js" />
     <Content Include="Scripts\i18n\defaults-eu.js" />
     <Content Include="Scripts\i18n\defaults-eu.min.js" />
     <Content Include="Scripts\i18n\defaults-fa_IR.js" />

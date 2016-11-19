@@ -1,6 +1,6 @@
 ﻿@using WebSaleDistribute.Core
 
-@model MultipleStepProgressTabOption
+@model dynamic
 
 @{
     ViewData["dir"] = "ltr";
@@ -21,7 +21,7 @@
 }
 
 
-@Html.MultipleStepProgressTab(Model)
+@Html.MultipleStepProgressTab((MultipleStepProgressTabOption)Model.MultipleStepOpt)
 
 
 <h2 dir="rtl">@ViewBag.Title</h2>
@@ -30,6 +30,10 @@
     <div class="tab-content">
         <div id="grid" class="tab-pane fade in active">
             <!-- data -->
+            <div class="form-control" style="height:auto;" dir="rtl">
+                انبار برگشتی:
+                @Html.ComboBox((ComboBoxOption)Model.StoresComboOpt)
+            </div>
             <br />
             @Html.Action("ChooseReturnedInvoiceDetailsTable", "Warehouse", new { invoiceSerial = ViewBag.InvoiceSerial })
             <!-- /data -->

@@ -7,9 +7,8 @@ using WebSaleDistribute.Models;
 using AdoManager;
 using Dapper;
 using System.Data;
-using System.Data.SqlClient;
+using System.Dynamic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WebSaleDistribute.Core.Enums;
 
 namespace WebSaleDistribute.Controllers
@@ -142,7 +141,54 @@ namespace WebSaleDistribute.Controllers
                 CurrentStepIndex = 2
             };
 
-            return View("SaleReturnedInvoice/ChooseReturnedInvoiceDetails", multipleStepOpt);
+
+            #region Warehouse List for Store Combo
+
+            var exceptedStores = new DataTable();
+            exceptedStores.Columns.Add("Id");
+            var stores = Connections.SaleBranch.SqlConn.ExecuteReader("sp_GetAllStores",
+                new { ExceptWHCodeList = exceptedStores, RunDate = "2" },
+                commandType: CommandType.StoredProcedure);
+
+            var comboData = new List<ComboBoxDataModel>();
+            while (stores.Read())
+            {
+                if (stores["WHCode"]?.ToString() != "0")
+                {
+                    comboData.Add(new ComboBoxDataModel()
+                    {
+                        Value = stores["WHCode"]?.ToString(),
+                        Text = stores["WHName"]?.ToString()
+                    });
+                }
+            }
+
+
+            var storesOpt = new ComboBoxOption()
+            {
+                AutoComplete = true,
+                Data = comboData,
+                Checked = true,
+                AutoFocus = true,
+                MenuHeaderText = "انبار برگشتی",
+                MultipleSelection = false,
+                Placeholder = "انبار برگشتی",
+                Name = "WarehouseSelector",
+                DataStyle = DataStyleType.info,
+                ShowOptionSubText = false,
+                DataLiveSearch = false,
+                ShowSelectDeselectAllOptionsBox = true,
+                DataWidth = "30%",
+                ShowTick = true
+            };
+
+            #endregion
+
+            dynamic model = new ExpandoObject();
+            model.MultipleStepOpt = multipleStepOpt;
+            model.StoresComboOpt = storesOpt;
+
+            return View("SaleReturnedInvoice/ChooseReturnedInvoiceDetails", model);
         }
 
         // GET: Warehouse/ChooseReturnedInvoiceDetailsTable/?invoiceSerial={invoiceSerial}
@@ -156,7 +202,7 @@ namespace WebSaleDistribute.Controllers
                 "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = invoiceSerial },
                 commandType: CommandType.StoredProcedure).ToDataTable();
 
-            var model = new TableOption()
+            var invoiceDetailTableOpt = new TableOption()
             {
                 Id = "saleReturnInvoices",
                 Data = tableData,
@@ -166,10 +212,9 @@ namespace WebSaleDistribute.Controllers
                 CurrencyColumns = new int[] { 8 },
                 Checkable = true
             };
-
             #endregion
 
-            return PartialView("SaleReturnedInvoice/_ChooseReturnedInvoiceDetailsTablePartial", model);
+            return PartialView("SaleReturnedInvoice/_ChooseReturnedInvoiceDetailsTablePartial", invoiceDetailTableOpt);
         }
 
         // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows} 
@@ -225,9 +270,10 @@ namespace WebSaleDistribute.Controllers
                 Placeholder = "انتخاب علت برگشتی",
                 MenuHeaderText = "علت برگشتی را انتخاب کنید",
                 ShowOptionSubText = false,
-                DataStyle = Core.Enums.DataStyleType.warning,
+                DataStyle = DataStyleType.warning,
                 ShowTick = true,
                 DataLiveSearch = true,
+                AutoComplete = true,
                 DataSize = "8",
                 Data = reasons.Select(x => new ComboBoxDataModel() { Value = ((object)x.ReasonID).ToString(), Text = x.ReasonName }).ToList()
             };
@@ -265,6 +311,7 @@ namespace WebSaleDistribute.Controllers
 
             return View("SaleReturnedInvoice/ShowEntryReturnedInvoiceDetails", multipleStepOpt);
         }
+
 
         #endregion
 
@@ -372,7 +419,7 @@ namespace WebSaleDistribute.Controllers
                 Data = result,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                CurrencyColumns = new [] { 3 },
+                CurrencyColumns = new[] { 3 },
                 Checkable = false
             };
 
