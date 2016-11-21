@@ -373,15 +373,7 @@ function getTableAllData(id) {
         for (var i = 0; i < cells.length; i++) {
             try {
                 if ($('select', '<div>' + cells[i] + '</div>').length > 0) { // a combo box found!
-                    var selectedOption = $('li.selected[data-original-index]', cells[i]); // find selected option
-
-                    if (selectedOption.length > 0) {
-                        // get selected option value, if not selected then get undefined
-                        var newVal = selectedOption.attr("data-original-index");
-                        newRow.push(newVal);
-                    } else {
-                        newRow.push(null);
-                    }
+                    newRow.push(getComboSelectedIndex(cells[i]));
                 } else if ($("input", cells[i]).length > 0) { // a input tag found
                     var input = $("input", cells[i])[0];
                     var val = input.value;
@@ -403,6 +395,18 @@ function getTableAllData(id) {
     return result;
 }
 
+function getComboSelectedIndex(html) {
+    var selectedOption = $('li.selected[data-original-index]', html); // find selected option
+
+    if (selectedOption.length > 0) {
+        // get selected option value, if not selected then get undefined
+        var newVal = selectedOption.attr("data-original-index");
+        return newVal;
+    }
+
+    return null;
+}
+
 //
 // Updates "Select all" control in a data table
 //
@@ -414,7 +418,7 @@ function updateDataTableSelectAllCtrl(table, id) {
         var $chkboxChecked = $('tbody input[type="checkbox"]:checked', $table);
         var chkboxSelectAll = $('thead input[name="select_all"]', $table).get(0);
 
-        if (chkboxAll.length > 0) {
+        if ($chkboxAll.length > 0) {
             // If none of the checkboxes are checked
             if ($chkboxChecked.length === 0) {
                 chkboxSelectAll.checked = false;

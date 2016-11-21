@@ -144,30 +144,12 @@ namespace WebSaleDistribute.Controllers
 
             #region Warehouse List for Store Combo
 
-            var exceptedStores = new DataTable();
-            exceptedStores.Columns.Add("Id");
-            var stores = Connections.SaleBranch.SqlConn.ExecuteReader("sp_GetAllStores",
-                new { ExceptWHCodeList = exceptedStores, RunDate = "2" },
-                commandType: CommandType.StoredProcedure);
-
-            var comboData = new List<ComboBoxDataModel>();
-            while (stores.Read())
-            {
-                if (stores["WHCode"]?.ToString() != "0")
-                {
-                    comboData.Add(new ComboBoxDataModel()
-                    {
-                        Value = stores["WHCode"]?.ToString(),
-                        Text = stores["WHName"]?.ToString()
-                    });
-                }
-            }
-
+            var stores = DatabaseContext.GetWarehouses(false, false);
 
             var storesOpt = new ComboBoxOption()
             {
                 AutoComplete = true,
-                Data = comboData,
+                Data = stores,
                 Checked = true,
                 AutoFocus = true,
                 MenuHeaderText = "انبار برگشتی",
@@ -217,11 +199,13 @@ namespace WebSaleDistribute.Controllers
             return PartialView("SaleReturnedInvoice/_ChooseReturnedInvoiceDetailsTablePartial", invoiceDetailTableOpt);
         }
 
-        // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows} 
-        public ActionResult CertificationSelectedReturnedInvoiceDetails(int invoiceSerial, string rows)
+        // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows}&warehouse={warehouse}
+        public ActionResult CertificationSelectedReturnedInvoiceDetails(int invoiceSerial, string rows, string warehouse)
         {
             ViewBag.Title = "تایید برگشتی قابل فروش و غیر قابل فروش";
             ViewBag.InvoiceSerial = invoiceSerial;
+            ViewBag.Warehouse = warehouse;
+            ViewBag.WarehouseName = DatabaseContext.GetWarehouses(true, true).FirstOrDefault(c => c.Value == warehouse)?.Text;
             string[] sRows = ViewBag.SaleableRows = rows.Split(',');
 
             #region Table Data

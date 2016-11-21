@@ -89,8 +89,8 @@ namespace WebSaleDistribute.Controllers
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
             var unsaleableList = ((List<JArray>)data.unsaleableList.ToObject(typeof(List<JArray>))).Select(x => (System.Dynamic.ExpandoObject)x.ToObject(typeof(System.Dynamic.ExpandoObject)));
-            
-            
+            var warehouse = data.warehouse.ToObject(typeof(int));
+
             return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
         }
 

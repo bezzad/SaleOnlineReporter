@@ -514,6 +514,7 @@ namespace WebSaleDistribute.Core
             var div = new TagBuilder("select");
             div.Attributes.Add("id", opt.Id);
             div.AddCssClass("selectpicker");
+            if (!string.IsNullOrEmpty(opt.Name)) div.Attributes.Add("name", opt.Name);
             if (opt.ShowTick) div.AddCssClass("show-tick");
             if (opt.ShowMenuArrow) div.AddCssClass("show-menu-arrow");
             if (opt.EnforceDesiredWidths) div.AddCssClass("form-control");
@@ -534,6 +535,7 @@ namespace WebSaleDistribute.Core
             if (!opt.Enable) div.Attributes.Add("disabled", null);
             div.Attributes.Add("data-show-subtext", opt.ShowOptionSubText.ToString().ToLower());
 
+            //if (val != null && val != opt.DefaultValue) input.Attributes.Add("value", val);
             var body = "";
 
             foreach (var data in opt.Data)
@@ -542,7 +544,9 @@ namespace WebSaleDistribute.Core
                 else
                 {
                     var subtext = string.IsNullOrEmpty(data.SubText) ? "" : $"data-subtext='{data.SubText}'";
-                    body += $"<option value='{data.Value}' {subtext}>{data.Text}</option>";
+                    var selected = data.Selected || (!string.IsNullOrEmpty(opt.DefaultValue) && data.Value == opt.DefaultValue) ? " selected" : "";
+                    var disabled = data.Enabled ? "" : " disabled";
+                    body += $"<option value='{data.Value}' {subtext}{selected}{disabled}>{data.Text}</option>";
                 }
             }
 

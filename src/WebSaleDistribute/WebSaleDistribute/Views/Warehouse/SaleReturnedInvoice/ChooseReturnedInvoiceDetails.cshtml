@@ -14,7 +14,10 @@
             loadDataTables('saleReturnInvoices', -1, [6]);
 
             $("#goToCertificationInvoice").click(function () {
-                location.href = "@Url.Content($"~/Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={ViewBag.InvoiceSerial}")" + "&rows=" + getTableSelectedRows();
+                var selectCombo = $(".bootstrap-select > .selectpicker[name=WarehouseSelector]").closest("div");
+                location.href = "@Url.Content($"~/Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={ViewBag.InvoiceSerial}")" +
+
+                    "&rows=" + getTableSelectedRows() + "&warehouse=" + $('option', selectCombo)[getComboSelectedIndex(selectCombo)].value;
             });
         })
     </script>
@@ -27,15 +30,16 @@
 <h2 dir="rtl">@ViewBag.Title</h2>
 
 <div class="container">
+    <br />
+    <div class="form-control" style="height:auto;" dir="rtl">
+        انبار برگشتی:
+        @Html.ComboBox((ComboBoxOption)Model.StoresComboOpt)
+    </div>
     <div class="tab-content">
         <div id="grid" class="tab-pane fade in active">
             <!-- data -->
-            <div class="form-control" style="height:auto;" dir="rtl">
-                انبار برگشتی:
-                @Html.ComboBox((ComboBoxOption)Model.StoresComboOpt)
-            </div>
-            <br />
-            @Html.Action("ChooseReturnedInvoiceDetailsTable", "Warehouse", new { invoiceSerial = ViewBag.InvoiceSerial })
+            <br/>
+            @Html.Action("ChooseReturnedInvoiceDetailsTable", "Warehouse", new {invoiceSerial = ViewBag.InvoiceSerial})
             <!-- /data -->
         </div>
     </div>
