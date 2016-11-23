@@ -16,7 +16,6 @@
             $("#goToCertificationInvoice").click(function () {
                 var selectCombo = $(".bootstrap-select > .selectpicker[name=WarehouseSelector]").closest("div");
                 location.href = "@Url.Content($"~/Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={ViewBag.InvoiceSerial}")" +
-
                     "&rows=" + getTableSelectedRows() + "&warehouse=" + $('option', selectCombo)[getComboSelectedIndex(selectCombo)].value;
             });
         })

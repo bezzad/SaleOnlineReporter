@@ -23,8 +23,8 @@ jQuery(document).ready(function () {
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut",
-        "containerId": 'toast-container',
-        "rtl": 'true'
+        "containerId": "toast-container",
+        "rtl": "true"
     }
 
     /* Detect Mobile or Desktop */
@@ -63,6 +63,8 @@ jQuery(document).ready(function () {
     $(".close").click(function () {
         $(".alert").alert();
     });
+
+    $(".selectpicker").selectpicker();
 });
 
 //
@@ -74,7 +76,7 @@ $(document).on("click", "a.fileDownload", function () {
         //if (!isMobile)
         $("#loading").fadeIn();
 
-        $.fileDownload($(this).prop('href'))
+        $.fileDownload($(this).prop("href"))
             .done(function () { jQuery(".status").fadeOut("slow"); })
             .fail(function () { jQuery(".status").fadeOut("slow"); });
     }
@@ -96,9 +98,9 @@ window.onbeforeunload = function () {
 
 //Remove the formatting to get integer data for summation
 function intVal(i) {
-    return typeof i === 'string' ?
-        i.replace(/[\$,]/g, '') * 1 :
-        typeof i === 'number' ?
+    return typeof i === "string" ?
+        i.replace(/[\$,]/g, "") * 1 :
+        typeof i === "number" ?
         i : 0;
 };
 
@@ -108,7 +110,7 @@ var sum = function (array, prop) {
     for (var i = 0, len = array.length; i < len; i++) {
         total += intVal(array[i][prop]);
     }
-    return total.toLocaleString('fa-IR');
+    return total.toLocaleString("fa-IR");
 }
 
 
@@ -163,20 +165,20 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
             //
             // Set sum value in footer
             //
-            api.columns('.sum').every(function () {
+            api.columns(".sum").every(function () {
                 haveFooter = true;
                 //------------------------
                 var col = this;
 
                 // Total over all pages
-                total = col
+                var total = col
                     .data()
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0);
 
                 // Total over this page                
-                pageTotal = api.column(col.index(), { page: 'current' })
+                var pageTotal = api.column(col.index(), { page: "current" })
                     .data()
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
@@ -190,13 +192,13 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
             //
             // Set average value in footer
             //
-            api.columns('.avg').every(function () {
+            api.columns(".avg").every(function () {
                 haveFooter = true;
                 //------------------------
                 var col = this;
 
                 // Total over all pages
-                avg = col
+                var avg = col
                     .data()
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
@@ -204,8 +206,8 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
                 avg = Number((avg).toFixed(floatingDigit));
 
                 // Total over this page                
-                var cCol = api.column(col.index(), { page: 'current' });
-                pageAvg = cCol
+                var cCol = api.column(col.index(), { page: "current" });
+                var pageAvg = cCol
                     .data()
                     .reduce(function (a, b) {
                         return intVal(a) + intVal(b);
@@ -222,7 +224,7 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
             // Set empty in footer
             //
             if (haveFooter) {
-                api.columns('.empty').every(function () {
+                api.columns(".empty").every(function () {
                     //------------------------
                     var col = this;
 
@@ -240,8 +242,8 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
             'targets': 0,
             'searchable': false,
             'orderable': false,
-            'width': '1%',
-            'className': 'dt-body-center',
+            'width': "1%",
+            'className': "dt-body-center",
             'render': function (data, type, full, meta) {
                 return '<input type="checkbox">';
             }
@@ -252,26 +254,26 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
 
             // If row ID is in the list of selected row IDs
             if ($.inArray(rowId, rows_selected) !== -1) {
-                $(row).find('input[type="checkbox"]').prop('checked', true);
-                $(row).addClass('selected');
+                $(row).find('input[type="checkbox"]').prop("checked", true);
+                $(row).addClass("selected");
             }
         }
     });
 
     table.state.clear();
 
-    $(id + ' tbody').on('click', 'tr', function (e) {
-        if ($(this).hasClass('notCheckable')) {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
+    $(id + " tbody").on("click", "tr", function (e) {
+        if ($(this).hasClass("notCheckable")) {
+            table.$("tr.selected").removeClass("selected");
+            $(this).addClass("selected");
         }
     });
 
 
     // Handle click on checkbox
-    $(id + ' tbody').on('click', 'input[type="checkbox"]', function (e) {
-        if ($(this).hasClass('notCheckable') === false) {
-            var $row = $(this).closest('tr');
+    $(id + " tbody").on("click", 'input[type="checkbox"]', function (e) {
+        if ($(this).hasClass("notCheckable") === false) {
+            var $row = $(this).closest("tr");
 
             // Get row data
             var data = table.row($row).data();
@@ -292,30 +294,30 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
             }
 
             if (this.checked) {
-                $row.addClass('selected');
+                $row.addClass("selected");
             } else {
-                $row.removeClass('selected');
+                $row.removeClass("selected");
             }
 
             // Update state of "Select all" control
             updateDataTableSelectAllCtrl(table, id);
 
             // Prevent click event from propagating to parent
-            e.stopPropagation();
+          //  e.stopPropagation();
         }
     });
 
     // Handle click on table cells with checkboxes
-    $(id).on('click', 'tbody td, thead th:first-child', function (e) {
-        $(this).parent().find('input[type="checkbox"]').trigger('click');
+    $(id).on("click", "tbody td, thead th:first-child", function (e) {
+        $(this).parent().find('input[type="checkbox"]').trigger("click");
     });
 
     // Handle click on "Select all" control
-    $('thead input[name="select_all"]', table.table().container()).on('click', function (e) {
+    $('thead input[name="select_all"]', table.table().container()).on("click", function (e) {
         if (this.checked) {
-            $(id + ' tbody input[type="checkbox"]:not(:checked)').trigger('click');
+            $(id + ' tbody input[type="checkbox"]:not(:checked)').trigger("click");
         } else {
-            $(id + ' tbody input[type="checkbox"]:checked').trigger('click');
+            $(id + ' tbody input[type="checkbox"]:checked').trigger("click");
         }
 
         // Prevent click event from propagating to parent
@@ -323,7 +325,7 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
     });
 
     // Handle table draw event
-    table.on('draw', function () {
+    table.on("draw", function () {
         setinputChangeValueEventListener();
 
         // Update state of "Select all" control
@@ -332,6 +334,8 @@ function loadDataTables(id, iDisplayLength, currencyColumns) {
 
     $(id + " tbody").on("change", "td", function () {
         if ($("input[type=checkbox]", this.outerHTML).length > 0) return;
+
+        if ($("select.selectpicker", this.outerHTML).length > 0) return;
 
         var cell = table.cell(this);
         cell.data(this.innerHTML);//.draw();
@@ -355,7 +359,7 @@ function getTableSelectedRows() {
 
 function getTableFirstSelectedRow(id) {
     var theRow = null;
-    $('#' + id).DataTable().rows('.selected').each(function () {
+    $("#" + id).DataTable().rows(".selected").each(function () {
         theRow = this.data()[0];
     });
     return theRow;
@@ -363,7 +367,7 @@ function getTableFirstSelectedRow(id) {
 
 function getTableAllData(id) {
     var result = [];
-    var table = $('#' + id).DataTable();
+    var table = $("#" + id).DataTable();
     var rows = table.rows().data();
 
     for (var r = 0; r < rows.length; r++) {
@@ -372,7 +376,7 @@ function getTableAllData(id) {
 
         for (var i = 0; i < cells.length; i++) {
             try {
-                if ($('select', '<div>' + cells[i] + '</div>').length > 0) { // a combo box found!
+                if ($("select", "<div>" + cells[i] + "</div>").length > 0) { // a combo box found!
                     newRow.push(getComboSelectedIndex(cells[i]));
                 } else if ($("input", cells[i]).length > 0) { // a input tag found
                     var input = $("input", cells[i])[0];
@@ -395,8 +399,9 @@ function getTableAllData(id) {
     return result;
 }
 
-function getComboSelectedIndex(html) {
-    var selectedOption = $('li.selected[data-original-index]', html); // find selected option
+function getComboSelectedIndex(htmlBody) {
+    if (htmlBody === undefined) return null;
+    var selectedOption = $("li.selected[data-original-index]", htmlBody); // find selected option
 
     if (selectedOption.length > 0) {
         // get selected option value, if not selected then get undefined
@@ -411,8 +416,8 @@ function getComboSelectedIndex(html) {
 // Updates "Select all" control in a data table
 //
 function updateDataTableSelectAllCtrl(table, id) {
-    var tr = $(id + ' tbody tr'); // has checkable row or return
-    if (tr.hasClass('notCheckable') === false) {
+    var tr = $(id + " tbody tr"); // has checkable row or return
+    if (tr.hasClass("notCheckable") === false) {
         var $table = table.table().node();
         var $chkboxAll = $('tbody input[type="checkbox"]', $table);
         var $chkboxChecked = $('tbody input[type="checkbox"]:checked', $table);
@@ -422,21 +427,21 @@ function updateDataTableSelectAllCtrl(table, id) {
             // If none of the checkboxes are checked
             if ($chkboxChecked.length === 0) {
                 chkboxSelectAll.checked = false;
-                if ('indeterminate' in chkboxSelectAll) {
+                if ("indeterminate" in chkboxSelectAll) {
                     chkboxSelectAll.indeterminate = false;
                 }
 
                 // If all of the checkboxes are checked
             } else if ($chkboxChecked.length === $chkboxAll.length) {
                 chkboxSelectAll.checked = true;
-                if ('indeterminate' in chkboxSelectAll) {
+                if ("indeterminate" in chkboxSelectAll) {
                     chkboxSelectAll.indeterminate = false;
                 }
 
                 // If some of the checkboxes are checked
             } else {
                 chkboxSelectAll.checked = true;
-                if ('indeterminate' in chkboxSelectAll) {
+                if ("indeterminate" in chkboxSelectAll) {
                     chkboxSelectAll.indeterminate = true;
                 }
             }
@@ -449,11 +454,11 @@ function getAsync(url, params) {
 
     if (url === null) {
         toastr.warning("آدرس خالی می باشد", "اخطار", { timeOut: 15000 });
-        $('.btn-detail').attr('disabled', false);
+        $(".btn-detail").attr("disabled", false);
         return;
     }
 
-    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+    toastr.info("لطفا منتظر بمانید", "", { timeOut: 3000 });
 
     $.get(url, params, function (data) {
         toastr.success(data);
@@ -470,7 +475,7 @@ function postAsync(url, params) {
         return;
     }
 
-    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+    toastr.info("لطفا منتظر بمانید", "", { timeOut: 3000 });
 
     $.post(url,
             JSON.stringify(params),
@@ -510,11 +515,11 @@ function get(url, params, updateElementId) {
         return;
     }
 
-    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+    toastr.info("لطفا منتظر بمانید", "", { timeOut: 3000 });
 
     var jqxhr = $.get(url, params, function (data) {
         var el = $(document).find("#" + updateElementId).html(data);
-        toastr.success("ثبت شد", '', { timeOut: 5000 });
+        toastr.success("ثبت شد", "", { timeOut: 5000 });
     });
 }
 
@@ -524,11 +529,11 @@ function post(url, params, updateElementId) {
         return;
     }
 
-    toastr.info("لطفا منتظر بمانید", '', { timeOut: 3000 });
+    toastr.info("لطفا منتظر بمانید", "", { timeOut: 3000 });
 
     var jqxhr = $.post(url, JSON.stringify(params), function (data) {
         var el = $(document).find("#" + updateElementId).html(data);
-        toastr.success("ثبت شد", '', { timeOut: 5000 });
+        toastr.success("ثبت شد", "", { timeOut: 5000 });
     }, "json");
     //.fail(function (xhr, textStatus, errorThrown) {
     //    toastr.error(xhr.responseText);
@@ -563,10 +568,10 @@ function setCookie(cname, cvalue, exdays) {
 
 function getCookie(cname) {
     var name = cname + "=";
-    var ca = document.cookie.split(';');
+    var ca = document.cookie.split(";");
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) == " ") {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
@@ -594,10 +599,10 @@ function checkCookie() {
  */
 function generateGUID() {
     var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
         var r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d / 16);
-        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        return (c == "x" ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
 };

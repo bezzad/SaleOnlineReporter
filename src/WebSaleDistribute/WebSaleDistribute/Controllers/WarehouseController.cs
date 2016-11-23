@@ -253,15 +253,12 @@ namespace WebSaleDistribute.Controllers
             {
                 AutoComplete = true,
                 Data = reasons.Select(x => new ComboBoxDataModel() { Value = ((object)x.ReasonID).ToString(), Text = x.ReasonName }).ToList(),
-                Checked = true,
-                AutoFocus = true,
                 MenuHeaderText = "علت غیر قابل فروش را انتخاب کنید",
                 MultipleSelection = false,
                 Placeholder = "انتخاب علت برگشتی",
                 Name = "ReturnReason_",
                 DataStyle = DataStyleType.warning,
                 ShowOptionSubText = false,
-                DataLiveSearch = false,
                 ShowTick = true,
                 DataSize = "8"
             };

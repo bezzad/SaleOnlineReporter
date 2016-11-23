@@ -31,6 +31,7 @@ namespace WebSaleDistribute
                                         "~/Scripts/bootstrap.min.js",
                                         "~/Scripts/respond.js",
                                         "~/Scripts/bootstrap-select.min.js",
+                                        "~/Scripts/i18n/defaults-fa_IR.min.js",
                                         "~/Scripts/lobipanel.min.js",
                                         "~/Scripts/panel.js",
                                         "~/Scripts/jquery.dataTables.min.js",

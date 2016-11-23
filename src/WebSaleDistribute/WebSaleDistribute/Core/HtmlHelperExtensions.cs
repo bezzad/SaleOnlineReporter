@@ -526,8 +526,7 @@ namespace WebSaleDistribute.Core
             if (!string.IsNullOrEmpty(opt.MenuHeaderText)) div.Attributes.Add("data-header", opt.MenuHeaderText);
             if (!opt.Enable) div.Attributes.Add("disabled", null);
             div.Attributes.Add("data-show-subtext", opt.ShowOptionSubText.ToString().ToLower());
-
-            //if (val != null && val != opt.DefaultValue) input.Attributes.Add("value", val);
+            
             var body = "";
 
             foreach (var data in opt.Data)
