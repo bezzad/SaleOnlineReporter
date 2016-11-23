@@ -144,7 +144,7 @@ namespace WebSaleDistribute.Controllers
 
             #region Warehouse List for Store Combo
 
-            var stores = DatabaseContext.GetWarehouses(false, false);
+            var stores = DatabaseContext.GetWarehouses(true, false);
 
             var storesOpt = new ComboBoxOption()
             {
@@ -160,7 +160,7 @@ namespace WebSaleDistribute.Controllers
                 ShowOptionSubText = false,
                 DataLiveSearch = false,
                 ShowSelectDeselectAllOptionsBox = true,
-                DataWidth = "30%",
+                DataWidth = "25%",
                 ShowTick = true
             };
 
@@ -251,16 +251,21 @@ namespace WebSaleDistribute.Controllers
             var reasons = Connections.SaleCore.SqlConn.Query("SELECT ReasonID, ReasonName FROM Reason");
             var reasonComboOpt = new ComboBoxOption()
             {
-                Placeholder = "انتخاب علت برگشتی",
-                MenuHeaderText = "علت برگشتی را انتخاب کنید",
-                ShowOptionSubText = false,
-                DataStyle = DataStyleType.warning,
-                ShowTick = true,
-                DataLiveSearch = true,
                 AutoComplete = true,
-                DataSize = "8",
-                Data = reasons.Select(x => new ComboBoxDataModel() { Value = ((object)x.ReasonID).ToString(), Text = x.ReasonName }).ToList()
+                Data = reasons.Select(x => new ComboBoxDataModel() { Value = ((object)x.ReasonID).ToString(), Text = x.ReasonName }).ToList(),
+                Checked = true,
+                AutoFocus = true,
+                MenuHeaderText = "علت غیر قابل فروش را انتخاب کنید",
+                MultipleSelection = false,
+                Placeholder = "انتخاب علت برگشتی",
+                Name = "ReturnReason_",
+                DataStyle = DataStyleType.warning,
+                ShowOptionSubText = false,
+                DataLiveSearch = false,
+                ShowTick = true,
+                DataSize = "8"
             };
+            reasonComboOpt.Name += reasonComboOpt.Id;
             modelUnSaleable.InputColumnsDataMember["4"] = reasonComboOpt;
 
             var multipleStepOpt = new MultipleStepProgressTabOption()

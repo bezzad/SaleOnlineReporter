@@ -17,8 +17,6 @@ namespace WebSaleDistribute.Core
 {
     public static class HtmlHelperExtensions
     {
-        private static int _counter = 0;
-
         public static MvcHtmlString MenuItem(this HtmlHelper htmlHelper, string text, string action, string controller, string liCssClass = null)
         {
             var li = new TagBuilder("li");
@@ -34,8 +32,8 @@ namespace WebSaleDistribute.Core
             {
                 li.AddCssClass("active");
             }
-            li.InnerHtml = String.Format("<a href=\"{0}\"><i class=\"glyphicon glyphicon-chevron-right\"></i>{1}</a>",
-               new UrlHelper(htmlHelper.ViewContext.RequestContext).Action(action, controller).ToString(), text);
+            li.InnerHtml =
+                $"<a href=\"{new UrlHelper(htmlHelper.ViewContext.RequestContext).Action(action, controller).ToString()}\"><i class=\"glyphicon glyphicon-chevron-right\"></i>{text}</a>";
             return MvcHtmlString.Create(li.ToString());
         }
 
@@ -275,7 +273,7 @@ namespace WebSaleDistribute.Core
                         var data = "";
                         if (input is ComboBoxOption)
                         {
-                            data = htmlHelper.ComboBox((ComboBoxOption)input).ToHtmlString();
+                            data = htmlHelper.ComboBox((ComboBoxOption) input).ToHtmlString();
                         }
                         else if (input is TextBoxOption)
                         {
@@ -475,11 +473,6 @@ namespace WebSaleDistribute.Core
             return new MvcHtmlString(GetHighChart(option).ToHtmlString());
         }
 
-        public static MvcHtmlString GetNewNo(this HtmlHelper htmlHelper)
-        {
-            return new MvcHtmlString(_counter++.ToString());
-        }
-
         public static MvcHtmlString GenerateRelayQrCode(this HtmlHelper html, string qrValue, int height = 250, int width = 250, int margin = 0)
         {
             var barcodeWriter = new BarcodeWriter
@@ -500,8 +493,7 @@ namespace WebSaleDistribute.Core
 
                 var img = new TagBuilder("img");
                 img.MergeAttribute("alt", "qr tag");
-                img.Attributes.Add("src", String.Format("data:image/gif;base64,{0}",
-                    Convert.ToBase64String(stream.ToArray())));
+                img.Attributes.Add("src", $"data:image/gif;base64,{Convert.ToBase64String(stream.ToArray())}");
 
                 return MvcHtmlString.Create(img.ToString(TagRenderMode.SelfClosing));
             }
@@ -509,7 +501,7 @@ namespace WebSaleDistribute.Core
 
         public static MvcHtmlString ComboBox(this HtmlHelper htmlHelper, ComboBoxOption opt)
         {
-            if (opt == null) throw new ArgumentNullException("opt");
+            if (opt == null) throw new ArgumentNullException(nameof(opt));
 
             var div = new TagBuilder("select");
             div.Attributes.Add("id", opt.Id);
@@ -557,7 +549,7 @@ namespace WebSaleDistribute.Core
 
         public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, TextBoxOption opt, string value = null)
         {
-            if (opt == null) throw new ArgumentNullException("opt");
+            if (opt == null) throw new ArgumentNullException(nameof(opt));
 
             var div = new TagBuilder("div");
             var input = new TagBuilder("input");

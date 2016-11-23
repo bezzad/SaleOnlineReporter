@@ -31,15 +31,15 @@
 
 <div class="container">
     <br />
-    <div class="form-control" style="height:auto;" dir="rtl">
+    <div class="form-control" style="height: auto;" dir="rtl">
         انبار برگشتی:
-        @Html.ComboBox((ComboBoxOption)Model.StoresComboOpt)
+         @Html.ComboBox((ComboBoxOption)Model.StoresComboOpt)
     </div>
     <div class="tab-content">
         <div id="grid" class="tab-pane fade in active">
             <!-- data -->
-            <br/>
-            @Html.Action("ChooseReturnedInvoiceDetailsTable", "Warehouse", new {invoiceSerial = ViewBag.InvoiceSerial})
+            <br />
+            @Html.Action("ChooseReturnedInvoiceDetailsTable", "Warehouse", new { invoiceSerial = ViewBag.InvoiceSerial })
             <!-- /data -->
         </div>
     </div>

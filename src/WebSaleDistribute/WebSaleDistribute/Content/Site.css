@@ -190,7 +190,7 @@ table.dataTable tbody tr {
     display: inline-block;
     overflow: hidden;
     width: 100%;
-    text-align: left; /* in RTL text-align: right; will fix it */
+    text-align: center; /* in RTL text-align: right; will fix it */
 }
 /*and for the cart, this css:*/
 .bootstrap-select.btn-group .btn .caret {
