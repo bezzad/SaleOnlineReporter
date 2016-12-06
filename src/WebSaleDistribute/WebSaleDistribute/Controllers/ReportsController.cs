@@ -10,6 +10,7 @@ using DotNet.Highcharts.Options;
 using DotNet.Highcharts.Enums;
 using DotNet.Highcharts.Helpers;
 using System.Globalization;
+using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Controllers
 {
@@ -18,23 +19,32 @@ namespace WebSaleDistribute.Controllers
     {
         #region Receipts
 
-        // GET: Receipts        
-        public ActionResult Receipts()
+        public ActionResult Receipts(ReceiptsModels model)
         {
             ViewBag.Title = "گزارش رسیدی";
             ViewData["dir"] = "ltr";
 
-            return View("Receipt/Receipts");
+            if (model == null || (model.FromNo == 0 && model.ToNo == 0))
+            {
+                model = new ReceiptsModels()
+                {
+                    FromNo = 10000,
+                    ToNo = 1000000000000,
+                    DistanceAfterDistributeDate = 2
+                };
+            }
+
+            return View("Receipt/Receipts", model);
         }
 
         // GET: ReceiptsChart      
-        public ActionResult ReceiptsChart()
+        public ActionResult ReceiptsChart(ReceiptsModels model)
         {
             // Fill Chart Data ------------------------------------------
             #region Chart Data
 
             var api = new ReportsApiController();
-            var data = api.GetInvoiceRemainChart().ToList();
+            var data = api.GetInvoiceRemainChart(model).ToList();
 
             var opt = new ChartOption()
             {
@@ -57,7 +67,7 @@ namespace WebSaleDistribute.Controllers
         }
 
         // GET: ReceiptsTable
-        public ActionResult ReceiptsTable()
+        public ActionResult ReceiptsTable(ReceiptsModels model)
         {
             ViewBag.Username = CurrentUser.UserName;
 
@@ -66,10 +76,18 @@ namespace WebSaleDistribute.Controllers
 
             var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
                 "sp_GetInvoiceRemain",
-                new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = "2" },
+                new
+                {
+                    EmployeeID = CurrentUser.UserName,
+                    EmployeeTypeid = CurrentUser.EmployeeType,
+                    FromRemain = model.FromNo,
+                    ToRemain = model.ToNo,
+                    DistanceAfterDistributeDate = model.DistanceAfterDistributeDate,
+                    RunDate = DateTime.Now.GetPersianDate()
+                },
                 commandType: CommandType.StoredProcedure).ToDataTable();
 
-            var model = new TableOption()
+            var tblModel = new TableOption()
             {
                 Id = "receipts",
                 Data = tableData,
@@ -86,7 +104,7 @@ namespace WebSaleDistribute.Controllers
 
             ToolsController.SetLastUserRunningAction(CurrentUser.UserName, "ReceiptsTable", tableData);
 
-            return PartialView("Receipt/ReceiptsTable", model);
+            return PartialView("Receipt/ReceiptsTable", tblModel);
         }
 
         #endregion

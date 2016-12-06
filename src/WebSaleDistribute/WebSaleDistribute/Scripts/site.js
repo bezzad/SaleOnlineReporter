@@ -542,6 +542,7 @@ function post(url, params, updateElementId) {
 
 
 // Refresh page after session time out for redirect to login page
+var reloadMethod = null;
 function setPageReloadTimer(cookieName) {
     if (cookieName !== null)
         PageReloadTimeoutCookieName = cookieName;
@@ -551,10 +552,9 @@ function setPageReloadTimer(cookieName) {
     if (millisecond === null) return;
 
     //alert((millisecond/1000).toString().substring(0,3));
-
     if (reloadMethod !== null) clearTimeout(reloadMethod);
 
-    var reloadMethod = setTimeout(function () {
+    reloadMethod = setTimeout(function () {
         window.location.reload(true);
     }, millisecond);
 }
@@ -571,10 +571,10 @@ function getCookie(cname) {
     var ca = document.cookie.split(";");
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == " ") {
+        while (c.charAt(0) === " ") {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
@@ -583,11 +583,11 @@ function getCookie(cname) {
 
 function checkCookie() {
     var user = getCookie("username");
-    if (user != "") {
+    if (user !== "") {
         alert("Welcome again " + user);
     } else {
         user = prompt("Please enter your name:", "");
-        if (user != "" && user != null) {
+        if (user !== "" && user != null) {
             setCookie("username", user, 365);
         }
     }
@@ -602,7 +602,7 @@ function generateGUID() {
     var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
         var r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d / 16);
-        return (c == "x" ? r : (r & 0x3 | 0x8)).toString(16);
+        return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
 };

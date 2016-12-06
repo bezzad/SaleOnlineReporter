@@ -34,10 +34,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/08/2016 13:41:51</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>11/03/2016 11:45:47</publishTime>
+      <publishTime>12/05/2016 16:08:39</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>11/03/2016 11:45:47</publishTime>
+      <publishTime>12/05/2016 16:08:39</publishTime>
     </File>
     <File Include="bin/Dapper.dll">
       <publishTime>07/22/2016 14:52:40</publishTime>
@@ -61,7 +61,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/09/2016 17:13:08</publishTime>
     </File>
     <File Include="bin/fa/WebSaleDistribute.resources.dll">
-      <publishTime>11/03/2016 11:45:34</publishTime>
+      <publishTime>12/05/2016 16:08:29</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>04/09/2016 17:13:15</publishTime>
@@ -223,7 +223,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/08/2016 13:48:24</publishTime>
     </File>
     <File Include="bin/WebSaleDistribute.dll">
-      <publishTime>11/03/2016 11:45:34</publishTime>
+      <publishTime>12/05/2016 16:08:29</publishTime>
     </File>
     <File Include="bin/zxing.dll">
       <publishTime>05/10/2016 10:22:20</publishTime>
@@ -235,13 +235,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/01/2016 08:28:31</publishTime>
     </File>
     <File Include="Content/bootstrap-select.css">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Content/bootstrap-select.css.map">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Content/bootstrap-select.min.css">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Content/bootstrap-theme.css">
       <publishTime>07/27/2016 10:51:28</publishTime>
@@ -370,7 +370,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/18/2016 10:30:34</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>07/16/2016 14:41:12</publishTime>
+      <publishTime>11/23/2016 10:14:30</publishTime>
     </File>
     <File Include="Content/themes/base/accordion.css">
       <publishTime>09/26/2016 10:42:39</publishTime>
@@ -640,22 +640,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/27/2016 08:18:02</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>10/22/2016 12:03:18</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>11/03/2016 11:45:40</publishTime>
+      <publishTime>12/05/2016 16:08:33</publishTime>
     </File>
     <File Include="Properties/AutoVersionUpdater.txt">
-      <publishTime>11/03/2016 11:45:29</publishTime>
+      <publishTime>12/05/2016 16:08:25</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select.js">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select.js.map">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select.min.js">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>07/27/2016 10:51:26</publishTime>
@@ -1012,190 +1012,196 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/24/2016 12:55:39</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ar_AR.js">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ar_AR.min.js">
-      <publishTime>09/26/2016 10:42:26</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-bg_BG.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-bg_BG.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-cro_CRO.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-cro_CRO.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-cs_CZ.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-cs_CZ.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-da_DK.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-da_DK.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-de_DE.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-de_DE.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-en_US.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-en_US.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-es_CL.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-es_CL.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
+    </File>
+    <File Include="Scripts/i18n/defaults-es_ES.js">
+      <publishTime>11/23/2016 12:53:12</publishTime>
+    </File>
+    <File Include="Scripts/i18n/defaults-es_ES.min.js">
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-eu.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-eu.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-fa_IR.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-fa_IR.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-fi_FI.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-fi_FI.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-fr_FR.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-fr_FR.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-hu_HU.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-hu_HU.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-id_ID.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-id_ID.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-it_IT.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-it_IT.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ko_KR.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ko_KR.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-lt_LT.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-lt_LT.min.js">
-      <publishTime>09/26/2016 10:42:25</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-nb_NO.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-nb_NO.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-nl_NL.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-nl_NL.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-pl_PL.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-pl_PL.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-pt_BR.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-pt_BR.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-pt_PT.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-pt_PT.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ro_RO.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ro_RO.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ru_RU.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ru_RU.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-sk_SK.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-sk_SK.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-sl_SI.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-sl_SI.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-sv_SE.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-sv_SE.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-tr_TR.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-tr_TR.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ua_UA.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-ua_UA.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-zh_CN.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-zh_CN.min.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-zh_TW.js">
-      <publishTime>09/26/2016 10:42:24</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/i18n/defaults-zh_TW.min.js">
-      <publishTime>09/26/2016 10:42:23</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Scripts/jquery-2.2.3.js">
       <publishTime>04/23/2016 11:26:31</publishTime>
@@ -1282,7 +1288,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/08/2016 13:38:02</publishTime>
     </File>
     <File Include="Scripts/site.js">
-      <publishTime>07/27/2016 10:16:19</publishTime>
+      <publishTime>11/23/2016 15:11:51</publishTime>
     </File>
     <File Include="Scripts/toastr.js">
       <publishTime>07/27/2016 12:19:40</publishTime>
@@ -1294,7 +1300,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/27/2016 12:20:03</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>09/26/2016 10:42:40</publishTime>
+      <publishTime>11/23/2016 12:53:12</publishTime>
     </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>04/10/2016 09:21:00</publishTime>
@@ -1387,7 +1393,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/16/2016 15:35:36</publishTime>
     </File>
     <File Include="Views/Reports/Receipt/Receipts.cshtml">
-      <publishTime>07/16/2016 12:02:45</publishTime>
+      <publishTime>12/05/2016 15:58:19</publishTime>
     </File>
     <File Include="Views/Reports/Receipt/ReceiptsChart.cshtml">
       <publishTime>06/16/2016 15:35:36</publishTime>
@@ -1417,7 +1423,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/30/2016 15:22:42</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/16/2016 12:18:25</publishTime>
+      <publishTime>11/19/2016 10:56:31</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>07/26/2016 13:09:49</publishTime>
@@ -1459,10 +1465,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2016 11:42:43</publishTime>
     </File>
     <File Include="Views/Warehouse/SaleReturnedInvoice/CertificationSelectedReturnedInvoiceDetails.cshtml">
-      <publishTime>07/11/2016 11:50:57</publishTime>
+      <publishTime>11/21/2016 15:55:47</publishTime>
     </File>
     <File Include="Views/Warehouse/SaleReturnedInvoice/ChooseReturnedInvoiceDetails.cshtml">
-      <publishTime>06/20/2016 15:13:00</publishTime>
+      <publishTime>11/23/2016 14:45:27</publishTime>
     </File>
     <File Include="Views/Warehouse/SaleReturnedInvoice/SaleReturnInvoices.cshtml">
       <publishTime>06/20/2016 15:13:17</publishTime>
@@ -1474,7 +1480,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/16/2016 15:35:36</publishTime>
     </File>
     <File Include="Views/Warehouse/SaleReturnedInvoice/_SaleReturnInvoicesTablePartial.cshtml">
-      <publishTime>06/16/2016 15:35:36</publishTime>
+      <publishTime>11/19/2016 11:14:40</publishTime>
     </File>
     <File Include="Views/Warehouse/SaleReturnInvoices.cshtml">
       <publishTime>06/20/2016 15:13:17</publishTime>
@@ -1498,7 +1504,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/10/2016 09:20:53</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/03/2016 11:45:35</publishTime>
+      <publishTime>12/05/2016 16:08:31</publishTime>
     </File>
   </ItemGroup>
 </Project>

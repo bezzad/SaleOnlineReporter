@@ -1,4 +1,6 @@
-﻿@section topScripts
+﻿@model WebSaleDistribute.Models.ReceiptsModels
+
+@section topScripts
 {
     @Scripts.Render("~/bundles/highcharts")
     <script>
@@ -17,21 +19,43 @@
         <li class="active"><a data-toggle="pill" href="#chart"> <span class="glyphicon glyphicon-stats"></span> نمودار</a></li>
         <li><a data-toggle="pill" href="#grid">جدول</a></li>
     </ul>
-
+    <br />
+    @using (Html.BeginForm("Receipts", "Reports", FormMethod.Post, new {  }))
+    {
+        <div class="row" dir="rtl">
+            <div class="col-md-5" >
+                <div class="form-control" style="line-height: normal;">
+                    @Html.Label("از مانده فاکتور:")
+                    @Html.TextBoxFor(model => model.FromNo, new { placeholder = "مانده فاکتور", @type = "number", dir = "ltr" })
+                </div>
+                <div class="form-control" style="line-height: normal;">
+                    @Html.Label("تا مانده فاکتور:")
+                    @Html.TextBoxFor(model => model.ToNo, new { placeholder = "مانده فاکتور", @type = "number", dir = "ltr" })
+                </div>
+                <div class="form-control" style="line-height: normal;">
+                    @Html.Label("روزهای گذشته از زمان پخش:")
+                    @Html.TextBoxFor(model => model.DistanceAfterDistributeDate, new { @style = "width: 50px;", placeholder = "فاصله زمانی", @type = "number", dir = "ltr" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <input class="form-control btn-success btn" type="submit" value="بروزرسانی" style="height: 50px;"/>
+            </div>
+        </div>
+    }
+    <br />
     <div class="tab-content">
         <div id="chart" class="tab-pane fade in active" dir="ltr">
             <!-- data -->
             <br />
-            @Html.Action("ReceiptsChart", "Reports")
+            @Html.Action("ReceiptsChart", "Reports", Model)
             <!-- /data -->
         </div>
         <div id="grid" class="tab-pane fade">
             <!-- data -->
             <br />
-            @Html.Action("ReceiptsTable", "Reports")
+            @Html.Action("ReceiptsTable", "Reports", Model)
             <!-- /data -->
         </div>
     </div>
 
 </div>
-

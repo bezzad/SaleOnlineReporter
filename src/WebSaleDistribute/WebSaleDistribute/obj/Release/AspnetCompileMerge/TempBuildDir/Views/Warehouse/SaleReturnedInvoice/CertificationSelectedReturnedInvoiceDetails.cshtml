@@ -40,7 +40,7 @@
 
             var url = '@Url.Action("StoreReturnedInovicesInWarehouse", "Warehouse")'; // web api post method name: StoreReturnedInovicesInWarehouse
             postAsync(url,
-                { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList },
+                { 'invoiceSerialNo':invoiceBusinessDocSerialNo, 'saleableRows':saleableList, 'unsaleableList':unSaleableList, 'warehouse': @ViewBag.Warehouse },
                 function() {
                     //
                     // Set Mvc controller, post method parameters
@@ -62,14 +62,16 @@
 <h2 dir="rtl">@ViewBag.Title @ViewBag.InvoiceSerial</h2>
 
 <div class="container">
+    <br />
+    <div class="form-control" style="height: auto;" dir="rtl">
+        انبار برگشتی: @ViewBag.WarehouseName
+    </div>
     <div class="tab-content">
         <div class="tab-pane fade in active">
             <!-- data -->
-            <br />
-
-            @(
-                Html.PanelItem(new PanelItemOption()
-                {
+            <br/>
+            @(Html.PanelItem(new PanelItemOption()
+                    {
                     Id = "aleableDetails_" + Guid.NewGuid().ToString(),
                     Body = Html.TableItem(Model.Item1).ToHtmlString(),
                     Title = $"قابل فروش",
@@ -77,40 +79,40 @@
                     GlyphIcon = "list-alt",
                     HasSettingPanel = false,
                     PanelType = DataStyleType.success
-                })
-            )
+                    })
+                  )
             <!-- /data -->
         </div>
 
-        <hr />
+        <hr/>
 
         <div class="tab-pane fade in active">
             <!-- data -->
-            <br />
+            <br/>
 
             @(
-                Html.PanelItem(new PanelItemOption()
-                {
-                    Id = "unaleableDetails_" + Guid.NewGuid().ToString(),
-                    Body = Html.TableItem(Model.Item2).ToHtmlString(),
-                    Title = "غیر قابل فروش",
-                    HasDetailLink = false,
-                    GlyphIcon = "list-alt",
-                    HasSettingPanel = false,
-                    PanelType = DataStyleType.warning
-                })
-            )
+    Html.PanelItem(new PanelItemOption()
+    {
+        Id = "unaleableDetails_" + Guid.NewGuid().ToString(),
+        Body = Html.TableItem(Model.Item2).ToHtmlString(),
+        Title = "غیر قابل فروش",
+        HasDetailLink = false,
+        GlyphIcon = "list-alt",
+        HasSettingPanel = false,
+        PanelType = DataStyleType.warning
+    })
+                  )
             <!-- /data -->
         </div>
 
-        <br />
-        <br />
+        <br/>
+        <br/>
 
-        @using (Html.BeginForm("ShowEntryReturnedInvoiceDetails", "Warehouse", FormMethod.Post,  new { id = "fromShowEntry" }))
+        @using (Html.BeginForm("ShowEntryReturnedInvoiceDetails", "Warehouse", FormMethod.Post, new {id = "fromShowEntry"}))
         {
-            <input type="hidden" id="invoiceSerialNo" name="invoiceSerialNo" value="@ViewBag.InvoiceSerial" />
-            <input type="hidden" id="saleableRows" name="saleableRows" />
-            <input type="hidden" id="unsaleableList" name="unsaleableList" />
+            <input type="hidden" id="invoiceSerialNo" name="invoiceSerialNo" value="@ViewBag.InvoiceSerial"/>
+            <input type="hidden" id="saleableRows" name="saleableRows"/>
+            <input type="hidden" id="unsaleableList" name="unsaleableList"/>
 
             <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
                 <a class='btn btn-warning' href="@Url.Action("ChooseReturnedInvoiceDetails", "Warehouse", new {invoiceSerial = ViewBag.InvoiceSerial})">

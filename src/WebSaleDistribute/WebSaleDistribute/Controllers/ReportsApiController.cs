@@ -23,10 +23,18 @@ namespace WebSaleDistribute.Controllers
 
 
         [Route("Reports/GetInvoiceRemainChart")]
-        public IEnumerable<dynamic> GetInvoiceRemainChart()
+        public IEnumerable<dynamic> GetInvoiceRemainChart(ReceiptsModels model)
         {
             var result = Connections.SaleBranch.SqlConn.Query("sp_GetInvoiceRemainChart",
-                new { EmployeeID = CurrentUser.UserName, EmployeeTypeid = CurrentUser.EmployeeType, RunDate = DateTime.Now.GetPersianDate() },
+                new
+                {
+                    EmployeeID = CurrentUser.UserName,
+                    EmployeeTypeid = CurrentUser.EmployeeType,
+                    FromRemain = model.FromNo,
+                    ToRemain = model.ToNo,
+                    DistanceAfterDistributeDate = model.DistanceAfterDistributeDate,
+                    RunDate = DateTime.Now.GetPersianDate()
+                },
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return result;
@@ -69,7 +77,7 @@ namespace WebSaleDistribute.Controllers
 
             return Ok(result);
         }
-        
+
 
         [Route("Reports/GetVisitorCustomersOrderStatisticsChart/{visitorEmployeeId}")]
         public async Task<IHttpActionResult> GetVisitorCustomersOrderStatisticsChart(int visitorEmployeeId)
