@@ -259,6 +259,7 @@ namespace WebSaleDistribute.Controllers
                 Name = "ReturnReason_",
                 DataStyle = DataStyleType.warning,
                 ShowOptionSubText = false,
+                DataLiveSearch = true,
                 ShowTick = true,
                 DataSize = "8"
             };
