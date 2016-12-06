@@ -367,17 +367,20 @@ function getTableFirstSelectedRow(id) {
 
 function getTableAllData(id) {
     var result = [];
-    var table = $("#" + id).DataTable();
+    var htmlTable = $("#" + id);
+    var table = htmlTable.DataTable();
     var rows = table.rows().data();
+    var htmlRows = htmlTable[0].rows;
 
     for (var r = 0; r < rows.length; r++) {
         var newRow = [];
         var cells = rows[r];
+        var htmlCells = $("td", htmlRows[r + 1]);
 
         for (var i = 0; i < cells.length; i++) {
             try {
                 if ($("select", "<div>" + cells[i] + "</div>").length > 0) { // a combo box found!
-                    newRow.push(getComboSelectedIndex(cells[i]));
+                    newRow.push(getComboSelectedIndex(htmlCells[i]));
                 } else if ($("input", cells[i]).length > 0) { // a input tag found
                     var input = $("input", cells[i])[0];
                     var val = input.value;
