@@ -52,12 +52,12 @@ namespace WebSaleDistribute.Controllers
             var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
             var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
 
-            var result = (CurrentUser.EmployeeType > 5) ?
-                await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
+            if (CurrentUser.EmployeeType <= 5) // visitors order
+                return Ok(await GetOrderStatisticsChart(CurrentUser.EmployeeType ?? 1, int.Parse(CurrentUser.UserName)));
+
+            // officer orders:
+            var result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
                 new { FromDate = fromDate, ToDate = toDate },
-                commandType: System.Data.CommandType.StoredProcedure)
-            : await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
-                new { OfficerEmployeeID = CurrentUser.UserName, OfficerEmployeeTypeID = CurrentUser.EmployeeType, FromDate = fromDate, ToDate = toDate },
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return Ok(result);

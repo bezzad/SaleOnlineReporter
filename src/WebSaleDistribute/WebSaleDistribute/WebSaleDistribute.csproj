@@ -236,6 +236,7 @@
     <Compile Include="Core\ChartOption.cs" />
     <Compile Include="Core\ComboBoxOption.cs" />
     <Compile Include="Core\DatabaseContext.cs" />
+    <Compile Include="Core\Enums\DataPlacement.cs" />
     <Compile Include="Core\Enums\DataStyleType.cs" />
     <Compile Include="Core\Enums\InputTypes.cs" />
     <Compile Include="Core\FileDownloadAttribute.cs" />
@@ -305,6 +306,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\errors.css" />
+    <Content Include="Content\MdBootstrapPersianDateTimePicker\jquery.Bootstrap-PersianDateTimePicker.css" />
+    <Content Include="Content\MdBootstrapPersianDateTimePicker\jquery.Bootstrap-PersianDateTimePicker.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -632,6 +635,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\lobipanel.js" />
     <Content Include="Scripts\lobipanel.min.js" />
+    <Content Include="Scripts\MdBootstrapPersianDateTimePicker\jalaali.js" />
+    <Content Include="Scripts\MdBootstrapPersianDateTimePicker\jquery.Bootstrap-PersianDateTimePicker.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\panel.js" />

@@ -1,4 +1,6 @@
-﻿
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+
 @section topScripts
 {
     @Scripts.Render("~/bundles/highcharts")
@@ -11,16 +13,28 @@
 <div class="container">
     <ul class="nav nav-pills">
         <li style="font-size: 30px; float: right;">@ViewBag.Title</li>
-        <li class="active"><a data-toggle="pill" href="#chart"> <span class="glyphicon glyphicon-stats"></span> نمودار</a></li>       
+        <li class="active"><a data-toggle="pill" href="#chart"> <span class="glyphicon glyphicon-stats"></span> نمودار</a></li>
     </ul>
+    <br/>
+    <div class="container" style="max-width: 400px;">
+        @Html.PersianFromToDatePickerItem("orderFromDate", "orderToDate", false, DataPlacement.Bottom)
+        <input type="button" onclick="alert(GetDateTime('orderFromDate'))" value="بروز رسانی"/>
+    </div>
 
     <div class="tab-content">
         <div class="tab-pane fade in active" dir="ltr">
             <!-- data -->
-            <br />
+            <br/>
             @Html.Action("CustomersOrdersChart", "Reports")
             <!-- /data -->
         </div>
     </div>
 
 </div>
+
+<script>
+    var GetDateTime = function (id) {
+        var date = $("#" + id).attr("data-MdPersianDateTimePickerSelectedDateTime");
+        return date;
+    }
+</script>
