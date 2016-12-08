@@ -616,3 +616,12 @@ function numberWithCommas(x) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
+
+// jquery persian date time reader
+function GetDateTime(id) {
+    var date = $("#" + id).attr("data-MdPersianDateTimePickerSelectedDateTime");
+    var obj = JSON.parse(date);
+    return obj.Year.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + '-' +
+        obj.Month.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + '-' +
+        obj.Day.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+}

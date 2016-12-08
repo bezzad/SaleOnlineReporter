@@ -90,18 +90,16 @@
             <!-- data -->
             <br/>
 
-            @(
-    Html.PanelItem(new PanelItemOption()
-    {
-        Id = "unaleableDetails_" + Guid.NewGuid().ToString(),
-        Body = Html.TableItem(Model.Item2).ToHtmlString(),
-        Title = "غیر قابل فروش",
-        HasDetailLink = false,
-        GlyphIcon = "list-alt",
-        HasSettingPanel = false,
-        PanelType = DataStyleType.warning
-    })
-                  )
+            @(Html.PanelItem(new PanelItemOption()
+                {
+                    Id = "unaleableDetails_" + Guid.NewGuid().ToString(),
+                    Body = Html.TableItem(Model.Item2).ToHtmlString(),
+                    Title = "غیر قابل فروش",
+                    HasDetailLink = false,
+                    GlyphIcon = "list-alt",
+                    HasSettingPanel = false,
+                    PanelType = DataStyleType.warning
+                }))
             <!-- /data -->
         </div>
 

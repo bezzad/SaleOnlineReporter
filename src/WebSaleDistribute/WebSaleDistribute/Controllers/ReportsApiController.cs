@@ -41,53 +41,55 @@ namespace WebSaleDistribute.Controllers
         }
 
 
-        [Route("Reports/GetOfficerOrderStatisticsChart")]
-        public async Task<IHttpActionResult> GetOfficerOrderStatisticsChart()
+        [Route("Reports/GetOfficerOrderStatisticsChart/{fromDate}/{toDate}")]
+        public async Task<IHttpActionResult> GetOfficerOrderStatisticsChart(string fromDate, string toDate)
         {
             var currentUser = UserManager.FindById(User.Identity.GetUserId());
 
             if (currentUser == null) throw new UnauthorizedAccessException("This user is not valid!");
 
-            var routParams = Request.GetQueryStrings();
-            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
-            var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
+            object result;
 
-            var result = (CurrentUser.EmployeeType > 5) ?
-                await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
-                new { FromDate = fromDate, ToDate = toDate },
-                commandType: System.Data.CommandType.StoredProcedure)
-            : await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
-                new { OfficerEmployeeID = CurrentUser.UserName, OfficerEmployeeTypeID = CurrentUser.EmployeeType, FromDate = fromDate, ToDate = toDate },
-                commandType: System.Data.CommandType.StoredProcedure);
+            if (CurrentUser.EmployeeType <= 5) // visitors order
+            {
+                result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
+                    new
+                    {
+                        FromDate = fromDate.Replace("-", "/"),
+                        ToDate = toDate.Replace("-", "/"),
+                        OfficerEmployeeID = int.Parse(CurrentUser.UserName),
+                        OfficerEmployeeTypeID = CurrentUser.EmployeeType ?? 1 
+                    },
+                    commandType: System.Data.CommandType.StoredProcedure);
+            }
+            else
+            {
+                // officer orders:
+                result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOfficerOrderStatisticsChart",
+                    new {FromDate = fromDate.Replace("-", "/"), ToDate = toDate.Replace("-", "/")},
+                    commandType: System.Data.CommandType.StoredProcedure);
+            }
 
             return Ok(result);
         }
 
 
-        [Route("Reports/GetOrderStatisticsChart/{officerEmployeeTypeId}/{officerEmployeeId}")]
-        public async Task<IHttpActionResult> GetOrderStatisticsChart(int officerEmployeeTypeId, int officerEmployeeId)
+        [Route("Reports/GetOrderStatisticsChart/{fromDate}/{toDate}/{officerEmployeeTypeId}/{officerEmployeeId}")]
+        public async Task<IHttpActionResult> GetOrderStatisticsChart(string fromDate, string toDate, int officerEmployeeTypeId, int officerEmployeeId)
         {
-            var routParams = Request.GetQueryStrings();
-            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
-            var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
-
             var result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetOrderStatisticsChart",
-                new { FromDate = fromDate, ToDate = toDate, OfficerEmployeeID = officerEmployeeId, OfficerEmployeeTypeID = officerEmployeeTypeId },
+                new { FromDate = fromDate.Replace("-", "/"), ToDate = toDate.Replace("-", "/"), OfficerEmployeeID = officerEmployeeId, OfficerEmployeeTypeID = officerEmployeeTypeId },
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return Ok(result);
         }
 
 
-        [Route("Reports/GetVisitorCustomersOrderStatisticsChart/{visitorEmployeeId}")]
-        public async Task<IHttpActionResult> GetVisitorCustomersOrderStatisticsChart(int visitorEmployeeId)
+        [Route("Reports/GetVisitorCustomersOrderStatisticsChart/{fromDate}/{toDate}/{visitorEmployeeId}")]
+        public async Task<IHttpActionResult> GetVisitorCustomersOrderStatisticsChart(string fromDate, string toDate, int visitorEmployeeId)
         {
-            var routParams = Request.GetQueryStrings();
-            var fromDate = routParams.ContainsKey("fromDate") ? routParams["fromDate"] : DateTime.Now.GetPersianDate();
-            var toDate = routParams.ContainsKey("toDate") ? routParams["toDate"] : fromDate;
-
             var result = await Connections.SaleBranch.SqlConn.QueryAsync("sp_GetVisitorCustomersOrderStatisticsChart",
-                new { FromDate = fromDate, ToDate = toDate, VisitorEmployeeID = visitorEmployeeId },
+                new { FromDate = fromDate.Replace("-", "/"), ToDate = toDate.Replace("-", "/"), VisitorEmployeeID = visitorEmployeeId },
                 commandType: System.Data.CommandType.StoredProcedure);
 
             return Ok(result);

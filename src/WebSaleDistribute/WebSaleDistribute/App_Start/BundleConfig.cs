@@ -40,6 +40,8 @@ namespace WebSaleDistribute
                                         "~/Scripts/DataTables-Plugins/sorting/currency.js",
                                         "~/Scripts/DataTables-Plugins/sorting/numeric-comma.js",
                                         "~/Scripts/DataTables-Plugins/sorting/persian.js",
+                                        "~/Scripts/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.js",
+                                        "~/Scripts/MdBootstrapPersianDateTimePicker/jalaali.js",
                                         "~/Scripts/site.js").ForceOrdered());
 
             bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
@@ -53,15 +55,16 @@ namespace WebSaleDistribute
         public static void RegisterContents(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/Content/stylesheets").Include(
-                     "~/Content/bootstrap.css",
+                     "~/Content/bootstrap.min.css",
                      "~/Content/bootstrap-theme.min.css",
                      "~/Content/bootstrap-select.min.css",
                      "~/Content/site.css", 
                      "~/Content/jquery-ui.min.css", 
                      "~/Content/toastr.min.css",
-                      "~/Content/lobipanel.min.css",
+                     "~/Content/lobipanel.min.css",
                      "~/Content/panel.css",
-                     "~/Content/jquery.dataTables.min.css"));
+                     "~/Content/jquery.dataTables.min.css",
+                     "~/Content/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/errors").Include("~/Content/errors.css"));
         }

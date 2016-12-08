@@ -367,17 +367,20 @@ function getTableFirstSelectedRow(id) {
 
 function getTableAllData(id) {
     var result = [];
-    var table = $("#" + id).DataTable();
+    var htmlTable = $("#" + id);
+    var table = htmlTable.DataTable();
     var rows = table.rows().data();
+    var htmlRows = htmlTable[0].rows;
 
     for (var r = 0; r < rows.length; r++) {
         var newRow = [];
         var cells = rows[r];
+        var htmlCells = $("td", htmlRows[r + 1]);
 
         for (var i = 0; i < cells.length; i++) {
             try {
                 if ($("select", "<div>" + cells[i] + "</div>").length > 0) { // a combo box found!
-                    newRow.push(getComboSelectedIndex(cells[i]));
+                    newRow.push(getComboSelectedIndex(htmlCells[i]));
                 } else if ($("input", cells[i]).length > 0) { // a input tag found
                     var input = $("input", cells[i])[0];
                     var val = input.value;
@@ -542,6 +545,7 @@ function post(url, params, updateElementId) {
 
 
 // Refresh page after session time out for redirect to login page
+var reloadMethod = null;
 function setPageReloadTimer(cookieName) {
     if (cookieName !== null)
         PageReloadTimeoutCookieName = cookieName;
@@ -551,10 +555,9 @@ function setPageReloadTimer(cookieName) {
     if (millisecond === null) return;
 
     //alert((millisecond/1000).toString().substring(0,3));
-
     if (reloadMethod !== null) clearTimeout(reloadMethod);
 
-    var reloadMethod = setTimeout(function () {
+    reloadMethod = setTimeout(function () {
         window.location.reload(true);
     }, millisecond);
 }
@@ -571,10 +574,10 @@ function getCookie(cname) {
     var ca = document.cookie.split(";");
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == " ") {
+        while (c.charAt(0) === " ") {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
@@ -583,11 +586,11 @@ function getCookie(cname) {
 
 function checkCookie() {
     var user = getCookie("username");
-    if (user != "") {
+    if (user !== "") {
         alert("Welcome again " + user);
     } else {
         user = prompt("Please enter your name:", "");
-        if (user != "" && user != null) {
+        if (user !== "" && user != null) {
             setCookie("username", user, 365);
         }
     }
@@ -602,7 +605,7 @@ function generateGUID() {
     var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
         var r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d / 16);
-        return (c == "x" ? r : (r & 0x3 | 0x8)).toString(16);
+        return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
 };
@@ -612,4 +615,13 @@ function numberWithCommas(x) {
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
+}
+
+// jquery persian date time reader
+function GetDateTime(id) {
+    var date = $("#" + id).attr("data-MdPersianDateTimePickerSelectedDateTime");
+    var obj = JSON.parse(date);
+    return obj.Year.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + '-' +
+        obj.Month.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + '-' +
+        obj.Day.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
 }
