@@ -112,17 +112,22 @@ namespace WebSaleDistribute.Controllers
         #region Customers Orders
 
         // GET: CustomersOrders
-        public ActionResult CustomersOrders()
+        public ActionResult CustomersOrders(string fromDate, string toDate)
         {
             ViewBag.Title = "گزارشات درخواست مشتریان";
             ViewData["dir"] = "ltr";
+            ViewBag.FromDate = fromDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
+            ViewBag.ToDate = toDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
 
             return View("CustomersOrders/CustomersOrders");
         }
 
-        // GET: CustomersOrdersChart
-        public ActionResult CustomersOrdersChart()
+        // GET: CustomersOrdersChart/fromDate/toDate
+        public ActionResult CustomersOrdersChart(string fromDate, string toDate)
         {
+            ViewBag.FromDate = fromDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
+            ViewBag.ToDate = toDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
+
             try
             {
                 lock (CurrentUser)
@@ -141,7 +146,7 @@ namespace WebSaleDistribute.Controllers
                         ShowLegend = false,
                         ShowDataLabels = true,
                         AjaxLoading = true,
-                        LoadDataUrl = "GetOfficerOrderStatisticsChart",
+                        LoadDataUrl = $"GetOfficerOrderStatisticsChart/{fromDate}/{toDate}",
                         SubTitleFunc = "sum"
                     };
 

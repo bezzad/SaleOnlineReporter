@@ -15,7 +15,7 @@
 
 <div id="CustomersOrdersChart">
 
-    @using (Ajax.BeginForm("CustomersOrdersChart", "Reports", opt, new { @id = id, @class = "refreshable-panel" }))
+    @using (Ajax.BeginForm("CustomersOrdersChart", "Reports", new { fromDate = ViewBag.FromDate, toDate = ViewBag.ToDate }, opt, new { @id = id, @class = "refreshable-panel" }))
     {
         @(Html.PanelItem(new PanelItemOption()
             {
