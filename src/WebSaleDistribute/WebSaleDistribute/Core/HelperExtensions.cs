@@ -145,6 +145,20 @@ namespace WebSaleDistribute.Core
                 $"{jc.GetYear(date):0000}/{jc.GetMonth(date):00}/{jc.GetDayOfMonth(date):00} {jc.GetHour(date):00}:{jc.GetMinute(date):00}:{jc.GetSecond(date):00}.{jc.GetMilliseconds(date)}";
         }
 
+        public static string GetPersianDateByDashSpliter(this DateTime date)
+        {
+            var jc = new PersianCalendar();
+            return
+                $"{jc.GetYear(date):0000}-{jc.GetMonth(date):00}-{jc.GetDayOfMonth(date):00}";
+        }
+
+        public static long GetPersianDateNumber(this DateTime date)
+        {
+            var jc = new PersianCalendar();
+            return
+                long.Parse($"{jc.GetYear(date):0000}{jc.GetMonth(date):00}{jc.GetDayOfMonth(date):00}{jc.GetHour(date):00}{jc.GetMinute(date):00}{jc.GetSecond(date):00}{jc.GetMilliseconds(date)}");
+        }
+
 
         /// <summary>
         /// since expiry time has now become part of your claims, you now can get it back easily

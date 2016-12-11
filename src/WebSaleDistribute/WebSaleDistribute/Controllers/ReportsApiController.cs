@@ -33,7 +33,7 @@ namespace WebSaleDistribute.Controllers
                     FromRemain = model.FromNo,
                     ToRemain = model.ToNo,
                     DistanceAfterDistributeDate = model.DistanceAfterDistributeDate,
-                    RunDate = DateTime.Now.GetPersianDate()
+                    RunDate = DateTime.Now.GetPersianDateNumber()
                 },
                 commandType: System.Data.CommandType.StoredProcedure);
 

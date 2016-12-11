@@ -83,7 +83,7 @@ namespace WebSaleDistribute.Controllers
                     FromRemain = model.FromNo,
                     ToRemain = model.ToNo,
                     DistanceAfterDistributeDate = model.DistanceAfterDistributeDate,
-                    RunDate = DateTime.Now.GetPersianDate()
+                    RunDate = DateTime.Now.GetPersianDateNumber()
                 },
                 commandType: CommandType.StoredProcedure).ToDataTable();
 
@@ -116,8 +116,8 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = "گزارشات درخواست مشتریان";
             ViewData["dir"] = "ltr";
-            ViewBag.FromDate = fromDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
-            ViewBag.ToDate = toDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
+            ViewBag.FromDate = fromDate ?? DateTime.Now.GetPersianDateByDashSpliter();
+            ViewBag.ToDate = toDate ?? DateTime.Now.GetPersianDateByDashSpliter();
 
             return View("CustomersOrders/CustomersOrders");
         }
@@ -125,8 +125,8 @@ namespace WebSaleDistribute.Controllers
         // GET: CustomersOrdersChart/fromDate/toDate
         public ActionResult CustomersOrdersChart(string fromDate, string toDate)
         {
-            ViewBag.FromDate = fromDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
-            ViewBag.ToDate = toDate ?? DateTime.Now.GetPersianDate().Replace("/", "-").Substring(0, 10);
+            ViewBag.FromDate = fromDate ?? DateTime.Now.GetPersianDateByDashSpliter();
+            ViewBag.ToDate = toDate ?? DateTime.Now.GetPersianDateByDashSpliter();
 
             try
             {

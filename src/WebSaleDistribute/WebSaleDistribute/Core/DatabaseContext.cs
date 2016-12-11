@@ -17,7 +17,7 @@ namespace WebSaleDistribute.Core
             exceptedStores.Columns.Add("Id");
 
             var stores = Connections.SaleBranch.SqlConn.ExecuteReader("sp_GetAllStores",
-                new { ExceptWHCodeList = exceptedStores, RunDate = DateTime.Now.GetPersianDate() },
+                new { ExceptWHCodeList = exceptedStores, RunDate = DateTime.Now.GetPersianDateNumber() },
                 commandType: CommandType.StoredProcedure);
 
             var comboData = new List<ComboBoxDataModel>();
