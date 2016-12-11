@@ -195,7 +195,7 @@ namespace WebSaleDistribute.Controllers
                 {
                     CountingSerialNo = countingSerialNo,
                     UserId = User.Identity.GetUserId(),
-                    RunDate = DateTime.Now.GetPersianDate()
+                    RunDate = DateTime.Now.GetPersianDateNumber()
                 };
 
                 var result = Connections.SaleBranch.SqlConn.Execute("sp_FinalAcceptCountingWarehouseHistory",
