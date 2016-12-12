@@ -8,6 +8,7 @@ using AdoManager;
 using Dapper;
 using System.Data;
 using System.Dynamic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WebSaleDistribute.Core.Enums;
 
@@ -96,6 +97,12 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = "انتخاب یک فاکتور برگشت از فروش";
 
+            #region Clear Temp BusinessDoc in use
+
+            Connections.SaleCore.SqlConn.QueryAsync(
+                "DELETE FROM dbo.TempBusinessDocInUse WHERE UserID = @UserID  AND BusinessDocTypeID = 16", new { UserID= CurrentUser.Id });
+
+            #endregion
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
                 Steps = _saleReturnedSteps,
@@ -130,10 +137,24 @@ namespace WebSaleDistribute.Controllers
         }
 
         // GET: Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}
-        public ActionResult ChooseReturnedInvoiceDetails(int invoiceSerial)
+        public async Task<ActionResult> ChooseReturnedInvoiceDetails(int invoiceSerial)
         {
             ViewBag.Title = $"انتخاب اقلام برگشتی قابل فروش";
             ViewBag.InvoiceSerial = invoiceSerial;
+
+            #region Insert in use Business Doc into temp
+
+            await Connections.SaleCore.SqlConn.ExecuteAsync(
+                "INSERT INTO dbo.TempBusinessDocInUse  VALUES (@UserID , @BusinessDocNo , @BusinessDocTypeID , @ModifyDate)",
+                new
+                {
+                    UserID = CurrentUser.Id,
+                    BusinessDocNo = invoiceSerial,
+                    BusinessDocTypeID = 16,
+                    ModifyDate = DateTime.Now
+                });
+                
+            #endregion
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
@@ -144,7 +165,12 @@ namespace WebSaleDistribute.Controllers
 
             #region Warehouse List for Store Combo
 
-            var stores = DatabaseContext.GetWarehouses(true, false);
+            var customerStoreCode = Connections.SaleBranch.SqlConn.QueryFirst<int>(
+                "SELECT dbo.fn_GetCustomerStoreCode(" +
+                "(SELECT PersonID FROM dbo.udft_BusinessDoc(dbo.fn_GetLongDate()) " +
+                "WHERE BusinessDocNo = dbo.fn_GetBusinessDocNo(@invoiceSerial, 16)))", new { invoiceSerial });
+
+            var stores = DatabaseContext.GetWarehouses(true, false, customerStoreCode);
 
             var storesOpt = new ComboBoxOption()
             {
