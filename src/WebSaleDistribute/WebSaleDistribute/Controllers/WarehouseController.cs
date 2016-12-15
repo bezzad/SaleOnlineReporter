@@ -390,6 +390,68 @@ namespace WebSaleDistribute.Controllers
         #endregion
 
 
+
+
+        #region ProductionLine
+
+
+        public ActionResult FactoryWarehouse()
+        {
+            ViewBag.Title = "انبار سعید آباد";
+
+            return View("Factory/Warehouse");
+        }
+
+        // GET: Warehouse/InWay/?code={code}
+        public ActionResult SignInProduction(string code)
+        {
+            ViewBag.Title = "ورود از خط تولید";
+
+            if (!string.IsNullOrEmpty(code))
+            {
+                if (code.Length < 80)
+                {
+                    ViewBag.QrCode = code;
+                }
+                else
+                {
+                    ViewBag.QrCode = code.RepairCipher()?.Decrypt();
+                }
+                
+                var json = JObject.Parse(ViewBag.QrCode.Replace("+", " "));
+
+                #region Table Data
+
+
+                var oldProductCode = json["codwithdash"].ToString().Replace("-", "");
+                var priceId =int.Parse(json["priceId"].ToString()) ;
+                var qty = json["QtyInPallet"].ToString();
+                var businessDocNo = json["id"].ToString();
+                var row = (IDictionary<string, object>)Connections.OldSale.SqlConn.Query(
+                    "sp_GetSignInProduction",
+                    new { OldProductCode = oldProductCode ,  priceId },
+                    commandType: CommandType.StoredProcedure).FirstOrDefault() ;
+                if (row == null || row.Count <= 0) return View("Factory/SignInProduction");
+                ViewBag.BusinessDocNo = businessDocNo;
+                ViewBag.ProductCode = row["ProductCode"];
+                ViewBag.Group4Name = row["Group4Name"];
+                ViewBag.ProductDescription = row["ProductDescription"];
+                ViewBag.PieceOfCarton = row["PieceOfCarton"];
+                ViewBag.ProductName = row["ProductName"];
+                ViewBag.OldProductCode = oldProductCode;
+                ViewBag.Price = row["Price"] + " ریال ";
+                ViewBag.ConsumerPrice = row["ConsumerPrice"] + " ریال ";
+                ViewBag.PriceId = row["PriceId"];
+                ViewBag.Qty = qty;
+
+                #endregion
+            }
+             
+            return View("Factory/SignInProduction");
+        }
+
+        #endregion
+
         #endregion
     }
 }

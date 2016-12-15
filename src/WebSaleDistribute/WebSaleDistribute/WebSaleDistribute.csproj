@@ -72,6 +72,14 @@
       <HintPath>..\..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Grid.Mvc.Ajax, Version=1.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Grid.Mvc.Ajax.1.0.31\lib\Grid.Mvc.Ajax.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GridMvc, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Grid.Mvc.Redux.1.0.4\lib\GridMvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.2\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -228,6 +236,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportsApiController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
@@ -257,6 +266,8 @@
       <DependentUpon>201604261155317_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CustomerPointFilterModels.cs" />
+    <Compile Include="Models\CustomerPointViewModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ComboBoxDataModel.cs" />
     <Compile Include="Models\DynamicModels.cs" />
@@ -303,6 +314,12 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\errors.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\gridmvc.datepicker.css" />
+    <Content Include="Content\gridmvc.datepicker.min.css" />
+    <Content Include="Content\ladda-bootstrap\ladda-themeless.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -351,6 +368,9 @@
     <Content Include="images\bwShonizFa.png" />
     <Content Include="images\favicon.ico" />
     <Content Include="images\loading.gif" />
+    <Content Include="images\map_marker_blue.png" />
+    <Content Include="images\map_marker_pink.png" />
+    <Content Include="images\map_marker_chartreuse.png" />
     <Content Include="images\panelLoading.gif" />
     <Content Include="images\site_cover.jpg" />
     <Content Include="images\sort_asc.png" />
@@ -409,9 +429,12 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-select.css.map" />
+    <Content Include="Grid.mvc.readme" />
+    <Content Include="Grid.Mvc.Ajax.readme" />
     <None Include="Properties\PublishProfiles\Apps.dbitabriz.local.pubxml" />
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Properties\PublishProfiles\Tehran.pubxml" />
+    <None Include="Properties\PublishProfiles\WebSaleDistribute.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -441,6 +464,10 @@
     <None Include="Scripts\DataTables-Plugins\i18n\Persian.lang" />
     <Content Include="Scripts\DataTables-Plugins\i18n\Russian.lang" />
     <Content Include="Scripts\DataTables-Plugins\i18n\Turkish.lang" />
+    <Content Include="Scripts\gridmvc-ext.js" />
+    <Content Include="Scripts\gridmvc.customwidgets.js" />
+    <Content Include="Scripts\gridmvc.lang.fr.js" />
+    <Content Include="Scripts\gridmvc.min.js.map" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\DataTables-Plugins\api\average%28%29.js" />
     <Content Include="Scripts\DataTables-Plugins\api\column%28%29.title%28%29.js" />
@@ -515,6 +542,9 @@
     <Content Include="Scripts\DataTables-Plugins\type-detection\ip-address.js" />
     <Content Include="Scripts\DataTables-Plugins\type-detection\num-html.js" />
     <Content Include="Scripts\DataTables-Plugins\type-detection\numeric-comma.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\Highcharts-4.0.1\js\adapters\standalone-framework.js" />
     <Content Include="Scripts\Highcharts-4.0.1\js\adapters\standalone-framework.src.js" />
     <Content Include="Scripts\Highcharts-4.0.1\js\highcharts-3d.js" />
@@ -626,6 +656,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\ladda-bootstrap\ladda.min.js" />
+    <Content Include="Scripts\ladda-bootstrap\spin.min.js" />
     <Content Include="Scripts\lobipanel.js" />
     <Content Include="Scripts\lobipanel.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -638,8 +670,11 @@
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\URI.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -692,6 +727,13 @@
     <Content Include="Views\Warehouse\CountingWarehouse\FillCountingWarehouseDetails.cshtml" />
     <Content Include="Views\Warehouse\CountingWarehouse\CertificationCountingWarehouseDetails.cshtml" />
     <Content Include="Views\Admin\CheckAndRepairUser.cshtml" />
+    <Content Include="Views\Customer\Point\Index.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
+    <Content Include="Views\Customer\Point\_CustomersPointStatus.cshtml" />
+    <Content Include="Views\Warehouse\Factory\Warehouse.cshtml" />
+    <Content Include="Views\Warehouse\Factory\SignInProduction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

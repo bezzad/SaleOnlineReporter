@@ -1,7 +1,6 @@
 ﻿@using WebSaleDistribute.Core
 @using System.Dynamic
 @model  dynamic
-
 @{
     ViewBag.Title = "خانه";
 }
@@ -25,11 +24,10 @@
         <div class="col-xs-3">
             <button type="button" class="menuButtons btn-block" onclick="location.href='@Url.Action(Model[index].PageName, Model[index].Link, routeValues: null)'">
                 @Model[index].MenuName
-                <br/>
+                <br />
                 <span style="padding:10px;" class="glyphicon glyphicon-circle-arrow-left"></span>
             </button>
         </div>
     }
 </div>
-
-
+@*<p><a href="/Customer/index" target="_blank" class="btn btn-primary btn-lg"> مختصات مشتریان</a></p>*@

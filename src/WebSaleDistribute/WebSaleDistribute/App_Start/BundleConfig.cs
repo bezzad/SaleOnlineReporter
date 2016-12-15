@@ -42,6 +42,8 @@ namespace WebSaleDistribute
                                         "~/Scripts/DataTables-Plugins/sorting/currency.js",
                                         "~/Scripts/DataTables-Plugins/sorting/numeric-comma.js",
                                         "~/Scripts/DataTables-Plugins/sorting/persian.js",
+                                        "~/Scripts/gridmvc.js",
+                                        "~/Scripts/gridmvc-ext.js",
                                         "~/Scripts/site.js").ForceOrdered());
 
             bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
@@ -93,6 +95,7 @@ namespace WebSaleDistribute
                      "~/Content/toastr.min.css",
                       "~/Content/lobipanel.min.css",
                      "~/Content/panel.css",
+                      "~/Content/Gridmvc.css",
                      "~/Content/jquery.dataTables.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/errors").Include("~/Content/errors.css"));

@@ -12,6 +12,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using WebSaleDistribute.Core;
 
@@ -66,6 +67,63 @@ namespace WebSaleDistribute.Controllers
             return Ok(msg);
         }
 
+
+        // GET: api/Warehouse/EntryInWayToWarehouse
+        [HttpPost]
+        [Route("Warehouse/EntryProductionToWarehouse/")]
+        public IHttpActionResult EntryProductionToWarehouse(HttpRequestMessage request)
+        {
+           
+            var content = request.Content;
+            var dict = HttpUtility.ParseQueryString(content.ReadAsStringAsync().Result);
+            var javaScript = new JavaScriptSerializer().Serialize(
+                    dict.AllKeys.ToDictionary(k => k, k => dict[k])
+            );
+            var json = JObject.Parse(javaScript);
+            var businessDocNo = json["BusinessDocNo"].ToObject(typeof(long));  
+            var priceId = json["PriceId"].ToObject(typeof(int)); 
+            var productCode = json["ProductCode"].ToObject(typeof(int));
+            var qty = json["Qty"].ToObject(typeof(int));
+            var userId = User.Identity.GetUserId();
+            string msg = $"متاسفانه خطایی هنگام ورود به انبار {businessDocNo} رخ داده است!";
+            var errFlag = true;
+            try
+            {
+                var param = new
+                {
+                    BusinessDocNo = businessDocNo,
+                    PriceId = priceId,
+                    ProductCode = productCode,
+                    Qty = qty,
+                    UserId = userId
+                };
+
+                var result = Connections.OldSale.SqlConn.Execute("sp_SignInProduction_Insert",
+                    param,
+                    commandType: System.Data.CommandType.StoredProcedure);
+
+                if (result > 0)
+                {
+                    msg = $"محصولات حواله  بشماره {businessDocNo} وارد انبار شد";
+                    errFlag = false;
+                }
+                   
+            }
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+                msg = exp.Message;
+                 
+            }
+            var res = new
+            {
+                errFlag,
+                msg
+            };
+
+            return Ok(res);
+        }
+
         // GET: api/Warehouse/GetInvoiceDetails
         [HttpGet]
         [Route("Warehouse/GetInvoiceDetails/{businessDocSerialNo}")]
@@ -95,6 +153,9 @@ namespace WebSaleDistribute.Controllers
         }
 
 
+   
+
+
         // POST: api/StoreReturnedInovicesInWarehouse
         [HttpPost]
         [Route("Warehouse/CountingWarehouseAutoSave")]
@@ -108,6 +169,8 @@ namespace WebSaleDistribute.Controllers
             StoreWarehouseCounting(serialNo, countingDetails);
             return Ok("ذخیره سازی خودکار انجام شد.");
         }
+
+
 
         public DataTable StoreWarehouseCounting(string serial, string countingRows)
         {
