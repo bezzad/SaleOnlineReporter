@@ -50,7 +50,7 @@ namespace WebSaleDistribute.Controllers
                 };
 
                 var result = Connections.SaleBranch.SqlConn.Execute("sp_EntryInWayToWareHouseByOldInvoiceId",
-                    param,
+                    param, commandTimeout: 99000,
                     commandType: System.Data.CommandType.StoredProcedure);
 
                 if (result > 0)
