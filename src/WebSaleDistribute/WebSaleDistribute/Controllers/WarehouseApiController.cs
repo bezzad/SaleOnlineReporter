@@ -18,22 +18,9 @@ using WebSaleDistribute.Core;
 namespace WebSaleDistribute.Controllers
 {
     [Authorize]
-    public class WarehouseApiController : ApiController
+    public class WarehouseApiController : BaseApiController
     {
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-        public ApplicationUser CurrentUser => UserManager.FindById(User.Identity.GetUserId());
-
+        #region Inway
 
         // GET: api/Warehouse/EntryInWayToWarehouse
         [HttpGet]
@@ -66,6 +53,10 @@ namespace WebSaleDistribute.Controllers
             return Ok(msg);
         }
 
+        #endregion
+
+        #region Sale returned invoices to warehouse
+
         // GET: api/Warehouse/GetInvoiceDetails
         [HttpGet]
         [Route("Warehouse/GetInvoiceDetails/{businessDocSerialNo}")]
@@ -88,12 +79,21 @@ namespace WebSaleDistribute.Controllers
             var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
-            var unsaleableList = data.unsaleableList.ToObject(typeof(List<JArray>));
-            var warehouse = data.warehouse.ToObject(typeof(int));
+            var unsaleableList = data.unsaleableList.ToObject(typeof(List<string[]>));
+            var storeCode = data.warehouse.ToObject(typeof(int));
+            
+            //var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse", 
+            //    new { InvoiceSerialNo = invoiceSerialNo, DestinationStoreCode = storeCode,
+            //        SaleableRows = saleableRows.ToArray<long>.ToDataTable(), UnSaleableRows = unsaleableList,
+            //        UserID = CurrentUser.Id, RunDate = DateTime.Now.GetPersianDateNumber()
+            //    }, commandType: CommandType.StoredProcedure);
 
             return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
         }
 
+        #endregion
+
+        #region Counting Warehouse
 
         // POST: api/StoreReturnedInovicesInWarehouse
         [HttpPost]
@@ -213,5 +213,8 @@ namespace WebSaleDistribute.Controllers
 
             return Ok(msg);
         }
+
+        #endregion
+
     }
 }
