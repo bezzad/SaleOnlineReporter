@@ -234,6 +234,33 @@ namespace WebSaleDistribute.Core
             return data.ToArray().ToDataTable();
         }
 
+        public static DataTable ToDataTable<T>(this IEnumerable<T> data)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Id");
+
+            foreach (var item in data)
+            {
+                dt.Rows.Add(item);
+            }
+
+            return dt;
+        }
+
+        public static DataTable ToDataTable<TKey, TValue>(this IDictionary<TKey, TValue> data)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Key");
+            dt.Columns.Add("Value");
+
+            foreach (var item in data)
+            {
+                dt.Rows.Add(item.Key, item.Value);
+            }
+
+            return dt;
+        }
+
         public static byte[] ToByteArray(this Image image, ImageFormat format)
         {
             using (MemoryStream ms = new MemoryStream())

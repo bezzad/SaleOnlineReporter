@@ -79,14 +79,21 @@ namespace WebSaleDistribute.Controllers
             var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
-            var unsaleableList = data.unsaleableList.ToObject(typeof(List<string[]>));
+            var unsaleableList =
+                ((List<string[]>) data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0],
+                    y => y[4]);
             var storeCode = data.warehouse.ToObject(typeof(int));
-            
-            //var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse", 
-            //    new { InvoiceSerialNo = invoiceSerialNo, DestinationStoreCode = storeCode,
-            //        SaleableRows = saleableRows.ToArray<long>.ToDataTable(), UnSaleableRows = unsaleableList,
-            //        UserID = CurrentUser.Id, RunDate = DateTime.Now.GetPersianDateNumber()
-            //    }, commandType: CommandType.StoredProcedure);
+
+            var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse",
+                new
+                {
+                    InvoiceSerialNo = invoiceSerialNo,
+                    DestinationStoreCode = storeCode,
+                    SaleableRows = saleableRows.ToDataTable<string>(),
+                    UnSaleableRows = unsaleableList.ToDataTable(),
+                    UserID = CurrentUser.Id,
+                    RunDate = DateTime.Now.GetPersianDateNumber()
+                }, commandType: CommandType.StoredProcedure);
 
             return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
         }
