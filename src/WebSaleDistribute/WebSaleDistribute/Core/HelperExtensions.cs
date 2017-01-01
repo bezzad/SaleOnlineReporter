@@ -6,7 +6,6 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using AdoManager;
 using System.Data;
 using System.Linq;
 using System.Globalization;
@@ -14,7 +13,6 @@ using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Drawing;
 using System.Drawing.Imaging;
-using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Core
 {
@@ -322,7 +320,7 @@ namespace WebSaleDistribute.Core
             {
                 return null;
             }
-        }
+        } 
 
         public static List<string> GetViewsName(this System.Web.Mvc.Controller controller)
         {

@@ -35,10 +35,10 @@ namespace WebSaleDistribute.Controllers
                     OldInvoiceId = invoicId,
                     UserId = User.Identity.GetUserId()
                 };
-
+                
                 var result = Connections.SaleBranch.SqlConn.Execute("sp_EntryInWayToWareHouseByOldInvoiceId",
                     param, commandTimeout: 99000,
-                    commandType: System.Data.CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                     msg = $"فاکتور توراهی {invoicId} وارد انبار شد";
@@ -46,7 +46,6 @@ namespace WebSaleDistribute.Controllers
             catch (Exception exp)
             {
                 ErrorSignal.FromCurrentContext().Raise(exp);
-                msg = exp.Message;
                 return InternalServerError(exp);
             }
 
@@ -79,13 +78,10 @@ namespace WebSaleDistribute.Controllers
             var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
-            var unsaleableList =
-                ((List<string[]>) data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0],
-                    y => y[4]);
+            var unsaleableList = ((List<string[]>) data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0], y => y[4]);
             var storeCode = data.warehouse.ToObject(typeof(int));
 
-            var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse",
-                new
+            var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse", new
                 {
                     InvoiceSerialNo = invoiceSerialNo,
                     DestinationStoreCode = storeCode,
