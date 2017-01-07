@@ -59,14 +59,7 @@ namespace WebSaleDistribute.Controllers
 
             if (!string.IsNullOrEmpty(code))
             {
-                if (code.Length < 8)
-                {
-                    ViewBag.QrCode = code;
-                }
-                else
-                {
-                    ViewBag.QrCode = code.RepairCipher()?.Decrypt();
-                }
+                ViewBag.QrCode = code.Length < 8 ? code : code.RepairCipher()?.Decrypt();
 
                 #region Table Data
 
@@ -99,7 +92,7 @@ namespace WebSaleDistribute.Controllers
 
             #region Clear Temp BusinessDoc in use
 
-            Connections.SaleCore.SqlConn.QueryAsync(
+            Connections.SaleCore.SqlConn.ExecuteAsync(
                 "DELETE FROM dbo.TempBusinessDocInUse WHERE UserID = @UserID  AND BusinessDocTypeID = 16", new { UserID= CurrentUser.Id });
 
             #endregion
@@ -143,6 +136,10 @@ namespace WebSaleDistribute.Controllers
             ViewBag.InvoiceSerial = invoiceSerial;
 
             #region Insert in use Business Doc into temp
+
+            // clear older data of this user
+            await Connections.SaleCore.SqlConn.ExecuteAsync(
+                "DELETE FROM dbo.TempBusinessDocInUse WHERE UserID = @UserID  AND BusinessDocTypeID = 16", new { UserID = CurrentUser.Id });
 
             await Connections.SaleCore.SqlConn.ExecuteAsync(
                 "INSERT INTO dbo.TempBusinessDocInUse  VALUES (@UserID , @BusinessDocNo , @BusinessDocTypeID , @ModifyDate)",

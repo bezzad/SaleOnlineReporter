@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Web.Http;
-using Dapper;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using WebSaleDistribute.Models;
-using Elmah;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Newtonsoft.Json.Linq;
 using System.Linq;
+using Microsoft.AspNet.Identity;
+using Dapper;
+using Elmah;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WebSaleDistribute.Core;
 
 namespace WebSaleDistribute.Controllers
@@ -75,7 +72,7 @@ namespace WebSaleDistribute.Controllers
         {
             var content = request.Content;
             string jsonContent = content.ReadAsStringAsync().Result;
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
+            var data = JsonConvert.DeserializeObject<dynamic>(jsonContent);
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
             var unsaleableList = ((List<string[]>) data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0], y => y[4]);
