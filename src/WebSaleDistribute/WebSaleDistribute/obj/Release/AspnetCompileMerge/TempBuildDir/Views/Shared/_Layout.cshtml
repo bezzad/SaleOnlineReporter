@@ -2,7 +2,7 @@
 
 @{
     string dir = ViewData["dir"]?.ToString() ?? "rtl";
-    var version = "ver" + typeof(WebSaleDistribute.MvcApplication).Assembly.GetName().Version.ToString(3);
+    var version = "v" + typeof(WebSaleDistribute.MvcApplication).Assembly.GetName().Version.ToString(3);
 }
 
 <!DOCTYPE html>
@@ -64,7 +64,7 @@
         <hr />
         <footer>
             <p dir="ltr">
-                &copy; @DateTime.Now.Year - Shoniz.co @version <i id="MobileVersion">Desktop</i>
+                <b>Shoniz.co Online Sale</b> <b style="font-size:25px;">&copy;</b> 2015-@DateTime.Now.Year - <i id="MobileVersion">Desktop</i> @version on <b>@Connections.SaleBranch.Connection.Server</b> Server
             </p>
         </footer>
     </div>

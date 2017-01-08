@@ -24,7 +24,7 @@ namespace WebSaleDistribute.Controllers
                     "انتخاب فاکتور برگشتی",
                     "تعیین اقلام قابل فروش",
                     "تایید نهایی اقلام قابل فروش و علت عدم قابل فروش",
-                    "ورود برگشتی به انبار"
+                    "ورود برگشتی و دریافت رسید"
                 };
 
         private readonly List<string> _countingWarehouseSteps = new List<string>()
@@ -139,10 +139,10 @@ namespace WebSaleDistribute.Controllers
 
             // clear older data of this user
             await Connections.SaleCore.SqlConn.ExecuteAsync(
-                "DELETE FROM dbo.TempBusinessDocInUse WHERE UserID = @UserID  AND BusinessDocTypeID = 16", new { UserID = CurrentUser.Id });
+                "DELETE FROM SaleCore.dbo.TempBusinessDocInUse WHERE UserID = @UserID  AND BusinessDocTypeID = 16", new { UserID = CurrentUser.Id });
 
             await Connections.SaleCore.SqlConn.ExecuteAsync(
-                "INSERT INTO dbo.TempBusinessDocInUse  VALUES (@UserID , @BusinessDocNo , @BusinessDocTypeID , @ModifyDate)",
+                "INSERT INTO SaleCore.dbo.TempBusinessDocInUse  VALUES (@UserID , @BusinessDocNo , @BusinessDocTypeID , @ModifyDate)",
                 new
                 {
                     UserID = CurrentUser.Id,
@@ -164,7 +164,7 @@ namespace WebSaleDistribute.Controllers
 
             var customerStoreCode = Connections.SaleBranch.SqlConn.QueryFirst<int>(
                 "SELECT dbo.fn_GetCustomerStoreCode(" +
-                "(SELECT PersonID FROM dbo.udft_BusinessDoc(dbo.fn_GetLongDate()) " +
+                "(SELECT TOP(1) PersonID FROM dbo.udft_BusinessDoc(dbo.fn_GetLongDate()) " +
                 "WHERE BusinessDocNo = dbo.fn_GetBusinessDocNo(@invoiceSerial, 16)))", new { invoiceSerial });
 
             var stores = DatabaseContext.GetWarehouses(true, false, customerStoreCode);
