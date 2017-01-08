@@ -222,6 +222,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GeneralApiController.cs" />
@@ -414,7 +415,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-select.css.map" />
-    <None Include="Properties\PublishProfiles\Apps.dbitabriz.local.pubxml" />
+    <None Include="Properties\PublishProfiles\Tabriz.pubxml" />
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Properties\PublishProfiles\Tehran.pubxml" />
     <None Include="Properties\Settings.settings">

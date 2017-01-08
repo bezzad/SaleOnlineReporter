@@ -1,39 +1,23 @@
 ﻿using System;
 using System.Web.Http;
-using Dapper;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using WebSaleDistribute.Models;
-using Elmah;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Newtonsoft.Json.Linq;
 using System.Linq;
+using Microsoft.AspNet.Identity;
+using Dapper;
+using Elmah;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WebSaleDistribute.Core;
 
 namespace WebSaleDistribute.Controllers
 {
     [Authorize]
-    public class WarehouseApiController : ApiController
+    public class WarehouseApiController : BaseApiController
     {
-        private ApplicationUserManager _userManager;
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-        public ApplicationUser CurrentUser => UserManager.FindById(User.Identity.GetUserId());
-
+        #region Inway
 
         // GET: api/Warehouse/EntryInWayToWarehouse
         [HttpGet]
@@ -48,10 +32,10 @@ namespace WebSaleDistribute.Controllers
                     OldInvoiceId = invoicId,
                     UserId = User.Identity.GetUserId()
                 };
-
+                
                 var result = Connections.SaleBranch.SqlConn.Execute("sp_EntryInWayToWareHouseByOldInvoiceId",
-                    param,
-                    commandType: System.Data.CommandType.StoredProcedure);
+                    param, commandTimeout: 99000,
+                    commandType: CommandType.StoredProcedure);
 
                 if (result > 0)
                     msg = $"فاکتور توراهی {invoicId} وارد انبار شد";
@@ -59,12 +43,15 @@ namespace WebSaleDistribute.Controllers
             catch (Exception exp)
             {
                 ErrorSignal.FromCurrentContext().Raise(exp);
-                msg = exp.Message;
                 return InternalServerError(exp);
             }
 
             return Ok(msg);
         }
+
+        #endregion
+
+        #region Sale returned invoices to warehouse
 
         // GET: api/Warehouse/GetInvoiceDetails
         [HttpGet]
@@ -85,15 +72,28 @@ namespace WebSaleDistribute.Controllers
         {
             var content = request.Content;
             string jsonContent = content.ReadAsStringAsync().Result;
-            var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonContent);
+            var data = JsonConvert.DeserializeObject<dynamic>(jsonContent);
             int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
             var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
-            var unsaleableList = data.unsaleableList.ToObject(typeof(List<JArray>));
-            var warehouse = data.warehouse.ToObject(typeof(int));
+            var unsaleableList = ((List<string[]>) data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0], y => y[4]);
+            var storeCode = data.warehouse.ToObject(typeof(int));
+
+            var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse", new
+                {
+                    InvoiceSerialNo = invoiceSerialNo,
+                    DestinationStoreCode = storeCode,
+                    SaleableRows = saleableRows.ToDataTable<string>(),
+                    UnSaleableRows = unsaleableList.ToDataTable(),
+                    UserID = CurrentUser.Id,
+                    RunDate = DateTime.Now.GetPersianDateNumber()
+                }, commandType: CommandType.StoredProcedure);
 
             return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
         }
 
+        #endregion
+
+        #region Counting Warehouse
 
         // POST: api/StoreReturnedInovicesInWarehouse
         [HttpPost]
@@ -213,5 +213,8 @@ namespace WebSaleDistribute.Controllers
 
             return Ok(msg);
         }
+
+        #endregion
+
     }
 }

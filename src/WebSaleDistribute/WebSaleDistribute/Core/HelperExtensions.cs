@@ -6,7 +6,6 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using AdoManager;
 using System.Data;
 using System.Linq;
 using System.Globalization;
@@ -14,7 +13,6 @@ using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Drawing;
 using System.Drawing.Imaging;
-using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Core
 {
@@ -156,7 +154,7 @@ namespace WebSaleDistribute.Core
         {
             var jc = new PersianCalendar();
             return
-                long.Parse($"{jc.GetYear(date):0000}{jc.GetMonth(date):00}{jc.GetDayOfMonth(date):00}{jc.GetHour(date):00}{jc.GetMinute(date):00}{jc.GetSecond(date):00}{jc.GetMilliseconds(date)}");
+                long.Parse($"{jc.GetYear(date):0000}{jc.GetMonth(date):00}{jc.GetDayOfMonth(date):00}{jc.GetHour(date):00}{jc.GetMinute(date):00}{jc.GetSecond(date):00}{jc.GetMilliseconds(date):000}");
         }
 
 
@@ -234,6 +232,33 @@ namespace WebSaleDistribute.Core
             return data.ToArray().ToDataTable();
         }
 
+        public static DataTable ToDataTable<T>(this IEnumerable<T> data)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Id");
+
+            foreach (var item in data)
+            {
+                dt.Rows.Add(item);
+            }
+
+            return dt;
+        }
+
+        public static DataTable ToDataTable<TKey, TValue>(this IDictionary<TKey, TValue> data)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Key");
+            dt.Columns.Add("Value");
+
+            foreach (var item in data)
+            {
+                dt.Rows.Add(item.Key, item.Value);
+            }
+
+            return dt;
+        }
+
         public static byte[] ToByteArray(this Image image, ImageFormat format)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -295,7 +320,7 @@ namespace WebSaleDistribute.Core
             {
                 return null;
             }
-        }
+        } 
 
         public static List<string> GetViewsName(this System.Web.Mvc.Controller controller)
         {

@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using AdoManager;
 
-internal static partial class Connections
+public static partial class Connections
 {
 	
 		static Connections()
