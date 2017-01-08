@@ -37,7 +37,7 @@ namespace WebSaleDistribute.Controllers
 
         private string GetFileName(string actionName, string extension)
         {
-            return $"{actionName}_{DateTime.Now.GetPersianDate().Replace("/", "")}.{extension}";
+            return $"{actionName}_{DateTime.Now.GetPersianDateNumber()}.{extension}";
         }
 
         [HttpGet, FileDownload]

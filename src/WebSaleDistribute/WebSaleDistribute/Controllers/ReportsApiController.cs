@@ -15,13 +15,8 @@ using WebSaleDistribute.Models;
 namespace WebSaleDistribute.Controllers
 {
     [Authorize]
-    public class ReportsApiController : ApiController
+    public class ReportsApiController : BaseApiController
     {
-        public ApplicationUserManager UserManager => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        public ApplicationUser CurrentUser => UserManager.FindById(User.Identity.GetUserId());
-
-
-
         [Route("Reports/GetInvoiceRemainChart")]
         public IEnumerable<dynamic> GetInvoiceRemainChart(ReceiptsModels model)
         {
@@ -33,7 +28,7 @@ namespace WebSaleDistribute.Controllers
                     FromRemain = model.FromNo,
                     ToRemain = model.ToNo,
                     DistanceAfterDistributeDate = model.DistanceAfterDistributeDate,
-                    RunDate = DateTime.Now.GetPersianDate()
+                    RunDate = DateTime.Now.GetPersianDateNumber()
                 },
                 commandType: System.Data.CommandType.StoredProcedure);
 
