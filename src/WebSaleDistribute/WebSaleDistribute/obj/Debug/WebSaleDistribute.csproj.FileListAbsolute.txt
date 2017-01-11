@@ -396,7 +396,6 @@ D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\Microso
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\Microsoft.Owin.Security.Google.xml
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.csprojResolveAssemblyReference.cache
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.Migrations.Initial.resources
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.Resources.Localization.resources
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.Resources.Localization.fa.resources
@@ -404,3 +403,4 @@ D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\W
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\fa\WebSaleDistribute.resources.dll
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.dll
 D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.pdb
+D:\Shoniz\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.csprojResolveAssemblyReference.cache

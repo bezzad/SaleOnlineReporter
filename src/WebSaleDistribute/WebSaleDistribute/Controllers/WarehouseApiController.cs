@@ -32,7 +32,7 @@ namespace WebSaleDistribute.Controllers
                     OldInvoiceId = invoicId,
                     UserId = User.Identity.GetUserId()
                 };
-                
+
                 var result = Connections.SaleBranch.SqlConn.Execute("sp_EntryInWayToWareHouseByOldInvoiceId",
                     param, commandTimeout: 99000,
                     commandType: CommandType.StoredProcedure);
@@ -70,15 +70,17 @@ namespace WebSaleDistribute.Controllers
         [Route("Warehouse/StoreReturnedInovicesInWarehouse")]
         public IHttpActionResult StoreReturnedInovicesInWarehouse(HttpRequestMessage request)
         {
-            var content = request.Content;
-            string jsonContent = content.ReadAsStringAsync().Result;
-            var data = JsonConvert.DeserializeObject<dynamic>(jsonContent);
-            int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
-            var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
-            var unsaleableList = ((List<string[]>) data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0], y => y[4]);
-            var storeCode = data.warehouse.ToObject(typeof(int));
+            try
+            {
+                var content = request.Content;
+                string jsonContent = content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<dynamic>(jsonContent);
+                int invoiceSerialNo = data.invoiceSerialNo.ToObject(typeof(int));
+                var saleableRows = (string[])data.saleableRows.ToObject(typeof(string[]));
+                var unsaleableList = ((List<string[]>)data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0], y => y[6]);
+                var storeCode = data.warehouse.ToObject(typeof(int));
 
-            var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse", new
+                var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse", new
                 {
                     InvoiceSerialNo = invoiceSerialNo,
                     DestinationStoreCode = storeCode,
@@ -88,7 +90,13 @@ namespace WebSaleDistribute.Controllers
                     RunDate = DateTime.Now.GetPersianDateNumber()
                 }, commandType: CommandType.StoredProcedure);
 
-            return Ok("برگشتی با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
+                return Ok($"برگشتی {invoiceSerialNo} با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
+            }
+            catch (Exception exp)
+            {
+                ErrorSignal.FromCurrentContext().Raise(exp);
+                return InternalServerError(exp);
+            }
         }
 
         #endregion

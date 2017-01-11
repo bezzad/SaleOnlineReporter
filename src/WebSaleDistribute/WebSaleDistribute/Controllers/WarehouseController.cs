@@ -119,7 +119,7 @@ namespace WebSaleDistribute.Controllers
                 Data = tableData,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
-                TotalFooterColumns = new string[] { "مبلغ برگشتي" },
+                TotalFooterColumns = new string[] { "6" },
                 CurrencyColumns = new int[] { 6 },
                 Checkable = false
             };
@@ -213,8 +213,6 @@ namespace WebSaleDistribute.Controllers
                 Data = tableData,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                TotalFooterColumns = new string[] { "تعداد" },
-                CurrencyColumns = new int[] { 8 },
                 Checkable = true
             };
             #endregion
@@ -287,7 +285,7 @@ namespace WebSaleDistribute.Controllers
                 DataSize = "8"
             };
             reasonComboOpt.Name += reasonComboOpt.Id;
-            modelUnSaleable.InputColumnsDataMember["4"] = reasonComboOpt;
+            modelUnSaleable.InputColumnsDataMember["6"] = reasonComboOpt;
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
