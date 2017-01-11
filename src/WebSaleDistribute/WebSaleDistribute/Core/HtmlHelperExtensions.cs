@@ -273,7 +273,7 @@ namespace WebSaleDistribute.Core
                         var data = "";
                         if (input is ComboBoxOption)
                         {
-                            data = htmlHelper.ComboBox((ComboBoxOption) input).ToHtmlString();
+                            data = htmlHelper.ComboBox((ComboBoxOption) input, row[col.Name].ToString()).ToHtmlString();
                         }
                         else if (input is TextBoxOption)
                         {
@@ -499,9 +499,11 @@ namespace WebSaleDistribute.Core
             }
         }
 
-        public static MvcHtmlString ComboBox(this HtmlHelper htmlHelper, ComboBoxOption opt)
+        public static MvcHtmlString ComboBox(this HtmlHelper htmlHelper, ComboBoxOption opt, string defaultValue = null)
         {
             if (opt == null) throw new ArgumentNullException(nameof(opt));
+
+            defaultValue = defaultValue ?? opt.DefaultValue;
 
             var div = new TagBuilder("select");
             div.Attributes.Add("id", opt.Id);
@@ -535,7 +537,7 @@ namespace WebSaleDistribute.Core
                 else
                 {
                     var subtext = string.IsNullOrEmpty(data.SubText) ? "" : $"data-subtext='{data.SubText}'";
-                    var selected = data.Selected || (!string.IsNullOrEmpty(opt.DefaultValue) && data.Value == opt.DefaultValue) ? " selected" : "";
+                    var selected = data.Selected || (!string.IsNullOrEmpty(defaultValue) && data.Value == defaultValue) ? " selected" : "";
                     var disabled = data.Enabled ? "" : " disabled";
                     body += $"<option value='{data.Value}' {subtext}{selected}{disabled}>{data.Text}</option>";
                 }

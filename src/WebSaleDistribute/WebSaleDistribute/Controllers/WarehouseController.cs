@@ -23,7 +23,7 @@ namespace WebSaleDistribute.Controllers
                 {
                     "انتخاب فاکتور برگشتی",
                     "تعیین اقلام قابل فروش",
-                    "تایید نهایی اقلام قابل فروش و علت عدم قابل فروش",
+                    "تایید نهایی اقلام قابل فروش و علت غیر قابل فروش",
                     "ورود برگشتی و دریافت رسید"
                 };
 
@@ -88,7 +88,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/SaleReturnInvoices
         public ActionResult SaleReturnInvoices()
         {
-            ViewBag.Title = "انتخاب یک فاکتور برگشت از فروش";
+            ViewBag.Title = _saleReturnedSteps[0];
 
             #region Clear Temp BusinessDoc in use
 
@@ -132,7 +132,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}
         public async Task<ActionResult> ChooseReturnedInvoiceDetails(int invoiceSerial)
         {
-            ViewBag.Title = $"انتخاب اقلام برگشتی قابل فروش";
+            ViewBag.Title = _saleReturnedSteps[1];
             ViewBag.InvoiceSerial = invoiceSerial;
 
             #region Insert in use Business Doc into temp
@@ -223,7 +223,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows}&warehouse={warehouse}
         public ActionResult CertificationSelectedReturnedInvoiceDetails(int invoiceSerial, string rows, string warehouse)
         {
-            ViewBag.Title = "تایید برگشتی قابل فروش و غیر قابل فروش";
+            ViewBag.Title = _saleReturnedSteps[2];
             ViewBag.InvoiceSerial = invoiceSerial;
             ViewBag.Warehouse = warehouse;
             ViewBag.WarehouseName = DatabaseContext.GetWarehouses(true, true).FirstOrDefault(c => c.Value == warehouse)?.Text;
@@ -304,7 +304,7 @@ namespace WebSaleDistribute.Controllers
         [HttpPost]
         public ActionResult ShowEntryReturnedInvoiceDetails(string invoiceSerialNo, string saleableRows, string unsaleableList)
         {
-            ViewBag.Title = "ورود به انبار برگشتی";
+            ViewBag.Title = _saleReturnedSteps[3];
 
             var serialNo = JsonConvert.DeserializeObject<int>(invoiceSerialNo);
             var saleable = JsonConvert.DeserializeObject(saleableRows);
@@ -320,7 +320,28 @@ namespace WebSaleDistribute.Controllers
             return View("SaleReturnedInvoice/ShowEntryReturnedInvoiceDetails", multipleStepOpt);
         }
 
+        public ActionResult ReciptReturnedInvoicesTable()
+        {
+            #region Table Data
 
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
+                "sp_GetSaleReturnInvoicesTable", commandType: CommandType.StoredProcedure).ToDataTable();
+
+            var model = new TableOption()
+            {
+                Id = "saleReturnInvoices",
+                Data = tableData,
+                DisplayRowsLength = 10,
+                Orders = new[] { Tuple.Create(0, OrderType.desc) },
+                TotalFooterColumns = new string[] { "6" },
+                CurrencyColumns = new int[] { 6 },
+                Checkable = false
+            };
+
+            #endregion
+
+            return PartialView("SaleReturnedInvoice/_ReciptReturnedInvoicesTablePartial", model);
+        }
         #endregion
 
 
