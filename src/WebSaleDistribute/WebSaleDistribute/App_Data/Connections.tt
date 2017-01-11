@@ -1,6 +1,6 @@
-<#@ template language="C#"  hostspecific="true" debug="false" #>
+<#@ template language="C#"  hostspecific="true" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="$(SolutionDir)\packages\AdoManager.1.1.80\lib\net45\AdoManager.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\AdoManager.1.1.83\lib\net45\AdoManager.dll" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="AdoManager" #>
 //------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ using System;
 using System.IO;
 using AdoManager;
 
-internal static partial class Connections
+public static partial class Connections
 {
 	<#
 	string path =  Host.ResolvePath("..");
@@ -30,7 +30,7 @@ internal static partial class Connections
 		: "App.config";
 			
 	string designTimePath = Path.Combine(path, configPath);
-	configPath = (configPath == "App.config") ? "appName + \".exe.config\"" : "\"Web.config\"";
+	configPath = (configPath == "App.config") ? "appName + \".config\"" : "\"Web.config\"";
 
 	if(File.Exists(designTimePath)) 
 	{
@@ -43,7 +43,7 @@ internal static partial class Connections
 		static Connections()
 		{
 			// Get runtime application name
-			var appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+			var appName = Path.GetFileName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
 			// Set Database Connection from App.config or Web.config
 			var data = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, <#= configPath #>));
