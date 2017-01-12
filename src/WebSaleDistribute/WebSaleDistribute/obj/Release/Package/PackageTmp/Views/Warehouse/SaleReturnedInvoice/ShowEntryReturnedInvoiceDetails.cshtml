@@ -1,10 +1,33 @@
 ﻿@using WebSaleDistribute.Core
-@using WebSaleDistribute.Core.Enums
 
 @model MultipleStepProgressTabOption
+
+@{
+    ViewData["dir"] = "ltr";
+}
+
+@section scripts
+{
+    <script>
+        // Call DataTable() func in all of the jquery tables
+        $(document).ready(function () {
+            loadDataTables('saleReturnInvoices', 50);
+        })
+    </script>
+}
 
 @Html.MultipleStepProgressTab(Model)
 
 
-<h2>ShowEntryReturnedInvoiceDetails</h2>
+<h2 dir="rtl">@ViewBag.Title</h2>
 
+<div class="container">
+    <div class="tab-content">
+        <div id="grid" class="tab-pane fade in active">
+            <!-- data -->
+            <br />
+            @Html.Action("ReciptReturnedInvoicesTable", "Warehouse")
+            <!-- /data -->
+        </div>
+    </div>
+</div>

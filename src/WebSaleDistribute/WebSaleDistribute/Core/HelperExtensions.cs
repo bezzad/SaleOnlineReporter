@@ -13,6 +13,8 @@ using Microsoft.AspNet.Identity;
 using System.Web;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Net;
+using System.Net.Sockets;
 
 namespace WebSaleDistribute.Core
 {
@@ -320,7 +322,7 @@ namespace WebSaleDistribute.Core
             {
                 return null;
             }
-        } 
+        }
 
         public static List<string> GetViewsName(this System.Web.Mvc.Controller controller)
         {
@@ -334,6 +336,13 @@ namespace WebSaleDistribute.Core
             var result = tC.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).Select(mi => mi.Name).Distinct().ToList();
 
             return result;
+        }
+
+
+        public static string GetLocalIpAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)?.ToString();
         }
     }
 }
