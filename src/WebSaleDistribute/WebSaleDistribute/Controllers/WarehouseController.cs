@@ -306,10 +306,25 @@ namespace WebSaleDistribute.Controllers
         {
             ViewBag.Title = _saleReturnedSteps[3];
 
-            var serialNo = JsonConvert.DeserializeObject<int>(invoiceSerialNo);
+            ViewBag.InvoiceSerial = JsonConvert.DeserializeObject<int>(invoiceSerialNo);
             var saleable = JsonConvert.DeserializeObject(saleableRows);
             var unsaleable = JsonConvert.DeserializeObject(unsaleableList);
 
+            #region Table Data
+
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
+                "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = ViewBag.InvoiceSerial },
+                commandType: CommandType.StoredProcedure).ToDataTable();
+
+            var tblModel = new TableOption()
+            {
+                Id = "saleReturnInvoicesRecipts",
+                Data = tableData,
+                Orders = new[] { Tuple.Create(0, OrderType.desc) },
+                Checkable = false
+            };
+
+            #endregion
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
@@ -317,31 +332,9 @@ namespace WebSaleDistribute.Controllers
                 CurrentStepIndex = 4
             };
 
-            return View("SaleReturnedInvoice/ShowEntryReturnedInvoiceDetails", multipleStepOpt);
+            return View("SaleReturnedInvoice/ShowEntryReturnedInvoiceDetails", Tuple.Create(multipleStepOpt, tblModel));
         }
-
-        public ActionResult ReciptReturnedInvoicesTable()
-        {
-            #region Table Data
-
-            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
-                "sp_GetSaleReturnInvoicesTable", commandType: CommandType.StoredProcedure).ToDataTable();
-
-            var model = new TableOption()
-            {
-                Id = "saleReturnInvoices",
-                Data = tableData,
-                DisplayRowsLength = 10,
-                Orders = new[] { Tuple.Create(0, OrderType.desc) },
-                TotalFooterColumns = new string[] { "6" },
-                CurrencyColumns = new int[] { 6 },
-                Checkable = false
-            };
-
-            #endregion
-
-            return PartialView("SaleReturnedInvoice/_ReciptReturnedInvoicesTablePartial", model);
-        }
+        
         #endregion
 
 

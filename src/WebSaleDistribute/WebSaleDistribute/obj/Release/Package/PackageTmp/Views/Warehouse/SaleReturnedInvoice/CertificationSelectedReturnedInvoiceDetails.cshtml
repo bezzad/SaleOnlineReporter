@@ -72,7 +72,7 @@
             <br/>
             @(Html.PanelItem(new PanelItemOption()
                     {
-                    Id = "aleableDetails_" + Guid.NewGuid().ToString(),
+                    Id = "aleableDetails_" + Guid.NewGuid(),
                     Body = Html.TableItem(Model.Item1).ToHtmlString(),
                     Title = $"قابل فروش",
                     HasDetailLink = false,

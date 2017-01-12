@@ -80,7 +80,7 @@ namespace WebSaleDistribute.Controllers
                 var unsaleableList = ((List<string[]>)data.unsaleableList.ToObject(typeof(List<string[]>))).ToDictionary(x => x[0], y => y[6]);
                 var storeCode = data.warehouse.ToObject(typeof(int));
 
-                var res = Connections.SaleBranch.SqlConn.Query("sp_TransferReturnSaleToWarehouse", new
+                var res = Connections.SaleBranch.SqlConn.QueryMultiple("sp_TransferReturnSaleToWarehouse", new
                 {
                     InvoiceSerialNo = invoiceSerialNo,
                     DestinationStoreCode = storeCode,
@@ -89,6 +89,16 @@ namespace WebSaleDistribute.Controllers
                     UserID = CurrentUser.Id,
                     RunDate = DateTime.Now.GetPersianDateNumber()
                 }, commandType: CommandType.StoredProcedure);
+
+                if (!res.IsConsumed)
+                {
+                    var saleReturnToMainWarehouse = res.ReadSingleOrDefault();
+
+                    if (!res.IsConsumed)
+                    {
+                        var buyReturnToMainWarehouse = res.ReadSingleOrDefault();
+                    }
+                }
 
                 return Ok($"برگشتی {invoiceSerialNo} با موفقیت ثبت شد. لطفا برای مشاهده نتیجه ثبت منتظر بمانید...");
             }
