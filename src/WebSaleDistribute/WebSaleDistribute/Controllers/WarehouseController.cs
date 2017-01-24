@@ -23,7 +23,7 @@ namespace WebSaleDistribute.Controllers
                 {
                     "انتخاب فاکتور برگشتی",
                     "تعیین اقلام قابل فروش",
-                    "تایید نهایی اقلام قابل فروش و علت عدم قابل فروش",
+                    "تایید نهایی اقلام قابل فروش و علت غیر قابل فروش",
                     "ورود برگشتی و دریافت رسید"
                 };
 
@@ -88,7 +88,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/SaleReturnInvoices
         public ActionResult SaleReturnInvoices()
         {
-            ViewBag.Title = "انتخاب یک فاکتور برگشت از فروش";
+            ViewBag.Title = _saleReturnedSteps[0];
 
             #region Clear Temp BusinessDoc in use
 
@@ -119,7 +119,7 @@ namespace WebSaleDistribute.Controllers
                 Data = tableData,
                 DisplayRowsLength = 10,
                 Orders = new[] { Tuple.Create(0, OrderType.desc) },
-                TotalFooterColumns = new string[] { "مبلغ برگشتي" },
+                TotalFooterColumns = new string[] { "6" },
                 CurrencyColumns = new int[] { 6 },
                 Checkable = false
             };
@@ -132,7 +132,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/ChooseReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}
         public async Task<ActionResult> ChooseReturnedInvoiceDetails(int invoiceSerial)
         {
-            ViewBag.Title = $"انتخاب اقلام برگشتی قابل فروش";
+            ViewBag.Title = _saleReturnedSteps[1];
             ViewBag.InvoiceSerial = invoiceSerial;
 
             #region Insert in use Business Doc into temp
@@ -213,8 +213,6 @@ namespace WebSaleDistribute.Controllers
                 Data = tableData,
                 DisplayRowsLength = -1,
                 Orders = new[] { Tuple.Create(0, OrderType.asc) },
-                TotalFooterColumns = new string[] { "تعداد" },
-                CurrencyColumns = new int[] { 8 },
                 Checkable = true
             };
             #endregion
@@ -225,7 +223,7 @@ namespace WebSaleDistribute.Controllers
         // GET: Warehouse/CertificationSelectedReturnedInvoiceDetails/?invoiceSerial={invoiceSerial}&rows={rows}&warehouse={warehouse}
         public ActionResult CertificationSelectedReturnedInvoiceDetails(int invoiceSerial, string rows, string warehouse)
         {
-            ViewBag.Title = "تایید برگشتی قابل فروش و غیر قابل فروش";
+            ViewBag.Title = _saleReturnedSteps[2];
             ViewBag.InvoiceSerial = invoiceSerial;
             ViewBag.Warehouse = warehouse;
             ViewBag.WarehouseName = DatabaseContext.GetWarehouses(true, true).FirstOrDefault(c => c.Value == warehouse)?.Text;
@@ -287,7 +285,7 @@ namespace WebSaleDistribute.Controllers
                 DataSize = "8"
             };
             reasonComboOpt.Name += reasonComboOpt.Id;
-            modelUnSaleable.InputColumnsDataMember["4"] = reasonComboOpt;
+            modelUnSaleable.InputColumnsDataMember["6"] = reasonComboOpt;
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
@@ -306,12 +304,27 @@ namespace WebSaleDistribute.Controllers
         [HttpPost]
         public ActionResult ShowEntryReturnedInvoiceDetails(string invoiceSerialNo, string saleableRows, string unsaleableList)
         {
-            ViewBag.Title = "ورود به انبار برگشتی";
+            ViewBag.Title = _saleReturnedSteps[3];
 
-            var serialNo = JsonConvert.DeserializeObject<int>(invoiceSerialNo);
+            ViewBag.InvoiceSerial = JsonConvert.DeserializeObject<int>(invoiceSerialNo);
             var saleable = JsonConvert.DeserializeObject(saleableRows);
             var unsaleable = JsonConvert.DeserializeObject(unsaleableList);
 
+            #region Table Data
+
+            var tableData = Connections.SaleBranch.SqlConn.ExecuteReader(
+                "sp_GetSaleReturnInvoiceDetailsTable", new { SerialNo = ViewBag.InvoiceSerial },
+                commandType: CommandType.StoredProcedure).ToDataTable();
+
+            var tblModel = new TableOption()
+            {
+                Id = "saleReturnInvoicesRecipts",
+                Data = tableData,
+                Orders = new[] { Tuple.Create(0, OrderType.desc) },
+                Checkable = false
+            };
+
+            #endregion
 
             var multipleStepOpt = new MultipleStepProgressTabOption()
             {
@@ -319,10 +332,9 @@ namespace WebSaleDistribute.Controllers
                 CurrentStepIndex = 4
             };
 
-            return View("SaleReturnedInvoice/ShowEntryReturnedInvoiceDetails", multipleStepOpt);
+            return View("SaleReturnedInvoice/ShowEntryReturnedInvoiceDetails", Tuple.Create(multipleStepOpt, tblModel));
         }
-
-
+        
         #endregion
 
 

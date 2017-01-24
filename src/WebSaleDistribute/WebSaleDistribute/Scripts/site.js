@@ -590,7 +590,7 @@ function checkCookie() {
         alert("Welcome again " + user);
     } else {
         user = prompt("Please enter your name:", "");
-        if (user !== "" && user != null) {
+        if (user !== "" && user !== null) {
             setCookie("username", user, 365);
         }
     }

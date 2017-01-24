@@ -265,7 +265,7 @@
     <value>واحد</value>
   </data>
   <data name="UnitID" xml:space="preserve">
-    <value>واحد</value>
+    <value>شناسه واحد</value>
   </data>
   <data name="UnitPrice" xml:space="preserve">
     <value>قیمت واحد</value>
