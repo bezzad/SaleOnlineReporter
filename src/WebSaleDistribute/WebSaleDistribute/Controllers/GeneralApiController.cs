@@ -106,5 +106,48 @@ namespace WebSaleDistribute.Controllers
                 return null;
             }
         }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("General/GetOfficerEmployees/{OfficerEmployeeID}")]
+        public IHttpActionResult GetOfficerEmployee(int officerEmployeeID)
+        {
+            var result = Connections.SaleBranch.SqlConn.Query("SELECT EmployeeName,EmployeeID FROM dbo.udft_Employee(@RunDate) WHERE OfficerEmployeeID=@OfficerEmployeeID",
+                new { OfficerEmployeeID = officerEmployeeID, RunDate = DateTime.Now.GetPersianDate() },
+                commandType: System.Data.CommandType.Text);
+
+            return Ok(result);
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("General/GetEmployeePath/{EmployeeID}")]
+        public IHttpActionResult GetEmployeePath(int employeeID)
+        {
+            var result = Connections.SaleBranch.SqlConn.Query("SELECT PathCode,PathName FROM dbo.udft_VisitPath(@RunDate) WHERE VisitorEmployeeID=@EmployeeID",
+                new { EmployeeID = employeeID, RunDate = DateTime.Now.GetPersianDate() },
+                commandType: System.Data.CommandType.Text);
+
+            return Ok(result);
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("General/GetCustomerPointStatus/{PathCode}/{ClassNames}")]
+        public IHttpActionResult GetCustomerPointStatus(int pathCode,string classNames)
+        {
+            var result = Connections.SaleBranch.SqlConn.ExecuteReader("sp_GetCustomerPointStatus",
+                new { PathCode = pathCode, ClassNames= classNames },
+                commandType: System.Data.CommandType.StoredProcedure).ToDataTable();
+            return Ok(result);
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("General/CustomerPointUpdateStatus/{customerId}/{status}/{UserName}")]
+        public IHttpActionResult CustomerPointUpdateStatus(int customerId, int status,int userName)
+        {
+            
+            var result = Connections.SaleBranch.SqlConn.ExecuteReader("sp_CustomerPoint_Update_Status",
+                new { CustomerID = customerId, Status = status, UserName = userName },
+                commandType: System.Data.CommandType.StoredProcedure);
+            return Ok(result);
+        }
     }
 }

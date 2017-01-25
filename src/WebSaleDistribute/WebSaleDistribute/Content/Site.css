@@ -15,6 +15,10 @@
      font-family: "IRANSans", "IRANSans-web", "B Nazanin";
 }*/
 
+.infoDiv{
+    font-family: "IRANSans", "yekan", "B Nazanin";
+}
+
 body {
     background-image: url(../images/site_cover.jpg);
     -ms-background-size: cover;
@@ -212,3 +216,10 @@ table.dataTable tbody tr {
     text-align: right;
 }
 /* --------------- rtl bootstrap-select ---------------------- */
+
+table.grid-table{
+    direction:rtl;
+}
+th{
+    direction: ltr;
+}

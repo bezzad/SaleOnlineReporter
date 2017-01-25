@@ -1,0 +1,259 @@
+﻿
+@model  List<WebSaleDistribute.Models.CustomerPointFilterModels>
+
+
+<div class="row" style="padding:10px">
+    <div class="col-lg-6">
+        <div class="btn-group">
+            <div class="btn-group">
+                <a id="EmployeePathSelected" selText="" selValue="" class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#">انتخاب مسیر<span class="caret"></span></a>
+                <ul id="EmployeePath" class="dropdown-menu"></ul>
+            </div>
+        </div>
+    </div><!-- /.col-lg-6 -->
+    <div class="col-lg-6">
+        <div class="input-group">
+            <a id="officerEmployeesSelected" class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#">انتخاب فروشنده<span class="caret"></span></a>
+            <ul id="officerEmployees" class="dropdown-menu"></ul>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+
+
+<div style="display:flex; justify-content: space-between;  width:100%; height:80vh">
+    <div style="width:70%; height: 85%;">
+        <div id="map_canvas" style="width:100%; height: 74vh; border-right: 1px dashed red"></div>
+        <div class="row" id="customerCommit" style="padding:5px; width:100%; height: 5vh;  border-top: 1px dashed red">
+
+            <div class="col-xs-4">
+                <button id="btnCommitCustomer" val="" onclick="clickCommitCustomer(this)" class="btn btn-default">موقعیت درست</button>
+            </div>
+            <div class="col-xs-4">
+                <button id="btnIgnoreCustomer" val="" onclick="clickIgnoreCustomer(this)" class="btn btn-danger">موقعیت نادرست</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="width:30%; height: 100%;">
+        <div id="pathInfo" class="alert-info" style="direction: rtl; padding:4px">
+        </div>
+        <div id="customerDiv" style="overflow-y: scroll; height: 91%;">
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+
+        var customerData;
+        var map;
+        var bounds;
+        var markers = [];
+        var table;
+        $(document).ready(function() {
+            $.get("../General/GetOfficerEmployees/" + @ViewBag.UserName, function(data) {
+                var li = "";
+                $("#officerEmployees").html("");
+                $.each(data, function(key, value) {
+                    li = "<li class=\"liOfficerEmployees\" value='" + value.EmployeeID + "'><a href=\"#\">" + value.EmployeeName + "</a></li>";
+                    $("#officerEmployees").append(li);
+                });
+                $(".liOfficerEmployees").click(liOfficerEmployeesClick);
+            });
+            $("#customerCommit").hide();
+
+
+        });
+
+        var liOfficerEmployeesClick = function() {
+            var selText = $(this).text();
+            var selValue = $(this).val();
+            $("#officerEmployeesSelected").html(selText + ' <span class="caret"></span>');
+            $.get("../General/GetEmployeePath/" + selValue, function(data) {
+                var li = "";
+                $("#EmployeePath").html("");
+                $.each(data, function(key, value) {
+                    li = "<li class=\"liEmployeePath\" value='" + value.PathCode + "'><a href=\"#\">" + value.PathName + "</a></li>";
+                    $("#EmployeePath").append(li);
+                });
+                $(".liEmployeePath").click(liEmployeePathClick);
+            });
+        };
+
+        var liEmployeePathClick = function() {
+            var selText = $(this).text();
+            var selValue = $(this).val();
+            $("#EmployeePathSelected").attr('selText',selText);
+            $("#EmployeePathSelected").attr('selValue',selValue);
+            fillData(selText, selValue);
+        };
+
+        var fillData=function(selText,selValue) {
+            $("#EmployeePathSelected").html(selText + ' <span class="caret"></span>');
+            $("#pathInfo").html(selText);
+            setMapOnAll(null);
+
+
+            var link = '/Customer/GetCustomerPointStatus?PathCode=' + selValue + '&ClassNames=A';
+            $.get(link, function(data) {
+                $('#customerDiv').html(data);
+                $("tr.grid-row").click(function(e) {
+                    $("tr.grid-row").removeClass('alert alert-success');
+                    $(this).addClass('alert alert-success');
+
+                    var personId = $($($(this)[0]).find("td")[0]).html();
+                    $("#btnCommitCustomer").hide();
+                    $("#btnIgnoreCustomer").hide();
+                    $.each(customerData, function(ix, item) {
+                        if (item.PersonID === parseInt(personId) && (item.Status === 1 || item.Status === 2) ) {
+                            $("#btnCommitCustomer").attr("val","../General/CustomerPointUpdateStatus/"+personId+"/2/"+@ViewBag.UserName);
+                            $("#btnIgnoreCustomer").attr("val","../General/CustomerPointUpdateStatus/"+personId+"/0/"+@ViewBag.UserName);
+                            $("#btnCommitCustomer").show();
+                            $("#btnIgnoreCustomer").show();
+                            for (var i = 0; i < markers.length; i++) {
+                                if (personId === markers[i].item.PersonID.toString()) {
+                                    markers[i].setIcon("../images/map_marker_blue.png");
+                                    map.setZoom(17);
+                                    map.panTo(markers[i].position);
+                                    $("#customerCommit").show();
+                                } else {
+                                    if (markers[i].item.Status === 1) {
+                                        markers[i].setIcon("../images/map_marker_pink.png");
+                                    } else {
+                                        markers[i].setIcon("../images/map_marker_chartreuse.png");
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    
+                });
+            });
+
+
+            $.get("../General/GetCustomerPointStatus/" + selValue + "/A", function(data) {
+                customerData = data;
+                bounds = new google.maps.LatLngBounds();
+                $.each(data, function(i, item) {
+                    if (item.Status !== 0) {
+                        addMarkerToMap(item);
+                        map.fitBounds(bounds);
+                    }
+                });
+            });
+        }
+
+
+        var clickCommitCustomer=function(btn) {
+            $.get($(btn).attr("val"), function(data) {
+                toastr.info("موقعیت مشتری تایید شد.");
+            });
+            $("#btnCommitCustomer").hide();
+            $("#btnIgnoreCustomer").hide();
+            var selText =  $("#EmployeePathSelected").attr('selText');
+            var selValue =  $("#EmployeePathSelected").attr('selValue');
+            fillData(selText, selValue);
+        }
+
+        var clickIgnoreCustomer=function(btn) {
+            $.get($(btn).attr("val"), function(data) {
+                toastr.info("موقعیت مشتری برای ثبت دوباره، تعیین شد");
+            });
+            $("#btnCommitCustomer").hide();
+            $("#btnIgnoreCustomer").hide();
+            var selText =  $("#EmployeePathSelected").attr('selText');
+            var selValue =  $("#EmployeePathSelected").attr('selValue');
+            fillData(selText, selValue);
+        }
+
+        var clickTrCustomer=function(event){
+            var personId=event.id.replace("cus_","");
+            for (var i = 0; i < markers.length; i++) {
+                if(personId=== markers[i].item.PersonID.toString())
+                {
+                    markers[i].setIcon("../images/map_marker_blue.png");
+                    map.setZoom(17);
+                    map.panTo(markers[i].position);
+                    $("#customerInfo").html(markers[i].item.PersonID+"-"+markers[i].item.PersonName+" ( "+markers[i].item.ContactLastName+" ) ");
+                    $("#customerCommit").show();
+                }
+                else
+                {
+                    if(markers[i].item.Status===1)
+                    {
+                        markers[i].setIcon("../images/map_marker_pink.png");
+                    }
+                    else
+                    {
+                        markers[i].setIcon("../images/map_marker_chartreuse.png");
+                    }
+
+                }
+
+            }
+        };
+
+        function initMap() {
+
+            // Google has tweaked their interface somewhat - this tells the api to use that new UI
+            google.maps.visualRefresh = true;
+            var Tunisie = new google.maps.LatLng(@ViewBag.Latitude, @ViewBag.Longitude);
+
+            // These are options that set initial zoom level, where the map is centered globally to start, and the type of map to show
+            var mapOptions = {
+                zoom: 8,
+                center: Tunisie,
+                mapTypeId: google.maps.MapTypeId.G_NORMAL_MAP
+            };
+            map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+            bounds = new google.maps.LatLngBounds();
+            // This makes the div with id "map_canvas" a google map
+            // a sample list of JSON encoded data of places to visit in Tunisia
+        }
+
+        var addMarkerToMap=function(item) {
+            var marker = new google.maps.Marker({
+                'position': new google.maps.LatLng(item.latitude, item.longitude),
+                'map': map,
+                'id':item.PersonID,
+                'title': item.PlaceName,
+                'item':item
+            });
+            bounds.extend( marker.getPosition() );
+            // Make the marker-pin blue!
+            if(item.Status===1)
+            {
+                marker.setIcon("../images/map_marker_pink.png");
+            }
+            else
+            {
+                marker.setIcon("../images/map_marker_chartreuse.png");
+            }
+
+            // put in some information about each json object - in this case, the opening hours.
+            var infowindow = new google.maps.InfoWindow({
+                content: "<div  dir='rtl'class='infoDiv'><h2>" + item.PersonName + "</h2> <h4>" + item.ContactLastName + "</h4></div></div>"
+            });
+
+            // finally hook up an "OnClick" listener to the map so it pops up out info-window when the marker-pin is clicked!
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+            markers.push(marker);
+        }
+
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0_QXewKjAZmoTitLsdZfJKb0ytRwjsBQ&callback=initMap"
+            type="text/javascript"></script>
+}
+
+

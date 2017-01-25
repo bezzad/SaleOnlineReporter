@@ -121,14 +121,14 @@
 
             // internal functions
 
-            function clearContainer(options) {
+            function clearContainer (options) {
                 var toastsToClear = $container.children();
                 for (var i = toastsToClear.length - 1; i >= 0; i--) {
                     clearToast($(toastsToClear[i]), options);
                 }
             }
 
-            function clearToast($toastElement, options, clearOptions) {
+            function clearToast ($toastElement, options, clearOptions) {
                 var force = clearOptions && clearOptions.force ? clearOptions.force : false;
                 if ($toastElement && (force || $(':focus', $toastElement).length === 0)) {
                     $toastElement[options.hideMethod]({
@@ -279,7 +279,7 @@
                     $toastElement.hide();
 
                     $toastElement[options.showMethod](
-                        { duration: options.showDuration, easing: options.showEasing, complete: options.onShown }
+                        {duration: options.showDuration, easing: options.showEasing, complete: options.onShown}
                     );
 
                     if (options.timeOut > 0) {
@@ -377,7 +377,7 @@
                     clearTimeout(intervalId);
                     progressBar.hideEta = 0;
                     $toastElement.stop(true, true)[options.showMethod](
-                        { duration: options.showDuration, easing: options.showEasing }
+                        {duration: options.showDuration, easing: options.showEasing}
                     );
                 }
 
