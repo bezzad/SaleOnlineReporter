@@ -514,3 +514,4 @@ E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistri
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\fa\WebSaleDistribute.resources.dll
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.dll
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.pdb
+E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\GridMvc.dll
