@@ -112,7 +112,7 @@ namespace WebSaleDistribute.Controllers
         public IHttpActionResult GetOfficerEmployee(int officerEmployeeID)
         {
             var result = Connections.SaleBranch.SqlConn.Query("SELECT EmployeeName,EmployeeID FROM dbo.udft_Employee(@RunDate) WHERE OfficerEmployeeID=@OfficerEmployeeID",
-                new { OfficerEmployeeID = officerEmployeeID, RunDate = DateTime.Now.GetPersianDate() },
+                new { OfficerEmployeeID = officerEmployeeID, RunDate = DateTime.Now.GetPersianDateNumber()},
                 commandType: System.Data.CommandType.Text);
 
             return Ok(result);
@@ -123,7 +123,18 @@ namespace WebSaleDistribute.Controllers
         public IHttpActionResult GetEmployeePath(int employeeID)
         {
             var result = Connections.SaleBranch.SqlConn.Query("SELECT PathCode,PathName FROM dbo.udft_VisitPath(@RunDate) WHERE VisitorEmployeeID=@EmployeeID",
-                new { EmployeeID = employeeID, RunDate = DateTime.Now.GetPersianDate() },
+                new { EmployeeID = employeeID, RunDate = DateTime.Now.GetPersianDateNumber() },
+                commandType: System.Data.CommandType.Text);
+
+            return Ok(result);
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("General/GetVisitorOrder/{EmployeeID}/{orderFromDate}/{orderToDate}")]
+        public IHttpActionResult GetVisitorOrder(int employeeID,string orderFromDate,string orderToDate)
+        {
+            var result = Connections.SaleBranch.SqlConn.Query("SELECT * FROM fn_GetVisitorOrderPoint(@EmployeeID,@OrderFromDate,@OrderToDate,@RunDate)",
+                new { EmployeeID = employeeID, OrderFromDate= orderFromDate.Replace("-", "/"), OrderToDate = orderToDate.Replace("-", "/"), RunDate = DateTime.Now.GetPersianDateNumber() },
                 commandType: System.Data.CommandType.Text);
 
             return Ok(result);

@@ -42,6 +42,7 @@ namespace WebSaleDistribute
                                         "~/Scripts/DataTables-Plugins/sorting/persian.js",
                                         "~/Scripts/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.js",
                                         "~/Scripts/MdBootstrapPersianDateTimePicker/jalaali.js",
+                                        "~/Scripts/drawer.min.js",
                                         "~/Scripts/site.js").ForceOrdered());
 
             bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
