@@ -1,0 +1,83 @@
+@{
+    ViewData["dir"] = "rtl";
+}
+
+<br />
+
+<h2 dir="rtl">@ViewBag.Title</h2>
+
+<div class="container">
+
+    <div class="panel panel-default">
+
+        @if (ViewBag.PriceId == null)
+        {
+            <div id="err" class="alert alert-danger" role="alert"  >
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+               ????? ???? ??? ????? ??? ????
+            </div>
+        }
+        else
+        {
+            <div class="panel-heading">?????? ????</div>
+
+        <!-- Table -->
+            <table class="table">
+                <tbody class="h3">
+                    <tr> <td style="width: 30%">????? ?????</td> <td class="text-primary">@ViewBag.BusinessDocNo</td> </tr>
+                    <tr> <td style="width: 30%">??? ?????</td> <td class="text-primary">@ViewBag.ProductName</td> </tr>
+                    <tr> <td style="width: 30%">?? ?????</td> <td class="text-primary">@ViewBag.OldProductCode</td> </tr>
+                    <tr> <td style="width: 30%">???? ????</td> <td class="text-primary">@ViewBag.Group4Name</td> </tr>
+                    <tr> <td style="width: 30%">???????</td> <td class="text-primary">@ViewBag.ProductDescription</td> </tr>
+                    <tr> <td style="width: 30%">????? ?? ?????</td> <td class="text-primary">@ViewBag.PieceOfCarton</td> </tr>
+                    <tr> <td style="width: 30%">???? ????</td> <td class="text-primary">@ViewBag.Price</td> </tr>
+                    <tr> <td style="width: 30%">???? ???? ?????</td> <td class="text-primary">@ViewBag.ConsumerPrice</td> </tr>
+                    <tr> <td style="width: 30%">?????</td> <td class="text-primary">@ViewBag.PriceId</td> </tr>
+                    <tr> <td style="width: 30%">????? ????? ?? ????? </td> <td class="text-primary">@ViewBag.Qty</td> </tr>
+                </tbody>
+            </table>
+        }
+
+        <!-- Default panel contents -->
+       
+
+        @using (Ajax.BeginForm("EntryProductionToWarehouse", "Warehouse", new AjaxOptions {HttpMethod = "POST"}, new {id = "SignInProduction"}))
+        {
+            <input type="hidden" id="BusinessDocNo" name="BusinessDocNo" value="@ViewBag.businessDocNo"/>
+            <input type="hidden" id="PriceId" name="PriceId" value="@ViewBag.PriceId"/>
+            <input type="hidden" id="ProductCode" name="ProductCode" value="@ViewBag.ProductCode"/>
+            <input type="hidden" id="Qty" name="Qty" value="@ViewBag.Qty"/>
+            if (@ViewBag.PriceId != null)
+            {
+                <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
+                    <a class='btn btn-success' href="#" id="submit-all">
+                        ???? ????? ?? ?????&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script>
+
+        $("#submit-all").click(function(parameters) {
+            var form = $("#SignInProduction");
+            var url = form.attr('action');
+            var formData = form.serialize();
+            $.post(url, formData, function (data) {
+                if (JSON.parse(data.errFlag)) {
+                    toastr.error(data.msg);
+                } else {
+                    toastr.success(data.msg);
+                }
+                    
+            });
+        });
+
+    </script>
+}
