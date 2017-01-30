@@ -625,3 +625,6 @@ function GetDateTime(id) {
         obj.Month.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + '-' +
         obj.Day.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
 }
+
+// make drawer menu
+$('.drawer').drawer();

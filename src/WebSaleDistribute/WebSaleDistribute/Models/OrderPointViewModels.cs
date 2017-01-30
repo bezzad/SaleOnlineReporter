@@ -6,31 +6,37 @@ namespace WebSaleDistribute.Models
     
     public class OrderPointViewModels
     {
+        [Display(Name = "ردیف")]
+        public string RowNumber { get; set; }
+
         [Display(Name = "نام مشتری")]
         public string PersonName { get; set; }
 
         [Display(Name = "کد مشتری")]
-        public string PersonID { get; set; }
+        public string CustomerID { get; set; }
 
+
+        [Display(Name = "زمان ")]
+        public string OrderDate { get; set; }
 
         [Display(Name = "وضعیت")]
-        public int GPSStatus { get; set; }
+        public string GPSStatus { get; set; }
 
-        [Display(Name = "درصد باطری")]
+        [Display(Name = " باطری")]
         public int BatteryStatus { get; set; }
 
 
         [Display(Name = "دقت")]
         public int Accuracy { get; set; }
 
-        [Display(Name = "شماره درخواست")]
+        [Display(Name = "شماره ")]
         public int OrderNo { get; set; }
 
 
-        [Display(Name = "عرض جغرافیایی")]
+        [Display(Name = "عرض ")]
         public double Latitude { get; set; }
 
-        [Display(Name = "طول جغرافیایی")]
+        [Display(Name = "طول ")]
         public double Longitude { get; set; }
     }
  
