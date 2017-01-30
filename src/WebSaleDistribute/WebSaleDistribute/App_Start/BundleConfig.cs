@@ -42,7 +42,6 @@ namespace WebSaleDistribute
                                         "~/Scripts/DataTables-Plugins/sorting/persian.js",
                                         "~/Scripts/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.js",
                                         "~/Scripts/MdBootstrapPersianDateTimePicker/jalaali.js",
-                                        "~/Scripts/drawer.min.js",
                                         "~/Scripts/site.js").ForceOrdered());
 
             bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
@@ -65,9 +64,7 @@ namespace WebSaleDistribute
                      "~/Content/lobipanel.min.css",
                      "~/Content/panel.css",
                      "~/Content/jquery.dataTables.min.css",
-                     "~/Content/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.min.css",
-                     "~/Content/Gridmvc.css",
-                     "~/Content/jquery.dataTables.min.css"));
+                     "~/Content/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/errors").Include("~/Content/errors.css"));
         }

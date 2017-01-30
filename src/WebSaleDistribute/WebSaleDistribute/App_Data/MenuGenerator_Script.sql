@@ -93,12 +93,7 @@ AS
                               @ProgramID,	--ProgramID
                               'انبار', @ParentMenuID,	--ParentID
                               3,	--order
-                              0, 'Warehouse', 'Warehouse', NULL ),
-							              ( @ParentMenuID + 4,	--MenuID
-                              @ProgramID,	--ProgramID
-                              'انبار سعیدآباد', @ParentMenuID,	--ParentID
-                              4,	--order
-                              0, '~/Warehouse/SignInProduction', 'SignInProduction', NULL )
+                              0, 'Warehouse', 'Warehouse', NULL )
     
     -----------------------------------------------
     -------- Add roles to all sub menus -----------
@@ -162,15 +157,6 @@ AS
                     VALUES  ( @ProgramID,	--ProgramID
                               13,	-- warehouse RoleID
                               @ParentMenuID + 3,	--MenuID
-                              1,	--IsEnable
-                              0 --IsVisible
-                              )
-
-               -- Add Warehouse Factory role 14
-	               INSERT  INTO MenusToRoles
-                    VALUES  ( @ProgramID,	--ProgramID
-                              14,	-- warehouse RoleID
-                              @ParentMenuID + 4,	--MenuID
                               1,	--IsEnable
                               0 --IsVisible
                               )
