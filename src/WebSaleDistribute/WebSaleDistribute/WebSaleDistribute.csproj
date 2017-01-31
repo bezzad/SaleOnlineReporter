@@ -382,8 +382,6 @@
     <Content Include="Content\toastr.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\Yekan.svg" />
-    <Content Include="highstock.ico" />
-    <Content Include="highstock.png" />
     <Content Include="images\bwShonizFa.png" />
     <Content Include="images\favicon.ico" />
     <Content Include="images\loading.gif" />

@@ -1,5 +1,4 @@
-﻿
-@using GridMvc.Html
+﻿@using GridMvc.Html
 @using WebSaleDistribute.Models
 @model IEnumerable<WebSaleDistribute.Models.CustomerPointFilterModels>
 
@@ -30,4 +29,5 @@ switch (m.Status)
             columns.Add(f => f.PersonName).Titled("نام مشتری");
             columns.Add(f => f.Status).Titled("وضعیت").Encoded(false)
         .Sanitized(false).RenderValueAs(f => StatusColumn(f));
-        }))
+        })
+)

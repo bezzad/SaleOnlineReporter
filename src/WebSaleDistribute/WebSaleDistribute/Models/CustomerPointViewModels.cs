@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebSaleDistribute.Models
 {
-    
     public class CustomerPointFilterModels
     {
         [Display(Name = "نام مشتری")]

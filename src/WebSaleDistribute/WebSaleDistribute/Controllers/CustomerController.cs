@@ -16,7 +16,7 @@ using WebSaleDistribute.Models;
 
 namespace WebSaleDistribute.Controllers
 {
-    [Authorize]
+    [Authorize] 
     public class CustomerController : BaseController
     {
         #region CustomerPoint

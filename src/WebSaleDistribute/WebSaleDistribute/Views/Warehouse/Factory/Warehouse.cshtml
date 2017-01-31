@@ -9,7 +9,7 @@
 <div class="container">
     <div>
         <div class="col-xs-3">
-            <a class="word-wrap btn-block alert-success" href="shoniz://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/SignInProduction/?code={code}")">
+            <a class="word-wrap btn-block alert-success" href="shoniz://scan/?ret=@Request.Url?.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/SignInProduction/?code={code}")">
                 <p>ورود از خط تولید</p>
                 <span class="glyphicon glyphicon-qrcode gi-2x"></span>
             </a>
