@@ -164,3 +164,6 @@ $RECYCLE.BIN/
 *.Fakes.fakesconfig
 *.Fakes.messages
 *.Fakes.xml
+/src/WebSaleDistribute/WebSaleDistribute/Models
+/src/WebSaleDistribute/WebSaleDistribute/Views/Customer/OrderPoint
+*.cshtml

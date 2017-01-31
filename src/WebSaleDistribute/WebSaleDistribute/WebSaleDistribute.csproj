@@ -251,7 +251,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportsApiController.cs" />
-    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\Reports\ReportsController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
@@ -383,8 +382,6 @@
     <Content Include="Content\toastr.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\Yekan.svg" />
-    <Content Include="highstock.ico" />
-    <Content Include="highstock.png" />
     <Content Include="images\bwShonizFa.png" />
     <Content Include="images\favicon.ico" />
     <Content Include="images\loading.gif" />
@@ -480,8 +477,6 @@
     <None Include="Scripts\DataTables-Plugins\i18n\Persian.lang" />
     <Content Include="Scripts\DataTables-Plugins\i18n\Russian.lang" />
     <Content Include="Scripts\DataTables-Plugins\i18n\Turkish.lang" />
-    <Content Include="Scripts\drawer.min.js" />
-    <Content Include="Scripts\gridmvc.min.js.map" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\DataTables-Plugins\api\average%28%29.js" />
     <Content Include="Scripts\DataTables-Plugins\api\column%28%29.title%28%29.js" />
@@ -556,10 +551,7 @@
     <Content Include="Scripts\DataTables-Plugins\type-detection\ip-address.js" />
     <Content Include="Scripts\DataTables-Plugins\type-detection\num-html.js" />
     <Content Include="Scripts\DataTables-Plugins\type-detection\numeric-comma.js" />
-    <Content Include="Scripts\gridmvc-ext.js" />
-    <Content Include="Scripts\gridmvc.customwidgets.js" />
     <Content Include="Scripts\gridmvc.js" />
-    <Content Include="Scripts\gridmvc.lang.fr.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\Highcharts-4.0.1\js\adapters\standalone-framework.js" />
@@ -755,15 +747,12 @@
     <Content Include="Views\Customer\OrderPoint\_OrderPoint.cshtml" />
     <Content Include="Views\Customer\OrderPoint\Index.cshtml" />
     <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
-    <Content Include="Views\Shared\_Grid.cshtml" />
-    <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Warehouse\Factory\ReportSginInProduction.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
