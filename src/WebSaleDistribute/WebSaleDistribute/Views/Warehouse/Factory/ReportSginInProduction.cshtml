@@ -1,0 +1,18 @@
+@{
+    ViewData["dir"] = "rtl";
+}
+
+<br />
+
+<h2 dir="rtl">@ViewBag.Title</h2>
+
+<div class="container">
+    <div>
+        <div class="col-xs-3">
+            <a class="word-wrap btn-block alert-success" href="shoniz://scan/?ret=@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/Warehouse/SignInProduction/?code={code}")">
+                <p>???? ?? ?? ?????</p>
+                <span class="glyphicon glyphicon-qrcode gi-2x"></span>
+            </a>
+        </div>
+    </div>
+</div>
