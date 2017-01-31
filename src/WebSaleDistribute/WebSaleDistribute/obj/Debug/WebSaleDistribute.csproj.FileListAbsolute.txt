@@ -506,7 +506,6 @@ E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistri
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\Microsoft.Owin.Security.Google.xml
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\Microsoft.Owin.Security.Twitter.xml
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.csprojResolveAssemblyReference.cache
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.Migrations.Initial.resources
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.Resources.Localization.resources
 E:\Aghazadeh\My Projects\android\VS Project\SaleOnlineReporter\src\WebSaleDistribute\WebSaleDistribute\obj\Debug\WebSaleDistribute.Resources.Localization.fa.resources
