@@ -750,8 +750,8 @@
     <Content Include="Views\Customer\OrderPoint\Index.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
-    <Content Include="Views\Warehouse\Factory\SginInWHCode.cshtml" />
     <Content Include="Views\Warehouse\Factory\_GridSginInWHCode.cshtml" />
+    <Content Include="Views\Warehouse\Factory\SginInWHCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
