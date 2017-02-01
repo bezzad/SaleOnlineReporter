@@ -748,7 +748,6 @@
     <Content Include="Scripts\jquery-2.2.3.min.map" />
     <Content Include="Views\Customer\OrderPoint\_OrderPoint.cshtml" />
     <Content Include="Views\Customer\OrderPoint\Index.cshtml" />
-    <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
     <Content Include="Views\Warehouse\Factory\SginInWHCode.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
