@@ -1,0 +1,16 @@
+﻿
+@using GridMvc.Html
+@model IEnumerable<WebSaleDistribute.Models.SginInWHCode>
+
+<div >
+    @(
+    Html.Grid(Model).Named("tblWHCode").AutoGenerateColumns() 
+    )
+</div>
+
+<table class="table" style="direction: rtl;">
+    <tbody class="h3">
+        <tr> <td style="width: 30%">جمع بسته</td> <td class="text-primary">@ViewBag.BacketCount</td> </tr>
+        <tr> <td style="width: 30%">تعداد وارده ها</td> <td class="text-primary">@ViewBag.RowCount</td> </tr>
+     </tbody> 
+</table>      

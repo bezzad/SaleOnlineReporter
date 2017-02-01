@@ -1,0 +1,33 @@
+﻿@using WebSaleDistribute.Core
+@using WebSaleDistribute.Core.Enums
+<br />
+
+<h2 dir="rtl">@ViewBag.Title</h2>
+
+<div class="container">
+    <div class="col-md-12" style="display: inline-flex;">
+
+        <button type="button" id="btnSubmitWHcode" class="btn btn-primary">
+            گزارش وارده ها
+        </button>
+
+        <div   class="input-group col-md-4">
+            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></span>
+            <input id="productCode" type="text" class="form-control" placeholder="کد محصول" aria-describedby="basic-addon1">
+        </div>
+        <div class="col-md-8">@Html.PersianFromToDatePickerItem("fromDate", "toDate", false, DataPlacement.Bottom)</div>
+     </div><!-- /.col-lg-6 -->
+    <div id="WHCodeDiv" ></div> 
+</div>
+ 
+@section scripts 
+{
+    <script>
+        $('#btnSubmitWHcode').click(function (e) {
+            e.preventDefault();  
+            $.get("../Warehouse/GetSginInWhCode?productCode=" + $("#productCode").val() + "&fromDate=" + GetDateTime("fromDate") + "&toDate=" + GetDateTime("toDate"), function (data) {
+                $('#WHCodeDiv').html(data);
+            }); 
+        }); 
+    </script>
+}
