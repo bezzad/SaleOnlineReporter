@@ -627,18 +627,18 @@ function GetDateTime(id) {
         obj.Day.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
 }
 
-// make drawer menu
+// make perisan font
 persian = { 0: '۰', 1: '۱', 2: '۲', 3: '۳', 4: '۴', 5: '۵', 6: '۶', 7: '۷', 8: '۸', 9: '۹' };
 function traverse(el) {
-    if (el.nodeType == 3) {
+    if (el.nodeType === 3) {
         var list = el.data.match(/[0-9]/g);
-        if (list != null && list.length != 0) {
+        if (list != null && list.length !== 0) {
             for (var i = 0; i < list.length; i++)
                 el.data = el.data.replace(list[i], persian[list[i]]);
         }
     }
-    for (var i = 0; i < el.childNodes.length; i++) {
-        traverse(el.childNodes[i]);
+    for (var j = 0; j < el.childNodes.length; j++) {
+        traverse(el.childNodes[j]);
     }
 }
 

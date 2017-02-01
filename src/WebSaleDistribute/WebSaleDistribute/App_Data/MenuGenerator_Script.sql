@@ -93,7 +93,12 @@ AS
                               @ProgramID,	--ProgramID
                               'انبار', @ParentMenuID,	--ParentID
                               3,	--order
-                              0, 'Warehouse', 'Warehouse', NULL )
+                              0, 'Warehouse', 'Warehouse', NULL ) ,
+							  ( @ParentMenuID + 5,	--MenuID
+                              @ProgramID,	--ProgramID
+                              'انبار سعیدآباد', @ParentMenuID+4,	--ParentID
+                              5,	--order
+                              0, 'Warehouse', 'FactorySginInWhCode', NULL )
     
     -----------------------------------------------
     -------- Add roles to all sub menus -----------

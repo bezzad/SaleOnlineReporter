@@ -446,6 +446,7 @@
     <Content Include="Content\bootstrap-select.css.map" />
     <Content Include="Content\toastr.scss" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <None Include="Properties\PublishProfiles\SaleReporter.pubxml" />
     <None Include="Properties\PublishProfiles\Tabriz.pubxml" />
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Properties\PublishProfiles\Tehran.pubxml" />
