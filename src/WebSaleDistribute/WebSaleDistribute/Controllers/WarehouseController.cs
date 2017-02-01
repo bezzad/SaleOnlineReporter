@@ -10,6 +10,7 @@ using System.Data;
 using System.Dynamic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WebSaleDistribute.Core.Enums;
 
 namespace WebSaleDistribute.Controllers
@@ -459,6 +460,83 @@ namespace WebSaleDistribute.Controllers
         #endregion
 
 
+
+        #region ProductionLine
+
+
+        public ActionResult FactoryWarehouse()
+        {
+            ViewBag.Title = "انبار سعید آباد";
+
+            return View("Factory/Warehouse");
+        }
+
+        public ActionResult SignInProduction(string code)
+        {
+            ViewBag.Title = "ورود از خط تولید";
+
+            if (string.IsNullOrEmpty(code)) return View("Factory/SignInProduction");
+            ViewBag.QrCode = code.Length < 80 ? code : code.RepairCipher()?.Decrypt();
+
+            var json = JObject.Parse(ViewBag.QrCode.Replace("+", " "));
+
+            #region Table Data
+
+
+            var oldProductCode = json["codwithdash"].ToString().Replace("-", "");
+            var priceId = int.Parse(json["priceId"].ToString());
+            var qty = json["QtyInPallet"].ToString();
+            var businessDocNo = json["id"].ToString();
+            var row = (IDictionary<string, object>)Connections.OldSale.SqlConn.Query(
+                "sp_GetSignInProduction",
+                new { OldProductCode = oldProductCode, priceId },
+                commandType: CommandType.StoredProcedure).FirstOrDefault();
+            if (row == null || row.Count <= 0) return View("Factory/SignInProduction");
+            ViewBag.BusinessDocNo = businessDocNo;
+            ViewBag.ProductCode = row["ProductCode"];
+            ViewBag.Group4Name = row["Group4Name"];
+            ViewBag.ProductDescription = row["ProductDescription"];
+            ViewBag.PieceOfCarton = row["PieceOfCarton"];
+            ViewBag.ProductName = row["ProductName"];
+            ViewBag.OldProductCode = oldProductCode;
+            ViewBag.Price = row["Price"] + " ریال ";
+            ViewBag.ConsumerPrice = row["ConsumerPrice"] + " ریال ";
+            ViewBag.PriceId = row["PriceId"];
+            ViewBag.Qty = qty;
+
+            #endregion
+
+            return View("Factory/SignInProduction");
+        }
+
+        public ActionResult FactorySginInWhCode()
+        {
+            ViewData["dir"] = "ltr";
+            ViewBag.Title = "گزارش وارده ها";
+
+            return View("Factory/SginInWHCode");
+        }
+
+        public ActionResult GetSginInWhCode( string fromDate, string toDate, string productCode )
+        {
+ 
+            var result = Connections.OldSale.SqlConn.Query<SginInWHCode>("sp_GetSginInWHCode",
+               new {ProductCode = productCode, FromDate = fromDate.Replace("-", "/"),
+                   ToDate = toDate.Replace("-", "/") },
+               commandType: CommandType.StoredProcedure);
+
+           var sginInWhCodes = result as IList<SginInWHCode> ?? result.ToList();
+
+           ViewBag.BacketCount= sginInWhCodes.AsEnumerable().Sum(o => o.Qty);
+           ViewBag.RowCount = sginInWhCodes.AsEnumerable().Count();
+
+            return PartialView("Factory/_GridSginInWHCode", result);
+        }
+
         #endregion
+
+        #endregion
+
+
     }
 }

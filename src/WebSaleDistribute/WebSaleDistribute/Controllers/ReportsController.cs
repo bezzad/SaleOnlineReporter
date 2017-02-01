@@ -165,7 +165,6 @@ namespace WebSaleDistribute.Controllers
             return PartialView("CustomersOrders/CustomersOrdersChart");
         }
 
-
         #endregion
     }
 }

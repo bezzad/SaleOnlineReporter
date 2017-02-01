@@ -251,7 +251,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportsApiController.cs" />
-    <Compile Include="Controllers\Reports\ReportsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\ToolsController.cs" />
     <Compile Include="Controllers\WarehouseApiController.cs" />
@@ -285,6 +285,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ComboBoxDataModel.cs" />
     <Compile Include="Models\CustomerPointFilterModels.cs" />
+    <Compile Include="Models\SginInWHCode.cs" />
     <Compile Include="Models\OrderPointViewModels.cs" />
     <Compile Include="Models\CustomerPointViewModels.cs" />
     <Compile Include="Models\DynamicModels.cs" />
@@ -747,9 +748,10 @@
     <Content Include="Views\Customer\OrderPoint\_OrderPoint.cshtml" />
     <Content Include="Views\Customer\OrderPoint\Index.cshtml" />
     <Content Include="Views\Shared\_AjaxGridPager.cshtml" />
-    <Content Include="Views\Warehouse\Factory\ReportSginInProduction.cshtml" />
+    <Content Include="Views\Warehouse\Factory\SginInWHCode.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Warehouse\Factory\_GridSginInWHCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

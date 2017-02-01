@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +24,14 @@ namespace WebSaleDistribute.Controllers
         // GET: Index        
         public ActionResult Index()
         {
-            ViewBag.Title = "?????? ???????";
+            ViewBag.Title = "موقعیت مشتریان";
             ViewData["dir"] = "ltr";
 
             IEnumerable < dynamic > result = Connections.SaleBranch.SqlConn.Query<dynamic>("SELECT * from dbo.fn_GetBranchLocation()",commandType: CommandType.Text).ToList();
             var pos = result.Select(x => new { Latitude = x.Latitude, Longitude = x.Longitude}).SingleOrDefault();
             ViewBag.Latitude = pos.Latitude;
             ViewBag.Longitude = pos.Longitude;
-            ViewBag.UserName = 78273;// CurrentUser.UserName;
+            ViewBag.UserName =  CurrentUser.UserName;
             var model = new List<Models.CustomerPointFilterModels>();
             return View("Point/Index", model);
         }

@@ -212,3 +212,9 @@ table.dataTable tbody tr {
     text-align: right;
 }
 /* --------------- rtl bootstrap-select ---------------------- */
+.grid-header-title {
+    display: inherit;
+}
+.grid-mvc {
+    direction: rtl
+}

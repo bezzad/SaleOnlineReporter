@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewData["dir"] = "rtl";
 }
 
@@ -12,47 +12,47 @@
 
         @if (ViewBag.PriceId == null)
         {
-            <div id="err" class="alert alert-danger" role="alert"  >
+            <div id="err" class="alert alert-danger" role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                 <span class="sr-only">Error:</span>
-               ????? ???? ??? ????? ??? ????
+                شناسه مورد نظر معتبر نمی باشد
             </div>
         }
         else
         {
-            <div class="panel-heading">?????? ????</div>
+            <div class="panel-heading">مشخصات کالا</div>
 
         <!-- Table -->
             <table class="table">
                 <tbody class="h3">
-                    <tr> <td style="width: 30%">????? ?????</td> <td class="text-primary">@ViewBag.BusinessDocNo</td> </tr>
-                    <tr> <td style="width: 30%">??? ?????</td> <td class="text-primary">@ViewBag.ProductName</td> </tr>
-                    <tr> <td style="width: 30%">?? ?????</td> <td class="text-primary">@ViewBag.OldProductCode</td> </tr>
-                    <tr> <td style="width: 30%">???? ????</td> <td class="text-primary">@ViewBag.Group4Name</td> </tr>
-                    <tr> <td style="width: 30%">???????</td> <td class="text-primary">@ViewBag.ProductDescription</td> </tr>
-                    <tr> <td style="width: 30%">????? ?? ?????</td> <td class="text-primary">@ViewBag.PieceOfCarton</td> </tr>
-                    <tr> <td style="width: 30%">???? ????</td> <td class="text-primary">@ViewBag.Price</td> </tr>
-                    <tr> <td style="width: 30%">???? ???? ?????</td> <td class="text-primary">@ViewBag.ConsumerPrice</td> </tr>
-                    <tr> <td style="width: 30%">?????</td> <td class="text-primary">@ViewBag.PriceId</td> </tr>
-                    <tr> <td style="width: 30%">????? ????? ?? ????? </td> <td class="text-primary">@ViewBag.Qty</td> </tr>
+                    <tr> <td style="width: 30%">شماره وارده</td> <td class="text-primary">@ViewBag.BusinessDocNo</td> </tr>
+                    <tr> <td style="width: 30%">نام محصول</td> <td class="text-primary">@ViewBag.ProductName</td> </tr>
+                    <tr> <td style="width: 30%">کد محصول</td> <td class="text-primary">@ViewBag.OldProductCode</td> </tr>
+                    <tr> <td style="width: 30%">گروه چهار</td> <td class="text-primary">@ViewBag.Group4Name</td> </tr>
+                    <tr> <td style="width: 30%">توضیحات</td> <td class="text-primary">@ViewBag.ProductDescription</td> </tr>
+                    <tr> <td style="width: 30%">تعداد در کارتن</td> <td class="text-primary">@ViewBag.PieceOfCarton</td> </tr>
+                    <tr> <td style="width: 30%">قیمت فروش</td> <td class="text-primary">@ViewBag.Price</td> </tr>
+                    <tr> <td style="width: 30%">قیمت مصرف کننده</td> <td class="text-primary">@ViewBag.ConsumerPrice</td> </tr>
+                    <tr> <td style="width: 30%">شناسه</td> <td class="text-primary">@ViewBag.PriceId</td> </tr>
+                    <tr> <td style="width: 30%">تعداد ورودی به انبار </td> <td class="text-primary">@ViewBag.Qty</td> </tr>
                 </tbody>
             </table>
         }
 
         <!-- Default panel contents -->
-       
 
-        @using (Ajax.BeginForm("EntryProductionToWarehouse", "Warehouse", new AjaxOptions {HttpMethod = "POST"}, new {id = "SignInProduction"}))
+
+        @using (Ajax.BeginForm("EntryProductionToWarehouse", "Warehouse", new AjaxOptions { HttpMethod = "POST" }, new { id = "SignInProduction" }))
         {
-            <input type="hidden" id="BusinessDocNo" name="BusinessDocNo" value="@ViewBag.businessDocNo"/>
-            <input type="hidden" id="PriceId" name="PriceId" value="@ViewBag.PriceId"/>
-            <input type="hidden" id="ProductCode" name="ProductCode" value="@ViewBag.ProductCode"/>
-            <input type="hidden" id="Qty" name="Qty" value="@ViewBag.Qty"/>
+            <input type="hidden" id="BusinessDocNo" name="BusinessDocNo" value="@ViewBag.businessDocNo" />
+            <input type="hidden" id="PriceId" name="PriceId" value="@ViewBag.PriceId" />
+            <input type="hidden" id="ProductCode" name="ProductCode" value="@ViewBag.ProductCode" />
+            <input type="hidden" id="Qty" name="Qty" value="@ViewBag.Qty" />
             if (@ViewBag.PriceId != null)
             {
                 <div class='text-right' style='padding-right: 10px; padding-bottom: 10px;'>
                     <a class='btn btn-success' href="#" id="submit-all">
-                        ???? ????? ?? ?????&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
+                        ورود حواله به انبار&nbsp;<span class='glyphicon glyphicon-circle-arrow-right'></span>
                     </a>
                 </div>
             }
@@ -74,7 +74,7 @@
                 } else {
                     toastr.success(data.msg);
                 }
-                    
+
             });
         });
     </script>
