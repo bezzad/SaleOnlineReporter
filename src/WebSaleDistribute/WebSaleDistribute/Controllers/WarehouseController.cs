@@ -476,7 +476,7 @@ namespace WebSaleDistribute.Controllers
             ViewBag.Title = "ورود از خط تولید";
 
             if (string.IsNullOrEmpty(code)) return View("Factory/SignInProduction");
-            ViewBag.QrCode = code.Length < 80 ? code : code.RepairCipher()?.Decrypt();
+            ViewBag.QrCode = code.Length < 110 ? code : code.RepairCipher()?.Decrypt();
 
             var json = JObject.Parse(ViewBag.QrCode.Replace("+", " "));
 
